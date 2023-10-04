@@ -11,11 +11,11 @@ namespace Controllers.User
 {
     public class UserManager
     {
-        public UserDAO UserDao;
+        public UserDAO userDAO;
 
         public UserManager(UserDAO userDao)
         {
-            UserDao = userDao;
+            userDAO = userDao;
         }
 
         public void CreateUser(UserModel user)
@@ -40,3 +40,4 @@ namespace Controllers.User
 
     }
 }
+
