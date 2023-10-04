@@ -42,6 +42,7 @@
             button3 = new Button();
             button4 = new Button();
             sidebarTimer = new System.Windows.Forms.Timer(components);
+            MainPanel = new Panel();
             sidebar.SuspendLayout();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)menuButton).BeginInit();
@@ -116,6 +117,7 @@
             button1.TabIndex = 2;
             button1.Text = "Home";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // panel3
             // 
@@ -135,6 +137,7 @@
             button2.TabIndex = 2;
             button2.Text = "Settings";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // panel4
             // 
@@ -171,11 +174,19 @@
             sidebarTimer.Interval = 10;
             sidebarTimer.Tick += sidebarTimer_Tick;
             // 
+            // MainPanel
+            // 
+            MainPanel.Location = new Point(216, 3);
+            MainPanel.Name = "MainPanel";
+            MainPanel.Size = new Size(572, 435);
+            MainPanel.TabIndex = 1;
+            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(MainPanel);
             Controls.Add(sidebar);
             Name = "Main";
             Text = "Main";
@@ -203,5 +214,6 @@
         private PictureBox menuButton;
         private Button button4;
         private System.Windows.Forms.Timer sidebarTimer;
+        private Panel MainPanel;
     }
 }

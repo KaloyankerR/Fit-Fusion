@@ -46,5 +46,29 @@ namespace FitFusionWinForms
         {
             sidebarTimer.Start();
         }
+
+        private void ClearMainPanel()
+        {
+            MainPanel.Controls.Clear();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ClearMainPanel();
+            ChildForm child = new ChildForm() { TopLevel = false, TopMost = true };
+            child.FormBorderStyle = FormBorderStyle.None;
+            MainPanel.Controls.Add(child);
+            child.Show();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ClearMainPanel();
+            Child2 child = new Child2() { TopLevel = false, TopMost= true };
+            child.FormBorderStyle = FormBorderStyle.None;
+            MainPanel.Controls.Add(child);
+            child.Show();
+        }
+
     }
 }
