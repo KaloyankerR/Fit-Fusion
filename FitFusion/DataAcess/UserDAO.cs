@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Models.User;
+using System.Data.SqlClient;
 
 namespace DataAcess
 {
@@ -21,7 +22,28 @@ namespace DataAcess
             ConnectionString = connectionString;
         }
 
-        public bool CreateUser(User user) { return false; }
+        public bool CreateUser(User user) 
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                using(SqlTransaction transaction = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+        }
 
         public bool UpdateUser(User user) { return false; }
         
