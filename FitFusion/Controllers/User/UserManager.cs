@@ -36,8 +36,6 @@ namespace Controllers.User
             {
                 throw new ArgumentException("Unknown user type");
             }
-
-
         }
 
     }
