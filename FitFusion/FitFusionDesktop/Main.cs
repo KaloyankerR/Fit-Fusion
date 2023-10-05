@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FitFusionDesktop.Pages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,24 +13,51 @@ namespace FitFusionDesktop
 {
     public partial class Main : Form
     {
+        private Login login;
+
         public Main()
         {
             InitializeComponent();
+            AddLogin();
         }
 
-        private void label4_Click(object sender, EventArgs e)
+        private void AddLogin()
         {
+            btnHome.Enabled = false;
+            btnProducts.Enabled = false;
+            btnUsers.Enabled = false;
+            btnProfile.Enabled = false;
 
+            login = new Login() { TopLevel = false, TopMost = true };
+            login.FormBorderStyle = FormBorderStyle.None;
+            MainPanel.Controls.Add(login);
+            login.Show();
+
+            login.ButtonClicked += OnChildFormButtonClicked;
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        
+        private void ClearMainPanel()
         {
-
+            MainPanel.Controls.Clear();
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private void OnChildFormButtonClicked(object sender, EventArgs e)
         {
-            
+            btnHome.Enabled = true;
+            btnProducts.Enabled = true;
+            btnUsers.Enabled = true;
+            btnProfile.Enabled = true;
+
+            ClearMainPanel();
+
+            // Add your new form here
+            // For example:
+            // NewForm newForm = new NewForm() { TopLevel = false, TopMost = true };
+            // newForm.FormBorderStyle = FormBorderStyle.None;
+            // MainPanel.Controls.Add(newForm);
+            // newForm.Show();
         }
+
+
     }
 }
