@@ -13,9 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitFusionWeb", "FitFusionWe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitFusionWinForms", "FitFusionWinForms\FitFusionWinForms.csproj", "{A8F326A2-1390-4769-B757-051FF7FECFC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{66DD49B2-EC0D-4B00-9518-62D9776366C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{66DD49B2-EC0D-4B00-9518-62D9776366C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controllers", "Controllers\Controllers.csproj", "{F8CA8F74-B061-4D98-A40E-7B3B9FBDB6FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controllers", "Controllers\Controllers.csproj", "{F8CA8F74-B061-4D98-A40E-7B3B9FBDB6FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
