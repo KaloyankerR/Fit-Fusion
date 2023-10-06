@@ -4,22 +4,24 @@
     ViewData["Title"] = "FitFusion - Products";
 }
 
-<div class="container mt-4">
-    <h2>Products</h2>
-
-    <div class="card" style="width: 300px;">
-        <div class="card-divider">
-            This is a header
-        </div>
-        <img src="https://hips.hearstapps.com/hmg-prod/images/hlh090123feacover-008-1-50-64c814f064f39.jpg?crop=1xw:1xh;center,top&resize=980:*">
-        <div class="card-section">
-            <h4>This is a card.</h4>
-            <p>It has an easy to override visual style, and is appropriately subdued.</p>
-        </div>
+<div class="container mt-3">
+    <h3>Products</h3>
+    
+    <div class="row small-up-1 medium-up-2 large-up-3">
+        @foreach (var product in Model.Products)
+        {
+            <div class="column" style="margin: auto;">
+                <div class="card" style="width: 300px;">
+                    <div class="card-divider">
+                        <h5>@product.Name</h5>
+                    </div>
+                    <img src="@product.ImageUrl" alt="@product.Name">
+                    <div class="card-section">
+                        <p>@product.Description</p>
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 
 </div>
-
-@* <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
- *@

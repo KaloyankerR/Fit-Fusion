@@ -16,4 +16,17 @@ CREATE TABLE [Order] (
     FOREIGN KEY (UserId) REFERENCES Customer(Id)
 );
 
+CREATE TABLE Hashtag (
+    Id INT PRIMARY KEY,
+    Tag VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ProductHashtag (
+    ProductId INT,
+    HashtagId INT,
+    PRIMARY KEY (ProductId, HashtagId),
+    FOREIGN KEY (ProductId) REFERENCES Product(Id),
+    FOREIGN KEY (HashtagId) REFERENCES Hashtag(Id)
+);
+
 select * from [Order]
