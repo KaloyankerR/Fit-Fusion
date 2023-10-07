@@ -24,25 +24,25 @@ namespace DataAcess
 
         public bool CreateOrder(Order order)
         {
-            //using (SqlConnection connection = new SqlConnection(ConnectionString))
-            //{
-            //    connection.Open();
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
 
-            //    string createOrderQuery = "INSERT INTO Orders (Address, Note, ProductId, UserId) " +
-            //                              "VALUES (@Address, @Note, @ProductId, @UserId);";
+                string createOrderQuery = "INSERT INTO Orders (Address, Note, ProductId, UserId) " +
+                                          "VALUES (@Address, @Note, @ProductId, @UserId);";
 
-            //    using (SqlCommand command = new SqlCommand(createOrderQuery, connection))
-            //    {
-            //        command.Parameters.AddWithValue("@Address", order.Address);
-            //        command.Parameters.AddWithValue("@Note", order.Note);
-            //        command.Parameters.AddWithValue("@ProductId", order.ProductId);
-            //        command.Parameters.AddWithValue("@UserId", order.UserId);
+                using (SqlCommand command = new SqlCommand(createOrderQuery, connection))
+                {
+                    //command.Parameters.AddWithValue("@Address", order.Address);
+                    //command.Parameters.AddWithValue("@Note", order.Note);
+                    //command.Parameters.AddWithValue("@ProductId", order.ProductId);
+                    //command.Parameters.AddWithValue("@UserId", order.UserId);
 
-            //        command.ExecuteNonQuery();
-            //    }
+                    command.ExecuteNonQuery();
+                }
 
-            //    return true;
-            //}
+                return true;
+            }
         }
 
 
