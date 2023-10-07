@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +22,29 @@ namespace DataAcess
             ConnectionString = connectionString;
         }
 
-        public bool CreateOrder(Order order) { return false; }
+        public bool CreateOrder(Order order)
+        {
+            //using (SqlConnection connection = new SqlConnection(ConnectionString))
+            //{
+            //    connection.Open();
+
+            //    string createOrderQuery = "INSERT INTO Orders (Address, Note, ProductId, UserId) " +
+            //                              "VALUES (@Address, @Note, @ProductId, @UserId);";
+
+            //    using (SqlCommand command = new SqlCommand(createOrderQuery, connection))
+            //    {
+            //        command.Parameters.AddWithValue("@Address", order.Address);
+            //        command.Parameters.AddWithValue("@Note", order.Note);
+            //        command.Parameters.AddWithValue("@ProductId", order.ProductId);
+            //        command.Parameters.AddWithValue("@UserId", order.UserId);
+
+            //        command.ExecuteNonQuery();
+            //    }
+
+            //    return true;
+            //}
+        }
+
 
         public bool UpdateOrder(Order order) { return false; }
 
