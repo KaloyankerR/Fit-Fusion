@@ -13,6 +13,7 @@ namespace Models.Product
         public string Description { get; set; }
         public Category ProductCategory { get; set; }
         public string ImageUrl { get; set; }
+        //public List<Hashtag> Hahstags { get; set; }
 
         public Product() { }
 
@@ -23,6 +24,7 @@ namespace Models.Product
             Description = description;
             ProductCategory = productCategory;
             ImageUrl = imageUrl;
+            //Hahstags = hahstags ?? new List<Hashtag>();
         }
 
     }
