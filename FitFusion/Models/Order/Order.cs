@@ -22,7 +22,7 @@ namespace Models.Order
         public Order(int id, DateTime date, Customer customer, List<ProductModel> products)
         {
             Id = id;
-            Date = date;
+            OrderDate = date;
             Customer = customer;
             Products = products;
         }
