@@ -1,4 +1,4 @@
-﻿using FitFusionDesktop.Pages;
+﻿using FitFusionDesktop.UserControls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,49 +13,38 @@ namespace FitFusionDesktop
 {
     public partial class Main : Form
     {
-        private Login login;
-
         public Main()
         {
             InitializeComponent();
-            AddLogin();
+            RefreshPage();
         }
 
-        private void AddLogin()
+        public void ClearControls()
         {
-            btnHome.Enabled = false;
-            btnProducts.Enabled = false;
-            btnUsers.Enabled = false;
-            btnProfile.Enabled = false;
-
-            login = new Login() { TopLevel = false, TopMost = true };
-            login.FormBorderStyle = FormBorderStyle.None;
-            MainPanel.Controls.Add(login);
-            login.Show();
-
-            login.ButtonClicked += OnChildFormButtonClicked;
-        }
-        
-        private void ClearMainPanel()
-        {
-            MainPanel.Controls.Clear();
+            BodyPanel.Controls.Clear();
         }
 
-        private void OnChildFormButtonClicked(object sender, EventArgs e)
+        public void RefreshPage()
         {
-            btnHome.Enabled = true;
-            btnProducts.Enabled = true;
-            btnUsers.Enabled = true;
-            btnProfile.Enabled = true;
+            ClearControls();
+            BodyPanel.Controls.Add(new Home());
+        }
 
-            ClearMainPanel();
+        private void imgLogo_Click(object sender, EventArgs e)
+        {
+            RefreshPage();
+        }
 
-            // Add your new form here
-            // For example:
-            // NewForm newForm = new NewForm() { TopLevel = false, TopMost = true };
-            // newForm.FormBorderStyle = FormBorderStyle.None;
-            // MainPanel.Controls.Add(newForm);
-            // newForm.Show();
+        private void btnHome_Click(object sender, EventArgs e)
+        {
+            ClearControls();
+            BodyPanel.Controls.Add(new Home());
+        }
+
+        private void btnProducts_Click(object sender, EventArgs e)
+        {
+            ClearControls();
+            BodyPanel.Controls.Add(new Products());
         }
 
 
