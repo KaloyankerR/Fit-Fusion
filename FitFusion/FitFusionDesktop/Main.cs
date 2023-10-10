@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -13,9 +14,14 @@ namespace FitFusionDesktop
 {
     public partial class Main : Form
     {
-        public Main()
+        public string Email;
+        public string Password;
+
+        public Main(string email, string password)
         {
             InitializeComponent();
+            Email = email;
+            Password = password;
             RefreshPage();
         }
 
@@ -27,7 +33,7 @@ namespace FitFusionDesktop
         public void RefreshPage()
         {
             ClearControls();
-            BodyPanel.Controls.Add(new Home());
+            BodyPanel.Controls.Add(new Home(Email, Password));
         }
 
         private void imgLogo_Click(object sender, EventArgs e)
@@ -38,7 +44,7 @@ namespace FitFusionDesktop
         private void btnHome_Click(object sender, EventArgs e)
         {
             ClearControls();
-            BodyPanel.Controls.Add(new Home());
+            BodyPanel.Controls.Add(new Home(Email, Password));
         }
 
         private void btnProducts_Click(object sender, EventArgs e)
@@ -47,6 +53,17 @@ namespace FitFusionDesktop
             BodyPanel.Controls.Add(new Products());
         }
 
+        private void btnUsers_Click(object sender, EventArgs e)
+        {
+            ClearControls();
+            BodyPanel.Controls.Add(new Users());
+        }
 
+        private void btnProfile_Click(object sender, EventArgs e)
+        {
+            ClearControls();
+            BodyPanel.Controls.Add(new Profile());
+        }
+            
     }
 }

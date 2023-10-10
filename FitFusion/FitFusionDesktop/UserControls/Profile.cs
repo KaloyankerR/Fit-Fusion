@@ -10,12 +10,11 @@ using System.Windows.Forms;
 
 namespace FitFusionDesktop.UserControls
 {
-    public partial class Home : UserControl
+    public partial class Profile : UserControl
     {
-        public Home(string email, string password)
+        public Profile()
         {
             InitializeComponent();
-            label1.Text = email + " " + password;
         }
     }
 }

@@ -1,0 +1,116 @@
+﻿namespace FitFusionDesktop.UserControls
+{
+    partial class Users
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            label1 = new Label();
+            UsersDataGrid = new ReaLTaiizor.Controls.PoisonDataGridView();
+            ((System.ComponentModel.ISupportInitialize)UsersDataGrid).BeginInit();
+            SuspendLayout();
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Arial", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.ForeColor = Color.FromArgb(255, 163, 26);
+            label1.Location = new Point(393, 112);
+            label1.Name = "label1";
+            label1.Size = new Size(93, 35);
+            label1.TabIndex = 1;
+            label1.Text = "Users";
+            // 
+            // UsersDataGrid
+            // 
+            UsersDataGrid.AllowUserToResizeRows = false;
+            UsersDataGrid.BackgroundColor = Color.FromArgb(255, 255, 255);
+            UsersDataGrid.BorderStyle = BorderStyle.None;
+            UsersDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            UsersDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle1.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            UsersDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            UsersDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(255, 255, 255);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(136, 136, 136);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(0, 198, 247);
+            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(17, 17, 17);
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            UsersDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            UsersDataGrid.EnableHeadersVisualStyles = false;
+            UsersDataGrid.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
+            UsersDataGrid.GridColor = Color.FromArgb(255, 255, 255);
+            UsersDataGrid.Location = new Point(225, 226);
+            UsersDataGrid.Name = "UsersDataGrid";
+            UsersDataGrid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            UsersDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            UsersDataGrid.RowHeadersWidth = 51;
+            UsersDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            UsersDataGrid.RowTemplate.Height = 29;
+            UsersDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            UsersDataGrid.Size = new Size(503, 251);
+            UsersDataGrid.TabIndex = 2;
+            // 
+            // Users
+            // 
+            AutoScaleDimensions = new SizeF(11F, 23F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Gray;
+            Controls.Add(UsersDataGrid);
+            Controls.Add(label1);
+            Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "Users";
+            Size = new Size(932, 703);
+            ((System.ComponentModel.ISupportInitialize)UsersDataGrid).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private Label label1;
+        private ReaLTaiizor.Controls.PoisonDataGridView UsersDataGrid;
+    }
+}

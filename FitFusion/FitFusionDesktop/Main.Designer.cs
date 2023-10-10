@@ -30,11 +30,12 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             NavbarPanel = new Panel();
+            btnProfile = new ReaLTaiizor.Controls.CyberButton();
+            btnUsers = new ReaLTaiizor.Controls.CyberButton();
             imgLogo = new PictureBox();
             btnHome = new ReaLTaiizor.Controls.CyberButton();
             btnProducts = new ReaLTaiizor.Controls.CyberButton();
             BodyPanel = new Panel();
-            btnUsers = new ReaLTaiizor.Controls.CyberButton();
             NavbarPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)imgLogo).BeginInit();
             SuspendLayout();
@@ -42,6 +43,7 @@
             // NavbarPanel
             // 
             NavbarPanel.BackColor = Color.FromArgb(41, 41, 41);
+            NavbarPanel.Controls.Add(btnProfile);
             NavbarPanel.Controls.Add(btnUsers);
             NavbarPanel.Controls.Add(imgLogo);
             NavbarPanel.Controls.Add(btnHome);
@@ -53,6 +55,88 @@
             NavbarPanel.Name = "NavbarPanel";
             NavbarPanel.Size = new Size(250, 703);
             NavbarPanel.TabIndex = 0;
+            // 
+            // btnProfile
+            // 
+            btnProfile.Alpha = 20;
+            btnProfile.BackColor = Color.Transparent;
+            btnProfile.Background = true;
+            btnProfile.Background_WidthPen = 4F;
+            btnProfile.BackgroundPen = true;
+            btnProfile.ColorBackground = Color.FromArgb(41, 41, 41);
+            btnProfile.ColorBackground_1 = Color.FromArgb(37, 52, 68);
+            btnProfile.ColorBackground_2 = Color.FromArgb(41, 63, 86);
+            btnProfile.ColorBackground_Pen = Color.FromArgb(255, 163, 26);
+            btnProfile.ColorLighting = Color.FromArgb(29, 200, 238);
+            btnProfile.ColorPen_1 = Color.FromArgb(37, 52, 68);
+            btnProfile.ColorPen_2 = Color.FromArgb(41, 63, 86);
+            btnProfile.CyberButtonStyle = ReaLTaiizor.Enum.Cyber.StateStyle.Custom;
+            btnProfile.Effect_1 = true;
+            btnProfile.Effect_1_ColorBackground = Color.FromArgb(29, 200, 238);
+            btnProfile.Effect_1_Transparency = 25;
+            btnProfile.Effect_2 = true;
+            btnProfile.Effect_2_ColorBackground = Color.White;
+            btnProfile.Effect_2_Transparency = 20;
+            btnProfile.Font = new Font("Arial", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            btnProfile.ForeColor = Color.White;
+            btnProfile.Lighting = false;
+            btnProfile.LinearGradient_Background = false;
+            btnProfile.LinearGradientPen = false;
+            btnProfile.Location = new Point(41, 450);
+            btnProfile.Name = "btnProfile";
+            btnProfile.PenWidth = 15;
+            btnProfile.Rounding = true;
+            btnProfile.RoundingInt = 70;
+            btnProfile.Size = new Size(162, 62);
+            btnProfile.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            btnProfile.TabIndex = 7;
+            btnProfile.Tag = "Cyber";
+            btnProfile.TextButton = "Profile";
+            btnProfile.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            btnProfile.Timer_Effect_1 = 5;
+            btnProfile.Timer_RGB = 300;
+            btnProfile.Click += btnProfile_Click;
+            // 
+            // btnUsers
+            // 
+            btnUsers.Alpha = 20;
+            btnUsers.BackColor = Color.Transparent;
+            btnUsers.Background = true;
+            btnUsers.Background_WidthPen = 4F;
+            btnUsers.BackgroundPen = true;
+            btnUsers.ColorBackground = Color.FromArgb(41, 41, 41);
+            btnUsers.ColorBackground_1 = Color.FromArgb(37, 52, 68);
+            btnUsers.ColorBackground_2 = Color.FromArgb(41, 63, 86);
+            btnUsers.ColorBackground_Pen = Color.FromArgb(255, 163, 26);
+            btnUsers.ColorLighting = Color.FromArgb(29, 200, 238);
+            btnUsers.ColorPen_1 = Color.FromArgb(37, 52, 68);
+            btnUsers.ColorPen_2 = Color.FromArgb(41, 63, 86);
+            btnUsers.CyberButtonStyle = ReaLTaiizor.Enum.Cyber.StateStyle.Custom;
+            btnUsers.Effect_1 = true;
+            btnUsers.Effect_1_ColorBackground = Color.FromArgb(29, 200, 238);
+            btnUsers.Effect_1_Transparency = 25;
+            btnUsers.Effect_2 = true;
+            btnUsers.Effect_2_ColorBackground = Color.White;
+            btnUsers.Effect_2_Transparency = 20;
+            btnUsers.Font = new Font("Arial", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            btnUsers.ForeColor = Color.White;
+            btnUsers.Lighting = false;
+            btnUsers.LinearGradient_Background = false;
+            btnUsers.LinearGradientPen = false;
+            btnUsers.Location = new Point(41, 382);
+            btnUsers.Name = "btnUsers";
+            btnUsers.PenWidth = 15;
+            btnUsers.Rounding = true;
+            btnUsers.RoundingInt = 70;
+            btnUsers.Size = new Size(162, 62);
+            btnUsers.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            btnUsers.TabIndex = 6;
+            btnUsers.Tag = "Cyber";
+            btnUsers.TextButton = "Users";
+            btnUsers.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            btnUsers.Timer_Effect_1 = 5;
+            btnUsers.Timer_RGB = 300;
+            btnUsers.Click += btnUsers_Click;
             // 
             // imgLogo
             // 
@@ -157,46 +241,6 @@
             BodyPanel.Size = new Size(932, 703);
             BodyPanel.TabIndex = 1;
             // 
-            // btnUsers
-            // 
-            btnUsers.Alpha = 20;
-            btnUsers.BackColor = Color.Transparent;
-            btnUsers.Background = true;
-            btnUsers.Background_WidthPen = 4F;
-            btnUsers.BackgroundPen = true;
-            btnUsers.ColorBackground = Color.FromArgb(41, 41, 41);
-            btnUsers.ColorBackground_1 = Color.FromArgb(37, 52, 68);
-            btnUsers.ColorBackground_2 = Color.FromArgb(41, 63, 86);
-            btnUsers.ColorBackground_Pen = Color.FromArgb(255, 163, 26);
-            btnUsers.ColorLighting = Color.FromArgb(29, 200, 238);
-            btnUsers.ColorPen_1 = Color.FromArgb(37, 52, 68);
-            btnUsers.ColorPen_2 = Color.FromArgb(41, 63, 86);
-            btnUsers.CyberButtonStyle = ReaLTaiizor.Enum.Cyber.StateStyle.Custom;
-            btnUsers.Effect_1 = true;
-            btnUsers.Effect_1_ColorBackground = Color.FromArgb(29, 200, 238);
-            btnUsers.Effect_1_Transparency = 25;
-            btnUsers.Effect_2 = true;
-            btnUsers.Effect_2_ColorBackground = Color.White;
-            btnUsers.Effect_2_Transparency = 20;
-            btnUsers.Font = new Font("Arial", 11F, FontStyle.Regular, GraphicsUnit.Point);
-            btnUsers.ForeColor = Color.White;
-            btnUsers.Lighting = false;
-            btnUsers.LinearGradient_Background = false;
-            btnUsers.LinearGradientPen = false;
-            btnUsers.Location = new Point(41, 382);
-            btnUsers.Name = "btnUsers";
-            btnUsers.PenWidth = 15;
-            btnUsers.Rounding = true;
-            btnUsers.RoundingInt = 70;
-            btnUsers.Size = new Size(162, 62);
-            btnUsers.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
-            btnUsers.TabIndex = 6;
-            btnUsers.Tag = "Cyber";
-            btnUsers.TextButton = "Users";
-            btnUsers.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
-            btnUsers.Timer_Effect_1 = 5;
-            btnUsers.Timer_RGB = 300;
-            // 
             // Main
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -219,5 +263,6 @@
         private ReaLTaiizor.Controls.CyberButton btnProducts;
         private PictureBox imgLogo;
         private ReaLTaiizor.Controls.CyberButton btnUsers;
+        private ReaLTaiizor.Controls.CyberButton btnProfile;
     }
 }
