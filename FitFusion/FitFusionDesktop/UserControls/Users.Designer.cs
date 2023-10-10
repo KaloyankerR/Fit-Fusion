@@ -38,10 +38,11 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top;
             label1.AutoSize = true;
             label1.Font = new Font("Arial", 18F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.FromArgb(255, 163, 26);
-            label1.Location = new Point(393, 112);
+            label1.Location = new Point(688, 93);
             label1.Name = "label1";
             label1.Size = new Size(93, 35);
             label1.TabIndex = 1;
@@ -50,7 +51,7 @@
             // UsersDataGrid
             // 
             UsersDataGrid.AllowUserToResizeRows = false;
-            UsersDataGrid.BackgroundColor = Color.FromArgb(255, 255, 255);
+            UsersDataGrid.BackgroundColor = Color.White;
             UsersDataGrid.BorderStyle = BorderStyle.None;
             UsersDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.None;
             UsersDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
@@ -64,17 +65,17 @@
             UsersDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             UsersDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.FromArgb(255, 255, 255);
+            dataGridViewCellStyle2.BackColor = Color.Gray;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
-            dataGridViewCellStyle2.ForeColor = Color.FromArgb(136, 136, 136);
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(0, 198, 247);
-            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(17, 17, 17);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             UsersDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             UsersDataGrid.EnableHeadersVisualStyles = false;
             UsersDataGrid.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
             UsersDataGrid.GridColor = Color.FromArgb(255, 255, 255);
-            UsersDataGrid.Location = new Point(225, 226);
+            UsersDataGrid.Location = new Point(56, 165);
             UsersDataGrid.Name = "UsersDataGrid";
             UsersDataGrid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -89,7 +90,7 @@
             UsersDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             UsersDataGrid.RowTemplate.Height = 29;
             UsersDataGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            UsersDataGrid.Size = new Size(503, 251);
+            UsersDataGrid.Size = new Size(821, 424);
             UsersDataGrid.TabIndex = 2;
             // 
             // Users

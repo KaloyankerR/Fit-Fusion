@@ -1,4 +1,5 @@
 ﻿using FitFusionDesktop.UserControls;
+using Models.User;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,26 +15,29 @@ namespace FitFusionDesktop
 {
     public partial class Main : Form
     {
-        public string Email;
-        public string Password;
+        public User User;
 
-        public Main(string email, string password)
+        public Main(User user)
         {
             InitializeComponent();
-            Email = email;
-            Password = password;
+            User = user;
             RefreshPage();
         }
 
         public void ClearControls()
         {
             BodyPanel.Controls.Clear();
+            btnHome.ForeColor = Color.FromArgb(255, 255, 255);
+            btnProducts.ForeColor = Color.FromArgb(255, 255, 255);
+            btnUsers.ForeColor = Color.FromArgb(255, 255, 255);
+            btnProfile.ForeColor = Color.FromArgb(255, 255, 255);
         }
 
         public void RefreshPage()
         {
             ClearControls();
-            BodyPanel.Controls.Add(new Home(Email, Password));
+            BodyPanel.Controls.Add(new Home(User));
+            btnHome.ForeColor = Color.FromArgb(255, 163, 26);
         }
 
         private void imgLogo_Click(object sender, EventArgs e)
@@ -45,24 +49,28 @@ namespace FitFusionDesktop
         {
             ClearControls();
             BodyPanel.Controls.Add(new Home(Email, Password));
+            btnHome.ForeColor = Color.FromArgb(255, 163, 26);
         }
 
         private void btnProducts_Click(object sender, EventArgs e)
         {
             ClearControls();
             BodyPanel.Controls.Add(new Products());
+            btnProducts.ForeColor = Color.FromArgb(255, 163, 26);
         }
 
         private void btnUsers_Click(object sender, EventArgs e)
         {
             ClearControls();
             BodyPanel.Controls.Add(new Users());
+            btnUsers.ForeColor = Color.FromArgb(255, 163, 26);
         }
 
         private void btnProfile_Click(object sender, EventArgs e)
         {
             ClearControls();
             BodyPanel.Controls.Add(new Profile());
+            btnProfile.ForeColor = Color.FromArgb(255, 163, 26);
         }
             
     }

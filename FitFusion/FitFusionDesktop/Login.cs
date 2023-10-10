@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.User;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +20,18 @@ namespace FitFusionDesktop
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            Main frm = new Main(txtEmail.TextButton, txtPassword.TextButton);
+            Owner mockOwner = new Owner
+            {
+                Id = 1,
+                FirstName = "Alice",
+                LastName = "Smith",
+                Email = "alice.smith@example.com",
+                Password = "ownerpassword123",
+                Address = "789 Business Street",
+                Phone = "555-5678"
+            };
+
+            Main frm = new Main(mockOwner);
             this.Hide();
             frm.ShowDialog();
             Application.Exit();

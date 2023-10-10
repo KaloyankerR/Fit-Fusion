@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.User;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,10 +13,10 @@ namespace FitFusionDesktop.UserControls
 {
     public partial class Home : UserControl
     {
-        public Home(string email, string password)
+        public Home(User user)
         {
             InitializeComponent();
-            label1.Text = email + " " + password;
+            label1.Text = user.FirstName + " " + user.LastName;
         }
     }
 }
