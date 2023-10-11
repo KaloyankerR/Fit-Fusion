@@ -22,11 +22,8 @@ namespace FitFusionDesktop.UserControls
             ProductDAO = new ProductDAO();
             InitializeComponent();
             FillDataGridViewWithMockData();
-
-            ProductsDataGrid.BackgroundColor = Color.FromArgb(255, 163, 26);
-            ProductsDataGrid.GridColor = Color.FromArgb(255, 163, 26);
-            // ProductsDataGrid.Color
-
+            // ProductsDataGrid.ColumnHeadersDefaultCellStyle. = Color.White;
+            // ProductsDataGrid.RowHeadersDefaultCellStyle.BorderColor = Color.White;
         }
 
         private void FillDataGridViewWithMockData()
@@ -42,5 +39,9 @@ namespace FitFusionDesktop.UserControls
             ProductsDataGrid.DataSource = products;
         }
 
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
