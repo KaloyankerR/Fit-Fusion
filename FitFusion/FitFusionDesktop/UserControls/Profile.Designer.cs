@@ -28,36 +28,65 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
+            pictureBox1 = new PictureBox();
+            lblRole = new Label();
+            lblName = new Label();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // pictureBox1
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Arial", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.FromArgb(255, 163, 26);
-            label1.Location = new Point(367, 99);
-            label1.Name = "label1";
-            label1.Size = new Size(99, 35);
-            label1.TabIndex = 1;
-            label1.Text = "Profile";
+            pictureBox1.Image = Properties.Resources.profileImg;
+            pictureBox1.Location = new Point(58, 29);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(157, 130);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // lblRole
+            // 
+            lblRole.AutoSize = true;
+            lblRole.Font = new Font("Arial", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblRole.ForeColor = Color.FromArgb(255, 163, 26);
+            lblRole.Location = new Point(221, 29);
+            lblRole.Name = "lblRole";
+            lblRole.Size = new Size(64, 35);
+            lblRole.TabIndex = 2;
+            lblRole.Text = "role";
+            // 
+            // lblName
+            // 
+            lblName.AutoSize = true;
+            lblName.Font = new Font("Arial", 18F, FontStyle.Regular, GraphicsUnit.Point);
+            lblName.ForeColor = Color.FromArgb(255, 163, 26);
+            lblName.Location = new Point(221, 76);
+            lblName.Name = "lblName";
+            lblName.Size = new Size(89, 35);
+            lblName.TabIndex = 3;
+            lblName.Text = "name";
             // 
             // Profile
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            Controls.Add(label1);
+            Controls.Add(lblName);
+            Controls.Add(lblRole);
+            Controls.Add(pictureBox1);
             Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             Margin = new Padding(4, 3, 4, 3);
             Name = "Profile";
             Size = new Size(932, 703);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
+        private PictureBox pictureBox1;
+        private Label lblRole;
+        private Label lblName;
     }
 }

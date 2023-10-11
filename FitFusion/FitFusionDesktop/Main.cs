@@ -48,7 +48,7 @@ namespace FitFusionDesktop
         private void btnHome_Click(object sender, EventArgs e)
         {
             ClearControls();
-            BodyPanel.Controls.Add(new Home(Email, Password));
+            BodyPanel.Controls.Add(new Home(User));
             btnHome.ForeColor = Color.FromArgb(255, 163, 26);
         }
 
@@ -69,7 +69,7 @@ namespace FitFusionDesktop
         private void btnProfile_Click(object sender, EventArgs e)
         {
             ClearControls();
-            BodyPanel.Controls.Add(new Profile());
+            BodyPanel.Controls.Add(new Profile(User));
             btnProfile.ForeColor = Color.FromArgb(255, 163, 26);
         }
             

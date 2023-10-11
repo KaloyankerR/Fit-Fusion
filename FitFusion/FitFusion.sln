@@ -7,13 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAcess", "DataAcess\Data
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitFusionWeb", "FitFusionWeb\FitFusionWeb.csproj", "{D86794C5-87A4-4F20-8531-E40C0D831368}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitFusionWinForms", "FitFusionWinForms\FitFusionWinForms.csproj", "{A8F326A2-1390-4769-B757-051FF7FECFC1}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{66DD49B2-EC0D-4B00-9518-62D9776366C5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controllers", "Controllers\Controllers.csproj", "{F8CA8F74-B061-4D98-A40E-7B3B9FBDB6FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFusionDesktop", "FitFusionDesktop\FitFusionDesktop.csproj", "{32121E8A-1BF0-48F7-86B2-3850FF373993}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitFusionDesktop", "FitFusionDesktop\FitFusionDesktop.csproj", "{32121E8A-1BF0-48F7-86B2-3850FF373993}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{D86794C5-87A4-4F20-8531-E40C0D831368}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D86794C5-87A4-4F20-8531-E40C0D831368}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D86794C5-87A4-4F20-8531-E40C0D831368}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8F326A2-1390-4769-B757-051FF7FECFC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8F326A2-1390-4769-B757-051FF7FECFC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8F326A2-1390-4769-B757-051FF7FECFC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8F326A2-1390-4769-B757-051FF7FECFC1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{66DD49B2-EC0D-4B00-9518-62D9776366C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{66DD49B2-EC0D-4B00-9518-62D9776366C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66DD49B2-EC0D-4B00-9518-62D9776366C5}.Release|Any CPU.ActiveCfg = Release|Any CPU

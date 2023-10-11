@@ -31,30 +31,17 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            label1 = new Label();
             UsersDataGrid = new ReaLTaiizor.Controls.PoisonDataGridView();
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).BeginInit();
             SuspendLayout();
             // 
-            // label1
-            // 
-            label1.Anchor = AnchorStyles.Top;
-            label1.AutoSize = true;
-            label1.Font = new Font("Arial", 18F, FontStyle.Regular, GraphicsUnit.Point);
-            label1.ForeColor = Color.FromArgb(255, 163, 26);
-            label1.Location = new Point(688, 93);
-            label1.Name = "label1";
-            label1.Size = new Size(93, 35);
-            label1.TabIndex = 1;
-            label1.Text = "Users";
-            // 
             // UsersDataGrid
             // 
             UsersDataGrid.AllowUserToResizeRows = false;
-            UsersDataGrid.BackgroundColor = Color.White;
+            UsersDataGrid.BackgroundColor = Color.FromArgb(41, 41, 41);
             UsersDataGrid.BorderStyle = BorderStyle.None;
-            UsersDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.None;
-            UsersDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            UsersDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.SunkenVertical;
+            UsersDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Sunken;
             dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(41, 41, 41);
             dataGridViewCellStyle1.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
@@ -99,19 +86,15 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             Controls.Add(UsersDataGrid);
-            Controls.Add(label1);
             Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             Margin = new Padding(4, 3, 4, 3);
             Name = "Users";
             Size = new Size(932, 703);
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private Label label1;
         private ReaLTaiizor.Controls.PoisonDataGridView UsersDataGrid;
     }
 }
