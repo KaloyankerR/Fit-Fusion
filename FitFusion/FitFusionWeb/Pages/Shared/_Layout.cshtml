@@ -21,7 +21,15 @@
         </div>
         <div class="top-bar-right">
             <ul class="menu">
-                <li><a href="/Account">Account</a></li>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><a href="/Account">Account</a></li>
+                }
+                else
+                {
+                    <li><a href="/Authentication/Login">Login</a></li>
+                }
+
             </ul>
         </div>
     </div>
