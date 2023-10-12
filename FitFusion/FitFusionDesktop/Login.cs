@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataAcess;
 
 namespace FitFusionDesktop
 {
@@ -35,6 +36,10 @@ namespace FitFusionDesktop
             this.Hide();
             frm.ShowDialog();
             Application.Exit();
+
+            //UserDAO userDAO = new UserDAO();
+            //List<User> res = userDAO.GetAllUsers(new Staff());
+            //label1.Text = "neshto";
         }
 
     }

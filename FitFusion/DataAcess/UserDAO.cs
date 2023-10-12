@@ -187,9 +187,29 @@ namespace DataAcess
             {
                 connection.Open();
 
-                string getUserQuery = "SELECT Id, FirstName, LastName, Email, Password, Address, Phone, LoyaltyScore " +
-                                      "FROM Users " +
-                                      "WHERE Id = @Id;";
+                string getUserQuery = "";
+                string userTypeTable = "";
+                string additionalProperty = "";
+
+                if (user is Staff)
+                {
+                    userTypeTable = "Staff";
+                    additionalProperty = "Phone";
+                }
+                else if (user is Owner)
+                {
+                    userTypeTable = "Owners";
+                    additionalProperty = "Phone";
+                }
+                else if (user is Customer)
+                {
+                    userTypeTable = "Customers";
+                    additionalProperty = "LoyaltyScore";
+                }
+
+                getUserQuery = $"SELECT Id, FirstName, LastName, Email, Password, Address, {additionalProperty} " +
+                               $"FROM {userTypeTable} " +
+                               $"WHERE Id = @Id;";
 
                 using (SqlCommand command = new SqlCommand(getUserQuery, connection))
                 {
@@ -238,8 +258,28 @@ namespace DataAcess
             {
                 connection.Open();
 
-                string getAllUsersQuery = "SELECT Id, FirstName, LastName, Email, Password, Address, Phone, LoyaltyScore " +
-                                          "FROM Users;";
+                string getAllUsersQuery = "";
+                string userTypeTable = "";
+                string additionalProperty = "";
+
+                if (user is Staff)
+                {
+                    userTypeTable = "Staff";
+                    additionalProperty = "Phone";
+                }
+                else if (user is Owner)
+                {
+                    userTypeTable = "Owners";
+                    additionalProperty = "Phone";
+                }
+                else if (user is Customer)
+                {
+                    userTypeTable = "Customers";
+                    additionalProperty = "LoyaltyScore";
+                }
+
+                getAllUsersQuery = $"SELECT Id, FirstName, LastName, Email, Password, Address, {additionalProperty} " +
+                                          $"FROM {userTypeTable};";
 
                 using (SqlCommand command = new SqlCommand(getAllUsersQuery, connection))
                 {
@@ -247,31 +287,46 @@ namespace DataAcess
                     {
                         while (reader.Read())
                         {
-                            User newUser = new User
-                            {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
-                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
-                                Email = reader.GetString(reader.GetOrdinal("Email")),
-                                Password = reader.GetString(reader.GetOrdinal("Password")),
-                                Address = reader.GetString(reader.GetOrdinal("Address"))
-                            };
+                            User newUser = null;
 
-                            // Check if the user is a Staff, Owner, or Customer
                             if (user is Staff staff)
                             {
-                                staff.Phone = reader.GetString(reader.GetOrdinal("Phone"));
-                                newUser = staff;
+                                newUser = new Staff
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                                    Password = reader.GetString(reader.GetOrdinal("Password")),
+                                    Address = reader.GetString(reader.GetOrdinal("Address")),
+                                    Phone = reader.GetString(reader.GetOrdinal("Phone"))
+                                };
                             }
                             else if (user is Owner owner)
                             {
-                                owner.Phone = reader.GetString(reader.GetOrdinal("Phone"));
-                                newUser = owner;
+                                newUser = new Owner
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                                    Password = reader.GetString(reader.GetOrdinal("Password")),
+                                    Address = reader.GetString(reader.GetOrdinal("Address")),
+                                    Phone = reader.GetString(reader.GetOrdinal("Phone"))
+                                };
                             }
                             else if (user is Customer customer)
                             {
-                                customer.LoyaltyScore = reader.GetInt32(reader.GetOrdinal("LoyaltyScore"));
-                                newUser = customer;
+                                newUser = new Customer
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                                    Password = reader.GetString(reader.GetOrdinal("Password")),
+                                    Address = reader.GetString(reader.GetOrdinal("Address")),
+                                    LoyaltyScore = reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
+                                };
                             }
 
                             users.Add(newUser);

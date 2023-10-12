@@ -31,6 +31,7 @@
             txtEmail = new ReaLTaiizor.Controls.CyberTextBox();
             txtPassword = new ReaLTaiizor.Controls.CyberTextBox();
             btnLogin = new ReaLTaiizor.Controls.CyberButton();
+            label1 = new Label();
             SuspendLayout();
             // 
             // txtEmail
@@ -134,17 +135,28 @@
             btnLogin.Timer_RGB = 300;
             btnLogin.Click += btnLogin_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(134, 29);
+            label1.Name = "label1";
+            label1.Size = new Size(50, 20);
+            label1.TabIndex = 6;
+            label1.Text = "label1";
+            // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(label1);
             Controls.Add(btnLogin);
             Controls.Add(txtPassword);
             Controls.Add(txtEmail);
             Name = "Login";
             Text = "Login";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -152,5 +164,6 @@
         private ReaLTaiizor.Controls.CyberTextBox txtEmail;
         private ReaLTaiizor.Controls.CyberTextBox txtPassword;
         private ReaLTaiizor.Controls.CyberButton btnLogin;
+        private Label label1;
     }
 }
