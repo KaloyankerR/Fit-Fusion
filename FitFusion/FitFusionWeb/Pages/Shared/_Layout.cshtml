@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FitFusionWeb</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://dhbhdrzi4tiry.cloudfront.net/cdn/sites/foundation.min.css">
@@ -16,7 +17,6 @@
                 <li class="menu-text">FitFusion</li>
                 <li><a href="/">Home</a></li>
                 <li><a href="/Products">Products</a></li>
-                <li><a href="#">About</a></li>
             </ul>
         </div>
         <div class="top-bar-right">
@@ -39,12 +39,6 @@
             @RenderBody()
         </main>
     </div>
-
-    @* <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - FitFusionWeb - <a asp-area="" asp-page="/Privacy">Privacy</a>
-        </div>
-    </footer> *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

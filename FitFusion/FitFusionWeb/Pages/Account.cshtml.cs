@@ -18,11 +18,6 @@ namespace FitFusionWeb.Pages
             {
                 Name = User.FindFirstValue(ClaimTypes.Name);
             }
-            else
-            {
-                Name = "idk";
-            }
-
         }
 
     }
