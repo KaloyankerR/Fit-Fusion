@@ -250,7 +250,7 @@ namespace DataAcess
             }
         }
 
-        public List<User> GetAllUsers(User user)
+        public List<User> GetUsers(User user)
         {
             List<User> users = new List<User>();
 
@@ -338,5 +338,9 @@ namespace DataAcess
             return users;
         }
 
+        //public List<User> GetAllUsers()
+        //{
+
+        //}
     }
 }

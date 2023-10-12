@@ -72,6 +72,6 @@ namespace FitFusionDesktop
             BodyPanel.Controls.Add(new Profile(User));
             btnProfile.ForeColor = Color.FromArgb(255, 163, 26);
         }
-            
+
     }
 }

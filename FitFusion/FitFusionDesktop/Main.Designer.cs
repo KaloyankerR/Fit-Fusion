@@ -70,6 +70,7 @@
             btnProfile.ColorLighting = Color.FromArgb(29, 200, 238);
             btnProfile.ColorPen_1 = Color.FromArgb(37, 52, 68);
             btnProfile.ColorPen_2 = Color.FromArgb(41, 63, 86);
+            btnProfile.Cursor = Cursors.Hand;
             btnProfile.CyberButtonStyle = ReaLTaiizor.Enum.Cyber.StateStyle.Custom;
             btnProfile.Effect_1 = true;
             btnProfile.Effect_1_ColorBackground = Color.FromArgb(29, 200, 238);
@@ -111,6 +112,7 @@
             btnUsers.ColorLighting = Color.FromArgb(29, 200, 238);
             btnUsers.ColorPen_1 = Color.FromArgb(37, 52, 68);
             btnUsers.ColorPen_2 = Color.FromArgb(41, 63, 86);
+            btnUsers.Cursor = Cursors.Hand;
             btnUsers.CyberButtonStyle = ReaLTaiizor.Enum.Cyber.StateStyle.Custom;
             btnUsers.Effect_1 = true;
             btnUsers.Effect_1_ColorBackground = Color.FromArgb(29, 200, 238);
@@ -140,6 +142,7 @@
             // 
             // imgLogo
             // 
+            imgLogo.Cursor = Cursors.Hand;
             imgLogo.Image = (Image)resources.GetObject("imgLogo.Image");
             imgLogo.Location = new Point(69, 48);
             imgLogo.Name = "imgLogo";
@@ -163,6 +166,7 @@
             btnHome.ColorLighting = Color.FromArgb(29, 200, 238);
             btnHome.ColorPen_1 = Color.FromArgb(37, 52, 68);
             btnHome.ColorPen_2 = Color.FromArgb(41, 63, 86);
+            btnHome.Cursor = Cursors.Hand;
             btnHome.CyberButtonStyle = ReaLTaiizor.Enum.Cyber.StateStyle.Custom;
             btnHome.Effect_1 = true;
             btnHome.Effect_1_ColorBackground = Color.FromArgb(29, 200, 238);
@@ -204,6 +208,7 @@
             btnProducts.ColorLighting = Color.FromArgb(29, 200, 238);
             btnProducts.ColorPen_1 = Color.FromArgb(37, 52, 68);
             btnProducts.ColorPen_2 = Color.FromArgb(41, 63, 86);
+            btnProducts.Cursor = Cursors.Hand;
             btnProducts.CyberButtonStyle = ReaLTaiizor.Enum.Cyber.StateStyle.Custom;
             btnProducts.Effect_1 = true;
             btnProducts.Effect_1_ColorBackground = Color.FromArgb(29, 200, 238);
