@@ -1,0 +1,27 @@
+﻿@page
+@model FitFusionWeb.Pages.Products.AllModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>All products</h1>
+
+<table>
+    @* <thead>
+        <tr>ID</tr>
+        <tr>Name</tr>
+        <tr>Name</tr>
+    </thead> *@
+    <tbody>
+        @foreach(var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Title</td>
+                <td>@product.Description</td>
+                <td>@product.ProductCategory</td>
+                <td>@product.ImageUrl</td>
+            </tr>
+        }
+    </tbody>
+</table>

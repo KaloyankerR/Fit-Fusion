@@ -14,7 +14,6 @@ namespace FitFusionWeb.Pages.Authentication
 
         public IActionResult OnGet()
         {
-
             if (User.Identity.IsAuthenticated)
             {
                 return RedirectToPage("../Account");
