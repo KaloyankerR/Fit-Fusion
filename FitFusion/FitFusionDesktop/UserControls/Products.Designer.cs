@@ -35,7 +35,9 @@
             btnCreate = new ReaLTaiizor.Controls.Button();
             btnUpdate = new ReaLTaiizor.Controls.Button();
             btnDelete = new ReaLTaiizor.Controls.Button();
-            aloneTextBox1 = new ReaLTaiizor.Controls.AloneTextBox();
+            btnSearch = new ReaLTaiizor.Controls.Button();
+            txtSearchQuery = new ReaLTaiizor.Controls.HopeTextBox();
+            crownDropDownList1 = new ReaLTaiizor.Controls.CrownDropDownList();
             ((System.ComponentModel.ISupportInitialize)ProductsDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -88,6 +90,7 @@
             // 
             btnCreate.BackColor = Color.Gray;
             btnCreate.BorderColor = Color.FromArgb(41, 41, 41);
+            btnCreate.Cursor = Cursors.Hand;
             btnCreate.EnteredBorderColor = Color.FromArgb(255, 163, 26);
             btnCreate.EnteredColor = Color.FromArgb(41, 41, 41);
             btnCreate.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
@@ -108,6 +111,7 @@
             // 
             btnUpdate.BackColor = Color.Gray;
             btnUpdate.BorderColor = Color.FromArgb(41, 41, 41);
+            btnUpdate.Cursor = Cursors.Hand;
             btnUpdate.EnteredBorderColor = Color.FromArgb(255, 163, 26);
             btnUpdate.EnteredColor = Color.FromArgb(41, 41, 41);
             btnUpdate.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
@@ -127,6 +131,7 @@
             // 
             btnDelete.BackColor = Color.Gray;
             btnDelete.BorderColor = Color.FromArgb(41, 41, 41);
+            btnDelete.Cursor = Cursors.Hand;
             btnDelete.EnteredBorderColor = Color.FromArgb(255, 163, 26);
             btnDelete.EnteredColor = Color.FromArgb(41, 41, 41);
             btnDelete.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
@@ -142,29 +147,66 @@
             btnDelete.Text = "Delete";
             btnDelete.TextAlignment = StringAlignment.Center;
             // 
-            // aloneTextBox1
+            // btnSearch
             // 
-            aloneTextBox1.BackColor = Color.White;
-            aloneTextBox1.EnabledCalc = true;
-            aloneTextBox1.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
-            aloneTextBox1.ForeColor = Color.FromArgb(124, 133, 142);
-            aloneTextBox1.Location = new Point(410, 543);
-            aloneTextBox1.MaxLength = 32767;
-            aloneTextBox1.MultiLine = false;
-            aloneTextBox1.Name = "aloneTextBox1";
-            aloneTextBox1.ReadOnly = false;
-            aloneTextBox1.Size = new Size(121, 36);
-            aloneTextBox1.TabIndex = 7;
-            aloneTextBox1.Text = "aloneTextBox1";
-            aloneTextBox1.TextAlign = HorizontalAlignment.Left;
-            aloneTextBox1.UseSystemPasswordChar = false;
+            btnSearch.BackColor = Color.Gray;
+            btnSearch.BorderColor = Color.FromArgb(41, 41, 41);
+            btnSearch.Cursor = Cursors.Hand;
+            btnSearch.EnteredBorderColor = Color.FromArgb(255, 163, 26);
+            btnSearch.EnteredColor = Color.FromArgb(41, 41, 41);
+            btnSearch.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSearch.Image = null;
+            btnSearch.ImageAlign = ContentAlignment.MiddleLeft;
+            btnSearch.InactiveColor = Color.FromArgb(41, 41, 41);
+            btnSearch.Location = new Point(556, 600);
+            btnSearch.Name = "btnSearch";
+            btnSearch.PressedBorderColor = Color.FromArgb(255, 163, 26);
+            btnSearch.PressedColor = Color.FromArgb(255, 163, 26);
+            btnSearch.Size = new Size(102, 43);
+            btnSearch.TabIndex = 8;
+            btnSearch.Text = "Search";
+            btnSearch.TextAlignment = StringAlignment.Center;
+            // 
+            // txtSearchQuery
+            // 
+            txtSearchQuery.BackColor = Color.FromArgb(41, 41, 41);
+            txtSearchQuery.BaseColor = Color.FromArgb(41, 41, 41);
+            txtSearchQuery.BorderColorA = Color.FromArgb(255, 163, 26);
+            txtSearchQuery.BorderColorB = Color.FromArgb(41, 41, 41);
+            txtSearchQuery.Cursor = Cursors.Hand;
+            txtSearchQuery.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            txtSearchQuery.ForeColor = Color.White;
+            txtSearchQuery.Hint = "";
+            txtSearchQuery.Location = new Point(556, 551);
+            txtSearchQuery.MaxLength = 32767;
+            txtSearchQuery.Multiline = false;
+            txtSearchQuery.Name = "txtSearchQuery";
+            txtSearchQuery.PasswordChar = '\0';
+            txtSearchQuery.ScrollBars = ScrollBars.None;
+            txtSearchQuery.SelectedText = "";
+            txtSearchQuery.SelectionLength = 0;
+            txtSearchQuery.SelectionStart = 0;
+            txtSearchQuery.Size = new Size(191, 43);
+            txtSearchQuery.TabIndex = 9;
+            txtSearchQuery.TabStop = false;
+            txtSearchQuery.UseSystemPasswordChar = false;
+            // 
+            // crownDropDownList1
+            // 
+            crownDropDownList1.Location = new Point(281, 521);
+            crownDropDownList1.Name = "crownDropDownList1";
+            crownDropDownList1.Size = new Size(200, 32);
+            crownDropDownList1.TabIndex = 10;
+            crownDropDownList1.Text = "crownDropDownList1";
             // 
             // Products
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            Controls.Add(aloneTextBox1);
+            Controls.Add(crownDropDownList1);
+            Controls.Add(txtSearchQuery);
+            Controls.Add(btnSearch);
             Controls.Add(btnDelete);
             Controls.Add(btnUpdate);
             Controls.Add(btnCreate);
@@ -183,6 +225,8 @@
         private ReaLTaiizor.Controls.Button btnCreate;
         private ReaLTaiizor.Controls.Button btnUpdate;
         private ReaLTaiizor.Controls.Button btnDelete;
-        private ReaLTaiizor.Controls.AloneTextBox aloneTextBox1;
+        private ReaLTaiizor.Controls.Button btnSearch;
+        private ReaLTaiizor.Controls.HopeTextBox txtSearchQuery;
+        private ReaLTaiizor.Controls.CrownDropDownList crownDropDownList1;
     }
 }

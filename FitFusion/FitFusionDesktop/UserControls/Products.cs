@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Models.Product;
 using DataAcess;
-
+using FitFusionDesktop.EntityControls;
 
 namespace FitFusionDesktop.UserControls
 {
@@ -22,8 +22,19 @@ namespace FitFusionDesktop.UserControls
             ProductDAO = new ProductDAO();
             InitializeComponent();
             FillDataGridViewWithMockData();
-            // ProductsDataGrid.ColumnHeadersDefaultCellStyle. = Color.White;
-            // ProductsDataGrid.RowHeadersDefaultCellStyle.BorderColor = Color.White;
+
+            var newItem = new ReaLTaiizor.Child.Crown.CrownDropDownItem
+            {
+                Text = "Your Text Here"
+            };
+            var newItem2 = new ReaLTaiizor.Child.Crown.CrownDropDownItem
+            {
+                Text = "Your Text Here2"
+            };
+
+
+            crownDropDownList1.Items.Add(newItem);
+            crownDropDownList1.Items.Add(newItem2);
         }
 
         private void FillDataGridViewWithMockData()
@@ -41,7 +52,7 @@ namespace FitFusionDesktop.UserControls
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-
+            
         }
     }
 }
