@@ -1,0 +1,21 @@
+﻿@page
+@model FitFusionWeb.Pages.AccountModel
+@{
+    ViewData["Title"] = "Account";
+}
+
+
+<h1>Profile</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>Name: @Model.Name</p>
+    <div class="col-md-3 text-end">
+        <a type="button" class="btn btn-outline-primary me-2" asp-page="Logout">Logout</a>
+    </div>
+}
+else
+{
+    <p>You must be logged in to view your profile.</p>
+}
+
