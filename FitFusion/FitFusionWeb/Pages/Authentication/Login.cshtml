@@ -1,0 +1,22 @@
+﻿@page
+@model FitFusionWeb.Pages.Authentication.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div>
+        <label asp-for="owner.FirstName"></label>
+        <input asp-for="owner.FirstName" />
+    </div>
+    <div>
+        <label asp-for="owner.Password"></label>
+        <input asp-for="owner.Password" />
+    </div>
+    <div>
+        <button type="submit">Log in</button>
+    </div>
+</form>
