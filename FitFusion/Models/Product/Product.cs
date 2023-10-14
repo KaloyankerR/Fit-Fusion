@@ -12,19 +12,18 @@ namespace Models.Product
         public string Title { get; set; }
         public string Description { get; set; }
         public Category ProductCategory { get; set; }
-        public string ImageUrl { get; set; }
-        //public List<Hashtag> Hahstags { get; set; }
+        public List<Hashtag> Hahstags { get; set; }
+        public string ImageUrl { get; set; } = "https://sudbury.legendboats.com/resource/defaultProductImage";
 
         public Product() { }
 
-        public Product(int id, string title, string description, Category productCategory, string imageUrl = "https://sudbury.legendboats.com/resource/defaultProductImage")
+        public Product(int id, string title, string description, Category productCategory, List<Hashtag> hahstags)
         {
             Id = id;
             Title = title;
             Description = description;
             ProductCategory = productCategory;
-            ImageUrl = imageUrl;
-            //Hahstags = hahstags ?? new List<Hashtag>();
+            Hahstags = hahstags ?? new List<Hashtag>();
         }
 
     }
