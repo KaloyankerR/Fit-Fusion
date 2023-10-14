@@ -1,33 +1,27 @@
 CREATE TABLE Product (
-    Id INT PRIMARY KEY,
-    Title VARCHAR(255) NOT NULL,
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Title NVARCHAR(55) NOT NULL,
     Description VARCHAR(255),
     Category VARCHAR(35) NOT NULL,
     ImageUrl VARCHAR(255)
 );
 
 CREATE TABLE [Order] (
-    Id INT PRIMARY KEY,
-    Address VARCHAR(255) NOT NULL,
+    Id INT PRIMARY KEY IDENTITY(1, 1),
+	UserId INT NOT NULL,
+    OrderDate DATE NOT NULL,
     Note VARCHAR(155),
-    ProductId INT,
-    UserId INT,
-    FOREIGN KEY (ProductId) REFERENCES Product(Id),
     FOREIGN KEY (UserId) REFERENCES Customer(Id)
 );
 
-ALTER TABLE [Order]
-ADD OrderDate DATE;
-
-CREATE TABLE [Order] (
-    Id INT PRIMARY KEY,
-    Address VARCHAR(255) NOT NULL,
-	OrderDate DATE NOT NULL,
-    Note VARCHAR(155),
-    ProductId INT,
-    UserId INT,
-    FOREIGN KEY (ProductId) REFERENCES Product(Id),
-    FOREIGN KEY (UserId) REFERENCES Customer(Id)
+CREATE TABLE OrderLine (
+    -- Id INT PRIMARY KEY IDENTITY(1, 1),
+    OrderId INT NOT NULL,
+    ProductId INT NOT NULL,
+    Quantity INT NOT NULL,
+	TotalPrice INT NOT NULL,
+    FOREIGN KEY (OrderId) REFERENCES [Order](Id),
+    FOREIGN KEY (ProductId) REFERENCES Product(Id)
 );
 
 CREATE TABLE Hashtag (
@@ -36,31 +30,11 @@ CREATE TABLE Hashtag (
 );
 
 CREATE TABLE ProductHashtag (
-    ProductId INT,
-    HashtagId INT,
+    ProductId INT NOT NULL,
+    HashtagId INT NOT NULL,
     PRIMARY KEY (ProductId, HashtagId),
     FOREIGN KEY (ProductId) REFERENCES Product(Id),
     FOREIGN KEY (HashtagId) REFERENCES Hashtag(Id)
 );
 
 
-
-drop table [Order]
-
-CREATE TABLE [Order] (
-    Id INT PRIMARY KEY,
-    Address VARCHAR(255) NOT NULL,
-    OrderDate DATE NOT NULL,
-    Note VARCHAR(155),
-    UserId INT,
-    FOREIGN KEY (UserId) REFERENCES Customer(Id)
-);
-
-CREATE TABLE OrderLine (
-    Id INT PRIMARY KEY,
-    OrderId INT,
-    ProductId INT,
-    Quantity INT,
-    FOREIGN KEY (OrderId) REFERENCES [Order](Id),
-    FOREIGN KEY (ProductId) REFERENCES Product(Id)
-);

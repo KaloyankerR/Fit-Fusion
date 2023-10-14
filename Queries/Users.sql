@@ -1,0 +1,36 @@
+CREATE TABLE Owner
+(
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    PasswordHash VARCHAR(255) NOT NULL,
+	PasswordSalt VARCHAR(255) NOT NULL,
+    Address NVARCHAR(255) NULL,
+    Phone VARCHAR(16) NOT NULL
+);
+
+CREATE TABLE Staff
+(
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    PasswordHash VARCHAR(255) NOT NULL,
+	PasswordSalt VARCHAR(255) NOT NULL,
+    Address NVARCHAR(255) NULL,
+    Phone VARCHAR(16) NOT NULL
+);
+
+CREATE TABLE Customer
+(
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    FirstName NVARCHAR(50) NOT NULL,
+    LastName NVARCHAR(50) NOT NULL,
+    Email VARCHAR(100) NOT NULL,
+    PasswordHash VARCHAR(255) NOT NULL,
+	PasswordSalt VARCHAR(255) NOT NULL,
+    Address NVARCHAR(255) NULL,
+    LoyaltyScore INT NOT NULL
+);
+
