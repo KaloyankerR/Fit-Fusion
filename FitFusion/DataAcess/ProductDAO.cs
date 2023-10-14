@@ -128,35 +128,42 @@ namespace DataAcess
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
-                connection.Open();
-
-                string getProductQuery = "SELECT Id, Title, Description, Category, ImageUrl FROM Product WHERE Id = @Id;";
-
-                using (SqlCommand command = new SqlCommand(getProductQuery, connection))
+                try
                 {
-                    command.Parameters.AddWithValue("@Id", id);
+                    connection.Open();
 
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    string getProductQuery = "SELECT Id, Title, Description, Category, ImageUrl FROM Product WHERE Id = @Id;";
+
+                    using (SqlCommand command = new SqlCommand(getProductQuery, connection))
                     {
-                        if (reader.Read())
+                        command.Parameters.AddWithValue("@Id", id);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            // Map the data from the database to the Product object
-                            return new Product
+                            if (reader.Read())
                             {
-                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                Title = reader.GetString(reader.GetOrdinal("Title")),
-                                Description = reader.GetString(reader.GetOrdinal("Description")),
-                                ProductCategory = new Category(1, reader.GetString(reader.GetOrdinal("Category"))), // Adjust based on your Category class
-                                ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"))
-                            };
+                                return new Product
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    Title = reader.GetString(reader.GetOrdinal("Title")),
+                                    Description = reader.GetString(reader.GetOrdinal("Description")),
+                                    ProductCategory = new Category { Name = reader.GetString(reader.GetOrdinal("Category")) },
+                                    ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"))
+                                };
+                            }
                         }
                     }
                 }
+                catch (Exception ex)
+                {
 
-                // If the product with the specified ID is not found, return null or throw an exception based on your requirements.
+                    throw new Exception("Unable to retrieve product's information!");
+                }
+
                 return null;
             }
         }
+
 
         public List<Product> GetAllProducts()
         {
@@ -180,7 +187,7 @@ namespace DataAcess
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Title = reader.GetString(reader.GetOrdinal("Title")),
                                 Description = reader.GetString(reader.GetOrdinal("Description")),
-                                ProductCategory = new Category(1, reader.GetString(reader.GetOrdinal("Category"))), // Adjust based on your Category class
+                                ProductCategory = new Category { Name = reader.GetString(reader.GetOrdinal("Category")) },
                                 ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"))
                             };
 
