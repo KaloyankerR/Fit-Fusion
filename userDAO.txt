@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -181,7 +181,7 @@ namespace DataAcess
             }
         }
 
-        public User GetUser(int id, string role)
+        public User GetUser(int id, User user)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -191,17 +191,17 @@ namespace DataAcess
                 string userTypeTable = "";
                 string additionalProperty = "";
 
-                if (role == "Staff")
+                if (user is Staff)
                 {
                     userTypeTable = "Staff";
                     additionalProperty = "Phone";
                 }
-                else if (role == "Owner")
+                else if (user is Owner)
                 {
                     userTypeTable = "Owners";
                     additionalProperty = "Phone";
                 }
-                else if (role == "Customer")
+                else if (user is Customer)
                 {
                     userTypeTable = "Customers";
                     additionalProperty = "LoyaltyScore";
@@ -219,55 +219,27 @@ namespace DataAcess
                     {
                         if (reader.Read())
                         {
-                            //user.Id = reader.GetInt32(reader.GetOrdinal("Id"));
-                            //user.FirstName = reader.GetString(reader.GetOrdinal("FirstName"));
-                            //user.LastName = reader.GetString(reader.GetOrdinal("LastName"));
-                            //user.Email = reader.GetString(reader.GetOrdinal("Email"));
-                            //user.Password = reader.GetString(reader.GetOrdinal("Password"));
-                            //user.Address = reader.GetString(reader.GetOrdinal("Address"));
-                                                        
-                            if (role == "Staff")
-                            {
-                                Staff staff = new Staff(
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    phone: reader.GetString(reader.GetOrdinal("Phone"))
-                                );
+                            user.Id = reader.GetInt32(reader.GetOrdinal("Id"));
+                            user.FirstName = reader.GetString(reader.GetOrdinal("FirstName"));
+                            user.LastName = reader.GetString(reader.GetOrdinal("LastName"));
+                            user.Email = reader.GetString(reader.GetOrdinal("Email"));
+                            user.Password = reader.GetString(reader.GetOrdinal("Password"));
+                            user.Address = reader.GetString(reader.GetOrdinal("Address"));
 
+                            // Check if the user is a Staff, Owner, or Customer
+                            if (user is Staff staff)
+                            {
+                                staff.Phone = reader.GetString(reader.GetOrdinal("Phone"));
                                 return staff;
                             }
-                            else if (role == "Owner")
+                            else if (user is Owner owner)
                             {
-                                Owner owner = new Owner
-                                (
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    phone: reader.GetString(reader.GetOrdinal("Phone"))
-                                );
-
+                                owner.Phone = reader.GetString(reader.GetOrdinal("Phone"));
                                 return owner;
                             }
-                            else if (role == "Customer")
+                            else if (user is Customer customer)
                             {
-                                Customer customer = new Customer
-                                (
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
-                                );
-
+                                customer.LoyaltyScore = reader.GetInt32(reader.GetOrdinal("LoyaltyScore"));
                                 return customer;
                             }
                         }
@@ -319,43 +291,43 @@ namespace DataAcess
 
                             if (user is Staff staff)
                             {
-                                newUser = new Staff(
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    phone: reader.GetString(reader.GetOrdinal("Phone"))
-                                );
-
+                                newUser = new Staff
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                                    Password = reader.GetString(reader.GetOrdinal("Password")),
+                                    Address = reader.GetString(reader.GetOrdinal("Address")),
+                                    Phone = reader.GetString(reader.GetOrdinal("Phone"))
+                                };
 
                             }
                             else if (user is Owner owner)
                             {
                                 newUser = new Owner
-                                (
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    phone: reader.GetString(reader.GetOrdinal("Phone"))
-                                );
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                                    Password = reader.GetString(reader.GetOrdinal("Password")),
+                                    Address = reader.GetString(reader.GetOrdinal("Address")),
+                                    Phone = reader.GetString(reader.GetOrdinal("Phone"))
+                                };
                             }
                             else if (user is Customer customer)
                             {
                                 newUser = new Customer
-                                (
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
-                                );
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                    LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                    Email = reader.GetString(reader.GetOrdinal("Email")),
+                                    Password = reader.GetString(reader.GetOrdinal("Password")),
+                                    Address = reader.GetString(reader.GetOrdinal("Address")),
+                                    LoyaltyScore = reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
+                                };
                             }
 
                             users.Add(newUser);
