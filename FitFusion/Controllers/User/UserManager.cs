@@ -20,22 +20,31 @@ namespace Controllers.User
 
         public void CreateUser(UserModel user)
         {
-            if (user is Owner owner)
+            try
             {
-                Console.Write(owner.FirstName + " " + owner.LastName);
+                userDAO.CreateUser(user);
             }
-            else if (user is Staff staff)
+            catch 
             {
-                Console.WriteLine(staff.FirstName + " " + staff.LastName);
+                throw new Exception("Unable to add the current user.");
             }
-            else if (user is Customer customer)
-            {
-                Console.WriteLine(customer.FirstName + " " + customer.LastName);
-            }
-            else
-            {
-                throw new ArgumentException("Unknown user type");
-            }
+
+            //if (user is Owner owner)
+            //{
+            //    userDAO.CreateUser(user);
+            //}
+            //else if (user is Staff staff)
+            //{
+            //    Console.WriteLine(staff.FirstName + " " + staff.LastName);
+            //}
+            //else if (user is Customer customer)
+            //{
+            //    Console.WriteLine(customer.FirstName + " " + customer.LastName);
+            //}
+            //else
+            //{
+            //    throw new ArgumentException("Unknown user type");
+            //}
         }
 
     }
