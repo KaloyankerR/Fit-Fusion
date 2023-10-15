@@ -25,7 +25,7 @@ namespace Models.User
         protected string address;
         public string Address { get { return address; } protected set { address = value; } }
 
-        // public User() { }
+        public User() { }
 
         public User(int id, string firstName, string lastName, string email, string password, string address)
         {

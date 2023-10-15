@@ -11,7 +11,7 @@ namespace Models.User
         protected string phone;
         public string Phone { get { return phone;  } protected set { phone = value; } }
 
-        // public Staff() { }
+        public Staff() { }
 
         public Staff(int id, string firstName, string lastName, string email, string password, string address, string phone)
                     : base(id, firstName, lastName, email, password, address)
