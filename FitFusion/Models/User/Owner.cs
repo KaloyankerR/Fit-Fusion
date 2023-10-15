@@ -8,14 +8,17 @@ namespace Models.User
 {
     public class Owner : User
     {
-        public string Phone { get; set; }
+        protected string phone;
+        public string Phone { get { return phone; } protected set { phone = value; } }
 
-        public Owner() { }
+        // public Owner() { }
 
-        public Owner(string phone)
+        // public Owner(string phone)
+        public Owner(int id, string firstName, string lastName, string email, string password, string address, string phone) 
+            : base(id, firstName, lastName, email, password, address)
         {
-            Phone = phone;
+            this.phone = phone;
         }
-
     }
 }
+
