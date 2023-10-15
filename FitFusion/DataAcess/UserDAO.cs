@@ -32,33 +32,28 @@ namespace DataAcess
 
                 if (user is Staff)
                 {
-                    // Insert into Staff table
                     insertUserQuery = "INSERT INTO Staff (FirstName, LastName, Email, Password, Address, Phone) " +
                                       "VALUES (@FirstName, @LastName, @Email, @Password, @Address, @Phone);";
                 }
                 else if (user is Owner)
                 {
-                    // Insert into Owners table
-                    insertUserQuery = "INSERT INTO Owners (FirstName, LastName, Email, Password, Address, Phone) " +
+                    insertUserQuery = "INSERT INTO Owner (FirstName, LastName, Email, Password, Address, Phone) " +
                                       "VALUES (@FirstName, @LastName, @Email, @Password, @Address, @Phone);";
                 }
                 else if (user is Customer)
                 {
-                    // Insert into Customers table
-                    insertUserQuery = "INSERT INTO Customers (FirstName, LastName, Email, Password, Address, LoyaltyScore) " +
+                    insertUserQuery = "INSERT INTO Customer (FirstName, LastName, Email, Password, Address, LoyaltyScore) " +
                                       "VALUES (@FirstName, @LastName, @Email, @Password, @Address, @LoyaltyScore);";
                 }
 
                 using (SqlCommand command = new SqlCommand(insertUserQuery, connection))
                 {
-                    // Set parameters based on the common properties of the User class
                     command.Parameters.AddWithValue("@FirstName", user.FirstName);
                     command.Parameters.AddWithValue("@LastName", user.LastName);
                     command.Parameters.AddWithValue("@Email", user.Email);
                     command.Parameters.AddWithValue("@Password", user.Password);
                     command.Parameters.AddWithValue("@Address", user.Address);
 
-                    // Set additional parameters based on the specific properties of the derived classes
                     if (user is Staff)
                     {
                         command.Parameters.AddWithValue("@Phone", ((Staff)user).Phone);
@@ -71,7 +66,6 @@ namespace DataAcess
                     {
                         command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).LoyaltyScore);
                     }
-                    
 
                     command.ExecuteNonQuery();
                 }
@@ -370,8 +364,6 @@ namespace DataAcess
         //public List<User> GetAllUsers()
         //{
         //    List<User> users = new List<User>();
-
-
         //}
     }
 }
