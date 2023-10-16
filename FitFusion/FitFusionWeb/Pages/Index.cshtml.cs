@@ -51,7 +51,8 @@ namespace FitFusionWeb.Pages
                 firstName: "John",
                 lastName: "Doe Staff",
                 email: "john.doe@example.com",
-                password: "mockpassword",
+                passwordHash: "mockpassword",
+                passwordSalt: "mockpasswordsalt",
                 address: "123 Mock St",
                 loyaltyScore: 69
             );

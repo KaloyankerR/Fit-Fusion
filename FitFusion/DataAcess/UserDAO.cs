@@ -32,12 +32,12 @@ namespace DataAcess
 
                 if (user is Staff)
                 {
-                    insertUserQuery = "INSERT INTO Staff (FirstName, LastName, Email, Password, Address, Phone) " +
+                    insertUserQuery = "INSERT INTO Staff (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone) " +
                                       "VALUES (@FirstName, @LastName, @Email, @Password, @Address, @Phone);";
                 }
                 else if (user is Owner)
                 {
-                    insertUserQuery = "INSERT INTO Owner (FirstName, LastName, Email, Password, Address, Phone) " +
+                    insertUserQuery = "INSERT INTO Owner (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone) " +
                                       "VALUES (@FirstName, @LastName, @Email, @Password, @Address, @Phone);";
                 }
                 else if (user is Customer)
@@ -51,7 +51,8 @@ namespace DataAcess
                     command.Parameters.AddWithValue("@FirstName", user.FirstName);
                     command.Parameters.AddWithValue("@LastName", user.LastName);
                     command.Parameters.AddWithValue("@Email", user.Email);
-                    command.Parameters.AddWithValue("@Password", user.Password);
+                    command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                    command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
                     command.Parameters.AddWithValue("@Address", user.Address);
 
                     if (user is Staff)
@@ -86,7 +87,7 @@ namespace DataAcess
                 {
                     // Update Staff table
                     updateUserQuery = "UPDATE Staff SET FirstName = @FirstName, " +
-                                      "LastName = @LastName, Email = @Email, Password = @Password, " +
+                                      "LastName = @LastName, Email = @Email, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt, " +
                                       "Address = @Address, Phone = @Phone " +
                                       "WHERE Id = @Id;";
                 }
@@ -94,7 +95,7 @@ namespace DataAcess
                 {
                     // Update Owners table
                     updateUserQuery = "UPDATE Owners SET FirstName = @FirstName, " +
-                                      "LastName = @LastName, Email = @Email, Password = @Password, " +
+                                      "LastName = @LastName, Email = @Email, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt, " +
                                       "Address = @Address, Phone = @Phone " +
                                       "WHERE Id = @Id;";
                 }
@@ -102,7 +103,7 @@ namespace DataAcess
                 {
                     // Update Customers table
                     updateUserQuery = "UPDATE Customers SET FirstName = @FirstName, " +
-                                      "LastName = @LastName, Email = @Email, Password = @Password, " +
+                                      "LastName = @LastName, Email = @Email, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt, " +
                                       "Address = @Address, LoyaltyScore = @LoyaltyScore " +
                                       "WHERE Id = @Id;";
                 }
@@ -113,7 +114,8 @@ namespace DataAcess
                     command.Parameters.AddWithValue("@FirstName", user.FirstName);
                     command.Parameters.AddWithValue("@LastName", user.LastName);
                     command.Parameters.AddWithValue("@Email", user.Email);
-                    command.Parameters.AddWithValue("@Password", user.Password);
+                    command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                    command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
                     command.Parameters.AddWithValue("@Address", user.Address);
 
                     // Set additional parameters based on the specific properties of the derived classes
@@ -227,7 +229,8 @@ namespace DataAcess
                                     firstName: reader.GetString(reader.GetOrdinal("FirstName")),
                                     lastName: reader.GetString(reader.GetOrdinal("LastName")),
                                     email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
+                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
                                     address: reader.GetString(reader.GetOrdinal("Address")),
                                     phone: reader.GetString(reader.GetOrdinal("Phone"))
                                 );
@@ -242,7 +245,8 @@ namespace DataAcess
                                     firstName: reader.GetString(reader.GetOrdinal("FirstName")),
                                     lastName: reader.GetString(reader.GetOrdinal("LastName")),
                                     email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
+                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
                                     address: reader.GetString(reader.GetOrdinal("Address")),
                                     phone: reader.GetString(reader.GetOrdinal("Phone"))
                                 );
@@ -257,7 +261,8 @@ namespace DataAcess
                                     firstName: reader.GetString(reader.GetOrdinal("FirstName")),
                                     lastName: reader.GetString(reader.GetOrdinal("LastName")),
                                     email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
+                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
                                     address: reader.GetString(reader.GetOrdinal("Address")),
                                     loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
                                 );
@@ -300,7 +305,7 @@ namespace DataAcess
                     additionalProperty = "LoyaltyScore";
                 }
 
-                getAllUsersQuery = $"SELECT Id, FirstName, LastName, Email, Password, Address, {additionalProperty} " +
+                getAllUsersQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
                                           $"FROM {userTypeTable};";
 
                 using (SqlCommand command = new SqlCommand(getAllUsersQuery, connection))
@@ -318,7 +323,8 @@ namespace DataAcess
                                     firstName: reader.GetString(reader.GetOrdinal("FirstName")),
                                     lastName: reader.GetString(reader.GetOrdinal("LastName")),
                                     email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
+                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
                                     address: reader.GetString(reader.GetOrdinal("Address")),
                                     phone: reader.GetString(reader.GetOrdinal("Phone"))
                                 );
@@ -333,7 +339,8 @@ namespace DataAcess
                                     firstName: reader.GetString(reader.GetOrdinal("FirstName")),
                                     lastName: reader.GetString(reader.GetOrdinal("LastName")),
                                     email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
+                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
                                     address: reader.GetString(reader.GetOrdinal("Address")),
                                     phone: reader.GetString(reader.GetOrdinal("Phone"))
                                 );
@@ -346,7 +353,8 @@ namespace DataAcess
                                     firstName: reader.GetString(reader.GetOrdinal("FirstName")),
                                     lastName: reader.GetString(reader.GetOrdinal("LastName")),
                                     email: reader.GetString(reader.GetOrdinal("Email")),
-                                    password: reader.GetString(reader.GetOrdinal("Password")),
+                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
                                     address: reader.GetString(reader.GetOrdinal("Address")),
                                     loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
                                 );

@@ -16,24 +16,23 @@ namespace Models.User
         public string LastName { get { return lastName; } protected set { lastName = value; } }
         protected string email;
         public string Email { get { return email; } protected set { email = value; }  }
-        protected string password;
-        public string Password { get { return password; } protected set { password = value; } }
-
-        // protected string salt;
-        // public string Salt { get { return salt; } protected set { salt = value; } }
-
+        protected string passwordHash;
+        public string PasswordHash { get { return passwordHash; } protected set { passwordHash = value; } }
+        protected string passwordSalt;
+        public string PasswordSalt { get { return passwordSalt; } protected set { passwordSalt = value; } }
         protected string address;
         public string Address { get { return address; } protected set { address = value; } }
 
         public User() { }
 
-        public User(int id, string firstName, string lastName, string email, string password, string address)
+        public User(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address)
         {
             this.id = id;
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
-            this.password = password;
+            this.passwordHash = passwordHash;
+            this.passwordSalt = passwordSalt;
             this.address = address;
         }
 

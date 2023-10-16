@@ -13,8 +13,8 @@ namespace Models.User
 
         public Customer() { }
 
-        public Customer(int id, string firstName, string lastName, string email, string password, string address, int loyaltyScore)
-            : base(id, firstName, lastName, email, password, address)
+        public Customer(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address, int loyaltyScore)
+            : base(id, firstName, lastName, email, passwordHash, passwordSalt, address)
         {
             this.loyaltyScore = loyaltyScore;
         }
