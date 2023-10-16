@@ -19,9 +19,6 @@ namespace FitFusionWeb.Pages.Authentication
                 return RedirectToPage("../Account");
             }
 
-            owner.FirstName = "Byron";
-            owner.Password = "manfred";
-
             return Page();
         }
 

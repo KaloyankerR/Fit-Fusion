@@ -42,8 +42,8 @@ namespace DataAcess
                 }
                 else if (user is Customer)
                 {
-                    insertUserQuery = "INSERT INTO Customer (FirstName, LastName, Email, Password, Address, LoyaltyScore) " +
-                                      "VALUES (@FirstName, @LastName, @Email, @Password, @Address, @LoyaltyScore);";
+                    insertUserQuery = "INSERT INTO Customer (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, LoyaltyScore) " +
+                                      "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @LoyaltyScore);";
                 }
 
                 using (SqlCommand command = new SqlCommand(insertUserQuery, connection))
