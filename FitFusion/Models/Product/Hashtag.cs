@@ -8,7 +8,22 @@ namespace Models.Product
 {
     public class Hashtag
     {
-        public int Id { get; set; }
-        public string Tag { get; set; }
+        protected int id;
+        public int Id { get { return id; } protected set { id = value; } }
+        protected string tag;
+        public string Tag { get { return tag; } protected set { tag = value; } }
+
+        public Hashtag() { }
+
+        public Hashtag(int id, string tag)
+        {
+            this.id = id;
+            this.tag = tag;
+        }
+
+        public override string ToString()
+        {
+            return $"{Tag}";
+        }
     }
 }
