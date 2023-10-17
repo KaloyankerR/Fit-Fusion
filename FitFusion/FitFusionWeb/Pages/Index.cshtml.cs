@@ -19,45 +19,11 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            //ProductDAO dao = new ProductDAO();
+            UserManager manager = new UserManager(new UserDAO());
 
-            //Category sampleCategory = new Category { Name = "Electronics" };
-            //List<Hashtag> sampleHashtags = new List<Hashtag>
-            //{
-            //    new Hashtag { Id = 1, Tag = "Tech" },
-            //    new Hashtag { Id = 2, Tag = "Gadgets" }
-            //};
+            var result = manager.GetUsers(new Staff());
+            // var result = manager.GetUser(1, new Owner());
 
-            //// Create the mock product
-            //Product mockProduct = new Product
-            //{
-            //    Id = 1,
-            //    Title = "Sample Product",
-            //    Description = "This is a mock product for testing purposes.",
-            //    ProductCategory = sampleCategory,
-            //    Hahstags = sampleHashtags
-            //};
-
-            //Product productToGet = dao.GetProductById(1);
-
-            //Console.WriteLine(productToGet.ToString());
-
-            UserDAO dao = new UserDAO();
-            UserManager manager = new UserManager(dao);
-
-            Customer mockOwner = new Customer
-            (
-                id: 1,
-                firstName: "John",
-                lastName: "Doe Staff",
-                email: "john.doe@example.com",
-                passwordHash: "mockpassword",
-                passwordSalt: "mockpasswordsalt",
-                address: "123 Mock St",
-                loyaltyScore: 69
-            );
-
-            manager.CreateUser(mockOwner);
 
         }
     }
