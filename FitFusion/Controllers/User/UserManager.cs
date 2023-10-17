@@ -11,40 +11,71 @@ namespace Controllers.User
 {
     public class UserManager
     {
-        public UserDAO userDAO;
+        public UserDAO dao;
 
         public UserManager(UserDAO userDao)
         {
-            userDAO = userDao;
+            dao = userDao;
         }
 
-        public void CreateUser(UserModel user)
+        public bool CreateUser(UserModel user)
         {
             try
             {
-                userDAO.CreateUser(user);
+                return dao.CreateUser(user);
             }
             catch 
             {
                 throw new Exception("Unable to add the current user.");
             }
+        }
 
-            //if (user is Owner owner)
-            //{
-            //    userDAO.CreateUser(user);
-            //}
-            //else if (user is Staff staff)
-            //{
-            //    Console.WriteLine(staff.FirstName + " " + staff.LastName);
-            //}
-            //else if (user is Customer customer)
-            //{
-            //    Console.WriteLine(customer.FirstName + " " + customer.LastName);
-            //}
-            //else
-            //{
-            //    throw new ArgumentException("Unknown user type");
-            //}
+        public bool UpdateUser(UserModel user)
+        {
+            try
+            {
+                return dao.UpdateUser(user);
+            }
+            catch
+            {
+                throw new Exception("Unable to update current user.");
+            }
+        }
+
+        public bool DeleteUser(UserModel user)
+        {
+            try
+            {
+                return dao.DeleteUser(user);
+            }
+            catch
+            {
+                throw new Exception("Unable to delete current user.");
+            }
+        }
+
+        public UserModel GetUser(int id, UserModel role)
+        {
+            try
+            {
+                return dao.GetUser(id, role);
+            }
+            catch
+            {
+                throw new Exception("Unable to get current user.");
+            }
+        }
+
+        public List<UserModel> GetUsers(UserModel role)
+        {
+            try
+            {
+                return dao.GetUsers(role);
+            }
+            catch
+            {
+                throw new Exception("Unable to get current users.");
+            }
         }
 
     }

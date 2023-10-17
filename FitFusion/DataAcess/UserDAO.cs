@@ -33,12 +33,12 @@ namespace DataAcess
                 if (user is Staff)
                 {
                     insertUserQuery = "INSERT INTO Staff (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone) " +
-                                      "VALUES (@FirstName, @LastName, @Email, @Password, @Address, @Phone);";
+                                      "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @Phone);";
                 }
                 else if (user is Owner)
                 {
                     insertUserQuery = "INSERT INTO Owner (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone) " +
-                                      "VALUES (@FirstName, @LastName, @Email, @Password, @Address, @Phone);";
+                                      "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @Phone);";
                 }
                 else if (user is Customer)
                 {
@@ -85,7 +85,6 @@ namespace DataAcess
 
                 if (user is Staff)
                 {
-                    // Update Staff table
                     updateUserQuery = "UPDATE Staff SET FirstName = @FirstName, " +
                                       "LastName = @LastName, Email = @Email, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt, " +
                                       "Address = @Address, Phone = @Phone " +
@@ -93,16 +92,14 @@ namespace DataAcess
                 }
                 else if (user is Owner)
                 {
-                    // Update Owners table
-                    updateUserQuery = "UPDATE Owners SET FirstName = @FirstName, " +
+                    updateUserQuery = "UPDATE Owner SET FirstName = @FirstName, " +
                                       "LastName = @LastName, Email = @Email, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt, " +
                                       "Address = @Address, Phone = @Phone " +
                                       "WHERE Id = @Id;";
                 }
                 else if (user is Customer)
                 {
-                    // Update Customers table
-                    updateUserQuery = "UPDATE Customers SET FirstName = @FirstName, " +
+                    updateUserQuery = "UPDATE Customer SET FirstName = @FirstName, " +
                                       "LastName = @LastName, Email = @Email, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt, " +
                                       "Address = @Address, LoyaltyScore = @LoyaltyScore " +
                                       "WHERE Id = @Id;";
@@ -110,7 +107,6 @@ namespace DataAcess
 
                 using (SqlCommand command = new SqlCommand(updateUserQuery, connection))
                 {
-                    // Set parameters based on the common properties of the User class
                     command.Parameters.AddWithValue("@FirstName", user.FirstName);
                     command.Parameters.AddWithValue("@LastName", user.LastName);
                     command.Parameters.AddWithValue("@Email", user.Email);
@@ -118,7 +114,6 @@ namespace DataAcess
                     command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
                     command.Parameters.AddWithValue("@Address", user.Address);
 
-                    // Set additional parameters based on the specific properties of the derived classes
                     command.Parameters.AddWithValue("@Id", user.Id);
 
                     if (user is Staff)
@@ -151,23 +146,19 @@ namespace DataAcess
 
                 if (user is Staff)
                 {
-                    // Delete from Staff table
                     deleteUserQuery = "DELETE FROM Staff WHERE Id = @Id;";
                 }
                 else if (user is Owner)
                 {
-                    // Delete from Owners table
-                    deleteUserQuery = "DELETE FROM Owners WHERE Id = @Id;";
+                    deleteUserQuery = "DELETE FROM Owner WHERE Id = @Id;";
                 }
                 else if (user is Customer)
                 {
-                    // Delete from Customers table
-                    deleteUserQuery = "DELETE FROM Customers WHERE Id = @Id;";
+                    deleteUserQuery = "DELETE FROM Customer WHERE Id = @Id;";
                 }
 
                 using (SqlCommand command = new SqlCommand(deleteUserQuery, connection))
                 {
-                    // Set parameters based on the common properties of the User class
                     command.Parameters.AddWithValue("@Id", user.Id);
 
                     command.ExecuteNonQuery();
@@ -177,34 +168,30 @@ namespace DataAcess
             }
         }
 
-        public User GetUser(int id, string role)
+        public User GetUser(int id, User role)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
                 string getUserQuery = "";
-                string userTypeTable = "";
                 string additionalProperty = "";
 
-                if (role == "Staff")
+                if (role is Staff)
                 {
-                    userTypeTable = "Staff";
                     additionalProperty = "Phone";
                 }
-                else if (role == "Owner")
+                else if (role is Owner)
                 {
-                    userTypeTable = "Owners";
                     additionalProperty = "Phone";
                 }
-                else if (role == "Customer")
+                else if (role is Customer)
                 {
-                    userTypeTable = "Customers";
                     additionalProperty = "LoyaltyScore";
                 }
 
-                getUserQuery = $"SELECT Id, FirstName, LastName, Email, Password, Address, {additionalProperty} " +
-                               $"FROM {userTypeTable} " +
+                getUserQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
+                               $"FROM {role.GetType().Name} " +
                                $"WHERE Id = @Id;";
 
                 using (SqlCommand command = new SqlCommand(getUserQuery, connection))
@@ -214,15 +201,8 @@ namespace DataAcess
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
-                        {
-                            //user.Id = reader.GetInt32(reader.GetOrdinal("Id"));
-                            //user.FirstName = reader.GetString(reader.GetOrdinal("FirstName"));
-                            //user.LastName = reader.GetString(reader.GetOrdinal("LastName"));
-                            //user.Email = reader.GetString(reader.GetOrdinal("Email"));
-                            //user.Password = reader.GetString(reader.GetOrdinal("Password"));
-                            //user.Address = reader.GetString(reader.GetOrdinal("Address"));
-                                                        
-                            if (role == "Staff")
+                        {                                                        
+                            if (role is Staff)
                             {
                                 Staff staff = new Staff(
                                     id: reader.GetInt32(reader.GetOrdinal("Id")),
@@ -237,7 +217,7 @@ namespace DataAcess
 
                                 return staff;
                             }
-                            else if (role == "Owner")
+                            else if (role is Owner)
                             {
                                 Owner owner = new Owner
                                 (
@@ -253,7 +233,7 @@ namespace DataAcess
 
                                 return owner;
                             }
-                            else if (role == "Customer")
+                            else if (role is Customer)
                             {
                                 Customer customer = new Customer
                                 (
@@ -277,7 +257,7 @@ namespace DataAcess
             }
         }
 
-        public List<User> GetUsers(User user)
+        public List<User> GetUsers(User role)
         {
             List<User> users = new List<User>();
 
@@ -286,27 +266,23 @@ namespace DataAcess
                 connection.Open();
 
                 string getAllUsersQuery = "";
-                string userTypeTable = "";
                 string additionalProperty = "";
 
-                if (user is Staff)
+                if (role is Staff)
                 {
-                    userTypeTable = "Staff";
                     additionalProperty = "Phone";
                 }
-                else if (user is Owner)
+                else if (role  is Owner)
                 {
-                    userTypeTable = "Owners";
                     additionalProperty = "Phone";
                 }
-                else if (user is Customer)
+                else if (role is Customer)
                 {
-                    userTypeTable = "Customers";
                     additionalProperty = "LoyaltyScore";
                 }
 
                 getAllUsersQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
-                                          $"FROM {userTypeTable};";
+                                          $"FROM {role.GetType().Name};";
 
                 using (SqlCommand command = new SqlCommand(getAllUsersQuery, connection))
                 {
@@ -314,11 +290,11 @@ namespace DataAcess
                     {
                         while (reader.Read())
                         {
-                            User newUser = null;
+                            User user;
 
-                            if (user is Staff staff)
+                            if (role is Staff)
                             {
-                                newUser = new Staff(
+                                user = new Staff(
                                     id: reader.GetInt32(reader.GetOrdinal("Id")),
                                     firstName: reader.GetString(reader.GetOrdinal("FirstName")),
                                     lastName: reader.GetString(reader.GetOrdinal("LastName")),
@@ -329,11 +305,11 @@ namespace DataAcess
                                     phone: reader.GetString(reader.GetOrdinal("Phone"))
                                 );
 
-
+                                users.Add(user);
                             }
-                            else if (user is Owner owner)
+                            else if (role is Owner)
                             {
-                                newUser = new Owner
+                                user = new Owner
                                 (
                                     id: reader.GetInt32(reader.GetOrdinal("Id")),
                                     firstName: reader.GetString(reader.GetOrdinal("FirstName")),
@@ -344,10 +320,12 @@ namespace DataAcess
                                     address: reader.GetString(reader.GetOrdinal("Address")),
                                     phone: reader.GetString(reader.GetOrdinal("Phone"))
                                 );
+
+                                users.Add(user);
                             }
-                            else if (user is Customer customer)
+                            else if (role is Customer)
                             {
-                                newUser = new Customer
+                                user = new Customer
                                 (
                                     id: reader.GetInt32(reader.GetOrdinal("Id")),
                                     firstName: reader.GetString(reader.GetOrdinal("FirstName")),
@@ -358,9 +336,11 @@ namespace DataAcess
                                     address: reader.GetString(reader.GetOrdinal("Address")),
                                     loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
                                 );
+
+                                users.Add(user);
                             }
 
-                            users.Add(newUser);
+                            // users.Add(user);
                         }
                     }
                 }
