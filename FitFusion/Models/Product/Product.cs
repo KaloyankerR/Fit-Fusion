@@ -14,28 +14,28 @@ namespace Models.Product
         public string Title { get { return title; } protected set { title = value; } }
         protected string description;
         public string Description { get { return description; } protected set { description = value; } }
-        protected Category productCategory;
-        public Category ProductCategory { get { return productCategory; } protected set { productCategory = value; } }
+        protected Category category;
+        public Category Category { get { return category; } protected set { category = value; } }
         protected List<Hashtag> hashtags;
         public List<Hashtag> Hahstags { get { return hashtags; } protected set { hashtags = value; } }
         protected string imageUrl;
         public string ImageUrl { get { return imageUrl; } protected set { imageUrl = value; } }
 
         public Product() { }
-
+        
         public Product(int id, string title, string description, Category productCategory, List<Hashtag> hahstags, string imageUrl)
         {
             this.id = id;
             this.title = title;
             this.description = description;
-            this.productCategory = productCategory;
+            this.category = productCategory;
             this.hashtags = hahstags ?? new List<Hashtag>();
             this.imageUrl = imageUrl ?? "https://sudbury.legendboats.com/resource/defaultProductImage";
         }
 
         public override string ToString()
         {
-            return $"{Title} - {ProductCategory}";
+            return $"{Title} - {Category}";
         }
     }
 }
