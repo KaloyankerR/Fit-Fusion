@@ -23,12 +23,12 @@ namespace Models.Product
 
         public Product() { }
         
-        public Product(int id, string title, string description, Category productCategory, List<Hashtag> hahstags, string imageUrl)
+        public Product(int id, string title, string description, Category category, List<Hashtag> hahstags, string imageUrl)
         {
             this.id = id;
             this.title = title;
             this.description = description;
-            this.category = productCategory;
+            this.category = category;
             this.hashtags = hahstags ?? new List<Hashtag>();
             this.imageUrl = imageUrl ?? "https://sudbury.legendboats.com/resource/defaultProductImage";
         }
