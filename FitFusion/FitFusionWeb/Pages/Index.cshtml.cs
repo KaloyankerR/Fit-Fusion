@@ -19,12 +19,13 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            UserManager manager = new UserManager(new UserDAO());
+            var originalCategory = Category.Protein;
 
-            var result = manager.GetUsers(new Staff());
-            // var result = manager.GetUser(1, new Owner());
+            var stringRes = originalCategory.ToString();
+            Category parsedCategory = Enum.TryParse<Category>(stringRes, out var result) ? result : default;
 
-
+            Console.WriteLine(stringRes);
         }
+
     }
 }

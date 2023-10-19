@@ -12,8 +12,8 @@ namespace FitFusionWeb.Pages.Products
 
         public void OnGet()
         {
-            ProductDAO dao = new ProductDAO();
-            List<Product> products = dao.GetAllProducts();
+            //ProductDAO dao = new ProductDAO();
+            //List<Product> products = dao.GetAllProducts();
         }
     }
 }
