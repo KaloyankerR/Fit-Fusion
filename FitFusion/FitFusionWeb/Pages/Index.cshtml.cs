@@ -19,12 +19,24 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            var originalCategory = Category.Protein;
+            Product mockProduct = new Product
+            (
+                id: 123,
+                title: "Creatine booster",
+                description: "Water holding",
+                category: Category.Creatine,
+                hahstags: new List<Hashtag> { Hashtag.MuscleGrowth, Hashtag.Maintenance},
+                imageUrl: "https://example.com/mock-product-image"
+            );
 
-            var stringRes = originalCategory.ToString();
-            Category parsedCategory = Enum.TryParse<Category>(stringRes, out var result) ? result : default;
+            ProductDAO dao = new();
 
-            Console.WriteLine(stringRes);
+            var result = dao.GetProductById(1);
+            Console.WriteLine( result );
+
+            // dao.DeleteProduct(3);
+            // dao.CreateProduct(mockProduct);
+            
         }
 
     }
