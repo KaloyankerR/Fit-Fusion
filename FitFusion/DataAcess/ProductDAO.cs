@@ -1,204 +1,192 @@
-﻿//using Models.Product;
-//using System;
-//using System.Collections.Generic;
-//using System.Data.SqlClient;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using Models.Product;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-//namespace DataAcess
-//{
-//    public class ProductDAO
-//    {
-//        private string ConnectionString;
+namespace DataAcess
+{
+    public class ProductDAO
+    {
+        private string ConnectionString;
 
-//        public ProductDAO()
-//        {
-//            ConnectionString = Connection.DbConnection.ConnectionString;
-//        }
+        public ProductDAO()
+        {
+            ConnectionString = Connection.DbConnection.ConnectionString;
+        }
 
-//        public ProductDAO(string connectionString)
-//        {
-//            ConnectionString = connectionString;
-//        }
+        public ProductDAO(string connectionString)
+        {
+            ConnectionString = connectionString;
+        }
 
-//        public bool CreateProduct(Product product)
-//        {
-//            using (SqlConnection connection = new SqlConnection(ConnectionString))
-//            {
-//                connection.Open();
-//                using (SqlTransaction transaction = connection.BeginTransaction())
-//                {
-//                    try
-//                    {
-//                        string insertProductQuery = "INSERT INTO Product (Title, Description, Category, ImageUrl) " +
-//                                                    "VALUES(@Title, @Description, @Category, @ImageUrl);";
+        public bool CreateProduct(Product product)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
 
-//                        using (SqlCommand command = new SqlCommand(insertProductQuery, connection, transaction))
-//                        {
-//                            command.Parameters.AddWithValue("@Title", product.Title);
-//                            command.Parameters.AddWithValue("@Description", product.Description);   
-//                            command.Parameters.AddWithValue("@Category", product.Category.ToString());
-//                            command.Parameters.AddWithValue("@ImageUrl", product.ImageUrl);
+                    using (SqlCommand productCommand = new SqlCommand("INSERT INTO Product (Title, Description, Category, ImageUrl) VALUES (@Title, @Description, @Category, @ImageUrl); SELECT SCOPE_IDENTITY();", connection))
+                    {
+                        productCommand.Parameters.AddWithValue("@Title", product.Title);
+                        productCommand.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
+                        productCommand.Parameters.AddWithValue("@Category", product.Category);
+                        productCommand.Parameters.AddWithValue("@ImageUrl", product.ImageUrl ?? (object)DBNull.Value);
 
-//                            command.ExecuteNonQuery();
-//                        }
+                        int productId = Convert.ToInt32(productCommand.ExecuteScalar());
 
-//                        transaction.Commit();
-//                        return true;
-//                    }
-//                    catch (Exception)
-//                    {
-//                        transaction.Rollback();
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
+                        foreach (var hashtag in product.Hahstags)
+                        {
+                            using (SqlCommand hashtagCommand = new SqlCommand("INSERT INTO ProductHashtag (ProductId, Tag) VALUES (@ProductId, @Tag);", connection))
+                            {
+                                hashtagCommand.Parameters.AddWithValue("@ProductId", productId);
+                                hashtagCommand.Parameters.AddWithValue("@Tag", hashtag);
+                                hashtagCommand.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
 
-//        public bool UpdateProduct(Product product)
-//        {
-//            using (SqlConnection connection = new SqlConnection(ConnectionString))
-//            {
-//                connection.Open();
-//                using (SqlTransaction transaction = connection.BeginTransaction())
-//                {
-//                    try
-//                    {
-//                        string updateProductQuery = "UPDATE Product SET Title = @Title, " +
-//                                                    "Description = @Description, " +
-//                                                    "Category = @Category, " +
-//                                                    "ImageUrl = @ImageUrl " +
-//                                                    "WHERE Id = @Id;";
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                // throw new Exception(ex);
+                return false;
+            }
+        }
 
-//                        using (SqlCommand command = new SqlCommand(updateProductQuery, connection, transaction))
-//                        {
-//                            command.Parameters.AddWithValue("@Title", product.Title);
-//                            command.Parameters.AddWithValue("@Description", product.Description);
-//                            command.Parameters.AddWithValue("@Category", product.Category.ToString());
-//                            command.Parameters.AddWithValue("@ImageUrl", product.ImageUrl);
-//                            command.Parameters.AddWithValue("@Id", product.Id);
+        public Product GetProductById(int productId)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
 
-//                            command.ExecuteNonQuery();
-//                        }
+                    using (SqlCommand getProductCommand = new SqlCommand("SELECT * FROM Product WHERE Id = @ProductId", connection))
+                    {
+                        getProductCommand.Parameters.AddWithValue("@ProductId", productId);
 
-//                        transaction.Commit();
-//                        return true;
-//                    }
-//                    catch (Exception)
-//                    {
-//                        transaction.Rollback();
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
+                        List<Hashtag> hashtagsToAdd = GetHashtagsForProduct(connection, productId);
+                        using (SqlDataReader reader = getProductCommand.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                Product product = new Product
+                                (
+                                    id: reader.GetInt32("Id"),
+                                    title: reader.GetString("Title"),
+                                    description: reader.IsDBNull("Description") ? null : reader.GetString("Description"),
+                                    category: (Category)reader.GetInt32("Category"),
+                                    hahstags: hashtagsToAdd,
+                                    imageUrl: reader.IsDBNull("ImageUrl") ? null : reader.GetString("ImageUrl")
+                                );
 
-//        public bool DeleteProduct(Product product)
-//        {
-//            using (SqlConnection connection = new SqlConnection(ConnectionString))
-//            {
-//                connection.Open();
-//                using (SqlTransaction transaction = connection.BeginTransaction())
-//                {
-//                    try
-//                    {
-//                        string deleteProductQuery = "DELETE FROM Product WHERE Id = @Id;";
+                                return product;
+                            }
+                        }
+                    }
+                }
 
-//                        using (SqlCommand command = new SqlCommand(deleteProductQuery, connection, transaction))
-//                        {
-//                            command.Parameters.AddWithValue("@Id", product.Id);
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while getting the product: {ex.Message}");
 
-//                            command.ExecuteNonQuery();
-//                        }
-
-//                        transaction.Commit();
-//                        return true;
-//                    }
-//                    catch (Exception)
-//                    {
-//                        transaction.Rollback();
-//                        return false;
-//                    }
-//                }
-//            }
-//        }
-
-//        public Product GetProductById(int id)
-//        {
-//            using (SqlConnection connection = new SqlConnection(ConnectionString))
-//            {
-//                try
-//                {
-//                    connection.Open();
-
-//                    string getProductQuery = "SELECT Id, Title, Description, Category, ImageUrl FROM Product WHERE Id = @Id;";
-
-//                    using (SqlCommand command = new SqlCommand(getProductQuery, connection))
-//                    {
-//                        command.Parameters.AddWithValue("@Id", id);
-
-//                        using (SqlDataReader reader = command.ExecuteReader())
-//                        {
-//                            if (reader.Read())
-//                            {
-//                                return new Product
-//                                {
-//                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-//                                    Title = reader.GetString(reader.GetOrdinal("Title")),
-//                                    Description = reader.GetString(reader.GetOrdinal("Description")),
-//                                    ProductCategory = new Category { Name = reader.GetString(reader.GetOrdinal("Category")) },
-//                                    ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"))
-//                                };
-//                            }
-//                        }
-//                    }
-//                }
-//                catch (Exception ex)
-//                {
-
-//                    throw new Exception("Unable to retrieve product's information!");
-//                }
-
-//                return null;
-//            }
-//        }
+                throw;
+            }
+        }
 
 
-//        public List<Product> GetAllProducts()
-//        {
-//            List<Product> products = new List<Product>();
 
-//            using (SqlConnection connection = new SqlConnection(ConnectionString))
-//            {
-//                connection.Open();
+        private List<Hashtag> GetHashtagsForProduct(SqlConnection connection, int productId)
+        {
+            List<Hashtag> hashtags = new List<Hashtag>();
 
-//                string getAllProductsQuery = "SELECT Id, Title, Description, Category, ImageUrl FROM Product;";
+            using (SqlCommand getHashtagsCommand = new SqlCommand("SELECT Tag FROM ProductHashtag WHERE ProductId = @ProductId", connection))
+            {
+                getHashtagsCommand.Parameters.AddWithValue("@ProductId", productId);
 
-//                using (SqlCommand command = new SqlCommand(getAllProductsQuery, connection))
-//                {
-//                    using (SqlDataReader reader = command.ExecuteReader())
-//                    {
-//                        while (reader.Read())
-//                        {
-//                            // Map each row from the database to a Product object
-//                            Product product = new Product
-//                            {
-//                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
-//                                Title = reader.GetString(reader.GetOrdinal("Title")),
-//                                Description = reader.GetString(reader.GetOrdinal("Description")),
-//                                ProductCategory = new Category { Name = reader.GetString(reader.GetOrdinal("Category")) },
-//                                ImageUrl = reader.GetString(reader.GetOrdinal("ImageUrl"))
-//                            };
+                using (SqlDataReader reader = getHashtagsCommand.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        // Assuming there's a Hashtag enum
+                        if (Enum.TryParse(reader.GetString("Tag"), out Hashtag hashtag))
+                        {
+                            hashtags.Add(hashtag);
+                        }
+                    }
+                }
+            }
 
-//                            products.Add(product);
-//                        }
-//                    }
-//                }
-//            }
+            return hashtags;
+        }
 
-//            return products;
-//        }
-//    }
 
-//}
+        //public Product GetProductById(int productId)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection connection = new SqlConnection(ConnectionString))
+        //        {
+        //            connection.Open();
+
+        //            using (SqlCommand getProductCommand = new SqlCommand("SELECT p.*, ph.Tag FROM Product p LEFT JOIN ProductHashtag ph ON p.Id = ph.ProductId WHERE p.Id = @ProductId", connection))
+        //            {
+        //                getProductCommand.Parameters.AddWithValue("@ProductId", productId);
+
+        //                using (SqlDataReader reader = getProductCommand.ExecuteReader())
+        //                {
+        //                    Product product = null;
+
+        //                    while (reader.Read())
+        //                    {
+        //                        if (product == null)
+        //                        {
+        //                            // Create a Product instance for the first row
+        //                            product = new Product
+        //                            (
+        //                                id: reader.GetInt32("Id"),
+        //                                title: reader.GetString("Title"),
+        //                                description: reader.IsDBNull("Description") ? null : reader.GetString(reader.GetOrdinal("Description")),
+        //                                category: (Category)reader.GetInt32("Category"),
+        //                                hahstags: new List<Hashtag>(),
+        //                                imageUrl: reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString("ImageUrl")
+        //                            );
+        //                        }
+
+        //                        // Add hashtags to the product
+        //                        if (!reader.IsDBNull(reader.GetOrdinal("Tag")))
+        //                        {
+        //                            // Assuming there's a Hashtag enum
+        //                            if (Enum.TryParse(reader.GetString(reader.GetOrdinal("Tag")), out Hashtag hashtag))
+        //                            {
+        //                                product.Hahstags.Add(hashtag);
+        //                            }
+        //                        }
+        //                    }
+
+        //                    return product;
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"An error occurred while getting the product: {ex.Message}");
+        //        throw;
+        //    }
+        //}
+
+
+    }
+
+}
