@@ -1,10 +1,4 @@
-CREATE TABLE Product (
-    Id INT PRIMARY KEY IDENTITY(1,1),
-    Title NVARCHAR(55) NOT NULL,
-    Description VARCHAR(255),
-    Category INT NOT NULL,
-    ImageUrl VARCHAR(255)
-);
+
 
 CREATE TABLE [Order] (
     Id INT PRIMARY KEY IDENTITY(1, 1),
@@ -29,16 +23,27 @@ CREATE TABLE Hashtag (
     Tag VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE ProductHashtag (
-    ProductId INT NOT NULL,
-    Tag VARCHAR(35) NOT NULL,
-    PRIMARY KEY (ProductId, Tag),
-    FOREIGN KEY (ProductId) REFERENCES Product(Id)
-);
-
 CREATE TABLE CustomerHashtag (
     CustomerId INT NOT NULL,
     Tag VARCHAR(35) NOT NULL,
     PRIMARY KEY (CustomerId, Tag),
     FOREIGN KEY (CustomerId) REFERENCES Customer(Id)
+);
+
+
+
+CREATE TABLE Product (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Title NVARCHAR(55) NOT NULL,
+    Description VARCHAR(255),
+    -- Category INT NOT NULL,
+	Category VARCHAR(15) NOT NULL,
+    ImageUrl VARCHAR(255)
+);
+
+CREATE TABLE ProductHashtag (
+    ProductId INT NOT NULL,
+    Tag VARCHAR(20) NOT NULL,
+    PRIMARY KEY (ProductId, Tag),
+    FOREIGN KEY (ProductId) REFERENCES Product(Id)
 );
