@@ -10,7 +10,13 @@ namespace FitFusionWeb.Pages.Authentication
     public class LoginModel : PageModel
     {
         [BindProperty]
-        public Owner owner { get; set; } = new();
+        public string Email { get; set; }
+
+        [BindProperty]
+        public string Password { get; set; }
+
+        [BindProperty]
+        public string UserType { get; set; }  // New bind property for user type
 
         public IActionResult OnGet()
         {
@@ -24,11 +30,29 @@ namespace FitFusionWeb.Pages.Authentication
 
         public IActionResult OnPost()
         {
-            if (owner.FirstName == "Byron")
+            if (!string.IsNullOrEmpty(UserType))
             {
+                // Handle the selected user type here
+                if (UserType == "Owner")
+                {
+                    // Your logic for owner login
+                }
+                else if (UserType == "Staff")
+                {
+                    // Your logic for staff login
+                }
+                else if (UserType == "Customer")
+                {
+                    // Your logic for customer login
+                }
+
+                // Perform authentication based on user type
+                // For example, you can use the UserType property in your authentication logic
+
+                // Example code for creating claims (customize based on your needs)
                 List<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Name, owner.FirstName));
-                claims.Add(new Claim("id", "1"));
+                claims.Add(new Claim(ClaimTypes.Name, Email)); // Use Email or another identifier
+                claims.Add(new Claim("userType", UserType));  // Add user type as a claim
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                 HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
@@ -38,6 +62,5 @@ namespace FitFusionWeb.Pages.Authentication
 
             return Page();
         }
-
     }
 }
