@@ -175,6 +175,53 @@ namespace DataAcess
             }
         }
 
+        public List<Product> GetAllProducts()
+        {
+            try
+            {
+                List<Product> products = new List<Product>();
+
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand getAllProductsCommand = new SqlCommand("SELECT * FROM Product", connection))
+                    {
+                        using (SqlDataReader reader = getAllProductsCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int productId = reader.GetInt32("Id");
+
+                                List<Hashtag> hashtagsToAdd = GetHashtagsForProduct(connection, productId);
+
+                                Product product = new Product
+                                (
+                                    id: productId,
+                                    title: reader.GetString("Title"),
+                                    description: reader.IsDBNull("Description") ? null : reader.GetString("Description"),
+                                    category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
+                                    hahstags: hashtagsToAdd,
+                                    imageUrl: reader.IsDBNull("ImageUrl") ? null : reader.GetString("ImageUrl")
+                                );
+
+                                products.Add(product);
+                            }
+                        }
+                    }
+                }
+
+                return products;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occurred while getting all products: {ex.Message}");
+
+                throw;
+            }
+        }
+
+
         private List<Hashtag> GetHashtagsForProduct(SqlConnection connection, int productId)
         {
             List<Hashtag> hashtags = new List<Hashtag>();
