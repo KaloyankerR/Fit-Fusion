@@ -353,5 +353,19 @@ namespace DataAcess
         //{
         //    List<User> users = new List<User>();
         //}
+
+        //private bool AuthenticateInTable(string tableName, string email, string passwordHash)
+        //{
+        //    using (SqlCommand command = new SqlCommand($"SELECT COUNT(*) FROM {tableName} WHERE Email = @Email AND PasswordHash = @PasswordHash", connection))
+        //    {
+        //        command.Parameters.AddWithValue("@Email", email);
+        //        command.Parameters.AddWithValue("@PasswordHash", passwordHash);
+
+        //        int count = (int)command.ExecuteScalar();
+
+        //        return count > 0;
+        //    }
+        //}
+
     }
 }

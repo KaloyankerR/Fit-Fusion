@@ -34,3 +34,9 @@ CREATE TABLE Customer
     LoyaltyScore INT NOT NULL
 );
 
+SELECT Id, Email, PasswordHash FROM Owner
+UNION
+SELECT Id, Email, PasswordHash FROM Staff
+UNION
+SELECT Id, Email, PasswordHash FROM Customer;
+

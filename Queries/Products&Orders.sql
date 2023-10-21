@@ -18,10 +18,10 @@ CREATE TABLE OrderLine (
     FOREIGN KEY (ProductId) REFERENCES Product(Id)
 );
 
-CREATE TABLE Hashtag (
-    Id INT PRIMARY KEY,
-    Tag VARCHAR(50) NOT NULL
-);
+--CREATE TABLE Hashtag (
+--    Id INT PRIMARY KEY,
+--    Tag VARCHAR(50) NOT NULL
+--);
 
 CREATE TABLE CustomerHashtag (
     CustomerId INT NOT NULL,
