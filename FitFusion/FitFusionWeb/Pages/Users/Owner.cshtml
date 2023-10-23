@@ -1,0 +1,59 @@
+﻿@page
+@model FitFusionWeb.Pages.Users.OwnerModel
+@{
+}
+
+<h1>Owners</h1>
+
+<div class="container mt-3">
+    <form method="post" class="mb-3">
+        <div class="row">
+            <div class="column small-12 medium-6 large-4">
+                <input type="text" name="searchQuery" class="form-control" placeholder="Search..." value="@Model.SearchQuery">
+            </div>
+            <div class="column small-12 medium-6 large-4">
+                <select name="sort">
+                    <option selected disabled>Select filter</option>
+                    @if (Model.Sort == "asc")
+                    {
+                        <option value="asc" selected>First name ascending</option>
+                    }
+                    else
+                    {
+                        <option value="asc">First name ascending</option>
+                    }
+
+                    @if (Model.Sort == "desc")
+                    {
+                        <option value="desc" selected>First name descending</option>
+                    }
+                    else
+                    {
+                        <option value="desc">First name descending</option>
+                    }
+                </select>
+
+
+            </div>
+            <div class="column small-12 medium-12 large-4">
+                <button type="submit" class="btn btn-primary">Apply Filter</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="row small-up-1 medium-up-2 large-up-3">
+        @foreach (var user in Model.Users)
+        {
+            <div class="column" style="margin: auto;">
+                <div class="card" style="width: 300px;">
+                    <div class="card-divider">
+                        <h5>@user.FirstName @user.LastName</h5>
+                    </div>
+                    <div class="card-section">
+                        <p>@user.Address</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
