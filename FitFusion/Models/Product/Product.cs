@@ -14,6 +14,8 @@ namespace Models.Product
         public string Title { get { return title; } protected set { title = value; } }
         protected string description;
         public string Description { get { return description; } protected set { description = value; } }
+        protected double price;
+        public double Price { get { return price; } protected set { price = value; } }
         protected Category category;
         public Category Category { get { return category; } protected set { category = value; } }
         protected List<Hashtag> hashtags;
@@ -23,11 +25,12 @@ namespace Models.Product
 
         public Product() { }
         
-        public Product(int id, string title, string description, Category category, List<Hashtag> hahstags, string imageUrl)
+        public Product(int id, string title, string description, double price, Category category, List<Hashtag> hahstags, string imageUrl)
         {
             this.id = id;
             this.title = title;
             this.description = description;
+            this.price = price;
             this.category = category;
             this.hashtags = hahstags ?? new List<Hashtag>();
             this.imageUrl = imageUrl ?? "https://sudbury.legendboats.com/resource/defaultProductImage";

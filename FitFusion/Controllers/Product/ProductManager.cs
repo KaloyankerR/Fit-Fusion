@@ -76,6 +76,37 @@ namespace Controllers.Product
             }
             catch (Exception ex) { throw new Exception(ex.ToString()); }
         }
-    
+
+        public List<ProductModel> SearchFilter(List<ProductModel> products, string searchQuery)
+        {
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                products = products.FindAll(p =>
+                    p.Title.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    p.Description.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    p.Category.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) 
+                );
+            }
+
+            return products;
+        }
+
+        public List<ProductModel> Sort(List<ProductModel> products, string param)
+        {
+            if (!string.IsNullOrEmpty(param))
+            {
+                switch (param.ToLower())
+                {
+                    case "titleAsc":
+                        products.Sort((a, b) => string.Compare(a.Title, b.Title, StringComparison.Ordinal));
+                        break;
+                    case "titleDesc":
+                        products.Sort((a, b) => string.Compare(b.Title, a.Title, StringComparison.Ordinal));
+                        break;
+                }
+            }
+            return products;
+        }
+
     }
 }

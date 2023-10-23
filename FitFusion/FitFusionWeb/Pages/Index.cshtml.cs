@@ -5,6 +5,7 @@ using Models.Product;
 using Controllers;
 using Controllers.User;
 using Models.User;
+using Controllers.Product;
 
 namespace FitFusionWeb.Pages
 {
@@ -19,9 +20,9 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            //ProductDAO dao = new();
-            //var results = dao.GetAllProducts();
-            //Console.WriteLine(results.Count);
+            ProductManager manager = new(new ProductDAO());
+
+           //  manager.DeleteProduct(2);
             
         }
 

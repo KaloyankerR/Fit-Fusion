@@ -31,10 +31,11 @@ namespace DataAcess
                 {
                     connection.Open();
 
-                    using (SqlCommand productCommand = new SqlCommand("INSERT INTO Product (Title, Description, Category, ImageUrl) VALUES (@Title, @Description, @Category, @ImageUrl); SELECT SCOPE_IDENTITY();", connection))
+                    using (SqlCommand productCommand = new SqlCommand("INSERT INTO Product (Title, Description, Price, Category, ImageUrl) VALUES (@Title, @Description, @Price, @Category, @ImageUrl); SELECT SCOPE_IDENTITY();", connection))
                     {
                         productCommand.Parameters.AddWithValue("@Title", product.Title);
                         productCommand.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
+                        productCommand.Parameters.AddWithValue("@Price", product.Price);
                         productCommand.Parameters.AddWithValue("@Category", product.Category.ToString());
                         productCommand.Parameters.AddWithValue("@ImageUrl", product.ImageUrl ?? (object)DBNull.Value);
 
@@ -50,6 +51,7 @@ namespace DataAcess
                             }
                         }
                     }
+
                 }
             }
             catch (Exception ex)
@@ -66,11 +68,12 @@ namespace DataAcess
                 {
                     connection.Open();
 
-                    using (SqlCommand updateProductCommand = new SqlCommand("UPDATE Product SET Title = @Title, Description = @Description, Category = @Category, ImageUrl = @ImageUrl WHERE Id = @ProductId", connection))
+                    using (SqlCommand updateProductCommand = new SqlCommand("UPDATE Product SET Title = @Title, Description = @Description, Price = @Price, Category = @Category, ImageUrl = @ImageUrl WHERE Id = @ProductId", connection))
                     {
                         updateProductCommand.Parameters.AddWithValue("@ProductId", updatedProduct.Id);
                         updateProductCommand.Parameters.AddWithValue("@Title", updatedProduct.Title);
                         updateProductCommand.Parameters.AddWithValue("@Description", updatedProduct.Description ?? (object)DBNull.Value);
+                        updateProductCommand.Parameters.AddWithValue("@Price", updatedProduct.Price);
                         updateProductCommand.Parameters.AddWithValue("@Category", updatedProduct.Category.ToString());
                         updateProductCommand.Parameters.AddWithValue("@ImageUrl", updatedProduct.ImageUrl ?? (object)DBNull.Value);
 
@@ -154,6 +157,7 @@ namespace DataAcess
                                     id: reader.GetInt32("Id"),
                                     title: reader.GetString("Title"),
                                     description: reader.IsDBNull("Description") ? null : reader.GetString("Description"),
+                                    price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
                                     hahstags: hashtagsToAdd,
                                     imageUrl: reader.IsDBNull("ImageUrl") ? null : reader.GetString("ImageUrl")
@@ -200,6 +204,7 @@ namespace DataAcess
                                     id: productId,
                                     title: reader.GetString("Title"),
                                     description: reader.IsDBNull("Description") ? null : reader.GetString("Description"),
+                                    price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
                                     hahstags: hashtagsToAdd,
                                     imageUrl: reader.IsDBNull("ImageUrl") ? null : reader.GetString("ImageUrl")
