@@ -131,9 +131,6 @@ namespace DataAcess
             }
         }
 
-
-
-
         public Product GetProductById(int productId)
         {
             try
@@ -225,7 +222,6 @@ namespace DataAcess
                 throw;
             }
         }
-
 
         private List<Hashtag> GetHashtagsForProduct(SqlConnection connection, int productId)
         {

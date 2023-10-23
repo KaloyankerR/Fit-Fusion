@@ -1,0 +1,44 @@
+﻿@page
+@model FitFusionWeb.Pages.Products.CreateModel
+@{
+    ViewData["Title"] = "Create Product";
+}
+@using Models.Product;
+
+<h1>Create Product</h1>
+
+<form method="post">
+    <div>
+        <input asp-for="Product.Id" type="hidden" class="form-control" />
+        <input asp-for="Product.Hahstags" type="hidden" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Product.Title"></label>
+        <input asp-for="Product.Title" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Product.Description"></label>
+        <input asp-for="Product.Description" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Product.Price"></label>
+        <input asp-for="Product.Price" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Product.Category"></label>
+        <select asp-for="Product.Category" class="form-control">
+            <option value="">Choose Category</option>
+            @foreach (var category in Enum.GetValues(typeof(Category)))
+            {
+                <option value="@category">@category</option>
+            }
+        </select>
+    </div>
+    <div>
+        <label asp-for="Product.ImageUrl">Image URL</label>
+        <input asp-for="Product.ImageUrl" class="form-control" />
+    </div>
+    <div>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>

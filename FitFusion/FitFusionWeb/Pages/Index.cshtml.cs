@@ -20,9 +20,7 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            ProductManager manager = new(new ProductDAO());
-
-           //  manager.DeleteProduct(2);
+           // ProductManager manager = new(new ProductDAO());
             
         }
 

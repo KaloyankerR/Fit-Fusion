@@ -34,6 +34,25 @@
                     {
                         <option value="titleDesc">Title Descending</option>
                     }
+
+                    @if (Model.Sort == "priceAsc")
+                    {
+                        <option value="priceAsc" selected>Price Ascending</option>
+                    }
+                    else
+                    {
+                        <option value="priceAsc">Price Ascending</option>
+                    }
+
+                    @if (Model.Sort == "priceDesc")
+                    {
+                        <option value="priceDesc" selected>Price Descending</option>
+                    }
+                    else
+                    {
+                        <option value="priceDesc">Price Descending</option>
+                    }
+
                 </select>
 
 
@@ -55,6 +74,9 @@
                     <img src="@product.ImageUrl" alt="@product.Title">
                     <div class="card-section">
                         <p>@product.Description</p>
+                    </div>
+                    <div class="card-section">
+                        <p>@product.Price $</p>
                     </div>
                 </div>
             </div>

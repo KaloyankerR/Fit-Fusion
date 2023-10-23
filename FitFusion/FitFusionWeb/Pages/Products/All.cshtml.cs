@@ -27,26 +27,8 @@ namespace FitFusionWeb.Pages.Products
         public void OnPost()
         {
             Products = productManager.GetProducts();
-
-            // Apply search filter
-            if (!string.IsNullOrEmpty(SearchQuery))
-            {
-                Products = Products.FindAll(p => p.Title.Contains(SearchQuery, StringComparison.OrdinalIgnoreCase));
-            }
-
-            // Apply sorting
-            if (!string.IsNullOrEmpty(Sort))
-            {
-                switch (Sort.ToLower())
-                {
-                    case "titleasc":
-                        Products.Sort((a, b) => string.Compare(a.Title, b.Title, StringComparison.Ordinal));
-                        break;
-                    case "titledesc":
-                        Products.Sort((a, b) => string.Compare(b.Title, a.Title, StringComparison.Ordinal));
-                        break;
-                }
-            }
+            Products = productManager.SearchFilter(Products, SearchQuery);
+            Products = productManager.Sort(Products, Sort);
         }
     }
 }

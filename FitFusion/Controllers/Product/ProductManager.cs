@@ -84,7 +84,8 @@ namespace Controllers.Product
                 products = products.FindAll(p =>
                     p.Title.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
                     p.Description.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    p.Category.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) 
+                    p.Category.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    p.Price.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
                 );
             }
 
@@ -95,13 +96,19 @@ namespace Controllers.Product
         {
             if (!string.IsNullOrEmpty(param))
             {
-                switch (param.ToLower())
+                switch (param)
                 {
                     case "titleAsc":
                         products.Sort((a, b) => string.Compare(a.Title, b.Title, StringComparison.Ordinal));
                         break;
                     case "titleDesc":
                         products.Sort((a, b) => string.Compare(b.Title, a.Title, StringComparison.Ordinal));
+                        break;
+                    case "priceAsc":
+                        products.Sort((a, b) => a.Price.CompareTo(b.Price));
+                        break;
+                    case "priceDesc":
+                        products.Sort((a, b) => b.Price.CompareTo(a.Price));
                         break;
                 }
             }
