@@ -21,13 +21,11 @@ namespace FitFusionWeb.Pages.Products
 
         public void OnGet()
         {
-            // Get initial list of products
             Products = productManager.GetProducts();
         }
 
         public void OnPost()
         {
-            // Get initial list of products
             Products = productManager.GetProducts();
 
             // Apply search filter
@@ -47,7 +45,6 @@ namespace FitFusionWeb.Pages.Products
                     case "titledesc":
                         Products.Sort((a, b) => string.Compare(b.Title, a.Title, StringComparison.Ordinal));
                         break;
-                        // Add more cases for other sorting options if needed
                 }
             }
         }
