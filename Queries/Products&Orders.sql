@@ -37,9 +37,11 @@ CREATE TABLE Product (
     Title NVARCHAR(55) NOT NULL,
     Description VARCHAR(255),
     -- Category INT NOT NULL,
+	Price DECIMAL(10, 2) NOT NULL,
 	Category VARCHAR(15) NOT NULL,
     ImageUrl VARCHAR(255)
 );
+
 
 CREATE TABLE ProductHashtag (
     ProductId INT NOT NULL,
