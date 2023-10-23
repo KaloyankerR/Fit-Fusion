@@ -32,6 +32,7 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             UsersDataGrid = new ReaLTaiizor.Controls.PoisonDataGridView();
+            dungeonComboBox1 = new ReaLTaiizor.Controls.DungeonComboBox();
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -80,11 +81,41 @@
             UsersDataGrid.Size = new Size(821, 424);
             UsersDataGrid.TabIndex = 2;
             // 
+            // dungeonComboBox1
+            // 
+            dungeonComboBox1.BackColor = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorA = Color.FromArgb(255, 163, 26);
+            dungeonComboBox1.ColorB = Color.FromArgb(255, 163, 26);
+            dungeonComboBox1.ColorC = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorD = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorE = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorF = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorG = Color.FromArgb(255, 163, 26);
+            dungeonComboBox1.ColorH = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorI = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.DrawMode = DrawMode.OwnerDrawFixed;
+            dungeonComboBox1.DropDownHeight = 100;
+            dungeonComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            dungeonComboBox1.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dungeonComboBox1.ForeColor = Color.FromArgb(255, 163, 26);
+            dungeonComboBox1.FormattingEnabled = true;
+            dungeonComboBox1.HoverSelectionColor = Color.Empty;
+            dungeonComboBox1.IntegralHeight = false;
+            dungeonComboBox1.ItemHeight = 20;
+            dungeonComboBox1.Items.AddRange(new object[] { "Owners", "Staff", "Customers" });
+            dungeonComboBox1.Location = new Point(122, 86);
+            dungeonComboBox1.Name = "dungeonComboBox1";
+            dungeonComboBox1.Size = new Size(169, 26);
+            dungeonComboBox1.StartIndex = 0;
+            dungeonComboBox1.TabIndex = 3;
+            dungeonComboBox1.SelectedIndexChanged += dungeonComboBox1_SelectedIndexChanged;
+            // 
             // Users
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
+            Controls.Add(dungeonComboBox1);
             Controls.Add(UsersDataGrid);
             Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             Margin = new Padding(4, 3, 4, 3);
@@ -96,5 +127,6 @@
 
         #endregion
         private ReaLTaiizor.Controls.PoisonDataGridView UsersDataGrid;
+        private ReaLTaiizor.Controls.DungeonComboBox dungeonComboBox1;
     }
 }

@@ -22,15 +22,16 @@ namespace FitFusionDesktop
         private void btnLogin_Click(object sender, EventArgs e)
         {
             Owner mockOwner = new Owner
-            {
-                Id = 1,
-                FirstName = "Alice",
-                LastName = "Smith",
-                Email = "alice.smith@example.com",
-                Password = "ownerpassword123",
-                Address = "789 Business Street",
-                Phone = "555-5678"
-            };
+            (
+                id: 1,
+                firstName: "Alice",
+                lastName: "Smith",
+                email: "alice.smith@example.com",
+                passwordHash: "ownerpassword123",
+                passwordSalt: "ownerpassword123",
+                address: "789 Business Street",
+                phone: "555-5678"
+            );
 
             Main frm = new Main(mockOwner);
             this.Hide();
