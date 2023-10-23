@@ -349,11 +349,6 @@ namespace DataAcess
             return users;
         }
 
-        //public List<User> GetAllUsers()
-        //{
-        //    List<User> users = new List<User>();
-        //}
-
         //private bool AuthenticateInTable(string tableName, string email, string passwordHash)
         //{
         //    using (SqlCommand command = new SqlCommand($"SELECT COUNT(*) FROM {tableName} WHERE Email = @Email AND PasswordHash = @PasswordHash", connection))

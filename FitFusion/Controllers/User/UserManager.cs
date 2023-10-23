@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAcess;
+using Models.Product;
 using Models.User;
 using UserModel = Models.User.User;
 
@@ -24,7 +25,7 @@ namespace Controllers.User
             {
                 return dao.CreateUser(user);
             }
-            catch 
+            catch
             {
                 throw new Exception("Unable to add the current user.");
             }
@@ -76,6 +77,36 @@ namespace Controllers.User
             {
                 throw new Exception("Unable to get current users.");
             }
+        }
+
+        public List<UserModel> SearchFilter(List<UserModel> users, string searchQuery)
+        {
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                users = users.FindAll(u =>
+                    u.FirstName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    u.LastName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+
+            return users;
+        }
+
+        public List<UserModel> Sort(List<UserModel> users, string param)
+        {
+            if (!string.IsNullOrEmpty(param))
+            {
+                switch (param.ToLower())
+                {
+                    case "asc":
+                        users.Sort((a, b) => string.Compare(a.FirstName, b.FirstName, StringComparison.Ordinal));
+                        break;
+                    case "desc":
+                        users.Sort((a, b) => string.Compare(b.FirstName, a.FirstName, StringComparison.Ordinal));
+                        break;
+                }
+            }
+            return users;
         }
 
     }
