@@ -10,43 +10,25 @@ using System.Windows.Forms;
 using Models.Product;
 using DataAcess;
 using FitFusionDesktop.EntityControls;
+using Controllers.Product;
 
 namespace FitFusionDesktop.UserControls
 {
     public partial class Products : UserControl
     {
-        public ProductDAO ProductDAO;
+        private readonly ProductManager productManger;
+        private List<Product> products;
 
         public Products()
         {
-            ProductDAO = new ProductDAO();
             InitializeComponent();
+            productManger = new(new ProductDAO());
+            products = productManger.GetProducts();
             FillDataGridViewWithMockData();
-
-            var newItem = new ReaLTaiizor.Child.Crown.CrownDropDownItem
-            {
-                Text = "Your Text Here"
-            };
-            var newItem2 = new ReaLTaiizor.Child.Crown.CrownDropDownItem
-            {
-                Text = "Your Text Here2"
-            };
-
-
-            crownDropDownList1.Items.Add(newItem);
-            crownDropDownList1.Items.Add(newItem2);
         }
 
         private void FillDataGridViewWithMockData()
         {
-            //List<Product> products = new List<Product>
-            //{
-            //    new Product(1, "Treadmill", "High-performance treadmill for home use", null),
-            //    new Product(2, "Protein Powder", "Premium whey protein isolate", null),
-            //    new Product(3, "Yoga Mat", "Non-slip yoga mat with carry strap", null),
-            //};
-
-            List<Product> products = ProductDAO.GetAllProducts();
             ProductsDataGrid.DataSource = products;
         }
 
@@ -54,5 +36,12 @@ namespace FitFusionDesktop.UserControls
         {
 
         }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            products = productManger.SearchFilter(productManger.GetProducts(), txtSearchQuery.Text);
+            FillDataGridViewWithMockData();
+        }
+
     }
 }

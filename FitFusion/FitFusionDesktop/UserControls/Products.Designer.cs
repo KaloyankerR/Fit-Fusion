@@ -37,7 +37,7 @@
             btnDelete = new ReaLTaiizor.Controls.Button();
             btnSearch = new ReaLTaiizor.Controls.Button();
             txtSearchQuery = new ReaLTaiizor.Controls.HopeTextBox();
-            crownDropDownList1 = new ReaLTaiizor.Controls.CrownDropDownList();
+            categoryCmbBox = new ReaLTaiizor.Controls.DungeonComboBox();
             ((System.ComponentModel.ISupportInitialize)ProductsDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -166,6 +166,7 @@
             btnSearch.TabIndex = 8;
             btnSearch.Text = "Search";
             btnSearch.TextAlignment = StringAlignment.Center;
+            btnSearch.Click += btnSearch_Click;
             // 
             // txtSearchQuery
             // 
@@ -191,20 +192,40 @@
             txtSearchQuery.TabStop = false;
             txtSearchQuery.UseSystemPasswordChar = false;
             // 
-            // crownDropDownList1
+            // categoryCmbBox
             // 
-            crownDropDownList1.Location = new Point(323, 530);
-            crownDropDownList1.Name = "crownDropDownList1";
-            crownDropDownList1.Size = new Size(191, 41);
-            crownDropDownList1.TabIndex = 10;
-            crownDropDownList1.Text = "crownDropDownList1";
+            categoryCmbBox.BackColor = Color.FromArgb(41, 41, 41);
+            categoryCmbBox.ColorA = Color.FromArgb(255, 163, 26);
+            categoryCmbBox.ColorB = Color.FromArgb(255, 163, 26);
+            categoryCmbBox.ColorC = Color.FromArgb(41, 41, 41);
+            categoryCmbBox.ColorD = Color.FromArgb(41, 41, 41);
+            categoryCmbBox.ColorE = Color.FromArgb(41, 41, 41);
+            categoryCmbBox.ColorF = Color.FromArgb(41, 41, 41);
+            categoryCmbBox.ColorG = Color.FromArgb(255, 163, 26);
+            categoryCmbBox.ColorH = Color.FromArgb(41, 41, 41);
+            categoryCmbBox.ColorI = Color.FromArgb(41, 41, 41);
+            categoryCmbBox.DrawMode = DrawMode.OwnerDrawFixed;
+            categoryCmbBox.DropDownHeight = 100;
+            categoryCmbBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            categoryCmbBox.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            categoryCmbBox.ForeColor = Color.FromArgb(255, 163, 26);
+            categoryCmbBox.FormattingEnabled = true;
+            categoryCmbBox.HoverSelectionColor = Color.Empty;
+            categoryCmbBox.IntegralHeight = false;
+            categoryCmbBox.ItemHeight = 20;
+            categoryCmbBox.Items.AddRange(new object[] { "Protein", "Creatine", "Vitamins", "Minerals", "Anabolics", "Preworkout", "Bio" });
+            categoryCmbBox.Location = new Point(323, 545);
+            categoryCmbBox.Name = "categoryCmbBox";
+            categoryCmbBox.Size = new Size(191, 26);
+            categoryCmbBox.StartIndex = 0;
+            categoryCmbBox.TabIndex = 11;
             // 
             // Products
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            Controls.Add(crownDropDownList1);
+            Controls.Add(categoryCmbBox);
             Controls.Add(txtSearchQuery);
             Controls.Add(btnSearch);
             Controls.Add(btnDelete);
@@ -227,6 +248,6 @@
         private ReaLTaiizor.Controls.Button btnDelete;
         private ReaLTaiizor.Controls.Button btnSearch;
         private ReaLTaiizor.Controls.HopeTextBox txtSearchQuery;
-        private ReaLTaiizor.Controls.CrownDropDownList crownDropDownList1;
+        private ReaLTaiizor.Controls.DungeonComboBox categoryCmbBox;
     }
 }
