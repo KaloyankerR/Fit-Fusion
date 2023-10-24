@@ -9,38 +9,48 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DataAcess;
+using Controllers.User;
 
 namespace FitFusionDesktop
 {
     public partial class Login : Form
     {
+        private readonly UserManager userManager;
+
         public Login()
         {
             InitializeComponent();
+            userManager = new(new UserDAO());
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            Owner mockOwner = new Owner
-            (
-                id: 1,
-                firstName: "Alice",
-                lastName: "Smith",
-                email: "alice.smith@example.com",
-                passwordHash: "ownerpassword123",
-                passwordSalt: "ownerpassword123",
-                address: "789 Business Street",
-                phone: "555-5678"
-            );
+            if (userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton, "Owner"))
+            {
+                User owner = userManager.GetUserByEmail(txtEmail.TextButton, new Owner());
 
-            Main frm = new Main(mockOwner);
-            this.Hide();
-            frm.ShowDialog();
-            Application.Exit();
+                Main frm = new Main(owner);
+                this.Hide();
+                frm.ShowDialog();
+                Application.Exit();
+            }
+            else if (userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton, "Staff"))
+            {
+                Staff staff = (Staff)userManager.GetUserByEmail(txtEmail.Text, new Staff());
 
-            //UserDAO userDAO = new UserDAO();
-            //List<User> res = userDAO.GetAllUsers(new Staff());
-            //label1.Text = "neshto";
+                Main frm = new Main(staff);
+                this.Hide();
+                frm.ShowDialog();
+                Application.Exit();
+            }
+            else
+            {
+                txtEmail.Text = "";
+                txtPassword.Text = "";
+
+                MessageBox.Show("Incorrect credentials!");
+            }
+
         }
 
     }

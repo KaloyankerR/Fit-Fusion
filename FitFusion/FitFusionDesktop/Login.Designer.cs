@@ -50,7 +50,7 @@
             txtEmail.ForeColor = Color.White;
             txtEmail.Lighting = false;
             txtEmail.LinearGradientPen = false;
-            txtEmail.Location = new Point(272, 129);
+            txtEmail.Location = new Point(272, 185);
             txtEmail.Name = "txtEmail";
             txtEmail.PenWidth = 15;
             txtEmail.RGB = false;
@@ -60,7 +60,7 @@
             txtEmail.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             txtEmail.TabIndex = 2;
             txtEmail.Tag = "Cyber";
-            txtEmail.TextButton = "Email";
+            txtEmail.TextButton = "john.doe@example.com";
             txtEmail.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             txtEmail.Timer_RGB = 300;
             // 
@@ -80,7 +80,7 @@
             txtPassword.ForeColor = Color.White;
             txtPassword.Lighting = false;
             txtPassword.LinearGradientPen = false;
-            txtPassword.Location = new Point(275, 200);
+            txtPassword.Location = new Point(275, 256);
             txtPassword.Name = "txtPassword";
             txtPassword.PenWidth = 15;
             txtPassword.RGB = false;
@@ -90,7 +90,7 @@
             txtPassword.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             txtPassword.TabIndex = 3;
             txtPassword.Tag = "Cyber";
-            txtPassword.TextButton = "Password";
+            txtPassword.TextButton = "hashed_password_1";
             txtPassword.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             txtPassword.Timer_RGB = 300;
             // 
@@ -120,7 +120,7 @@
             btnLogin.Lighting = false;
             btnLogin.LinearGradient_Background = false;
             btnLogin.LinearGradientPen = false;
-            btnLogin.Location = new Point(319, 318);
+            btnLogin.Location = new Point(320, 334);
             btnLogin.Name = "btnLogin";
             btnLogin.PenWidth = 15;
             btnLogin.Rounding = true;
@@ -137,17 +137,22 @@
             // 
             // label1
             // 
+            label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(134, 29);
+            label1.BackColor = Color.FromArgb(41, 41, 41);
+            label1.Font = new Font("Arial", 31.8000011F, FontStyle.Regular, GraphicsUnit.Point);
+            label1.ForeColor = Color.FromArgb(255, 163, 26);
+            label1.Location = new Point(272, 44);
             label1.Name = "label1";
-            label1.Size = new Size(50, 20);
+            label1.Size = new Size(249, 61);
             label1.TabIndex = 6;
-            label1.Text = "label1";
+            label1.Text = "FitFusion";
             // 
             // Login
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.Gray;
             ClientSize = new Size(800, 450);
             Controls.Add(label1);
             Controls.Add(btnLogin);
