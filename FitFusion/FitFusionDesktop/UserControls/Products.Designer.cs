@@ -158,11 +158,11 @@
             btnSearch.Image = null;
             btnSearch.ImageAlign = ContentAlignment.MiddleLeft;
             btnSearch.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnSearch.Location = new Point(556, 600);
+            btnSearch.Location = new Point(323, 626);
             btnSearch.Name = "btnSearch";
             btnSearch.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnSearch.PressedColor = Color.FromArgb(255, 163, 26);
-            btnSearch.Size = new Size(102, 43);
+            btnSearch.Size = new Size(191, 43);
             btnSearch.TabIndex = 8;
             btnSearch.Text = "Search";
             btnSearch.TextAlignment = StringAlignment.Center;
@@ -177,7 +177,7 @@
             txtSearchQuery.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             txtSearchQuery.ForeColor = Color.White;
             txtSearchQuery.Hint = "";
-            txtSearchQuery.Location = new Point(556, 551);
+            txtSearchQuery.Location = new Point(323, 577);
             txtSearchQuery.MaxLength = 32767;
             txtSearchQuery.Multiline = false;
             txtSearchQuery.Name = "txtSearchQuery";
@@ -193,9 +193,9 @@
             // 
             // crownDropDownList1
             // 
-            crownDropDownList1.Location = new Point(281, 521);
+            crownDropDownList1.Location = new Point(323, 530);
             crownDropDownList1.Name = "crownDropDownList1";
-            crownDropDownList1.Size = new Size(200, 32);
+            crownDropDownList1.Size = new Size(191, 41);
             crownDropDownList1.TabIndex = 10;
             crownDropDownList1.Text = "crownDropDownList1";
             // 

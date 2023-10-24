@@ -1,6 +1,7 @@
-﻿using Controllers.Product;
+﻿using Controllers.User;
 using DataAcess;
 using Models.Product;
+using Models.User;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,36 +16,44 @@ namespace FitFusionDesktop.UserControls
 {
     public partial class Users : UserControl
     {
-        private readonly ProductManager productManager;
+        private readonly UserManager userManager;
+        private List<User> users;
 
         public Users()
         {
-            productManager = new(new ProductDAO());
             InitializeComponent();
-            FillDataGridViewWithMockData();
+            userManager = new(new UserDAO());
+            roleCmbBox.SelectedIndex = 2;
+            // FillDataGridViewWithMockData("Customers");
         }
 
-        private void FillDataGridViewWithMockData()
+        private void FillDataGridViewWithMockData(List<User> users)
         {
-            List<Product> products = productManager.GetProducts();
-
-            UsersDataGrid.DataSource = products;
+            UsersDataGrid.DataSource = users;
         }
 
-        private void dungeonComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void roleCmbBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (dungeonComboBox1.SelectedItem.ToString() == "Owners")
+            if (roleCmbBox.SelectedItem.ToString() == "Owners")
             {
-                MessageBox.Show($"Selected Value: Owner");
+                users = userManager.GetUsers(new Owner());
             }
-            else if (dungeonComboBox1.SelectedItem.ToString() == "Staff")
+            else if (roleCmbBox.SelectedItem.ToString() == "Staff")
             {
-                MessageBox.Show($"Selected Value: Staff");
+                users = userManager.GetUsers(new Staff());
             }
-            else if (dungeonComboBox1.SelectedItem.ToString() == "Customers")
+            else
             {
-                MessageBox.Show($"Selected Value: Customer");
+                users = userManager.GetUsers(new Customer());
             }
+
+            FillDataGridViewWithMockData(users);
+        }
+
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            users = userManager.SearchFilter(users, txtSearchQuery.Text);
+            FillDataGridViewWithMockData(users);
         }
     }
 }
