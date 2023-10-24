@@ -19,8 +19,8 @@ namespace FitFusionDesktop
 
         public Main(User user)
         {
-            InitializeComponent();
             User = user;
+            InitializeComponent();
             RefreshPage();
         }
 

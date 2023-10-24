@@ -201,7 +201,7 @@ namespace DataAcess
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
-                        {                                                        
+                        {
                             if (role is Staff)
                             {
                                 Staff staff = new Staff(
@@ -257,6 +257,97 @@ namespace DataAcess
             }
         }
 
+        public User GetUserByEmail(string email, User role)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                string getUserQuery = "";
+                string additionalProperty = "";
+
+                if (role is Staff)
+                {
+                    additionalProperty = "Phone";
+                }
+                else if (role is Owner)
+                {
+                    additionalProperty = "Phone";
+                }
+                else if (role is Customer)
+                {
+                    additionalProperty = "LoyaltyScore";
+                }
+
+                getUserQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
+                               $"FROM {role.GetType().Name} " +
+                               $"WHERE Email = @Email;";
+
+                using (SqlCommand command = new SqlCommand(getUserQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            if (role is Staff)
+                            {
+                                Staff staff = new Staff
+                                (
+                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
+                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
+                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
+                                    email: reader.GetString(reader.GetOrdinal("Email")),
+                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
+                                    address: reader.GetString(reader.GetOrdinal("Address")),
+                                    phone: reader.GetString(reader.GetOrdinal("Phone"))
+                                );
+
+                                return staff;
+                            }
+                            else if (role is Owner)
+                            {
+                                Owner owner = new Owner
+                                (
+                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
+                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
+                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
+                                    email: reader.GetString(reader.GetOrdinal("Email")),
+                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
+                                    address: reader.GetString(reader.GetOrdinal("Address")),
+                                    phone: reader.GetString(reader.GetOrdinal("Phone"))
+                                );
+
+                                return owner;
+                            }
+                            else if (role is Customer)
+                            {
+                                Customer customer = new Customer
+                                (
+                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
+                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
+                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
+                                    email: reader.GetString(reader.GetOrdinal("Email")),
+                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
+                                    address: reader.GetString(reader.GetOrdinal("Address")),
+                                    loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
+                                );
+
+                                return customer;
+                            }
+                        }
+                    }
+                }
+
+                return null;
+            }
+        }
+
+
         public List<User> GetUsers(User role)
         {
             List<User> users = new List<User>();
@@ -272,7 +363,7 @@ namespace DataAcess
                 {
                     additionalProperty = "Phone";
                 }
-                else if (role  is Owner)
+                else if (role is Owner)
                 {
                     additionalProperty = "Phone";
                 }
@@ -349,18 +440,47 @@ namespace DataAcess
             return users;
         }
 
-        //private bool AuthenticateInTable(string tableName, string email, string passwordHash)
-        //{
-        //    using (SqlCommand command = new SqlCommand($"SELECT COUNT(*) FROM {tableName} WHERE Email = @Email AND PasswordHash = @PasswordHash", connection))
-        //    {
-        //        command.Parameters.AddWithValue("@Email", email);
-        //        command.Parameters.AddWithValue("@PasswordHash", passwordHash);
+        public bool AuthenticateUser(string email, string password, string table)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
 
-        //        int count = (int)command.ExecuteScalar();
+                string selectUserQuery = $"SELECT * FROM {table} WHERE Email = @Email";
 
-        //        return count > 0;
-        //    }
-        //}
+                using (SqlCommand command = new SqlCommand(selectUserQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            string storedPasswordHash = reader["PasswordHash"].ToString();
+                            string storedPasswordSalt = reader["PasswordSalt"].ToString();
+
+                            if (VerifyPassword(password, storedPasswordHash, storedPasswordSalt))
+                            {
+                                return true;
+                            }
+                            else
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+
+        // private string HashPassword(string password, )
+
+        private bool VerifyPassword(string enteredPassword, string storedPasswordHash, string storedPasswordSalt)
+        {
+            // TODO: implement
+            return enteredPassword == storedPasswordHash;
+        }
 
     }
 }

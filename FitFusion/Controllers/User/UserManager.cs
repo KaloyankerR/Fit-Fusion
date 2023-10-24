@@ -67,6 +67,18 @@ namespace Controllers.User
             }
         }
 
+        public UserModel GetUserByEmail(string email, UserModel role)
+        {
+            try
+            {
+                return dao.GetUserByEmail(email, role);
+            }
+            catch
+            {
+                throw new Exception("Unable to get current user.");
+            }
+        }
+
         public List<UserModel> GetUsers(UserModel role)
         {
             try
@@ -107,6 +119,18 @@ namespace Controllers.User
                 }
             }
             return users;
+        }
+
+        public bool AuthenticateUser(string email, string password, string table)
+        {
+            try
+            {
+                return dao.AuthenticateUser(email, password, table);
+            }
+            catch
+            {
+                return false;
+            }
         }
 
     }
