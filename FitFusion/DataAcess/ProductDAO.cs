@@ -156,7 +156,7 @@ namespace DataAcess
                                     description: reader.IsDBNull("Description") ? null : reader.GetString("Description"),
                                     price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
-                                    hahstags: hashtagsToAdd,
+                                    hashtags: hashtagsToAdd,
                                     imageUrl: reader.IsDBNull("ImageUrl") ? null : reader.GetString("ImageUrl")
                                 );
 
@@ -203,7 +203,7 @@ namespace DataAcess
                                     description: reader.IsDBNull("Description") ? null : reader.GetString("Description"),
                                     price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
-                                    hahstags: hashtagsToAdd,
+                                    hashtags: hashtagsToAdd,
                                     imageUrl: reader.IsDBNull("ImageUrl") ? null : reader.GetString("ImageUrl")
                                 );
 
