@@ -23,6 +23,7 @@
 </style>
 
 <h2>@ViewData["Title"]</h2>
+<h3>as a</h3>
 
 <div class="role-buttons">
     <div class="role-button" id="ownerButton" onclick="selectRole('Owner')">Owner</div>
@@ -40,14 +41,14 @@
         <label asp-for="@Model.Password"></label>
         <input asp-for="@Model.Password" />
     </div>
-    <!-- Add a hidden input field for UserType -->
     <input type="hidden" id="userTypeInput" name="UserType" />
-    <div>
-        <!-- Change the onclick event to set UserType and show the submit button -->
+    
+    @* <div>
         <button type="button" onclick="selectRole('Owner')">Log in as Owner</button>
         <button type="button" onclick="selectRole('Staff')">Log in as Staff</button>
         <button type="button" onclick="selectRole('Customer')">Log in as Customer</button>
-    </div>
+    </div> *@
+    
     <div>
         <button type="submit" id="submitButton" style="display: none;">Log in</button>
     </div>
@@ -58,19 +59,11 @@
 
     function selectRole(role) {
         selectedRole = role;
-
-        // Set the UserType value in the hidden input field
         document.getElementById('userTypeInput').value = role;
-
-        // Remove 'active' class from all buttons
         document.querySelectorAll('.role-button').forEach(button => {
             button.classList.remove('active');
         });
-
-        // Add 'active' class to the selected button
         document.getElementById(`${role.toLowerCase()}Button`).classList.add('active');
-
-        // Show the submit button
         document.getElementById('submitButton').style.display = 'block';
     }
 </script>
