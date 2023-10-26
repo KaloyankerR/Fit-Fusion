@@ -7,10 +7,14 @@
 
 <h1>Create Product</h1>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 <form method="post">
     <div>
         <input asp-for="Product.Id" type="hidden" class="form-control" />
-        <input asp-for="Product.Hahstags" type="hidden" class="form-control" />
     </div>
     <div>
         <label asp-for="Product.Title"></label>
@@ -35,9 +39,20 @@
         </select>
     </div>
     <div>
-        <label asp-for="Product.ImageUrl">Image URL</label>
-        <input asp-for="Product.ImageUrl" class="form-control" />
+        <label asp-for="Product.Hashtag"></label>
+        <select asp-for="Product.Hashtag" class="form-control">
+            <option value="">Choose Hashtags</option>
+            @foreach (var hashtag in Enum.GetValues(typeof(Hashtag)))
+            {
+                <option value="@hashtag">@hashtag</option>
+            }
+        </select>
     </div>
+    <div>
+        <label asp-for="Product.ImageUrl">Image URL (default one applied)</label>
+        <input asp-for="Product.ImageUrl" class="form-control" value="https://demofree.sirv.com/nope-not-here.jpg" />
+    </div>
+
     <div>
         <input type="submit" value="Create" class="btn btn-primary" />
     </div>

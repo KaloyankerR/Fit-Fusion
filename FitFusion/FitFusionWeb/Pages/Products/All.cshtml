@@ -9,6 +9,10 @@
 <div class="container mt-3">
     <h3>Products</h3>
 
+    <div class="small button-group">
+        <a class="button" href="./Create">Create</a>
+    </div>
+
     <form method="post" class="mb-3">
         <div class="row">
             <div class="column small-12 medium-6 large-4">
@@ -63,11 +67,32 @@
         </div>
     </form>
 
-    <div class="row small-up-1 medium-up-2 large-up-3">
+    <div class="grid-container">
+        <div class="grid-x grid-margin-x small-up-2 medium-up-4">
+            @foreach (var product in Model.Products)
+            {
+                <div class="cell">
+                    <div class="card">
+                        <img src="https: //media.geeksforgeeks.org/wp-content/cdn-uploads/20190710102234/download3.png" alt="@product.Title">
+                        <div class="card-section">
+                            <h4>@product.Title</h4>
+                            <p>@product.Description</p>
+                            <p>@product.Price</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+
+
+
+    @* <div class="row align-spaced">
         @foreach (var product in Model.Products)
         {
             <div class="column" style="margin: auto;">
-                <div class="card" style="width: 300px;">
+                <div class="card" style="width: 300px; height: 300px">
                     <div class="card-divider">
                         <h5>@product.Title</h5>
                     </div>
@@ -81,5 +106,29 @@
                 </div>
             </div>
         }
-    </div>
+    </div> *@
+
+
+
 </div>
+
+<table>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>
+                    <div class="card">
+                        <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20190710102234/download3.png" alt="@product.Title">
+                        <div class="card-section">
+                            <h4>@product.Title</h4>
+                            <p>@product.Description</p>
+                            <p>@product.Price</p>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
