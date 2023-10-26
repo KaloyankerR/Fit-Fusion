@@ -7,7 +7,7 @@ namespace FitFusionWeb.Pages.Products
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public Product Product { get; set; }
+        public Product Product { get; set; } = new();
 
         public void OnGet()
         {
@@ -15,7 +15,6 @@ namespace FitFusionWeb.Pages.Products
 
         public void OnPost() 
         {
-            // Console.WriteLine(Product);
         }
     }
 }
