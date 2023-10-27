@@ -4,131 +4,145 @@
     ViewData["Title"] = "Products";
 }
 
+<style>
+    .grid-x {
+        display: flex;
+        flex-wrap: wrap;
+        margin: -10px;
+    }
+
+    .cell {
+        flex: 0 0 calc(33.333% - 20px);
+        margin: 10px;
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid #ddd;
+    }
+
+        .card img {
+            max-width: 100%;
+            height: auto;
+        }
+
+    article.card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        border: 1px solid #ddd;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.3s ease-in-out;
+    }
+
+    article.card:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    img.card-img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    div.card-body {
+        padding: 15px;
+        text-align: center;
+    }
+
+    h2.card-title {
+        font-size: 1.2em;
+        margin-bottom: 10px;
+    }
+
+    p.card-description {
+        margin-bottom: 8px;
+    }
+
+    p.card-price {
+        font-weight: bold;
+        color: #007BFF; /* Adjust color to your preference */
+    }
+
+</style>
+
+
 <h1>All products</h1>
 
-<div class="container mt-3">
-    <h3>Products</h3>
 
-    <div class="small button-group">
-        <a class="button" href="./Create">Create</a>
-    </div>
+<h3>Products</h3>
 
-    <form method="post" class="mb-3">
-        <div class="row">
-            <div class="column small-12 medium-6 large-4">
-                <input type="text" name="searchQuery" class="form-control" placeholder="Search..." value="@Model.SearchQuery">
-            </div>
-            <div class="column small-12 medium-6 large-4">
-                <select name="sort">
-                    <option selected disabled>Select filter</option>
-                    @if (Model.Sort == "titleAsc")
-                    {
-                        <option value="titleAsc" selected>Title Ascending</option>
-                    }
-                    else
-                    {
-                        <option value="titleAsc">Title Ascending</option>
-                    }
-
-                    @if (Model.Sort == "titleDesc")
-                    {
-                        <option value="titleDesc" selected>Title Descending</option>
-                    }
-                    else
-                    {
-                        <option value="titleDesc">Title Descending</option>
-                    }
-
-                    @if (Model.Sort == "priceAsc")
-                    {
-                        <option value="priceAsc" selected>Price Ascending</option>
-                    }
-                    else
-                    {
-                        <option value="priceAsc">Price Ascending</option>
-                    }
-
-                    @if (Model.Sort == "priceDesc")
-                    {
-                        <option value="priceDesc" selected>Price Descending</option>
-                    }
-                    else
-                    {
-                        <option value="priceDesc">Price Descending</option>
-                    }
-
-                </select>
-
-
-            </div>
-            <div class="column small-12 medium-12 large-4">
-                <button type="submit" class="btn btn-primary">Apply Filter</button>
-            </div>
-        </div>
-    </form>
-
-    <div class="grid-container">
-        <div class="grid-x grid-margin-x small-up-2 medium-up-4">
-            @foreach (var product in Model.Products)
-            {
-                <div class="cell">
-                    <div class="card">
-                        <img src="https: //media.geeksforgeeks.org/wp-content/cdn-uploads/20190710102234/download3.png" alt="@product.Title">
-                        <div class="card-section">
-                            <h4>@product.Title</h4>
-                            <p>@product.Description</p>
-                            <p>@product.Price</p>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-
-    </div>
-
-
-
-    @* <div class="row align-spaced">
-        @foreach (var product in Model.Products)
-        {
-            <div class="column" style="margin: auto;">
-                <div class="card" style="width: 300px; height: 300px">
-                    <div class="card-divider">
-                        <h5>@product.Title</h5>
-                    </div>
-                    <img src="@product.ImageUrl" alt="@product.Title">
-                    <div class="card-section">
-                        <p>@product.Description</p>
-                    </div>
-                    <div class="card-section">
-                        <p>@product.Price $</p>
-                    </div>
-                </div>
-            </div>
-        }
-    </div> *@
-
-
-
+<div class="small button-group">
+    <a class="button" href="./Create">Create</a>
 </div>
 
-<table>
-    <tbody>
+<form method="post" class="mb-3">
+    <div class="row">
+        <div class="column small-12 medium-6 large-4">
+            <input type="text" name="searchQuery" class="form-control" placeholder="Search..." value="@Model.SearchQuery">
+        </div>
+        <div class="column small-12 medium-6 large-4">
+            <select name="sort">
+                <option selected disabled>Select filter</option>
+                @if (Model.Sort == "titleAsc")
+                {
+                    <option value="titleAsc" selected>Title Ascending</option>
+                }
+                else
+                {
+                    <option value="titleAsc">Title Ascending</option>
+                }
+
+                @if (Model.Sort == "titleDesc")
+                {
+                    <option value="titleDesc" selected>Title Descending</option>
+                }
+                else
+                {
+                    <option value="titleDesc">Title Descending</option>
+                }
+
+                @if (Model.Sort == "priceAsc")
+                {
+                    <option value="priceAsc" selected>Price Ascending</option>
+                }
+                else
+                {
+                    <option value="priceAsc">Price Ascending</option>
+                }
+
+                @if (Model.Sort == "priceDesc")
+                {
+                    <option value="priceDesc" selected>Price Descending</option>
+                }
+                else
+                {
+                    <option value="priceDesc">Price Descending</option>
+                }
+
+            </select>
+        </div>
+        <div class="column small-12 medium-12 large-4">
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </div>
+    </div>
+</form>
+
+<div class="grid-container">
+    <div class="grid-x">
         @foreach (var product in Model.Products)
         {
-            <tr>
-                <td>
-                    <div class="card">
-                        <img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20190710102234/download3.png" alt="@product.Title">
-                        <div class="card-section">
-                            <h4>@product.Title</h4>
-                            <p>@product.Description</p>
-                            <p>@product.Price</p>
-                        </div>
+            <div class="cell">
+                <article class="card">
+                    <img class="card-img" src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/20190710102234/download3.png" alt="@product.Title">
+                    <div class="card-body">
+                        <h2 class="card-title">@product.Title</h2>
+                        <p class="card-description">@product.Description</p>
+                        <p class="card-price">@product.Price</p>
                     </div>
-                </td>
-            </tr>
+                </article>
+            </div>
         }
-    </tbody>
-</table>
-
+    </div>
+</div>
