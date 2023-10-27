@@ -10,7 +10,7 @@ namespace DataAcess
 {
     public class UserDAO
     {
-        private string ConnectionString;
+        private readonly string ConnectionString;
 
         public UserDAO()
         {
@@ -440,13 +440,53 @@ namespace DataAcess
             return users;
         }
 
-        public bool AuthenticateUser(string email, string password, string table)
+        //public bool AuthenticateUser(string email, string password, string table)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
+        //    {
+        //        connection.Open();
+
+        //        string selectUserQuery = $"SELECT * FROM {table} WHERE Email = @Email";
+
+        //        using (SqlCommand command = new SqlCommand(selectUserQuery, connection))
+        //        {
+        //            command.Parameters.AddWithValue("@Email", email);
+
+        //            using (SqlDataReader reader = command.ExecuteReader())
+        //            {
+        //                if (reader.Read())
+        //                {
+        //                    string storedPasswordHash = reader["PasswordHash"].ToString();
+        //                    string storedPasswordSalt = reader["PasswordSalt"].ToString();
+
+        //                    if (VerifyPassword(password, storedPasswordHash, storedPasswordSalt))
+        //                    {
+        //                        return true;
+        //                    }
+        //                    else
+        //                    {
+        //                        return false;
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        return false;
+        //    }
+        //}
+
+        public User AuthenticateUser2(string email, string password)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                string selectUserQuery = $"SELECT * FROM {table} WHERE Email = @Email";
+                string selectUserQuery = @"
+                    SELECT Email, PasswordHash, PasswordSalt, 'Customer' as Role FROM Customer
+                    UNION
+                    SELECT Email, PasswordHash, PasswordSalt, 'Owner' as Role FROM Owner
+                    UNION
+                    SELECT Email, PasswordHash, PasswordSalt, 'Staff' as Role FROM Staff
+                    WHERE Email = @Email";
 
                 using (SqlCommand command = new SqlCommand(selectUserQuery, connection))
                 {
@@ -454,25 +494,39 @@ namespace DataAcess
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        if (reader.Read())
+                        while (reader.Read())
                         {
                             string storedPasswordHash = reader["PasswordHash"].ToString();
                             string storedPasswordSalt = reader["PasswordSalt"].ToString();
+                            string role = reader["Role"].ToString();
 
                             if (VerifyPassword(password, storedPasswordHash, storedPasswordSalt))
                             {
-                                return true;
-                            }
-                            else
-                            {
-                                return false;
+                                User user = null;
+
+                                if (role == "Staff")
+                                {
+                                    user = new Staff();
+                                }
+                                else if (role == "Owner")
+                                {
+                                    user = new Owner();
+                                }
+                                else if (role == "Customer")
+                                {
+                                    user = new Customer();
+                                }
+
+
+                                return user;
                             }
                         }
                     }
                 }
-                return false;
+                return null;
             }
         }
+
 
         // private string HashPassword(string password, )
 
