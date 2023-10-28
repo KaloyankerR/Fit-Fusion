@@ -39,7 +39,7 @@ namespace FitFusionDesktop.UserControls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            products = productManger.SearchFilter(productManger.GetProducts(), txtSearchQuery.Text);
+            products = productManger.Search(productManger.GetProducts(), txtSearchQuery.Text);
             FillDataGridViewWithMockData();
         }
 

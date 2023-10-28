@@ -41,7 +41,7 @@ namespace DataAcess
 
                         int productId = Convert.ToInt32(productCommand.ExecuteScalar());
 
-                        foreach (var hashtag in product.Hashtag)
+                        foreach (var hashtag in product.Hashtags)
                         {
                             using (SqlCommand hashtagCommand = new SqlCommand("INSERT INTO ProductHashtag (ProductId, Tag) VALUES (@ProductId, @Tag);", connection))
                             {
@@ -86,7 +86,7 @@ namespace DataAcess
                         deleteHashtagsCommand.ExecuteNonQuery();
                     }
 
-                    foreach (var hashtag in updatedProduct.Hashtag)
+                    foreach (var hashtag in updatedProduct.Hashtags)
                     {
                         using (SqlCommand hashtagCommand = new SqlCommand("INSERT INTO ProductHashtag (ProductId, Tag) VALUES (@ProductId, @Tag);", connection))
                         {

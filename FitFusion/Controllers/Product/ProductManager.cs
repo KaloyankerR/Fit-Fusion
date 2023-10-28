@@ -77,7 +77,7 @@ namespace Controllers.Product
             catch (Exception ex) { throw new Exception(ex.ToString()); }
         }
 
-        public List<ProductModel> SearchFilter(List<ProductModel> products, string searchQuery)
+        public List<ProductModel> Search(List<ProductModel> products, string searchQuery)
         {
             if (!string.IsNullOrEmpty(searchQuery))
             {
