@@ -19,7 +19,7 @@ namespace Models.Product
         protected Category category;
         public Category Category { get { return category; } set { category = value; } }
         protected List<Hashtag> hashtags;
-        public List<Hashtag> Hashtag { get { return hashtags; } set { hashtags = value; } }
+        public List<Hashtag> Hashtags { get { return hashtags; } set { hashtags = value; } }
         protected string imageUrl;
         public string ImageUrl { get { return imageUrl; } set { imageUrl = value; } }
 
