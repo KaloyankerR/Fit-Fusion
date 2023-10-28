@@ -11,7 +11,7 @@ namespace Controllers.Product
 {
     public class ProductManager
     {
-        public ProductDAO dao;
+        private ProductDAO dao;
 
         public ProductManager(ProductDAO productDao)
         {

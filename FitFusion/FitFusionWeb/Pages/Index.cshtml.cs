@@ -20,10 +20,8 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            // ProductManager manager = new(new ProductDAO());
-            UserDAO dao = new UserDAO();
-            var res = dao.AuthenticateUser2("alice.johnson@example.com", "hashed_password_3");
-
+            // UserManager manager = new(new UserDAO());
+            // var res = manager.AuthenticateUser("alice.johnson@example.com", "hashed_password_3");
 
         }
 
