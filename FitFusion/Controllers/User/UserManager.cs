@@ -121,17 +121,17 @@ namespace Controllers.User
             return users;
         }
 
-        //public bool AuthenticateUser(string email, string password, string table)
-        //{
-        //    try
-        //    {
-        //        return dao.AuthenticateUser(email, password, table);
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
+        public UserModel? AuthenticateUser(string email, string password)
+        {
+            try
+            {
+                return dao.AuthenticateUser(email, password);
+            }
+            catch
+            {
+                return null;
+            }
+        }
 
     }
 }

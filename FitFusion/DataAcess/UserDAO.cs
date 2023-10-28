@@ -474,7 +474,7 @@ namespace DataAcess
         //    }
         //}
 
-        public User AuthenticateUser2(string email, string password)
+        public User? AuthenticateUser(string email, string password)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -502,23 +502,17 @@ namespace DataAcess
 
                             if (VerifyPassword(password, storedPasswordHash, storedPasswordSalt))
                             {
-                                User user = null;
-
-                                if (role == "Staff")
+                                switch (role)
                                 {
-                                    user = new Staff();
+                                    case "Staff":
+                                        return GetUserByEmail(email, new Staff());
+                                    case "Owner":
+                                        return GetUserByEmail(email, new Owner());
+                                    case "Customer":
+                                        return GetUserByEmail(email, new Customer());
+                                    default:
+                                        return null;
                                 }
-                                else if (role == "Owner")
-                                {
-                                    user = new Owner();
-                                }
-                                else if (role == "Customer")
-                                {
-                                    user = new Customer();
-                                }
-
-
-                                return user;
                             }
                         }
                     }
