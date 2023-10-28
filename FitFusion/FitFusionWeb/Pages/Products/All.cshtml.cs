@@ -27,7 +27,7 @@ namespace FitFusionWeb.Pages.Products
         public void OnPost()
         {
             Products = productManager.GetProducts();
-            Products = productManager.SearchFilter(Products, SearchQuery);
+            Products = productManager.Search(Products, SearchQuery);
             Products = productManager.Sort(Products, Sort);
         }
     }

@@ -1,9 +1,23 @@
 ﻿@page "{Id}"
 @model FitFusionWeb.Pages.Products.ProductModel
 @{
+    ViewData["Title"] = "Product Details";
 }
 
-<h1>@Model.Product.Title</h1>
-<h3>@Model.Product.Category.ToString()</h3>
-<h4>@Model.Product.Price</h4>
-<p>@Model.Product.Description</p>
+<h2>@Model.Product.Title</h2>
+
+<div>
+    <p>Description: @Model.Product.Description</p>
+    <p>Price: @Model.Product.Price</p>
+    <p>Category: @Model.Product.Category.ToString()</p>
+
+    <h4>Hashtags:</h4>
+    <ul>
+        @foreach (var hashtag in Model.Product.Hashtags)
+        {
+            <li>@hashtag.ToString()</li>
+        }
+    </ul>
+
+    <img src="@Model.Product.ImageUrl" alt="Product Image" />
+</div>

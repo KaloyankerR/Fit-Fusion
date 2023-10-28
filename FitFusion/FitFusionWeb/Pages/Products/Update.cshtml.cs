@@ -5,11 +5,10 @@ using Models.Product;
 
 namespace FitFusionWeb.Pages.Products
 {
-    public class ProductModel : PageModel
+    public class UpdateModel : PageModel
     {
         [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
-        [BindProperty]
         public Product Product { get; set; } = new Product();
         private readonly ProductManager _productManager = new ProductManager(new DataAcess.ProductDAO());
 
@@ -17,5 +16,6 @@ namespace FitFusionWeb.Pages.Products
         {
             Product = _productManager.GetProductById(Id);
         }
+
     }
 }

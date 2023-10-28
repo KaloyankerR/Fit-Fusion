@@ -1,11 +1,11 @@
-﻿@page
-@model FitFusionWeb.Pages.Products.CreateModel
-@{
-    ViewData["Title"] = "Create Product";
-}
+﻿@page "{Id}"
 @using Models.Product;
+@model FitFusionWeb.Pages.Products.UpdateModel
+@{
+    ViewData["Title"] = "Product Update";
+}
 
-<h1>Create Product</h1>
+<h1>Update Product</h1>
 
 @if (TempData["ErrorMessage"] != null)
 {
@@ -34,26 +34,37 @@
             <option value="">Choose Category</option>
             @foreach (var category in Enum.GetValues(typeof(Category)))
             {
-                <option value="@category">@category</option>
+                <option value="@category" selected="@Model.Product.Category == category">@category</option>
             }
         </select>
     </div>
     <div>
         <label asp-for="Product.Hashtags"></label>
-        <select asp-for="Product.Hashtags" class="form-control">
+        <select asp-for="Product.Hashtags" class="form-control" multiple>
             <option value="">Choose Hashtags</option>
-            @foreach (var hashtag in Enum.GetValues(typeof(Hashtag)))
+            @foreach (Hashtag hashtag in Enum.GetValues(typeof(Hashtag)))
             {
-                <option value="@hashtag">@hashtag</option>
+                <option value="@hashtag" selected="@Model.Product.Hashtags.Contains(hashtag)">@hashtag</option>
             }
         </select>
     </div>
+
+    @* <div>
+        <label asp-for="Product.Hashtag"></label>
+        <select asp-for="Product.Hashtag" class="form-control" multiple>
+            <option value="">Choose Hashtags</option>
+            @foreach (var hashtag in Enum.GetValues(typeof(Hashtag)))
+            {
+                <option value="@hashtag" selected="@Model.Product.Hashtag.Contains(hashtag)">@hashtag</option>
+            }
+        </select>
+    </div> *@
     <div>
-        <label asp-for="Product.ImageUrl">Image URL (default one applied)</label>
-        <input asp-for="Product.ImageUrl" class="form-control" value="https://demofree.sirv.com/nope-not-here.jpg" />
+        <label asp-for="Product.ImageUrl"></label>
+        <input asp-for="Product.ImageUrl" class="form-control" />
     </div>
 
     <div>
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Update" class="btn btn-primary" />
     </div>
 </form>
