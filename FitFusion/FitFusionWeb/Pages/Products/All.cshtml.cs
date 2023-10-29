@@ -30,5 +30,6 @@ namespace FitFusionWeb.Pages.Products
             Products = productManager.Search(Products, SearchQuery);
             Products = productManager.Sort(Products, Sort);
         }
+        
     }
 }

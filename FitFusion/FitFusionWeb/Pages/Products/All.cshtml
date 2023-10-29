@@ -91,6 +91,7 @@ else if (messageType == "success")
 
                     <a class="button primary btnElement" href="./Product/@product.Id">View product</a>
                     <a class="button warning btnElement" href="./Update/@product.Id">Update product</a>
+                    <a class="button alert btnElement" asp-page="Management" asp-page-handler="delete" asp-route-id="@product.Id">Delete product</a>
 
                 </article>
             </div>
