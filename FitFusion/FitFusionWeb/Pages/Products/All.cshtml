@@ -2,15 +2,20 @@
 @model FitFusionWeb.Pages.Products.AllModel
 @{
     ViewData["Title"] = "Products";
+    string messageType = TempData["Type"] as string;
+    string message = TempData["Message"] as string;
 }
 
 <h1>All products</h1>
-
 <h3>Products</h3>
 
-@if (TempData["ErrorMessage"] != null)
+@if (messageType == "danger")
 {
-    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    <div class="alert alert-danger">@message</div>
+}
+else if (messageType == "success")
+{
+    <div class="alert alert-success">@message</div>
 }
 
 <div class="small button-group">

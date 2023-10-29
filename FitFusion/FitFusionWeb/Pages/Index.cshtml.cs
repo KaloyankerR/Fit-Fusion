@@ -20,9 +20,9 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            // UserManager manager = new(new UserDAO());
-            // var res = manager.AuthenticateUser("alice.johnson@example.com", "hashed_password_3");
-
+            //UserDAO dao = new UserDAO();
+            //var result = dao.IsEmailAlreadyExists("bob.smith@example.com");
+            //var result2 = dao.IsEmailAlreadyExists("kalio@gmail.com");
         }
 
     }

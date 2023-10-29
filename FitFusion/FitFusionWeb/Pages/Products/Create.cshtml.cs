@@ -20,9 +20,13 @@ namespace FitFusionWeb.Pages.Products
         {
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Please check the fields again!";
+                TempData["Type"] = "danger";
+                TempData["Message"] = "Please check the fields again!";
                 return Page();
             }
+
+            TempData["Type"] = "success";
+            TempData["Message"] = "Successfully created a product!";
 
             _productManager.CreateProduct(Product);
             return RedirectToPage("./All");

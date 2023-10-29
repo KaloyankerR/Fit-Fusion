@@ -51,8 +51,14 @@ namespace DataAcess
                     command.Parameters.AddWithValue("@FirstName", user.FirstName);
                     command.Parameters.AddWithValue("@LastName", user.LastName);
                     command.Parameters.AddWithValue("@Email", user.Email);
-                    command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-                    command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
+
+                    string salt = BCrypt.Net.BCrypt.GenerateSalt();
+                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, salt);
+
+                    command.Parameters.AddWithValue("@PasswordHash", hashedPassword);
+                    command.Parameters.AddWithValue("@PasswordSalt", salt);
+                    // command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                    // command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
                     command.Parameters.AddWithValue("@Address", user.Address);
 
                     if (user is Staff)
@@ -72,6 +78,32 @@ namespace DataAcess
                 }
 
                 return true;
+            }
+        }
+
+        public bool IsEmailAlreadyExists(string email)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                string checkEmailQuery = "SELECT SUM(EmailCount) AS TotalCount " +
+                                         "FROM (" +
+                                         "    SELECT COUNT(*) AS EmailCount FROM Owner WHERE Email = @Email " +
+                                         "    UNION ALL " +
+                                         "    SELECT COUNT(*) AS EmailCount FROM Staff WHERE Email = @Email " +
+                                         "    UNION ALL " +
+                                         "    SELECT COUNT(*) AS EmailCount FROM Customer WHERE Email = @Email" +
+                                         ") AS Subquery";
+
+                using (SqlCommand command = new SqlCommand(checkEmailQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+
+                    int totalCount = (int)command.ExecuteScalar();
+
+                    return totalCount > 0;
+                }
             }
         }
 

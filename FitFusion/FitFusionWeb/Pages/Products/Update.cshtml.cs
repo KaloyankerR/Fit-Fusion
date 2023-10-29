@@ -22,17 +22,19 @@ namespace FitFusionWeb.Pages.Products
         {
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Please check the fields again!";
+                TempData["Message"] = "Please check the fields again!";
                 return Page();
             }
 
             if (_productManager.UpdateProduct(Product)) 
             {
-                TempData["ErrorMessage"] = "Product successfully updated!";
+                TempData["Type"] = "success";
+                TempData["Message"] = "Product successfully updated!";
                 return RedirectToPage("./All");
             }
 
-            TempData["ErrorMessage"] = "An error occured!";
+            TempData["Type"] = "danger";
+            TempData["Message"] = "An error occured!";
             return RedirectToPage("./All");
         }
 
