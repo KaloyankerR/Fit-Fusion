@@ -8,6 +8,11 @@
 
 <h3>Products</h3>
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
 <div class="small button-group">
     <a class="button" href="./Create">Create</a>
 </div>
