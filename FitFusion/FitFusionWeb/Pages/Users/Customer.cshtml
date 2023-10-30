@@ -1,9 +1,86 @@
 ﻿@page
 @model FitFusionWeb.Pages.Users.CustomerModel
 @{
+    ViewData["Title"] = "Products";
+    string messageType = TempData["Type"] as string;
+    string message = TempData["Message"] as string;
 }
 
-<h1>Customers</h1>
+<h1>All products</h1>
+
+@if (messageType == "danger")
+{
+    <div class="alert alert-danger">@message</div>
+}
+else if (messageType == "success")
+{
+    <div class="alert alert-success">@message</div>
+}
+
+<div class="small button-group">
+    <a class="button" href="./Create">Create</a>
+</div>
+
+<form method="post" class="mb-3">
+    <div class="row">
+        <div class="column small-12 medium-6 large-4">
+            <input type="text" name="searchQuery" class="form-control" placeholder="Search..." value="@Model.SearchQuery">
+        </div>
+        <div class="column small-12 medium-6 large-4">
+            <select name="sort">
+                <option selected disabled>Select filter</option>
+                @if (Model.Sort == "asc")
+                {
+                    <option value="asc" selected>Ascending</option>
+                }
+                else
+                {
+                    <option value="asc">Ascending</option>
+                }
+
+                @if (Model.Sort == "desc")
+                {
+                    <option value="desc" selected>Descending</option>
+                }
+                else
+                {
+                    <option value="desc">Descending</option>
+                }
+
+            </select>
+        </div>
+        <div class="column small-12 medium-12 large-4">
+            <button type="submit" class="btn btn-primary">Apply Filter</button>
+        </div>
+    </div>
+</form>
+
+<div class="grid-container">
+    <div class="grid-x">
+        @foreach (var customer in Model.Users)
+        {
+            <div class="cell">
+                <article class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">@customer.FirstName @customer.LastName</h2>
+                        <p class="card-description">@customer.Email</p>
+                    </div>
+
+                    @* <a class="button primary btnElement" href="./Product/@product.Id">View product</a>
+                    <a class="button warning btnElement" href="./Update/@product.Id">Update product</a>
+                    <a class="button alert btnElement" asp-page="Management" asp-page-handler="delete" asp-route-id="@product.Id">Delete product</a>
+ *@
+                </article>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+
+@* <h1>Customers</h1>
 
 <div class="container mt-3">
     <form method="post" class="mb-3">
@@ -56,4 +133,4 @@
             </div>
         }
     </div>
-</div>
+</div> *@

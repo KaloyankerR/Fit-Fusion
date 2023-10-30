@@ -471,7 +471,7 @@ namespace DataAcess
                 }
             }
         }
-        //public bool ChangePassword(string oldPassword, string newPassword)
+        //public bool ChangePassword(string email, string oldPassword, string newPassword)
         //{ }
 
 
