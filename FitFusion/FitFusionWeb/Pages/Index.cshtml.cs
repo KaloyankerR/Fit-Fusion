@@ -21,8 +21,20 @@ namespace FitFusionWeb.Pages
         public void OnGet()
         {
             //UserDAO dao = new UserDAO();
-            //var result = dao.IsEmailAlreadyExists("bob.smith@example.com");
-            //var result2 = dao.IsEmailAlreadyExists("kalio@gmail.com");
+            //Customer customer = new Customer
+            //    (
+            //    id: 0,
+            //    firstName: "Troy",
+            //    lastName: "Georgiev",
+            //    email: "troy@gmail.com",
+            //    passwordHash: "troy@gmail.com",
+            //    passwordSalt: null,
+            //    address: "Eindhoven",
+            //    loyaltyScore: 0
+            //    );
+
+            // dao.CreateUser(customer);
+            // dao.AuthenticateUser("troy@gmail.com", "troy@gmail.com"); 
         }
 
     }

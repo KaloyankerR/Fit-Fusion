@@ -81,32 +81,6 @@ namespace DataAcess
             }
         }
 
-        public bool IsEmailAlreadyExists(string email)
-        {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                connection.Open();
-
-                string checkEmailQuery = "SELECT SUM(EmailCount) AS TotalCount " +
-                                         "FROM (" +
-                                         "    SELECT COUNT(*) AS EmailCount FROM Owner WHERE Email = @Email " +
-                                         "    UNION ALL " +
-                                         "    SELECT COUNT(*) AS EmailCount FROM Staff WHERE Email = @Email " +
-                                         "    UNION ALL " +
-                                         "    SELECT COUNT(*) AS EmailCount FROM Customer WHERE Email = @Email" +
-                                         ") AS Subquery";
-
-                using (SqlCommand command = new SqlCommand(checkEmailQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@Email", email);
-
-                    int totalCount = (int)command.ExecuteScalar();
-
-                    return totalCount > 0;
-                }
-            }
-        }
-
         public bool UpdateUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -379,7 +353,6 @@ namespace DataAcess
             }
         }
 
-
         public List<User> GetUsers(User role)
         {
             List<User> users = new List<User>();
@@ -472,39 +445,35 @@ namespace DataAcess
             return users;
         }
 
-        //public bool AuthenticateUser(string email, string password, string table)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
-        //    {
-        //        connection.Open();
 
-        //        string selectUserQuery = $"SELECT * FROM {table} WHERE Email = @Email";
+        public bool IsEmailAlreadyExists(string email)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
 
-        //        using (SqlCommand command = new SqlCommand(selectUserQuery, connection))
-        //        {
-        //            command.Parameters.AddWithValue("@Email", email);
+                string checkEmailQuery = "SELECT SUM(EmailCount) AS TotalCount " +
+                                         "FROM (" +
+                                         "    SELECT COUNT(*) AS EmailCount FROM Owner WHERE Email = @Email " +
+                                         "    UNION ALL " +
+                                         "    SELECT COUNT(*) AS EmailCount FROM Staff WHERE Email = @Email " +
+                                         "    UNION ALL " +
+                                         "    SELECT COUNT(*) AS EmailCount FROM Customer WHERE Email = @Email" +
+                                         ") AS Subquery";
 
-        //            using (SqlDataReader reader = command.ExecuteReader())
-        //            {
-        //                if (reader.Read())
-        //                {
-        //                    string storedPasswordHash = reader["PasswordHash"].ToString();
-        //                    string storedPasswordSalt = reader["PasswordSalt"].ToString();
+                using (SqlCommand command = new SqlCommand(checkEmailQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
 
-        //                    if (VerifyPassword(password, storedPasswordHash, storedPasswordSalt))
-        //                    {
-        //                        return true;
-        //                    }
-        //                    else
-        //                    {
-        //                        return false;
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        return false;
-        //    }
-        //}
+                    int totalCount = (int)command.ExecuteScalar();
+
+                    return totalCount > 0;
+                }
+            }
+        }
+        //public bool ChangePassword(string oldPassword, string newPassword)
+        //{ }
+
 
         public User? AuthenticateUser(string email, string password)
         {
@@ -513,12 +482,11 @@ namespace DataAcess
                 connection.Open();
 
                 string selectUserQuery = @"
-                    SELECT Email, PasswordHash, PasswordSalt, 'Customer' as Role FROM Customer
+                    SELECT Email, PasswordHash, PasswordSalt, 'Customer' as Role FROM Customer c WHERE c.Email = @Email
                     UNION
-                    SELECT Email, PasswordHash, PasswordSalt, 'Owner' as Role FROM Owner
+                    SELECT Email, PasswordHash, PasswordSalt, 'Owner' as Role FROM Owner o WHERE o.Email = @Email
                     UNION
-                    SELECT Email, PasswordHash, PasswordSalt, 'Staff' as Role FROM Staff
-                    WHERE Email = @Email";
+                    SELECT Email, PasswordHash, PasswordSalt, 'Staff' as Role FROM Staff s WHERE s.Email = @Email";
 
                 using (SqlCommand command = new SqlCommand(selectUserQuery, connection))
                 {
@@ -553,14 +521,10 @@ namespace DataAcess
             }
         }
 
-
-        // private string HashPassword(string password, )
-
-        private bool VerifyPassword(string enteredPassword, string storedPasswordHash, string storedPasswordSalt)
+        private bool VerifyPassword(string entered, string hash, string salt)
         {
-            // TODO: implement
-            return enteredPassword == storedPasswordHash;
+            string passwordToCheck = BCrypt.Net.BCrypt.HashPassword(entered, salt);
+            return passwordToCheck == hash;
         }
-
     }
 }

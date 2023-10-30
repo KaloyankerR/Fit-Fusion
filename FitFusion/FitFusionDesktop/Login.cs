@@ -25,31 +25,38 @@ namespace FitFusionDesktop
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton, "Owner"))
-            {
-                User owner = userManager.GetUserByEmail(txtEmail.TextButton, new Owner());
+            User owner = userManager.GetUserByEmail(txtEmail.TextButton, new Owner());
 
-                Main frm = new Main(owner);
-                this.Hide();
-                frm.ShowDialog();
-                Application.Exit();
-            }
-            else if (userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton, "Staff"))
-            {
-                Staff staff = (Staff)userManager.GetUserByEmail(txtEmail.Text, new Staff());
+            Main frm = new Main(owner);
+            this.Hide();
+            frm.ShowDialog();
+            Application.Exit();
 
-                Main frm = new Main(staff);
-                this.Hide();
-                frm.ShowDialog();
-                Application.Exit();
-            }
-            else
-            {
-                txtEmail.Text = "";
-                txtPassword.Text = "";
+            //if (userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton))
+            //{
+            //    User owner = userManager.GetUserByEmail(txtEmail.TextButton, new Owner());
 
-                MessageBox.Show("Incorrect credentials!");
-            }
+            //    Main frm = new Main(owner);
+            //    this.Hide();
+            //    frm.ShowDialog();
+            //    Application.Exit();
+            //}
+            //else if (userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton, "Staff"))
+            //{
+            //    Staff staff = (Staff)userManager.GetUserByEmail(txtEmail.Text, new Staff());
+
+            //    Main frm = new Main(staff);
+            //    this.Hide();
+            //    frm.ShowDialog();
+            //    Application.Exit();
+            //}
+            //else
+            //{
+            //    txtEmail.Text = "";
+            //    txtPassword.Text = "";
+
+            //    MessageBox.Show("Incorrect credentials!");
+            //}
 
         }
 
