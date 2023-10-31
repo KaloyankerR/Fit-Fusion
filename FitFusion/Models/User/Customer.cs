@@ -19,5 +19,9 @@ namespace Models.User
             this.loyaltyScore = loyaltyScore;
         }
 
+        public override string GetUserRole()
+        {
+            return "Customer";
+        }
     }
 }

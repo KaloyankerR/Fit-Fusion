@@ -8,7 +8,7 @@ using Models.Product;
 using Models.User;
 using UserModel = Models.User.User;
 
-namespace Controllers.User
+namespace Controllers
 {
     public class UserManager
     {

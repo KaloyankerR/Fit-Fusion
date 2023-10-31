@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Controllers.Product
+namespace Controllers
 {
     public class ProductManager
     {
@@ -59,7 +59,7 @@ namespace Controllers.Product
             catch { return false; }
         }
 
-        public ProductModel GetProductById(int productId) 
+        public ProductModel GetProductById(int productId)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Controllers.Product
             }
             catch (Exception ex) { throw new Exception(ex.ToString()); }
         }
-        
+
         public List<ProductModel> GetProducts()
         {
             try

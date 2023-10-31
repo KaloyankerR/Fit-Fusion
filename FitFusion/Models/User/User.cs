@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Models.User
 {
-    public class User
+    public abstract class User
     {
         protected int id;
         public int Id { get { return id; } protected set { id = value; } }
@@ -35,6 +35,8 @@ namespace Models.User
             this.passwordSalt = passwordSalt;
             this.address = address;
         }
+
+        public abstract string GetUserRole();
 
         public override string ToString()
         {

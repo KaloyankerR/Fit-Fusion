@@ -1,3 +1,5 @@
+using Controllers;
+using DataAcess;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
@@ -11,12 +13,11 @@ namespace FitFusionWeb.Pages.Authentication
     {
         [BindProperty]
         public string Email { get; set; }
-
         [BindProperty]
         public string Password { get; set; }
-
         [BindProperty]
         public string UserType { get; set; }  // New bind property for user type
+        private UserManager _userManager = new(new UserDAO());
 
         public IActionResult OnGet()
         {
@@ -30,34 +31,22 @@ namespace FitFusionWeb.Pages.Authentication
 
         public IActionResult OnPost()
         {
-            if (!string.IsNullOrEmpty(UserType))
+            if (ModelState.IsValid)
             {
-                // Handle the selected user type here
-                if (UserType == "Owner")
+                var isAuthenticated = _userManager.AuthenticateUser(Email, Password);
+                if (isAuthenticated != null)
                 {
-                    // Your logic for owner login
+                    List<Claim> claims = new List<Claim>();
+                    claims.Add(new Claim(ClaimTypes.Email, isAuthenticated.Email));
+                    claims.Add(new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole()));
+                    // claims.Add(new Claim("userType", UserType));
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+
+                    return RedirectToPage("../Index");
+
                 }
-                else if (UserType == "Staff")
-                {
-                    // Your logic for staff login
-                }
-                else if (UserType == "Customer")
-                {
-                    // Your logic for customer login
-                }
-
-                // Perform authentication based on user type
-                // For example, you can use the UserType property in your authentication logic
-
-                // Example code for creating claims (customize based on your needs)
-                List<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.Name, Email)); // Use Email or another identifier
-                claims.Add(new Claim("userType", UserType));  // Add user type as a claim
-
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
-
-                return RedirectToPage("../Index");
             }
 
             return Page();

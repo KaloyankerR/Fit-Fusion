@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using DataAcess;
 using Models.Product;
-using Controllers.Product;
 using System;
 using System.Collections.Generic;
+using Controllers;
 
 namespace FitFusionWeb.Pages.Products
 {

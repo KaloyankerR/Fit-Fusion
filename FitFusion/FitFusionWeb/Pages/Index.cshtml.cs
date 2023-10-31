@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using DataAcess;
 using Models.Product;
 using Controllers;
-using Controllers.User;
+// using Controllers.User;
 using Models.User;
-using Controllers.Product;
+// using Controllers.Product;
 
 namespace FitFusionWeb.Pages
 {

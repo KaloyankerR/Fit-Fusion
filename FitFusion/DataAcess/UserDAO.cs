@@ -263,6 +263,9 @@ namespace DataAcess
             }
         }
 
+        //public User GetUserByEmail(string email)
+        //{ }
+
         public User GetUserByEmail(string email, User role)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))

@@ -9,7 +9,7 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-    <p>Name: @Model.Name</p>
+    @* <p>Name: @Model.Name</p> *@
     <div class="col-md-3 text-end">
         <a type="button" class="btn btn-outline-primary me-2" asp-page="Logout">Logout</a>
     </div>

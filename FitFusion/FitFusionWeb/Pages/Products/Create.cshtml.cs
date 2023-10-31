@@ -1,4 +1,4 @@
-using Controllers.Product;
+using Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.Product;

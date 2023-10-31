@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Models.Product;
 using DataAcess;
 using FitFusionDesktop.EntityControls;
-using Controllers.Product;
+using Controllers;
 
 namespace FitFusionDesktop.UserControls
 {

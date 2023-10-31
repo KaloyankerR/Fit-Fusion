@@ -11,7 +11,7 @@ namespace Models.Order
     public class Order
     {
         public int Id { get; set; }
-        public string Address { get; set; }
+        // public string Address { get; set; }
         public DateTime OrderDate { get; set; }
         public string Note { get; set; }
         public Customer Customer { get; set; }

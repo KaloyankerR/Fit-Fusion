@@ -18,6 +18,11 @@ namespace Models.User
         {
             this.phone = phone;
         }
+
+        public override string GetUserRole()
+        {
+            return "Owner";
+        }
     }
 }
 
