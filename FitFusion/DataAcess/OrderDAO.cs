@@ -24,24 +24,47 @@ namespace DataAcess
 
         public bool CreateOrder(Order order)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            try
             {
-                connection.Open();
-
-                string createOrderQuery = "INSERT INTO Orders (Address, Note, ProductId, UserId) " +
-                                          "VALUES (@Address, @Note, @ProductId, @UserId);";
-
-                using (SqlCommand command = new SqlCommand(createOrderQuery, connection))
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
-                    //command.Parameters.AddWithValue("@Address", order.Address);
-                    //command.Parameters.AddWithValue("@Note", order.Note);
-                    //command.Parameters.AddWithValue("@ProductId", order.ProductId);
-                    //command.Parameters.AddWithValue("@UserId", order.UserId);
+                    connection.Open();
 
-                    command.ExecuteNonQuery();
+                    string createOrderQuery = "INSERT INTO [Order] (OrderDate, CustomerId, Note) " +
+                                              "VALUES (@OrderDate, @CustomerId, @Note);" +
+                                              "SELECT SCOPE_IDENTITY();";
+
+                    using (SqlCommand command = new SqlCommand(createOrderQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@OrderDate", order.OrderDate);
+                        command.Parameters.AddWithValue("@CustomerId", order.Customer.Id);
+                        command.Parameters.AddWithValue("@Note", order.Note);
+
+                        int orderId = Convert.ToInt32(command.ExecuteScalar());
+
+                        string insertShoppingCartQuery = "INSERT INTO ShoppingCart (OrderId, ProductId, Discount) " +
+                                                         "VALUES (@OrderId, @ProductId, @Discount);";
+
+                        foreach (var product in order.ShoppingCart.Products)
+                        {
+                            using (SqlCommand cartCommand = new SqlCommand(insertShoppingCartQuery, connection))
+                            {
+                                cartCommand.Parameters.AddWithValue("@OrderId", orderId);
+                                cartCommand.Parameters.AddWithValue("@ProductId", product.Id);
+                                cartCommand.Parameters.AddWithValue("@Discount", order.ShoppingCart.Discount);
+
+                                cartCommand.ExecuteNonQuery();
+                            }
+                        }
+                    }
+
+                    return true;
                 }
-
-                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating order: {ex.Message}");
+                return false;
             }
         }
 

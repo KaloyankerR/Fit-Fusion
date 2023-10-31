@@ -11,20 +11,20 @@ namespace Models.Order
     public class Order
     {
         public int Id { get; set; }
-        // public string Address { get; set; }
         public DateTime OrderDate { get; set; }
-        public string Note { get; set; }
         public Customer Customer { get; set; }
-        public List<ProductModel> Products { get; set; }
+        public ShoppingCart ShoppingCart { get; set; }
+        public string Note { get; set; }
 
         public Order() { }
 
-        public Order(int id, DateTime date, Customer customer, List<ProductModel> products)
+        public Order(int id, DateTime date, Customer customer, ShoppingCart shoppingCart, string note)
         {
             Id = id;
             OrderDate = date;
             Customer = customer;
-            Products = products;
+            ShoppingCart = shoppingCart;
+            Note = note;
         }
 
     }

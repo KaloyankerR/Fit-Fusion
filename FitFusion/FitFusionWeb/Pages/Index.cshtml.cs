@@ -5,6 +5,8 @@ using Models.Product;
 using Controllers;
 // using Controllers.User;
 using Models.User;
+using FitFusionWeb.Pages.Products;
+using Models.Order;
 // using Controllers.Product;
 
 namespace FitFusionWeb.Pages
@@ -20,21 +22,33 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            //UserDAO dao = new UserDAO();
-            //Customer customer = new Customer
-            //    (
-            //    id: 0,
-            //    firstName: "Troy",
-            //    lastName: "Georgiev",
-            //    email: "troy@gmail.com",
-            //    passwordHash: "troy@gmail.com",
-            //    passwordSalt: null,
-            //    address: "Eindhoven",
-            //    loyaltyScore: 0
-            //    );
+            Order order = new Order
+            {
+                OrderDate = DateTime.Now,
+                Customer = new Customer (id: 3 ),
+                Note = "Test order",
+                ShoppingCart = new ShoppingCart
+                {
+                    Products = new List<Product>
+                {
+                    new Product { Id = 1 }, 
+                    new Product { Id = 3 }  
+                },
+                    Discount = 10
+                }
+            };
 
-            // dao.CreateUser(customer);
-            // dao.AuthenticateUser("troy@gmail.com", "troy@gmail.com"); 
+            OrderDAO dao = new OrderDAO(); 
+            bool result = dao.CreateOrder(order);
+
+            if (result)
+            {
+                Console.WriteLine("Order created successfully!");
+            }
+            else
+            {
+                Console.WriteLine("Failed to create order.");
+            }
         }
 
     }

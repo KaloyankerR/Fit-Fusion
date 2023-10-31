@@ -1,19 +1,35 @@
 
 
+--CREATE TABLE [Order] (
+--    Id INT PRIMARY KEY IDENTITY(1, 1),
+--	UserId INT NOT NULL,
+--    OrderDate DATE NOT NULL,
+--    Note VARCHAR(155),
+--    FOREIGN KEY (UserId) REFERENCES Customer(Id)
+--);
+
+--CREATE TABLE OrderLine (
+--    -- Id INT PRIMARY KEY IDENTITY(1, 1),
+--    OrderId INT NOT NULL,
+--    ProductId INT NOT NULL,
+--    Quantity INT NOT NULL,
+--	TotalPrice INT NOT NULL,
+--    FOREIGN KEY (OrderId) REFERENCES [Order](Id),
+--    FOREIGN KEY (ProductId) REFERENCES Product(Id)
+--);
+
 CREATE TABLE [Order] (
     Id INT PRIMARY KEY IDENTITY(1, 1),
-	UserId INT NOT NULL,
-    OrderDate DATE NOT NULL,
-    Note VARCHAR(155),
-    FOREIGN KEY (UserId) REFERENCES Customer(Id)
+    OrderDate DATETIME,
+    CustomerId INT,
+    Note NVARCHAR(100),
+    FOREIGN KEY (CustomerId) REFERENCES Customer(Id)
 );
 
-CREATE TABLE OrderLine (
-    -- Id INT PRIMARY KEY IDENTITY(1, 1),
-    OrderId INT NOT NULL,
-    ProductId INT NOT NULL,
-    Quantity INT NOT NULL,
-	TotalPrice INT NOT NULL,
+CREATE TABLE ShoppingCart (
+    OrderId INT,
+    ProductId INT,
+    Discount INT,
     FOREIGN KEY (OrderId) REFERENCES [Order](Id),
     FOREIGN KEY (ProductId) REFERENCES Product(Id)
 );

@@ -12,6 +12,10 @@ namespace Models.User
         public int LoyaltyScore { get { return loyaltyScore; } protected set { loyaltyScore = value; } }
 
         public Customer() { }
+        public Customer(int id) 
+        {
+            this.id = id;
+        }
 
         public Customer(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address, int loyaltyScore)
             : base(id, firstName, lastName, email, passwordHash, passwordSalt, address)
