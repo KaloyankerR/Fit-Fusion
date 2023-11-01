@@ -4,66 +4,37 @@
     ViewData["Title"] = "Login";
 }
 
-<style>
-    .role-buttons {
-        display: flex;
-        justify-content: space-around;
-        margin-bottom: 10px;
-    }
-
-    .role-button {
-        padding: 10px;
-        cursor: pointer;
-    }
-
-        .role-button.active {
-            background-color: #4CAF50;
-            color: white;
-        }
-</style>
-
 <h2>@ViewData["Title"]</h2>
-<h3>as a</h3>
-
-<div class="role-buttons">
-    <div class="role-button" id="ownerButton" onclick="selectRole('Owner')">Owner</div>
-    <div class="role-button" id="staffButton" onclick="selectRole('Staff')">Staff</div>
-    <div class="role-button" id="customerButton" onclick="selectRole('Customer')">Customer</div>
-</div>
 
 <form method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     <div>
         <label asp-for="@Model.Email"></label>
-        <input asp-for="@Model.Email" />
+        <input asp-for="@Model.Email" oninput="checkFields()" />
     </div>
     <div>
         <label asp-for="@Model.Password"></label>
-        <input asp-for="@Model.Password" />
+        <input asp-for="@Model.Password" type="password" oninput="checkFields()" />
     </div>
-    <input type="hidden" id="userTypeInput" name="UserType" />
-    
-    @* <div>
-        <button type="button" onclick="selectRole('Owner')">Log in as Owner</button>
-        <button type="button" onclick="selectRole('Staff')">Log in as Staff</button>
-        <button type="button" onclick="selectRole('Customer')">Log in as Customer</button>
-    </div> *@
-    
+
     <div>
-        <button type="submit" id="submitButton" style="display: none;">Log in</button>
+        <div>
+            <input type="checkbox" asp-for="@Model.RememberMe" />
+            <label asp-for="@Model.RememberMe">Remember Me</label>
+        </div>
+        <button type="submit" id="submitButton">Log in</button>
     </div>
 </form>
 
 <script>
-    let selectedRole = '';
+    function checkFields() {
+        let email = document.getElementById('Email').value.trim();
+        let password = document.getElementById('Password').value.trim();
 
-    function selectRole(role) {
-        selectedRole = role;
-        document.getElementById('userTypeInput').value = role;
-        document.querySelectorAll('.role-button').forEach(button => {
-            button.classList.remove('active');
-        });
-        document.getElementById(`${role.toLowerCase()}Button`).classList.add('active');
-        document.getElementById('submitButton').style.display = 'block';
+        if (email !== '' && password !== '') {
+            document.getElementById('submitButton').style.display = 'block';
+        } else {
+            document.getElementById('submitButton').style.display = 'none';
+        }
     }
 </script>

@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
+
 
 namespace FitFusionWeb.Pages.Authentication
 {
@@ -16,7 +19,7 @@ namespace FitFusionWeb.Pages.Authentication
         [BindProperty]
         public string Password { get; set; }
         [BindProperty]
-        public string UserType { get; set; }  // New bind property for user type
+        public bool RememberMe { get; set; }
         private UserManager _userManager = new(new UserDAO());
 
         public IActionResult OnGet()
@@ -39,13 +42,24 @@ namespace FitFusionWeb.Pages.Authentication
                     List<Claim> claims = new List<Claim>();
                     claims.Add(new Claim(ClaimTypes.Email, isAuthenticated.Email));
                     claims.Add(new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole()));
-                    // claims.Add(new Claim("userType", UserType));
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+                    // HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+
+                    AuthenticationProperties authProperties = null;
+                    if (RememberMe)
+                    {
+                        authProperties = new AuthenticationProperties
+                        {
+                            IsPersistent = true,
+                            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5)
+                        };
+                    }
+
+                    HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
+                    HttpContext.Session.SetString("Email", isAuthenticated.Email);
 
                     return RedirectToPage("../Index");
-
                 }
             }
 
