@@ -9,6 +9,10 @@
 
 @if (User.Identity.IsAuthenticated)
 {
+    <h3>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</h3>
+    <h5>@Model.CurrentUser.Email</h5>
+    <p>@Model.CurrentUser.Address</p>
+
     <div class="col-md-3 text-end">
         <a type="button" class="btn btn-outline-primary me-2" asp-page="Logout">Logout</a>
     </div>

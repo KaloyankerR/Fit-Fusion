@@ -19,6 +19,28 @@ namespace FitFusionWeb.Pages
         {
             if (User.Identity.IsAuthenticated)
             {
+                var email = User.FindFirstValue(ClaimTypes.Email);
+                var role = User.FindFirstValue(ClaimTypes.Role);
+                User newRole;
+
+                switch(role)
+                {
+                    case "Owner":
+                        newRole = new Owner();
+                        break;
+                    case "Staff":
+                        newRole = new Staff();
+                        break;
+                    case "Customer":
+                        newRole = new Customer();
+                        break;
+                    default:
+                        newRole = null;
+                        break;
+                }
+
+
+                CurrentUser = _userManager.GetUserByEmail(email, newRole);
                 // User.FindFirstValue(ClaimTypes.Email);
                 //CurrentUser = _userManager.GetUserByEmail(ClaimTypes.NameIdentifier);
 

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Authentication;
 
 
 namespace FitFusionWeb.Pages.Authentication
@@ -15,9 +14,9 @@ namespace FitFusionWeb.Pages.Authentication
     public class LoginModel : PageModel
     {
         [BindProperty]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
         [BindProperty]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
         [BindProperty]
         public bool RememberMe { get; set; }
         private UserManager _userManager = new(new UserDAO());
@@ -39,14 +38,16 @@ namespace FitFusionWeb.Pages.Authentication
                 var isAuthenticated = _userManager.AuthenticateUser(Email, Password);
                 if (isAuthenticated != null)
                 {
-                    List<Claim> claims = new List<Claim>();
-                    claims.Add(new Claim(ClaimTypes.Email, isAuthenticated.Email));
-                    claims.Add(new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole()));
+                    List<Claim> claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Email, isAuthenticated.Email),
+                        new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole())
+                    };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     // HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
 
-                    AuthenticationProperties authProperties = null;
+                    AuthenticationProperties? authProperties = null;
                     if (RememberMe)
                     {
                         authProperties = new AuthenticationProperties
