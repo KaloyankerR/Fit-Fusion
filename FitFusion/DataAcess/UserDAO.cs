@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Models.User;
 using System.Data.SqlClient;
+using DataAcess.Interfaces;
 
 namespace DataAcess
 {
-    public class UserDAO
+    public class UserDAO : IUserDAO
     {
         private readonly string ConnectionString;
 

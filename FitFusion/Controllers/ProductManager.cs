@@ -6,14 +6,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAcess.Interfaces;
 
 namespace Controllers
 {
     public class ProductManager
     {
-        private ProductDAO dao;
+        private IProductDAO dao;
 
-        public ProductManager(ProductDAO productDao)
+        public ProductManager(IProductDAO productDao)
         {
             dao = productDao;
         }

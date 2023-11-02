@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controllers", "Controllers\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitFusionDesktop", "FitFusionDesktop\FitFusionDesktop.csproj", "{32121E8A-1BF0-48F7-86B2-3850FF373993}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FitFusionTest", "FitFusionTest\FitFusionTest.csproj", "{EE5BD980-98E1-4A59-878E-CA8FBD225CA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{32121E8A-1BF0-48F7-86B2-3850FF373993}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32121E8A-1BF0-48F7-86B2-3850FF373993}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32121E8A-1BF0-48F7-86B2-3850FF373993}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE5BD980-98E1-4A59-878E-CA8FBD225CA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE5BD980-98E1-4A59-878E-CA8FBD225CA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE5BD980-98E1-4A59-878E-CA8FBD225CA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE5BD980-98E1-4A59-878E-CA8FBD225CA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -4,11 +4,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DataAcess.Interfaces;
 using Models.Order;
 
 namespace DataAcess
 {
-    public class OrderDAO
+    public class OrderDAO : IOrderDAO
     {
         private string ConnectionString;
 

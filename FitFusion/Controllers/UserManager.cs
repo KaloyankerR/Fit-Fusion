@@ -7,14 +7,15 @@ using DataAcess;
 using Models.Product;
 using Models.User;
 using UserModel = Models.User.User;
+using DataAcess.Interfaces;
 
 namespace Controllers
 {
     public class UserManager
     {
-        public UserDAO dao;
+        public IUserDAO dao;
 
-        public UserManager(UserDAO userDao)
+        public UserManager(IUserDAO userDao)
         {
             dao = userDao;
         }

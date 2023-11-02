@@ -1,4 +1,5 @@
-﻿using Models.Product;
+﻿using DataAcess.Interfaces;
+using Models.Product;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAcess
 {
-    public class ProductDAO
+    public class ProductDAO : IProductDAO
     {
         private string ConnectionString;
 
