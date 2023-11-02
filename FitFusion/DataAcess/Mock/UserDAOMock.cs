@@ -14,7 +14,7 @@ namespace DataAcess.Mock
 
         public UserDAOMock()
         {
-            List<User> users = new List<User>
+            users = new List<User>
             {
                 new Staff(1, "John", "Doe", "john@example.com", "hashed_password", "salt", "123 Main St", "123-456-7890"),
                 new Owner(2, "Jane", "Doe", "jane@example.com", "hashed_password", "salt", "456 Oak St", "987-654-3210"),
@@ -44,7 +44,7 @@ namespace DataAcess.Mock
 
         public bool CreateUser(User user)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public bool DeleteUser(User user)
