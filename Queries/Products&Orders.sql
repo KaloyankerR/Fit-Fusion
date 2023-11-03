@@ -20,8 +20,10 @@
 
 CREATE TABLE [Order] (
     Id INT PRIMARY KEY IDENTITY(1, 1),
-    OrderDate DATETIME,
-    CustomerId INT,
+    OrderDate DATETIME NOT NULL,
+    CustomerId INT NOT NULL,
+	TotalPrice DECIMAL(18, 2) NOT NULL, 
+	Discount INT,
     Note NVARCHAR(100),
     FOREIGN KEY (CustomerId) REFERENCES Customer(Id)
 );
@@ -29,7 +31,6 @@ CREATE TABLE [Order] (
 CREATE TABLE ShoppingCart (
     OrderId INT,
     ProductId INT,
-    Discount INT,
     FOREIGN KEY (OrderId) REFERENCES [Order](Id),
     FOREIGN KEY (ProductId) REFERENCES Product(Id)
 );
