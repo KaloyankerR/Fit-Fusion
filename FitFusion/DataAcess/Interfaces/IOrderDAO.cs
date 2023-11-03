@@ -10,8 +10,8 @@ namespace DataAcess.Interfaces
     public interface IOrderDAO
     {
         bool CreateOrder(Order order);
-        bool UpdateOrder(Order order);
-        bool DeleteOrder(Order order);
+        // bool UpdateOrder(Order order);
+        // bool DeleteOrder(Order order);
         Order GetOrder(int id);
         List<Order> GetOrders();
     }

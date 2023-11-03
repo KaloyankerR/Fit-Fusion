@@ -3,11 +3,9 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using DataAcess;
 using Models.Product;
 using Controllers;
-// using Controllers.User;
 using Models.User;
 using FitFusionWeb.Pages.Products;
 using Models.Order;
-// using Controllers.Product;
 
 namespace FitFusionWeb.Pages
 {
@@ -31,24 +29,19 @@ namespace FitFusionWeb.Pages
                 {
                     Products = new List<Product>
                 {
-                    new Product { Id = 1 }, 
-                    new Product { Id = 3 }  
+                    new Product { Id = 1, Price = 10 }, 
+                    new Product { Id = 3, Price = 25 }  
                 },
                     Discount = 10
-                }
+                },
             };
 
-            OrderDAO dao = new OrderDAO(); 
-            bool result = dao.CreateOrder(order);
+            order.TotalPrice = order.CalculateTotalPrice();
 
-            if (result)
-            {
-                Console.WriteLine("Order created successfully!");
-            }
-            else
-            {
-                Console.WriteLine("Failed to create order.");
-            }
+            OrderDAO dao = new OrderDAO();
+            // bool result = dao.CreateOrder(order);
+            Order result = dao.GetOrder(1);
+            
         }
 
     }

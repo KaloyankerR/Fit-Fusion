@@ -31,20 +31,22 @@ namespace DataAcess
                 {
                     connection.Open();
 
-                    string createOrderQuery = "INSERT INTO [Order] (OrderDate, CustomerId, Note) " +
-                                              "VALUES (@OrderDate, @CustomerId, @Note);" +
+                    string createOrderQuery = "INSERT INTO [Order] (OrderDate, CustomerId, TotalPrice, Discount, Note) " +
+                                              "VALUES (@OrderDate, @CustomerId, @TotalPrice, @Discount, @Note);" +
                                               "SELECT SCOPE_IDENTITY();";
 
                     using (SqlCommand command = new SqlCommand(createOrderQuery, connection))
                     {
                         command.Parameters.AddWithValue("@OrderDate", order.OrderDate);
                         command.Parameters.AddWithValue("@CustomerId", order.Customer.Id);
+                        command.Parameters.AddWithValue("@TotalPrice", order.TotalPrice);
+                        command.Parameters.AddWithValue("@Discount", order.Discount);
                         command.Parameters.AddWithValue("@Note", order.Note);
 
                         int orderId = Convert.ToInt32(command.ExecuteScalar());
 
-                        string insertShoppingCartQuery = "INSERT INTO ShoppingCart (OrderId, ProductId, Discount) " +
-                                                         "VALUES (@OrderId, @ProductId, @Discount);";
+                        string insertShoppingCartQuery = "INSERT INTO ShoppingCart (OrderId, ProductId) " +
+                                                         "VALUES (@OrderId, @ProductId);";
 
                         foreach (var product in order.ShoppingCart.Products)
                         {
@@ -52,7 +54,6 @@ namespace DataAcess
                             {
                                 cartCommand.Parameters.AddWithValue("@OrderId", orderId);
                                 cartCommand.Parameters.AddWithValue("@ProductId", product.Id);
-                                cartCommand.Parameters.AddWithValue("@Discount", order.ShoppingCart.Discount);
 
                                 cartCommand.ExecuteNonQuery();
                             }
@@ -70,11 +71,100 @@ namespace DataAcess
         }
 
 
-        public bool UpdateOrder(Order order) { return false; }
+        //public bool CreateOrder(Order order)
+        //{
+        //    try
+        //    {
+        //        using (SqlConnection connection = new SqlConnection(ConnectionString))
+        //        {
+        //            connection.Open();
 
-        public bool DeleteOrder(Order order) { return false; }
+        //            string createOrderQuery = "INSERT INTO [Order] (OrderDate, CustomerId, Note) " +
+        //                                      "VALUES (@OrderDate, @CustomerId, @Note);" +
+        //                                      "SELECT SCOPE_IDENTITY();";
 
-        public Order GetOrder(int id) {  return new Order(); }
+        //            using (SqlCommand command = new SqlCommand(createOrderQuery, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@OrderDate", order.OrderDate);
+        //                command.Parameters.AddWithValue("@CustomerId", order.Customer.Id);
+        //                command.Parameters.AddWithValue("@Note", order.Note);
+
+        //                int orderId = Convert.ToInt32(command.ExecuteScalar());
+
+        //                string insertShoppingCartQuery = "INSERT INTO ShoppingCart (OrderId, ProductId, Discount) " +
+        //                                                 "VALUES (@OrderId, @ProductId, @Discount);";
+
+        //                foreach (var product in order.ShoppingCart.Products)
+        //                {
+        //                    using (SqlCommand cartCommand = new SqlCommand(insertShoppingCartQuery, connection))
+        //                    {
+        //                        cartCommand.Parameters.AddWithValue("@OrderId", orderId);
+        //                        cartCommand.Parameters.AddWithValue("@ProductId", product.Id);
+        //                        cartCommand.Parameters.AddWithValue("@Discount", order.ShoppingCart.Discount);
+
+        //                        cartCommand.ExecuteNonQuery();
+        //                    }
+        //                }
+        //            }
+
+        //            return true;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine($"Error creating order: {ex.Message}");
+        //        return false;
+        //    }
+        //}
+
+        // public bool UpdateOrder(Order order) { return false; }
+
+        // public bool DeleteOrder(Order order) { return false; }
+
+        public Order GetOrder(int id)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string getOrderQuery = $"SELECT Id, OrderDate, CustomerId, TotalPrice, Discount, Note FROM [Order] WHERE Id = @Id;";
+
+                    using (SqlCommand command = new SqlCommand(getOrderQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                Order order = new Order
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    OrderDate = reader.GetDateTime(reader.GetOrdinal("OrderDate")),
+                                    Customer = new (id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    TotalPrice = (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
+                                    Discount = reader.GetInt32(reader.GetOrdinal("Discount")),
+                                    Note = reader.IsDBNull(reader.GetOrdinal("Note")) ? null : reader.GetString(reader.GetOrdinal("Note"))
+                                };
+
+                                return order;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle or log the exception as needed
+                Console.WriteLine($"Error retrieving order with ID {id}: {ex.Message}");
+            }
+
+            return null;
+        }
+
+
 
         public List<Order> GetOrders() {  return new List<Order>(); }
 
