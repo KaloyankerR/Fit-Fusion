@@ -23,8 +23,8 @@ namespace FitFusionWeb.Pages
             Order order = new Order
             {
                 OrderDate = DateTime.Now,
-                Customer = new Customer (id: 3 ),
-                Note = "Test order",
+                Customer = new Customer (id: 4 ),
+                Note = "Let her go test order",
                 ShoppingCart = new ShoppingCart
                 {
                     Products = new List<Product>
@@ -39,8 +39,8 @@ namespace FitFusionWeb.Pages
             order.TotalPrice = order.CalculateTotalPrice();
 
             OrderDAO dao = new OrderDAO();
-            // bool result = dao.CreateOrder(order);
-            Order result = dao.GetOrder(1);
+            bool result = dao.CreateOrder(order);
+            List<Order> result2 = dao.GetOrders();
             
         }
 
