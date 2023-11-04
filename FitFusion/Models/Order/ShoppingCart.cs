@@ -10,14 +10,12 @@ namespace Models.Order
     public class ShoppingCart
     {
         public List<ProductModel> Products { get; set; } = new();
-        public int Discount { get; set; } = new();
 
         public ShoppingCart() { }
 
-        public ShoppingCart(List<ProductModel> products, int discount) 
+        public ShoppingCart(List<ProductModel> products) 
         {
             Products = products;
-            Discount = discount;
         }
 
         public void AddProduct(ProductModel product)
@@ -30,6 +28,10 @@ namespace Models.Order
             Products.Remove(product);
         }
 
+        public override string ToString()
+        {
+            return $"{Products.Count} products in cart";
+        }
     }
 
 }

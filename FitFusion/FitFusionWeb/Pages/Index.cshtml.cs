@@ -31,16 +31,15 @@ namespace FitFusionWeb.Pages
                 {
                     new Product { Id = 1, Price = 10 }, 
                     new Product { Id = 3, Price = 25 }  
-                },
-                    Discount = 10
+                }    
                 },
             };
 
             order.TotalPrice = order.CalculateTotalPrice();
 
             OrderDAO dao = new OrderDAO();
-            bool result = dao.CreateOrder(order);
-            List<Order> result2 = dao.GetOrders();
+            // bool result = dao.CreateOrder(order);
+            var result2 = dao.GetOrders();
             
         }
 

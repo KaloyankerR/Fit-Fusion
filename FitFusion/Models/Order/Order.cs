@@ -12,11 +12,11 @@ namespace Models.Order
     {
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
-        public Customer Customer { get; set; }
-        public ShoppingCart ShoppingCart { get; set; }
+        public Customer Customer { get; set; } = new Customer();
+        public ShoppingCart ShoppingCart { get; set; } = new ShoppingCart();
         public double TotalPrice { get; set; }
         public int Discount { get; set; }
-        public string Note { get; set; }
+        public string Note { get; set; } = string.Empty;
 
         public Order() { }
 
@@ -41,6 +41,11 @@ namespace Models.Order
             }
 
             return totalPrice - (totalPrice * Discount);
+        }
+
+        public override string ToString()
+        {
+            return $"Order №{Id} - {TotalPrice}€";
         }
 
     }

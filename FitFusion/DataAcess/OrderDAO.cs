@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using DataAcess.Interfaces;
 using Models.Order;
 using Models.User;
+using Models.Product;
+using System.Data;
 
 namespace DataAcess
 {
@@ -32,11 +34,11 @@ namespace DataAcess
                 {
                     connection.Open();
 
-                    string createOrderQuery = "INSERT INTO [Order] (OrderDate, CustomerId, TotalPrice, Discount, Note) " +
+                    string query = "INSERT INTO [Order] (OrderDate, CustomerId, TotalPrice, Discount, Note) " +
                                               "VALUES (@OrderDate, @CustomerId, @TotalPrice, @Discount, @Note);" +
                                               "SELECT SCOPE_IDENTITY();";
 
-                    using (SqlCommand command = new SqlCommand(createOrderQuery, connection))
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@OrderDate", order.OrderDate);
                         command.Parameters.AddWithValue("@CustomerId", order.Customer.Id);
@@ -66,8 +68,52 @@ namespace DataAcess
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error creating order: {ex.Message}");
-                return false;
+                throw new Exception("Failed to create the new order.", ex);
+                // return false;
+            }
+        }
+
+        public ShoppingCart GetShoppingCart(int id)
+        {
+            ShoppingCart shoppingCart = new ShoppingCart();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = $"SELECT * FROM ShoppingCart s JOIN Product p ON s.ProductId = p.Id WHERE s.OrderId = @Id;";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Product product = new Product
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    Title = reader.GetString(reader.GetOrdinal("Title")),
+                                    Description = reader.GetString(reader.GetOrdinal("Description")),
+                                    Price = (double)reader.GetDecimal(reader.GetOrdinal("Price")),
+                                    Category = Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
+                                    ImageUrl = reader.GetString("ImageUrl")
+                                };
+
+                                shoppingCart.AddProduct(product);
+                            }
+                        }
+
+                        return shoppingCart;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to retrieve the shopping cart.", ex);
             }
         }
 
@@ -79,9 +125,9 @@ namespace DataAcess
                 {
                     connection.Open();
 
-                    string getOrderQuery = $"SELECT Id, OrderDate, CustomerId, TotalPrice, Discount, Note FROM [Order] WHERE Id = @Id;";
+                    string query = $"SELECT Id, OrderDate, CustomerId, TotalPrice, Discount, Note FROM [Order] WHERE Id = @Id;";
 
-                    using (SqlCommand command = new SqlCommand(getOrderQuery, connection))
+                    using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Id", id);
 
@@ -94,27 +140,29 @@ namespace DataAcess
                                     Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                     OrderDate = reader.GetDateTime(reader.GetOrdinal("OrderDate")),
                                     Customer = new (id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    ShoppingCart = GetShoppingCart(id),
                                     TotalPrice = (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
                                     Discount = reader.GetInt32(reader.GetOrdinal("Discount")),
-                                    Note = reader.IsDBNull(reader.GetOrdinal("Note")) ? null : reader.GetString(reader.GetOrdinal("Note"))
+                                    Note = reader.GetString(reader.GetOrdinal("Note"))
                                 };
 
                                 return order;
+                            } 
+                            else
+                            {
+                                throw new InvalidOperationException("No objects found.");
                             }
+
+                            
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                // Handle or log the exception as needed
-                Console.WriteLine($"Error retrieving order with ID {id}: {ex.Message}");
+                throw new Exception("Failed to retrieve the current order.", ex);
             }
-
-            return null;
         }
-
-
 
         public List<Order> GetOrders() 
         {
@@ -138,26 +186,26 @@ namespace DataAcess
                                 {
                                     Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                     OrderDate = reader.GetDateTime(reader.GetOrdinal("OrderDate")),
-                                    Customer = new Customer (id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    Customer = new Customer(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    ShoppingCart = GetShoppingCart(reader.GetInt32(reader.GetOrdinal("Id"))),
                                     TotalPrice = (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
                                     Discount = reader.GetInt32(reader.GetOrdinal("Discount")),
-                                    Note = reader.IsDBNull(reader.GetOrdinal("Note")) ? null : reader.GetString(reader.GetOrdinal("Note"))
+                                    Note = reader.GetString(reader.GetOrdinal("Note"))
                                 };
 
                                 orders.Add(order);
                             }
+
+                            return orders;
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error retrieving orders: {ex.Message}");
+                throw new Exception("Failed to retrieve all orders.", ex);
             }
-
-            return orders;
-
         }
-
+    
     }
 }
