@@ -52,7 +52,7 @@ namespace FitFusionDesktop.UserControls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            users = userManager.SearchFilter(users, txtSearchQuery.Text);
+            users = userManager.Search(users, txtSearchQuery.Text);
             FillDataGridViewWithMockData(users);
         }
     }

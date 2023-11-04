@@ -24,7 +24,7 @@ namespace FitFusionWeb.Pages.Users
         public void OnPost()
         {
             Users = userManager.GetUsers(new Owner());
-            Users = userManager.SearchFilter(Users, SearchQuery);
+            Users = userManager.Search(Users, SearchQuery);
             Users = userManager.Sort(Users, Sort);
         }
 

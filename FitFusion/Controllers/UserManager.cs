@@ -92,13 +92,13 @@ namespace Controllers
             }
         }
 
-        public List<UserModel> SearchFilter(List<UserModel> users, string searchQuery)
+        public List<UserModel> Search(List<UserModel> users, string param)
         {
-            if (!string.IsNullOrEmpty(searchQuery))
+            if (!string.IsNullOrEmpty(param))
             {
                 users = users.FindAll(u =>
-                    u.FirstName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    u.LastName.Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    u.FirstName.Contains(param, StringComparison.OrdinalIgnoreCase) ||
+                    u.LastName.Contains(param, StringComparison.OrdinalIgnoreCase)
                 );
             }
 
