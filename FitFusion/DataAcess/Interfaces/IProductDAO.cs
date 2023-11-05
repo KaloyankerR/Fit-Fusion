@@ -14,5 +14,6 @@ namespace DataAcess.Interfaces
         bool DeleteProduct(int productId);
         Product GetProductById(int productId);
         List<Product> GetProducts();
+        Dictionary<string, int> GetTrendyProducts();
     }
 }

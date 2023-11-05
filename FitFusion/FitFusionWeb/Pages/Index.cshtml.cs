@@ -35,7 +35,7 @@ namespace FitFusionWeb.Pages
                 },
             };
 
-            order.TotalPrice = order.CalculateTotalPrice();
+            // order.TotalPrice = order.CalculateTotalPrice();
 
             OrderDAO dao = new OrderDAO();
             // bool result = dao.CreateOrder(order);

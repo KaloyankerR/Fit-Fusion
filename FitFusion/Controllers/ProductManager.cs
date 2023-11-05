@@ -116,5 +116,36 @@ namespace Controllers
             return products;
         }
 
+        public Dictionary<Category, int> GetCategoryStats()
+        {
+            List<ProductModel> products = GetProducts();
+            Dictionary<Category, int> categoryCounts = new Dictionary<Category, int>();
+
+            foreach (ProductModel product in products)
+            {
+                Category category = product.Category;
+
+                if (!categoryCounts.ContainsKey(category))
+                {
+                    categoryCounts[category] = 1;
+                }
+                else
+                {
+                    categoryCounts[category]++;
+                }
+            }
+
+            return categoryCounts;
+        }
+
+        public Dictionary<string, int> GetTrendyProducts()
+        {
+            try
+            {
+                return dao.GetTrendyProducts();
+            }
+            catch (Exception ex) { throw new Exception(ex.ToString()); }
+        }
+
     }
 }

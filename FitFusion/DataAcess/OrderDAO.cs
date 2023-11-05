@@ -42,8 +42,8 @@ namespace DataAcess
                     {
                         command.Parameters.AddWithValue("@OrderDate", order.OrderDate);
                         command.Parameters.AddWithValue("@CustomerId", order.Customer.Id);
-                        command.Parameters.AddWithValue("@TotalPrice", order.TotalPrice);
-                        command.Parameters.AddWithValue("@Discount", order.Discount);
+                        command.Parameters.AddWithValue("@TotalPrice", order.CalculateTotalPrice());
+                        command.Parameters.AddWithValue("@Discount", GetDiscount(order.Customer.Id));
                         command.Parameters.AddWithValue("@Note", order.Note);
 
                         int orderId = Convert.ToInt32(command.ExecuteScalar());
@@ -139,7 +139,7 @@ namespace DataAcess
                                 {
                                     Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                     OrderDate = reader.GetDateTime(reader.GetOrdinal("OrderDate")),
-                                    Customer = new (id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    Customer = new(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
                                     ShoppingCart = GetShoppingCart(id),
                                     TotalPrice = (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
                                     Discount = reader.GetInt32(reader.GetOrdinal("Discount")),
@@ -147,13 +147,13 @@ namespace DataAcess
                                 };
 
                                 return order;
-                            } 
+                            }
                             else
                             {
                                 throw new InvalidOperationException("No orders were found.");
                             }
 
-                            
+
                         }
                     }
                 }
@@ -164,7 +164,7 @@ namespace DataAcess
             }
         }
 
-        public List<Order> GetOrders() 
+        public List<Order> GetOrders()
         {
             List<Order> orders = new List<Order>();
 
@@ -206,6 +206,41 @@ namespace DataAcess
                 throw new Exception("Failed to retrieve all orders.", ex);
             }
         }
-    
+
+        public int GetDiscount(int customerId)
+        {
+            int discount = 0;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string query = $"SELECT * FROM Customer WHERE Id=@Id";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", customerId);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                discount = reader.GetInt32(reader.GetOrdinal("LoyaltyScore"));
+                            }
+
+                            return discount;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to retrieve the customers discount.", ex);
+            }
+
+        }
+
     }
 }

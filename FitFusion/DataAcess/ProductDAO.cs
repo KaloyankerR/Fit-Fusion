@@ -229,6 +229,54 @@ namespace DataAcess
             }
         }
 
+        public Dictionary<string, int> GetTrendyProducts()
+        {
+            try
+            {
+                Dictionary<string, int> products = new ();
+
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand getAllProductsCommand = new SqlCommand("SELECT p.Id, p.Title, p.Description, p.Price, p.Category, p.ImageUrl, COUNT(sc.ProductId) AS TimesOrdered FROM Product p JOIN ShoppingCart sc ON p.Id = sc.ProductId GROUP BY p.Id, p.Title, p.Description, p.Price, p.Category, p.ImageUrl ORDER BY TimesOrdered DESC;", connection))
+                    {
+                        using (SqlDataReader reader = getAllProductsCommand.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                int productId = reader.GetInt32("Id");
+
+                                List<Hashtag> hashtagsToAdd = GetHashtagsForProduct(connection, productId);
+
+                                //Product product = new Product
+                                //(
+                                //    id: productId,
+                                //    title: reader.GetString("Title"),
+                                //    description: reader.GetString("Description"),
+                                //    price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
+                                //    category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
+                                //    hashtags: hashtagsToAdd,
+                                //    imageUrl: reader.GetString("ImageUrl")
+                                //);
+
+                                string name = reader.GetString("Title");
+                                int count = reader.GetInt32("TimesOrdered");
+
+                                products.Add(name, count);
+                            }
+
+                            return products;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to retrieve trendy products.", ex);
+            }
+        }
+
         private List<Hashtag> GetHashtagsForProduct(SqlConnection connection, int productId)
         {
             List<Hashtag> hashtags = new List<Hashtag>();
@@ -251,6 +299,7 @@ namespace DataAcess
 
             return hashtags;
         }
+
 
     }
 
