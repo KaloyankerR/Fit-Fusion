@@ -14,7 +14,7 @@ namespace DataAcess
 {
     public class OrderDAO : IOrderDAO
     {
-        private string ConnectionString;
+        private readonly string ConnectionString;
 
         public OrderDAO()
         {
@@ -150,7 +150,7 @@ namespace DataAcess
                             } 
                             else
                             {
-                                throw new InvalidOperationException("No objects found.");
+                                throw new InvalidOperationException("No orders were found.");
                             }
 
                             

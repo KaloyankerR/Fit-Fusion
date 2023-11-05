@@ -12,7 +12,7 @@ namespace DataAcess
 {
     public class ProductDAO : IProductDAO
     {
-        private string ConnectionString;
+        private readonly string ConnectionString;
 
         public ProductDAO()
         {
@@ -24,7 +24,7 @@ namespace DataAcess
             ConnectionString = connectionString;
         }
 
-        public void CreateProduct(Product product)
+        public bool CreateProduct(Product product)
         {
             try
             {
@@ -51,17 +51,20 @@ namespace DataAcess
                                 hashtagCommand.ExecuteNonQuery();
                             }
                         }
+
+                        return true;
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
+                throw new Exception("Failed to create product.", ex);
+                // return false;
             }
         }
 
-        public void UpdateProduct(Product updatedProduct)
+        public bool UpdateProduct(Product updatedProduct)
         {
             try
             {
@@ -96,15 +99,18 @@ namespace DataAcess
                             hashtagCommand.ExecuteNonQuery();
                         }
                     }
+
+                    return true;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
+                throw new Exception("Failed to update product.", ex);
+                // return fale;
             }
         }
 
-        public void DeleteProduct(int productId)
+        public bool DeleteProduct(int productId)
         {
             try
             {
@@ -123,12 +129,14 @@ namespace DataAcess
                         deleteProductCommand.Parameters.AddWithValue("@ProductId", productId);
                         deleteProductCommand.ExecuteNonQuery();
                     }
-                    
+
+                    return true;
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.ToString());
+                throw new Exception("Failed to delete product.", ex);
+                // return false;
             }
         }
 
@@ -143,7 +151,6 @@ namespace DataAcess
                     using (SqlCommand getProductCommand = new SqlCommand("SELECT * FROM Product WHERE Id = @ProductId", connection))
                     {
                         getProductCommand.Parameters.AddWithValue("@ProductId", productId);
-
                         List<Hashtag> hashtagsToAdd = GetHashtagsForProduct(connection, productId);
 
                         using (SqlDataReader reader = getProductCommand.ExecuteReader())
@@ -154,30 +161,30 @@ namespace DataAcess
                                 (
                                     id: reader.GetInt32("Id"),
                                     title: reader.GetString("Title"),
-                                    description: reader.IsDBNull("Description") ? null : reader.GetString("Description"),
+                                    description: reader.GetString("Description"),
                                     price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
                                     hashtags: hashtagsToAdd,
-                                    imageUrl: reader.IsDBNull("ImageUrl") ? null : reader.GetString("ImageUrl")
+                                    imageUrl: reader.GetString("ImageUrl")
                                 );
 
                                 return product;
                             }
+                            else
+                            {
+                                throw new InvalidOperationException("No product was found.");
+                            }
                         }
                     }
                 }
-
-                return null;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while getting the product: {ex.Message}");
-
-                throw;
+                throw new Exception("Failed to retrieve product.", ex);
             }
         }
 
-        public List<Product> GetAllProducts()
+        public List<Product> GetProducts()
         {
             try
             {
@@ -201,26 +208,24 @@ namespace DataAcess
                                 (
                                     id: productId,
                                     title: reader.GetString("Title"),
-                                    description: reader.IsDBNull("Description") ? null : reader.GetString("Description"),
+                                    description: reader.GetString("Description"),
                                     price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
                                     hashtags: hashtagsToAdd,
-                                    imageUrl: reader.IsDBNull("ImageUrl") ? null : reader.GetString("ImageUrl")
+                                    imageUrl: reader.GetString("ImageUrl")
                                 );
 
                                 products.Add(product);
                             }
+
+                            return products;
                         }
                     }
                 }
-
-                return products;
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An error occurred while getting all products: {ex.Message}");
-
-                throw;
+                throw new Exception("Failed to retrieve products.", ex);
             }
         }
 

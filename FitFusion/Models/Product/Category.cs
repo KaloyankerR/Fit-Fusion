@@ -8,12 +8,11 @@ namespace Models.Product
 {
     public enum Category
     {
+        AminoAcids,
+        Gainers,
+        PreWorkout,
         Protein,
-        Creatine,
-        Vitamins,
-        Minerals,
-        Anabolics,
-        Preworkout,
-        Bio,
+        Snacks,
+        Wellbeing
     }
 }

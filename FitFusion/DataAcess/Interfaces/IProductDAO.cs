@@ -9,10 +9,10 @@ namespace DataAcess.Interfaces
 {
     public interface IProductDAO
     {
-        void CreateProduct(Product product);
-        void UpdateProduct(Product updatedProduct);
-        void DeleteProduct(int productId);
+        bool CreateProduct(Product product);
+        bool UpdateProduct(Product updatedProduct);
+        bool DeleteProduct(int productId);
         Product GetProductById(int productId);
-        List<Product> GetAllProducts();
+        List<Product> GetProducts();
     }
 }

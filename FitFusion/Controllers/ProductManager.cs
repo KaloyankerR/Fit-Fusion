@@ -12,7 +12,7 @@ namespace Controllers
 {
     public class ProductManager
     {
-        private IProductDAO dao;
+        private readonly IProductDAO dao;
 
         public ProductManager(IProductDAO productDao)
         {
@@ -73,7 +73,7 @@ namespace Controllers
         {
             try
             {
-                return dao.GetAllProducts();
+                return dao.GetProducts();
             }
             catch (Exception ex) { throw new Exception(ex.ToString()); }
         }

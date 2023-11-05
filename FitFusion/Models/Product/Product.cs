@@ -10,18 +10,20 @@ namespace Models.Product
     {
         protected int id;
         public int Id { get { return id; } set { id = value; } }
-        protected string title;
+        protected string title = string.Empty;
         public string Title { get { return title; } set { title = value; } }
-        protected string description;
+        protected string description = string.Empty;
         public string Description { get { return description; } set { description = value; } }
         protected double price;
         public double Price { get { return price; } set { price = value; } }
         protected Category category;
         public Category Category { get { return category; } set { category = value; } }
-        protected List<Hashtag> hashtags;
+        protected List<Hashtag> hashtags = new();
         public List<Hashtag> Hashtags { get { return hashtags; } set { hashtags = value; } }
-        protected string imageUrl;
-        public string ImageUrl { get { return imageUrl; } set { imageUrl = value; } }
+        private const string DefaultImageUrl = "https://sudbury.legendboats.com/resource/defaultProductImage";
+
+        protected string imageUrl = DefaultImageUrl;
+        public string ImageUrl { get { return imageUrl; } set { imageUrl = value ?? DefaultImageUrl; } }
 
         public Product() { }
         
@@ -33,7 +35,7 @@ namespace Models.Product
             this.price = price;
             this.category = category;
             this.hashtags = hashtags ?? new List<Hashtag>();
-            this.imageUrl = imageUrl ?? "https://sudbury.legendboats.com/resource/defaultProductImage";
+            this.imageUrl = imageUrl ?? DefaultImageUrl;
         }
 
         public override string ToString()

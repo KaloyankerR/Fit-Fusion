@@ -10,7 +10,7 @@ namespace Controllers
 {
     public class OrderManager
     {
-        private IOrderDAO _dao;
+        private readonly IOrderDAO _dao;
 
         public OrderManager(IOrderDAO dao)
         {
