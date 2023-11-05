@@ -1,0 +1,80 @@
+﻿@page
+@model FitFusionWeb.Pages.Stats.ProductsModel
+@{
+    ViewData["Title"] = "Products Stats";
+}
+
+@if (Model.Products.Count == 0)
+{
+    <h1>There are no products in the system.</h1>
+}
+else
+{
+    <canvas id="categoriesPieChart" style="width:100%;max-width:600px"></canvas>
+
+    <canvas id="trendyProductsChart" style="width:100%;max-width:600px"></canvas>
+}
+
+@section scripts{
+    <script>
+        var categoryCounts = @Html.Raw(Json.Serialize(Model.ProductCategoriesData));
+
+        var xValues = Object.keys(categoryCounts);
+        var yValues = Object.values(categoryCounts);
+        var barColors = [
+            "#b91d47",
+            "#00aba9",
+            "#2b5797",
+            "#e8c3b9",
+            "#1e7145",
+            "#ffb900",
+            "#7a7574",
+            "#767676",
+            "#ff8c00",
+            "#005a9e",
+        ];
+
+        new Chart("categoriesPieChart", {
+            type: "doughnut",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: "Most used categories"
+                }
+            }
+        });
+    </script>
+
+    <script>
+        var categoryCounts = @Html.Raw(Json.Serialize(Model.ProductTrendData));
+
+        var xValues = Object.keys(categoryCounts);
+        var yValues = Object.values(categoryCounts);
+        var barColors = ["red", "green", "blue", "orange", "brown"];
+
+        new Chart("trendyProductsChart", {
+            type: "bar",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    backgroundColor: barColors,
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                title: {
+                    display: true,
+                    text: "Trending products"
+                }
+            }
+        });
+    </script>
+}

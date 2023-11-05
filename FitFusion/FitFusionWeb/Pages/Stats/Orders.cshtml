@@ -1,0 +1,45 @@
+﻿@page
+@model FitFusionWeb.Pages.Stats.OrdersModel
+@{
+    ViewData["Title"] = "Products Stats";
+}
+
+@if (Model.Orders.Count == 0)
+{
+    <h1>There are no products in the system.</h1>
+}
+else
+{
+    <canvas id="ordersData" style="width:100%;max-width:600px"></canvas>
+
+}
+
+@section scripts{
+    <script>
+        var categoryCounts = @Html.Raw(Json.Serialize(Model.OrdersData));
+
+        var xValues = Object.keys(categoryCounts);
+        var yValues = Object.values(categoryCounts);
+
+        new Chart("ordersData", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    fill: false,
+                    lineTension: 0,
+                    backgroundColor: "rgba(0,0,255,1.0)",
+                    borderColor: "rgba(0,0,255,0.1)",
+                    data: yValues
+                }]
+            },
+            options: {
+                legend: { display: false },
+                scales: {
+                    yAxes: [{ ticks: { min: 0, max: 100 } }],
+                }
+            }
+        });
+    </script>
+
+}
