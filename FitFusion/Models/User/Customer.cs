@@ -8,10 +8,11 @@ namespace Models.User
 {
     public class Customer : User
     {
-        protected int loyaltyScore;
-        public int LoyaltyScore { get { return loyaltyScore; } protected set { loyaltyScore = value; } }
+        protected int nutriPoints;
+        public int NutriPoints { get { return nutriPoints; } protected set { nutriPoints = value; } }
 
         public Customer() { }
+
         public Customer(int id) 
         {
             this.id = id;
@@ -20,7 +21,7 @@ namespace Models.User
         public Customer(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address, int loyaltyScore)
             : base(id, firstName, lastName, email, passwordHash, passwordSalt, address)
         {
-            this.loyaltyScore = loyaltyScore;
+            this.nutriPoints = loyaltyScore;
         }
 
         public override string GetUserRole()

@@ -72,7 +72,7 @@ namespace DataAcess
                     }
                     else if (user is Customer)
                     {
-                        command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).LoyaltyScore);
+                        command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).NutriPoints);
                     }
 
                     command.ExecuteNonQuery();
@@ -133,7 +133,7 @@ namespace DataAcess
                     }
                     else if (user is Customer)
                     {
-                        command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).LoyaltyScore);
+                        command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).NutriPoints);
                     }
 
                     command.ExecuteNonQuery();

@@ -13,7 +13,7 @@ namespace Controllers
 {
     public class UserManager
     {
-        public IUserDAO dao;
+        public readonly IUserDAO dao;
 
         public UserManager(IUserDAO userDao)
         {
