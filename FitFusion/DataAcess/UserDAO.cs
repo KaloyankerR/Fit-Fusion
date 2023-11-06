@@ -53,13 +53,13 @@ namespace DataAcess
                     command.Parameters.AddWithValue("@LastName", user.LastName);
                     command.Parameters.AddWithValue("@Email", user.Email);
 
-                    string salt = BCrypt.Net.BCrypt.GenerateSalt();
-                    string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, salt);
+                    //string salt = BCrypt.Net.BCrypt.GenerateSalt();
+                    //string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, salt);
+                    //command.Parameters.AddWithValue("@PasswordHash", hashedPassword);
+                    //command.Parameters.AddWithValue("@PasswordSalt", salt);
 
-                    command.Parameters.AddWithValue("@PasswordHash", hashedPassword);
-                    command.Parameters.AddWithValue("@PasswordSalt", salt);
-                    // command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-                    // command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
+                    command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                    command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
                     command.Parameters.AddWithValue("@Address", user.Address);
 
                     if (user is Staff)
@@ -93,21 +93,21 @@ namespace DataAcess
                 if (user is Staff)
                 {
                     updateUserQuery = "UPDATE Staff SET FirstName = @FirstName, " +
-                                      "LastName = @LastName, Email = @Email, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt, " +
+                                      "LastName = @LastName, Email = @Email, " +
                                       "Address = @Address, Phone = @Phone " +
                                       "WHERE Id = @Id;";
                 }
                 else if (user is Owner)
                 {
                     updateUserQuery = "UPDATE Owner SET FirstName = @FirstName, " +
-                                      "LastName = @LastName, Email = @Email, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt, " +
+                                      "LastName = @LastName, Email = @Email, " +
                                       "Address = @Address, Phone = @Phone " +
                                       "WHERE Id = @Id;";
                 }
                 else if (user is Customer)
                 {
                     updateUserQuery = "UPDATE Customer SET FirstName = @FirstName, " +
-                                      "LastName = @LastName, Email = @Email, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt, " +
+                                      "LastName = @LastName, Email = @Email, " +
                                       "Address = @Address, LoyaltyScore = @LoyaltyScore " +
                                       "WHERE Id = @Id;";
                 }
@@ -117,8 +117,8 @@ namespace DataAcess
                     command.Parameters.AddWithValue("@FirstName", user.FirstName);
                     command.Parameters.AddWithValue("@LastName", user.LastName);
                     command.Parameters.AddWithValue("@Email", user.Email);
-                    command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-                    command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
+                    // command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                    // command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
                     command.Parameters.AddWithValue("@Address", user.Address);
 
                     command.Parameters.AddWithValue("@Id", user.Id);
@@ -263,9 +263,6 @@ namespace DataAcess
                 return null;
             }
         }
-
-        //public User GetUserByEmail(string email)
-        //{ }
 
         public User GetUserByEmail(string email, User role)
         {

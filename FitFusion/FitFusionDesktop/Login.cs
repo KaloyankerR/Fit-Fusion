@@ -10,53 +10,44 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DataAcess;
 using Controllers;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace FitFusionDesktop
 {
     public partial class Login : Form
     {
-        private readonly UserManager userManager;
+        private readonly UserManager _userManager;
 
         public Login()
         {
             InitializeComponent();
-            userManager = new(new UserDAO());
+            _userManager = new(new UserDAO());
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            User owner = userManager.GetUserByEmail(txtEmail.TextButton, new Owner());
+            
 
-            Main frm = new Main(owner);
-            this.Hide();
-            frm.ShowDialog();
-            Application.Exit();
+            //User? user = _userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton);
 
-            //if (userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton))
+            //if (user != null && user is not Customer)
             //{
-            //    User owner = userManager.GetUserByEmail(txtEmail.TextButton, new Owner());
-
-            //    Main frm = new Main(owner);
-            //    this.Hide();
-            //    frm.ShowDialog();
-            //    Application.Exit();
-            //}
-            //else if (userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton, "Staff"))
-            //{
-            //    Staff staff = (Staff)userManager.GetUserByEmail(txtEmail.Text, new Staff());
-
-            //    Main frm = new Main(staff);
+            //    Main frm = new Main(user);
             //    this.Hide();
             //    frm.ShowDialog();
             //    Application.Exit();
             //}
             //else
             //{
-            //    txtEmail.Text = "";
-            //    txtPassword.Text = "";
+            //    txtEmail.TextButton = string.Empty;
+            //    txtPassword.TextButton = string.Empty;
 
-            //    MessageBox.Show("Incorrect credentials!");
+            //    MessageBox.Show("Incorrect login details for Staff members and Owners.");
             //}
+
+            // Owner owner = new Owner(1, "Steve", "Orlov", "steve@gmail.com", "steve@gmail.com", "", "Chicago", "555-555-123");
+            // _userManager.CreateUser(owner);
+
 
         }
 

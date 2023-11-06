@@ -36,6 +36,12 @@ namespace Models.User
             this.address = address;
         }
 
+        public void SetEncryptedPassword(List<string> encryptedPassword)
+        {
+            PasswordHash = encryptedPassword[0];
+            PasswordSalt = encryptedPassword[1];
+        }
+
         public abstract string GetUserRole();
 
         public override string ToString()

@@ -24,12 +24,27 @@ namespace Controllers
         {
             try
             {
+                user.SetEncryptedPassword(EncryptPassword(user.PasswordHash));
+                
                 return dao.CreateUser(user);
             }
             catch
             {
                 throw new Exception("Unable to add the current user.");
             }
+        }
+
+        public List<string> EncryptPassword(string password)
+        {
+            List<string> encryptedPassword = new();
+
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+            string hash = BCrypt.Net.BCrypt.HashPassword(password, salt);
+
+            encryptedPassword.Add(hash);
+            encryptedPassword.Add(salt);
+
+            return encryptedPassword;
         }
 
         public bool UpdateUser(UserModel user)

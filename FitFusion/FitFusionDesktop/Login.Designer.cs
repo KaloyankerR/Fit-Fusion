@@ -60,7 +60,7 @@
             txtEmail.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             txtEmail.TabIndex = 2;
             txtEmail.Tag = "Cyber";
-            txtEmail.TextButton = "john.doe@example.com";
+            txtEmail.TextButton = "troy@gmail.com";
             txtEmail.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             txtEmail.Timer_RGB = 300;
             // 
@@ -90,7 +90,7 @@
             txtPassword.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             txtPassword.TabIndex = 3;
             txtPassword.Tag = "Cyber";
-            txtPassword.TextButton = "hashed_password_1";
+            txtPassword.TextButton = "troy@gmail.com";
             txtPassword.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             txtPassword.Timer_RGB = 300;
             // 
