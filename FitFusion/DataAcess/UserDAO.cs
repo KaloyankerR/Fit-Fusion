@@ -447,35 +447,6 @@ namespace DataAcess
         }
 
 
-        public bool IsEmailAlreadyExists(string email)
-        {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                connection.Open();
-
-                string checkEmailQuery = "SELECT SUM(EmailCount) AS TotalCount " +
-                                         "FROM (" +
-                                         "    SELECT COUNT(*) AS EmailCount FROM Owner WHERE Email = @Email " +
-                                         "    UNION ALL " +
-                                         "    SELECT COUNT(*) AS EmailCount FROM Staff WHERE Email = @Email " +
-                                         "    UNION ALL " +
-                                         "    SELECT COUNT(*) AS EmailCount FROM Customer WHERE Email = @Email" +
-                                         ") AS Subquery";
-
-                using (SqlCommand command = new SqlCommand(checkEmailQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@Email", email);
-
-                    int totalCount = (int)command.ExecuteScalar();
-
-                    return totalCount > 0;
-                }
-            }
-        }
-        //public bool ChangePassword(string email, string oldPassword, string newPassword)
-        //{ }
-
-
         public User? AuthenticateUser(string email, string password)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -522,10 +493,70 @@ namespace DataAcess
             }
         }
 
+        public bool IsEmailAlreadyExists(string email)
+        {
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+
+                string checkEmailQuery = "SELECT SUM(EmailCount) AS TotalCount " +
+                                         "FROM (" +
+                                         "    SELECT COUNT(*) AS EmailCount FROM Owner WHERE Email = @Email " +
+                                         "    UNION ALL " +
+                                         "    SELECT COUNT(*) AS EmailCount FROM Staff WHERE Email = @Email " +
+                                         "    UNION ALL " +
+                                         "    SELECT COUNT(*) AS EmailCount FROM Customer WHERE Email = @Email" +
+                                         ") AS Subquery";
+
+                using (SqlCommand command = new SqlCommand(checkEmailQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@Email", email);
+
+                    int totalCount = (int)command.ExecuteScalar();
+
+                    return totalCount > 0;
+                }
+            }
+        }
+
+        public bool ChangePassword(string email, string newPasswordHash, string newPasswordSalt)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand updateProductCommand = new SqlCommand("UPDATE Owner SET PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt WHERE Email = @Email " +
+                                        "UNION ALL " +
+                                        "UPDATE Staff SET PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt " +
+                                        "WHERE Email = @Email " +
+                                        "UNION ALL " +
+                                        "UPDATE Customer SET PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt " +
+                                        "WHERE Email = @Email", connection))
+                    {
+                        updateProductCommand.Parameters.AddWithValue("@PasswordHash", newPasswordHash);
+                        updateProductCommand.Parameters.AddWithValue("@PasswordSalt", newPasswordSalt);
+                        updateProductCommand.Parameters.AddWithValue("@Email", email);
+
+                        updateProductCommand.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to update user's password.", ex);
+                // return fale;
+            }
+        }
+
         private bool VerifyPassword(string entered, string hash, string salt)
         {
             string passwordToCheck = BCrypt.Net.BCrypt.HashPassword(entered, salt);
             return passwordToCheck == hash;
         }
+    
     }
 }
