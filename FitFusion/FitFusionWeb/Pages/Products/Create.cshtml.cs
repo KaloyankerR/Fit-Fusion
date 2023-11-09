@@ -12,9 +12,7 @@ namespace FitFusionWeb.Pages.Products
         private readonly ProductManager _productManager = new(new DataAcess.ProductDAO());
 
         public void OnGet()
-        {
-            
-        }
+        { }
 
         public IActionResult OnPost() 
         {
@@ -25,11 +23,19 @@ namespace FitFusionWeb.Pages.Products
                 return Page();
             }
 
-            TempData["Type"] = "success";
-            TempData["Message"] = "Successfully created a product!";
+            if (_productManager.CreateProduct(Product))
+            {
+                TempData["Type"] = "success";
+                TempData["Message"] = "Successfully created a product!";
+            }
+            else
+            {
+                TempData["Type"] = "danger";
+                TempData["Message"] = "Something went wrong!";
+            }
 
-            _productManager.CreateProduct(Product);
             return RedirectToPage("./All");
         }
+
     }
 }

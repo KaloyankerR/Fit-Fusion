@@ -4,20 +4,32 @@
     ViewData["Title"] = "Product Details";
 }
 
-<h2>@Model.Product.Title</h2>
+<div class="product-details-container">
+    <div class="product-image">
+        <img src="@Model.Product.ImageUrl" alt="Product Image" />
+    </div>
 
-<div>
-    <p>Description: @Model.Product.Description</p>
-    <p>Price: @Model.Product.Price</p>
-    <p>Category: @Model.Product.Category.ToString()</p>
+    <div class="product-info">
+        <h2>@Model.Product.Title</h2>
 
-    <h4>Hashtags:</h4>
-    <ul>
-        @foreach (var hashtag in Model.Product.Hashtags)
-        {
-            <li>@hashtag.ToString()</li>
-        }
-    </ul>
+        <div class="product-description">
+            <p>Description: @Model.Product.Description</p>
+        </div>
 
-    <img src="@Model.Product.ImageUrl" alt="Product Image" />
+        <div class="product-details">
+
+            <p>Price: @Model.Product.Price</p>
+            <span>Category:</span><p class="category">@Model.Product.Category.ToString()</p>
+        </div>
+
+        <div class="product-hashtags">
+            <h4>Hashtags:</h4>
+            <ul>
+                @foreach (var hashtag in Model.Product.Hashtags)
+                {
+                    <li>@hashtag.ToString()</li>
+                }
+            </ul>
+        </div>
+    </div>
 </div>
