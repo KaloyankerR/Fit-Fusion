@@ -1,0 +1,57 @@
+﻿@page
+@model FitFusionWeb.Pages.Users.CreateModel
+@{
+    ViewData["Title"] = "Create User";
+}
+
+<h2>Create User</h2>
+
+<form method="post">
+    <select id="userRole" onchange="userCreation()">
+        <option>Choose your role</option>
+        <option value="Owner">Owner</option>
+        <option value="Staff">Staff</option>
+        <option value="Customer">Customer</option>
+    </select>
+
+    <p id="userDemo"></p>
+
+    <div class="container">
+        <div id="userAttributes">
+            <input asp-for="NewUser.Id" type="hidden" class="form-control" />
+            <input asp-for="NewUser.PasswordHash" type="hidden" class="form-control" />
+            <input asp-for="NewUser.PasswordSalt" type="hidden" class="form-control" />
+
+            <label asp-for="NewUser.FirstName"></label>
+            <input asp-for="NewUser.FirstName" class="form-control" />
+
+            <label asp-for="NewUser.LastName"></label>
+            <input asp-for="NewUser.LastName" class="form-control" />
+
+            <label asp-for="NewUser.Email"></label>
+            <input asp-for="NewUser.Email" class="form-control" />
+
+            <label asp-for="NewUser.Address"></label>
+            <input asp-for="NewUser.Address" class="form-control" />
+        </div>
+
+        <div id="addtionalAttributes">
+            <label>Phone</label>
+            <input id="phone"/>
+        </div>
+
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+
+    <button type="submit">Create User</button>
+</form>
+
+@section Scripts
+    {
+    <script>
+        function userCreation() {
+            var role = document.getElementById("userRole").value;
+            document.getElementById("userDemo").innerHTML = role;
+        }
+    </script>
+}
