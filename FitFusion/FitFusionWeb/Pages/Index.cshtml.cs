@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using DataAcess;
 using Models.Product;
-using Controllers;
+using Services;
 using Models.User;
 using FitFusionWeb.Pages.Products;
 using Models.Order;

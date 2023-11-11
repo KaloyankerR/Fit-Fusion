@@ -1,4 +1,4 @@
-using Controllers;
+using Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.Product;

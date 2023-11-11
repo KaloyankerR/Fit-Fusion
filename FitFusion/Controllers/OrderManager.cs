@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Interfaces;
 
-namespace Controllers
+namespace Services
 {
     public class OrderManager : IOrder
     {

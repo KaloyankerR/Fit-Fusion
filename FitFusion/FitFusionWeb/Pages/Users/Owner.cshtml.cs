@@ -2,7 +2,7 @@ using DataAcess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
-using Controllers;
+using Services;
 
 namespace FitFusionWeb.Pages.Users
 {

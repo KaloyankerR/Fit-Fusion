@@ -9,13 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitFusionWeb", "FitFusionWe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{66DD49B2-EC0D-4B00-9518-62D9776366C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Controllers", "Controllers\Controllers.csproj", "{F8CA8F74-B061-4D98-A40E-7B3B9FBDB6FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Controllers\Services.csproj", "{F8CA8F74-B061-4D98-A40E-7B3B9FBDB6FB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitFusionDesktop", "FitFusionDesktop\FitFusionDesktop.csproj", "{32121E8A-1BF0-48F7-86B2-3850FF373993}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitFusionTest", "FitFusionTest\FitFusionTest.csproj", "{EE5BD980-98E1-4A59-878E-CA8FBD225CA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Interfaces\Interfaces.csproj", "{7D7BBB80-80A5-4D91-B7D0-23219F512455}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Interfaces", "Interfaces\Interfaces.csproj", "{7D7BBB80-80A5-4D91-B7D0-23219F512455}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

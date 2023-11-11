@@ -8,7 +8,7 @@ using Models.User;
 using UserModel = Models.User.User;
 using Interfaces;
 
-namespace Controllers
+namespace Services
 {
     public class UserManager : IUser
     {

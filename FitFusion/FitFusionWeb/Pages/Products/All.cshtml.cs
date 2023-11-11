@@ -4,7 +4,7 @@ using DataAcess;
 using Models.Product;
 using System;
 using System.Collections.Generic;
-using Controllers;
+using Services;
 
 namespace FitFusionWeb.Pages.Products
 {
