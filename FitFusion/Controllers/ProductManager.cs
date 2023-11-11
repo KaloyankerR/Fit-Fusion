@@ -7,14 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DataAcess.Interfaces;
+using Interfaces;
 
 namespace Controllers
 {
-    public class ProductManager
+    public class ProductManager : IProduct
     {
-        private readonly IProductDAO dao;
+        private readonly IProduct dao;
 
-        public ProductManager(IProductDAO productDao)
+        public ProductManager(IProduct productDao)
         {
             dao = productDao;
         }

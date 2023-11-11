@@ -7,10 +7,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Interfaces;
 
 namespace DataAcess
 {
-    public class ProductDAO : IProductDAO
+    public class ProductDAO : IProduct
     {
         private readonly string ConnectionString;
 
