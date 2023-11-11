@@ -22,14 +22,5 @@
             <span>Category:</span><p class="category">@Model.Product.Category.ToString()</p>
         </div>
 
-        <div class="product-hashtags">
-            <h4>Hashtags:</h4>
-            <ul>
-                @foreach (var hashtag in Model.Product.Hashtags)
-                {
-                    <li>@hashtag.ToString()</li>
-                }
-            </ul>
-        </div>
     </div>
 </div>

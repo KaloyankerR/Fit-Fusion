@@ -38,15 +38,6 @@
         </select>
     </div>
     <div>
-        <label asp-for="Product.Hashtags"></label>
-        <select asp-for="Product.Hashtags" class="form-control">
-            @foreach (var hashtag in Enum.GetValues(typeof(Hashtag)))
-            {
-                <option value="@hashtag">@hashtag</option>
-            }
-        </select>
-    </div>
-    <div>
         <label asp-for="Product.ImageUrl">Image URL (default one applied)</label>
         <input asp-for="Product.ImageUrl" class="form-control" value="https://demofree.sirv.com/nope-not-here.jpg" />
     </div>

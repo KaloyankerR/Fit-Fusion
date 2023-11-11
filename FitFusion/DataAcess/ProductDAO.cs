@@ -42,16 +42,6 @@ namespace DataAcess
 
                         int productId = Convert.ToInt32(productCommand.ExecuteScalar());
 
-                        foreach (var hashtag in product.Hashtags)
-                        {
-                            using (SqlCommand hashtagCommand = new SqlCommand("INSERT INTO ProductHashtag (ProductId, Tag) VALUES (@ProductId, @Tag);", connection))
-                            {
-                                hashtagCommand.Parameters.AddWithValue("@ProductId", productId);
-                                hashtagCommand.Parameters.AddWithValue("@Tag", hashtag.ToString());
-                                hashtagCommand.ExecuteNonQuery();
-                            }
-                        }
-
                         return true;
                     }
 
@@ -84,22 +74,6 @@ namespace DataAcess
                         updateProductCommand.ExecuteNonQuery();
                     }
 
-                    using (SqlCommand deleteHashtagsCommand = new SqlCommand("DELETE FROM ProductHashtag WHERE ProductId = @ProductId", connection))
-                    {
-                        deleteHashtagsCommand.Parameters.AddWithValue("@ProductId", updatedProduct.Id);
-                        deleteHashtagsCommand.ExecuteNonQuery();
-                    }
-
-                    foreach (var hashtag in updatedProduct.Hashtags)
-                    {
-                        using (SqlCommand hashtagCommand = new SqlCommand("INSERT INTO ProductHashtag (ProductId, Tag) VALUES (@ProductId, @Tag);", connection))
-                        {
-                            hashtagCommand.Parameters.AddWithValue("@ProductId", updatedProduct.Id);
-                            hashtagCommand.Parameters.AddWithValue("@Tag", hashtag.ToString());
-                            hashtagCommand.ExecuteNonQuery();
-                        }
-                    }
-
                     return true;
                 }
             }
@@ -117,12 +91,6 @@ namespace DataAcess
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
-
-                    using (SqlCommand deleteHashtagsCommand = new SqlCommand("DELETE FROM ProductHashtag WHERE ProductId = @ProductId", connection))
-                    {
-                        deleteHashtagsCommand.Parameters.AddWithValue("@ProductId", productId);
-                        deleteHashtagsCommand.ExecuteNonQuery();
-                    }
 
                     using (SqlCommand deleteProductCommand = new SqlCommand("DELETE FROM Product WHERE Id = @ProductId", connection))
                     {
@@ -151,7 +119,6 @@ namespace DataAcess
                     using (SqlCommand getProductCommand = new SqlCommand("SELECT * FROM Product WHERE Id = @ProductId", connection))
                     {
                         getProductCommand.Parameters.AddWithValue("@ProductId", productId);
-                        List<Hashtag> hashtagsToAdd = GetHashtagsForProduct(connection, productId);
 
                         using (SqlDataReader reader = getProductCommand.ExecuteReader())
                         {
@@ -164,7 +131,6 @@ namespace DataAcess
                                     description: reader.GetString("Description"),
                                     price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
-                                    hashtags: hashtagsToAdd,
                                     imageUrl: reader.GetString("ImageUrl")
                                 );
 
@@ -202,8 +168,6 @@ namespace DataAcess
                             {
                                 int productId = reader.GetInt32("Id");
 
-                                List<Hashtag> hashtagsToAdd = GetHashtagsForProduct(connection, productId);
-
                                 Product product = new Product
                                 (
                                     id: productId,
@@ -211,7 +175,6 @@ namespace DataAcess
                                     description: reader.GetString("Description"),
                                     price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
-                                    hashtags: hashtagsToAdd,
                                     imageUrl: reader.GetString("ImageUrl")
                                 );
 
@@ -247,8 +210,6 @@ namespace DataAcess
                             {
                                 int productId = reader.GetInt32("Id");
 
-                                List<Hashtag> hashtagsToAdd = GetHashtagsForProduct(connection, productId);
-
                                 //Product product = new Product
                                 //(
                                 //    id: productId,
@@ -276,30 +237,6 @@ namespace DataAcess
                 throw new Exception("Failed to retrieve trendy products.", ex);
             }
         }
-
-        private List<Hashtag> GetHashtagsForProduct(SqlConnection connection, int productId)
-        {
-            List<Hashtag> hashtags = new List<Hashtag>();
-
-            using (SqlCommand getHashtagsCommand = new SqlCommand("SELECT Tag FROM ProductHashtag WHERE ProductId = @ProductId", connection))
-            {
-                getHashtagsCommand.Parameters.AddWithValue("@ProductId", productId);
-
-                using (SqlDataReader reader = getHashtagsCommand.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        if (Enum.TryParse(reader.GetString("Tag"), out Hashtag hashtag))
-                        {
-                            hashtags.Add(hashtag);
-                        }
-                    }
-                }
-            }
-
-            return hashtags;
-        }
-
 
     }
 

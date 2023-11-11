@@ -38,15 +38,6 @@
         </select>
     </div>
     <div>
-        <label asp-for="Product.Hashtags"></label>
-        <select asp-for="Product.Hashtags" class="form-control" multiple>
-            @foreach (Hashtag hashtag in Enum.GetValues(typeof(Hashtag)))
-            {
-                <option value="@hashtag" selected="@Model.Product.Hashtags.Contains(hashtag)">@hashtag</option>
-            }
-        </select>
-    </div>
-    <div>
         <label asp-for="Product.ImageUrl"></label>
         <input asp-for="Product.ImageUrl" class="form-control" />
     </div>
