@@ -9,10 +9,11 @@ using Models.Order;
 using Models.User;
 using Models.Product;
 using System.Data;
+using Interfaces;
 
 namespace DataAcess
 {
-    public class OrderDAO : IOrderDAO
+    public class OrderDAO : IOrder
     {
         private readonly string ConnectionString;
 

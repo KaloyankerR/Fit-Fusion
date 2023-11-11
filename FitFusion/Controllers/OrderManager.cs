@@ -5,14 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Interfaces;
 
 namespace Controllers
 {
-    public class OrderManager
+    public class OrderManager : IOrder
     {
-        private readonly IOrderDAO _dao;
+        private readonly IOrder _dao;
 
-        public OrderManager(IOrderDAO dao)
+        public OrderManager(IOrder dao)
         {
             _dao = dao;
         }
