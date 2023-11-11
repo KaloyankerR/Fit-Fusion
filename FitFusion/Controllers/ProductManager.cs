@@ -1,12 +1,10 @@
-﻿using DataAcess;
-using Models.Product;
+﻿using Models.Product;
 using ProductModel = Models.Product.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAcess.Interfaces;
 using Interfaces;
 
 namespace Controllers

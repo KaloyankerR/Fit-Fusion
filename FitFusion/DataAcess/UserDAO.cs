@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using Models.User;
 using System.Data.SqlClient;
 using DataAcess.Interfaces;
+using Interfaces;
 
 namespace DataAcess
 {
-    public class UserDAO : IUserDAO
+    public class UserDAO : IUser
     {
         private readonly string ConnectionString;
 

@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAcess;
 using Models.Product;
 using Models.User;
 using UserModel = Models.User.User;
-using DataAcess.Interfaces;
+using Interfaces;
 
 namespace Controllers
 {
-    public class UserManager
+    public class UserManager : IUser
     {
-        public readonly IUserDAO dao;
+        public readonly IUser dao;
 
-        public UserManager(IUserDAO userDao)
+        public UserManager(IUser userDao)
         {
             dao = userDao;
         }
