@@ -8,11 +8,12 @@ namespace Models.Product
 {
     public enum Category
     {
-        AminoAcids,
-        Gainers,
-        PreWorkout,
         Protein,
+        Supplements,
+        Vitamins,
+        Vegan,
         Snacks,
-        Wellbeing
+        Clothing,
+        Accessories
     }
 }

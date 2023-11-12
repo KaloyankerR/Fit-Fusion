@@ -5,59 +5,58 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.Order;
 using Models.Product;
 using Services;
+using Models.User;
+using System.Security.Claims;
 
 namespace FitFusionWeb.Pages
 {
     public class CartModel : PageModel
     {
-        public readonly ProductManager ProductManager = new ProductManager(new ProductDAO());
+        public readonly ProductManager ProductManager = new(new ProductDAO());
+        public readonly UserManager UserManager = new(new UserDAO());
+
         public ShoppingCart cart = new();
         public List<Product> products = new List<Product>();
-
+        public double TotalPrice { get; set; }
+        public string Email = string.Empty;
 
         public void OnGet()
         {
-            
+            products = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
+            Email = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
         }
 
-        public IActionResult OnGetBuy(int id)
+        public IActionResult OnGetAddToCart(int id)
         {
-            var product = ProductManager.GetProductById(id);
+            Product product = ProductManager.GetProductById(id);
             var cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
             
             if (cart == null)
             {
-                cart = new List<Product>();
-                cart.Add(new Product()
+                cart = new List<Product>
                 {
-                    Id = product.Id,
-                    Title = product.Title,
-                    Price = product.Price,
-                });
+                    product
+                };
 
                 SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             }
             else
             {
-                //var index = ShoppingCartAlgorithms.ExistingItem(cart, id);
-                //if (index == -1)
-                //{
-                //    cart.Add(new Item
-                //    {
-                //        ItemId = product.ItemId,
-                //        ItemName = product.ItemName,
-                //        ItemQuantity = +1,
-                //        ItemPrice = product.ItemPrice
-                //    });
-                //}
-                //else
-                //{
-                //    var newQuantity = cart[index].ItemQuantity + 1;
-                //    cart[index].ItemQuantity = newQuantity;
-                //}
+                cart.Add(product);
+
                 SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
             }
-            return RedirectToPage("Product");
+
+            string returnUrl = Request.Headers["Referer"].ToString();
+
+            if (string.IsNullOrEmpty(returnUrl))
+            {
+                return RedirectToPage("../Index");
+            }
+
+            return Redirect(returnUrl);
+
+            // return RedirectToPage("Product");
         }
 
 
