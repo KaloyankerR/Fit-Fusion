@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FitFusionDesktop.CRUD;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,9 +13,28 @@ namespace FitFusionDesktop
 {
     public partial class Editor : Form
     {
-        public Editor()
+        public Editor(EditorMode mode)
         {
             InitializeComponent();
+            ShowPage(mode);
         }
+
+        public void ClearControls()
+        {
+            BodyPanel.Controls.Clear();
+        }
+
+        private void ShowPage(EditorMode mode)
+        {
+            switch (mode)
+            {
+                case EditorMode.UserCreate:
+                    ClearControls();
+                    BodyPanel.Controls.Add(new UserCreate());
+                    break;
+            }
+
+        }
+
     }
 }

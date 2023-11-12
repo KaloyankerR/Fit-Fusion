@@ -28,7 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
+            BodyPanel = new Panel();
             SuspendLayout();
+            // 
+            // BodyPanel
+            // 
+            BodyPanel.Location = new Point(12, 12);
+            BodyPanel.Name = "BodyPanel";
+            BodyPanel.Size = new Size(568, 565);
+            BodyPanel.TabIndex = 0;
             // 
             // Editor
             // 
@@ -36,6 +44,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(41, 41, 41);
             ClientSize = new Size(592, 589);
+            Controls.Add(BodyPanel);
             Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             Margin = new Padding(4, 3, 4, 3);
             Name = "Editor";
@@ -44,5 +53,7 @@
         }
 
         #endregion
+
+        private Panel BodyPanel;
     }
 }
