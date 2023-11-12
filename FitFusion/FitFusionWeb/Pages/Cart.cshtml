@@ -12,9 +12,9 @@
             @foreach (Product p in Model.products)
             {
                 <div class="product-item">
-                    <h1>@p.Title</h1>
-                    <h2>@p.Price</h2>
-                    <!-- Add any additional product information here -->
+                    <h3>@p.Title</h3>
+                    <h5>@p.Price</h5>
+                    <img src="@p.ImageUrl">
                     <hr />
                 </div>
             }
@@ -26,28 +26,8 @@
     </div>
 
     <div class="order-summary">
-        <!-- Add information about the order on the right side -->
         <h2>Order Summary</h2>
         <p>Email: @Model.Email</p>
-        <!-- Add more order-related information here -->
     </div>
 </div>
 
-<style>
-    .cart-container {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .product-list {
-        width: 70%; /* Adjust the width as needed */
-    }
-
-    .product-item {
-        margin-bottom: 20px;
-    }
-
-    .order-summary {
-        width: 25%; /* Adjust the width as needed */
-    }
-</style>

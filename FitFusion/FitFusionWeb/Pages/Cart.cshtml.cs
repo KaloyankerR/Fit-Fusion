@@ -17,6 +17,10 @@ namespace FitFusionWeb.Pages
 
         public ShoppingCart cart = new();
         public List<Product> products = new List<Product>();
+
+        [BindProperty]
+        public User CurrentUser { get; set; }
+
         public double TotalPrice { get; set; }
         public string Email = string.Empty;
 
@@ -24,6 +28,7 @@ namespace FitFusionWeb.Pages
         {
             products = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
             Email = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+                    
         }
 
         public IActionResult OnGetAddToCart(int id)

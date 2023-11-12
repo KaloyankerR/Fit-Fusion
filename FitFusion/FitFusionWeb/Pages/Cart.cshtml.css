@@ -1,0 +1,16 @@
+﻿.cart-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.product-list {
+    width: 70%; /* Adjust the width as needed */
+}
+
+.product-item {
+    margin-bottom: 20px;
+}
+
+.order-summary {
+    width: 25%; /* Adjust the width as needed */
+}
