@@ -1,4 +1,4 @@
-﻿using Controllers;
+﻿using Services;
 using Models.User;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Controllers;
+using Services;
 
 namespace FitFusionDesktop.UserControls
 {

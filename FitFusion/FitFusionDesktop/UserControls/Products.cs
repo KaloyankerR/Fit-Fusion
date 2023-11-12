@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Models.Product;
 using DataAcess;
-using FitFusionDesktop.EntityControls;
-using Controllers;
+using Services;
 
 namespace FitFusionDesktop.UserControls
 {
@@ -25,6 +24,8 @@ namespace FitFusionDesktop.UserControls
             productManger = new(new ProductDAO());
             products = productManger.GetProducts();
             FillDataGridViewWithMockData();
+
+            categoryCmbBox.DataSource = Enum.GetValues(typeof(Category));
         }
 
         private void FillDataGridViewWithMockData()
@@ -34,7 +35,10 @@ namespace FitFusionDesktop.UserControls
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
+            Editor frm = new Editor(EditorMode.ProductCreate);
+            frm.ShowDialog();
 
+            // if (frm.DialogResult == DialogResult.OK) { }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)

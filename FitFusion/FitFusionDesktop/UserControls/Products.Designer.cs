@@ -213,7 +213,6 @@
             categoryCmbBox.HoverSelectionColor = Color.Empty;
             categoryCmbBox.IntegralHeight = false;
             categoryCmbBox.ItemHeight = 20;
-            categoryCmbBox.Items.AddRange(new object[] { "Protein", "Creatine", "Vitamins", "Minerals", "Anabolics", "Preworkout", "Bio" });
             categoryCmbBox.Location = new Point(323, 545);
             categoryCmbBox.Name = "categoryCmbBox";
             categoryCmbBox.Size = new Size(191, 26);
