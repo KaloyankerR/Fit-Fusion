@@ -174,6 +174,7 @@
             btnCreate.TabIndex = 7;
             btnCreate.Text = "Create";
             btnCreate.TextAlignment = StringAlignment.Center;
+            btnCreate.Click += btnCreate_Click;
             // 
             // txtSearchQuery
             // 

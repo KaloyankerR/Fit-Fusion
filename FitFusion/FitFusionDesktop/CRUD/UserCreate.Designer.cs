@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            comboBox1 = new ComboBox();
+            cbxRole = new ComboBox();
             label2 = new Label();
             txtFirstName = new TextBox();
             txtLastName = new TextBox();
@@ -40,6 +40,11 @@
             label5 = new Label();
             txtAddress = new TextBox();
             label6 = new Label();
+            txtPhone = new TextBox();
+            label7 = new Label();
+            btnSubmit = new ReaLTaiizor.Controls.CyberButton();
+            groupBxPhone = new GroupBox();
+            groupBxPhone.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -52,14 +57,15 @@
             label1.TabIndex = 0;
             label1.Text = "Role";
             // 
-            // comboBox1
+            // cbxRole
             // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Owner", "Staff", "Customer" });
-            comboBox1.Location = new Point(43, 63);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(151, 31);
-            comboBox1.TabIndex = 1;
+            cbxRole.FormattingEnabled = true;
+            cbxRole.Items.AddRange(new object[] { "Owner", "Staff", "Customer" });
+            cbxRole.Location = new Point(43, 63);
+            cbxRole.Name = "cbxRole";
+            cbxRole.Size = new Size(151, 31);
+            cbxRole.TabIndex = 1;
+            cbxRole.SelectedIndexChanged += cbxRole_SelectedIndexChanged;
             // 
             // label2
             // 
@@ -146,11 +152,84 @@
             label6.TabIndex = 11;
             label6.Text = "Address";
             // 
+            // txtPhone
+            // 
+            txtPhone.Location = new Point(6, 62);
+            txtPhone.Name = "txtPhone";
+            txtPhone.Size = new Size(125, 30);
+            txtPhone.TabIndex = 14;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.ForeColor = Color.White;
+            label7.Location = new Point(6, 36);
+            label7.Name = "label7";
+            label7.Size = new Size(65, 23);
+            label7.TabIndex = 13;
+            label7.Text = "Phone";
+            // 
+            // btnSubmit
+            // 
+            btnSubmit.Alpha = 20;
+            btnSubmit.BackColor = Color.Transparent;
+            btnSubmit.Background = true;
+            btnSubmit.Background_WidthPen = 4F;
+            btnSubmit.BackgroundPen = true;
+            btnSubmit.ColorBackground = Color.FromArgb(41, 41, 41);
+            btnSubmit.ColorBackground_1 = Color.FromArgb(37, 52, 68);
+            btnSubmit.ColorBackground_2 = Color.FromArgb(41, 63, 86);
+            btnSubmit.ColorBackground_Pen = Color.FromArgb(255, 163, 26);
+            btnSubmit.ColorLighting = Color.FromArgb(29, 200, 238);
+            btnSubmit.ColorPen_1 = Color.FromArgb(37, 52, 68);
+            btnSubmit.ColorPen_2 = Color.FromArgb(41, 63, 86);
+            btnSubmit.Cursor = Cursors.Hand;
+            btnSubmit.CyberButtonStyle = ReaLTaiizor.Enum.Cyber.StateStyle.Custom;
+            btnSubmit.Effect_1 = true;
+            btnSubmit.Effect_1_ColorBackground = Color.FromArgb(29, 200, 238);
+            btnSubmit.Effect_1_Transparency = 25;
+            btnSubmit.Effect_2 = true;
+            btnSubmit.Effect_2_ColorBackground = Color.White;
+            btnSubmit.Effect_2_Transparency = 20;
+            btnSubmit.Font = new Font("Arial", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            btnSubmit.ForeColor = Color.White;
+            btnSubmit.Lighting = false;
+            btnSubmit.LinearGradient_Background = false;
+            btnSubmit.LinearGradientPen = false;
+            btnSubmit.Location = new Point(173, 471);
+            btnSubmit.Name = "btnSubmit";
+            btnSubmit.PenWidth = 15;
+            btnSubmit.Rounding = true;
+            btnSubmit.RoundingInt = 70;
+            btnSubmit.Size = new Size(162, 62);
+            btnSubmit.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
+            btnSubmit.TabIndex = 15;
+            btnSubmit.Tag = "Cyber";
+            btnSubmit.TextButton = "Submit";
+            btnSubmit.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
+            btnSubmit.Timer_Effect_1 = 5;
+            btnSubmit.Timer_RGB = 300;
+            btnSubmit.Click += btnSubmit_Click;
+            // 
+            // groupBxPhone
+            // 
+            groupBxPhone.Controls.Add(label7);
+            groupBxPhone.Controls.Add(txtPhone);
+            groupBxPhone.ForeColor = SystemColors.Control;
+            groupBxPhone.Location = new Point(43, 325);
+            groupBxPhone.Name = "groupBxPhone";
+            groupBxPhone.Size = new Size(244, 106);
+            groupBxPhone.TabIndex = 16;
+            groupBxPhone.TabStop = false;
+            groupBxPhone.Text = "Owner and Staff";
+            // 
             // UserCreate
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(41, 41, 41);
+            Controls.Add(groupBxPhone);
+            Controls.Add(btnSubmit);
             Controls.Add(txtAddress);
             Controls.Add(label6);
             Controls.Add(txtPassword);
@@ -161,12 +240,14 @@
             Controls.Add(label3);
             Controls.Add(txtFirstName);
             Controls.Add(label2);
-            Controls.Add(comboBox1);
+            Controls.Add(cbxRole);
             Controls.Add(label1);
             Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             Margin = new Padding(4, 3, 4, 3);
             Name = "UserCreate";
             Size = new Size(568, 565);
+            groupBxPhone.ResumeLayout(false);
+            groupBxPhone.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -174,7 +255,7 @@
         #endregion
 
         private Label label1;
-        private ComboBox comboBox1;
+        private ComboBox cbxRole;
         private Label label2;
         private TextBox txtFirstName;
         private TextBox txtLastName;
@@ -185,5 +266,9 @@
         private Label label5;
         private TextBox txtAddress;
         private Label label6;
+        private TextBox txtPhone;
+        private Label label7;
+        private ReaLTaiizor.Controls.CyberButton btnSubmit;
+        private GroupBox groupBxPhone;
     }
 }

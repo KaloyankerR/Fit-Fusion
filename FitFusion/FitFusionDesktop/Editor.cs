@@ -31,6 +31,11 @@ namespace FitFusionDesktop
                 case EditorMode.UserCreate:
                     ClearControls();
                     BodyPanel.Controls.Add(new UserCreate());
+                    DialogResult = DialogResult.OK;
+                    break;
+                default:
+                    DialogResult = DialogResult.Cancel;
+                    Close();
                     break;
             }
 

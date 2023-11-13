@@ -55,5 +55,21 @@ namespace FitFusionDesktop.UserControls
             users = userManager.Search(users, txtSearchQuery.Text);
             FillDataGridViewWithMockData(users);
         }
+
+        private void btnCreate_Click(object sender, EventArgs e)
+        {
+            Editor frm = new Editor(EditorMode.UserCreate);
+            frm.ShowDialog();
+
+            if (frm.DialogResult == DialogResult.OK)
+            {
+                MessageBox.Show("User created!");
+            } 
+            else
+            {
+                MessageBox.Show("Failed to create a user!");
+            }
+
+        }
     }
 }

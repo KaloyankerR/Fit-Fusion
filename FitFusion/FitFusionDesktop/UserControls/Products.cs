@@ -36,9 +36,25 @@ namespace FitFusionDesktop.UserControls
         private void btnCreate_Click(object sender, EventArgs e)
         {
             Editor frm = new Editor(EditorMode.ProductCreate);
-            frm.ShowDialog();
 
-            // if (frm.DialogResult == DialogResult.OK) { }
+            if (!frm.IsDisposed)
+            {
+                frm.ShowDialog();
+
+                if (frm.DialogResult == DialogResult.OK)
+                {
+                    MessageBox.Show("Product created!");
+                }
+                else
+                {
+                    MessageBox.Show("Failed to create a product!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Incorrect mode!");
+            }
+            
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
