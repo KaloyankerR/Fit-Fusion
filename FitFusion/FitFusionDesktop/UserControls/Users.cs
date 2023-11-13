@@ -64,12 +64,32 @@ namespace FitFusionDesktop.UserControls
             if (frm.DialogResult == DialogResult.OK)
             {
                 MessageBox.Show("User created!");
-            } 
+            }
             else
             {
-                MessageBox.Show("Failed to create a user!");
+                MessageBox.Show("Failed to create the user!");
             }
 
         }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            //string selectedEmail = Convert.ToString(UsersDataGrid.SelectedRows[0].Cells[3].Value);
+            //User user = userManager.GetUserByEmail(selectedEmail);
+
+            Editor frm = new Editor(EditorMode.UserUpdate, new Owner());
+            frm.ShowDialog();
+
+            if (frm.DialogResult == DialogResult.OK)
+            {
+                MessageBox.Show("User updated!");
+            }
+            else
+            {
+                MessageBox.Show("Failed to update the user!");
+            }
+        }
+
+
     }
 }

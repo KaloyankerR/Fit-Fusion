@@ -17,23 +17,24 @@ namespace FitFusionDesktop.CRUD
     {
         private readonly UserManager _userManager = new(new UserDAO());
         private Editor parentForm;
-        private User user = new Owner(); // keep this in mind
+        private User user; // keep this in mind
 
         public UserEntityControl(Editor frm)
         {
+            InitializeComponent();
             parentForm = frm;
             btnSubmit.TextButton = "Create";
-            InitializeComponent();
             cbxRole.SelectedItem = "Owner";
         }
 
-        //public UserEntityControl(Editor frm, User currentUser)
-        //{
-        //    parentForm = frm;
-        //    btnSubmit.TextButton = "Update";
-        //    user = currentUser;
-        //    InitializeComponent();
-        //}
+        public UserEntityControl(Editor frm, User currentUser)
+        {
+            InitializeComponent();
+            parentForm = frm;
+            user = currentUser;
+            btnSubmit.TextButton = "Update";
+            cbxRole.SelectedItem = currentUser.GetType();
+        }
 
         private void cbxRole_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -48,12 +49,14 @@ namespace FitFusionDesktop.CRUD
 
         }
 
-        private void CreateUser()
+        private User DefineUser()
         {
+            User user;
+
             switch (cbxRole.SelectedItem.ToString())
             {
                 case "Owner":
-                    Owner owner = new(
+                    user = new Owner(
                         id: 0,
                         firstName: txtFirstName.Text,
                         lastName: txtLastName.Text,
@@ -64,11 +67,9 @@ namespace FitFusionDesktop.CRUD
                         phone: txtPhone.Text
                         );
 
-
-                    _userManager.CreateUser(owner);
                     break;
                 case "Staff":
-                    Staff staff = new(
+                    user = new Staff(
                         id: 0,
                         firstName: txtFirstName.Text,
                         lastName: txtLastName.Text,
@@ -79,11 +80,9 @@ namespace FitFusionDesktop.CRUD
                         phone: txtPhone.Text
                         );
 
-
-                    _userManager.CreateUser(staff);
                     break;
                 case "Customer":
-                    Customer customer = new(
+                    user = new Customer(
                         id: 0,
                         firstName: txtFirstName.Text,
                         lastName: txtLastName.Text,
@@ -94,15 +93,25 @@ namespace FitFusionDesktop.CRUD
                         loyaltyScore: 0
                         );
 
-
-                    _userManager.CreateUser(customer);
+                    break;
+                default:
+                    user = null; 
                     break;
             }
+
+            return user;
+        }
+
+        private void CreateUser()
+        {
+            User user = DefineUser();
+            _userManager.CreateUser(user);
         }
 
         private void UpdateUser()
         {
-
+            User user = DefineUser();
+            _userManager.UpdateUser(user);
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
@@ -122,5 +131,6 @@ namespace FitFusionDesktop.CRUD
             parentForm.Close();
 
         }
+
     }
 }
