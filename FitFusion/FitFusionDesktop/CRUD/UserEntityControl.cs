@@ -13,15 +13,27 @@ using System.Windows.Forms;
 
 namespace FitFusionDesktop.CRUD
 {
-    public partial class UserCreate : UserControl
+    public partial class UserEntityControl : UserControl
     {
         private readonly UserManager _userManager = new(new UserDAO());
+        private Editor parentForm;
+        private User user = new Owner(); // keep this in mind
 
-        public UserCreate()
+        public UserEntityControl(Editor frm)
         {
+            parentForm = frm;
+            btnSubmit.TextButton = "Create";
             InitializeComponent();
             cbxRole.SelectedItem = "Owner";
         }
+
+        //public UserEntityControl(Editor frm, User currentUser)
+        //{
+        //    parentForm = frm;
+        //    btnSubmit.TextButton = "Update";
+        //    user = currentUser;
+        //    InitializeComponent();
+        //}
 
         private void cbxRole_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -36,7 +48,7 @@ namespace FitFusionDesktop.CRUD
 
         }
 
-        private void btnSubmit_Click(object sender, EventArgs e)
+        private void CreateUser()
         {
             switch (cbxRole.SelectedItem.ToString())
             {
@@ -86,6 +98,28 @@ namespace FitFusionDesktop.CRUD
                     _userManager.CreateUser(customer);
                     break;
             }
+        }
+
+        private void UpdateUser()
+        {
+
+        }
+
+        private void btnSubmit_Click(object sender, EventArgs e)
+        {
+            if (btnSubmit.TextButton == "Create")
+            {
+                CreateUser();
+                parentForm.DialogResult = DialogResult.OK;
+            }
+            else if (btnSubmit.TextButton == "Update")
+            {
+                UpdateUser();
+                parentForm.DialogResult = DialogResult.OK;
+            }
+
+            parentForm.DialogResult = DialogResult.Cancel;
+            parentForm.Close();
 
         }
     }

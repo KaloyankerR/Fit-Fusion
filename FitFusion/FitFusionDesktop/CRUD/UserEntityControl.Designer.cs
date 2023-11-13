@@ -1,6 +1,6 @@
 ﻿namespace FitFusionDesktop.CRUD
 {
-    partial class UserCreate
+    partial class UserEntityControl
     {
         /// <summary> 
         /// Required designer variable.

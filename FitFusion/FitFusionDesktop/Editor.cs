@@ -30,7 +30,8 @@ namespace FitFusionDesktop
             {
                 case EditorMode.UserCreate:
                     ClearControls();
-                    BodyPanel.Controls.Add(new UserCreate());
+                    BodyPanel.Controls.Add((Control)new CRUD.UserEntityControl(this));
+                    // BodyPanel.Controls.Add(UserEntityControl());
                     DialogResult = DialogResult.OK;
                     break;
                 default:
