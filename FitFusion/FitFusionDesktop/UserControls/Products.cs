@@ -54,7 +54,33 @@ namespace FitFusionDesktop.UserControls
             {
                 MessageBox.Show("Incorrect mode!");
             }
-            
+
+        }
+
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            int selectedId = Convert.ToInt16(ProductsDataGrid.SelectedRows[0].Cells[0].Value);
+            Product product = productManger.GetProductById(selectedId);
+
+            Editor frm = new Editor(EditorMode.ProductUpdate, product);
+
+            if (!frm.IsDisposed)
+            {
+                frm.ShowDialog();
+
+                if (frm.DialogResult == DialogResult.OK)
+                {
+                    MessageBox.Show("Product updated!");
+                }
+                else
+                {
+                    MessageBox.Show("Failed to update the product!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Incorrect mode!");
+            }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
@@ -63,5 +89,6 @@ namespace FitFusionDesktop.UserControls
             FillDataGridViewWithMockData();
         }
 
+        
     }
 }

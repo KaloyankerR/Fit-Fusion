@@ -126,6 +126,7 @@
             btnUpdate.TabIndex = 5;
             btnUpdate.Text = "Update";
             btnUpdate.TextAlignment = StringAlignment.Center;
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnDelete
             // 
