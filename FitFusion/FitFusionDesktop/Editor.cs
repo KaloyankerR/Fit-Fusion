@@ -1,4 +1,7 @@
 ﻿using FitFusionDesktop.CRUD;
+using Microsoft.VisualBasic.ApplicationServices;
+using Models.Product;
+using Models.User;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,14 +11,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UserModel = Models.User.User;
 
 namespace FitFusionDesktop
 {
     public partial class Editor : Form
     {
+        private UserModel userParam = null;
+        private Product product = new();
+
         public Editor(EditorMode mode)
         {
             InitializeComponent();
+            ShowPage(mode);
+        }
+
+        public Editor(EditorMode mode, UserModel user)
+        {
+            InitializeComponent();
+            userParam = user;
+            ShowPage(mode);
+        }
+
+        public Editor(EditorMode mode, Product productParam)
+        {
+            InitializeComponent();
+            product = productParam;
             ShowPage(mode);
         }
 
@@ -31,7 +52,21 @@ namespace FitFusionDesktop
                 case EditorMode.UserCreate:
                     ClearControls();
                     BodyPanel.Controls.Add((Control)new CRUD.UserEntityControl(this));
-                    // BodyPanel.Controls.Add(UserEntityControl());
+                    DialogResult = DialogResult.OK;
+                    break;
+                case EditorMode.UserUpdate:
+                    ClearControls();
+                    BodyPanel.Controls.Add((Control)new CRUD.UserEntityControl(this, userParam));
+                    DialogResult = DialogResult.OK;
+                    break;
+                case EditorMode.ProductCreate:
+                    ClearControls();
+                    BodyPanel.Controls.Add((Control)new CRUD.ProductEntityControl(this, mode));
+                    DialogResult = DialogResult.OK;
+                    break;
+                case EditorMode.ProductUpdate:
+                    ClearControls();
+                    BodyPanel.Controls.Add((Control)new CRUD.ProductEntityControl(this, mode, product));
                     DialogResult = DialogResult.OK;
                     break;
                 default:
