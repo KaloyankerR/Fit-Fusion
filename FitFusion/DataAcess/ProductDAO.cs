@@ -47,10 +47,9 @@ namespace DataAcess
 
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to create product.", ex);
-                // return false;
+                return false;
             }
         }
 
@@ -77,10 +76,9 @@ namespace DataAcess
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to update product.", ex);
-                // return fale;
+                return false;
             }
         }
 
@@ -101,15 +99,16 @@ namespace DataAcess
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to delete product.", ex);
-                // return false;
+                return false;
             }
         }
 
         public Product GetProductById(int productId)
         {
+            Product product = new();
+
             try
             {
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -124,7 +123,7 @@ namespace DataAcess
                         {
                             if (reader.Read())
                             {
-                                Product product = new Product
+                                product = new Product
                                 (
                                     id: reader.GetInt32("Id"),
                                     title: reader.GetString("Title"),
@@ -134,28 +133,26 @@ namespace DataAcess
                                     imageUrl: reader.GetString("ImageUrl")
                                 );
 
-                                return product;
+                                
                             }
-                            else
-                            {
-                                throw new InvalidOperationException("No product was found.");
-                            }
+
+                            return product;
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to retrieve product.", ex);
+                return product;
             }
         }
 
         public List<Product> GetProducts()
         {
+            List<Product> products = new List<Product>();
+
             try
             {
-                List<Product> products = new List<Product>();
-
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
@@ -168,7 +165,7 @@ namespace DataAcess
                             {
                                 int productId = reader.GetInt32("Id");
 
-                                Product product = new Product
+                                Product product = new
                                 (
                                     id: productId,
                                     title: reader.GetString("Title"),
@@ -186,18 +183,18 @@ namespace DataAcess
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to retrieve products.", ex);
+                return products;
             }
         }
 
         public Dictionary<string, int> GetTrendyProducts()
         {
+            Dictionary<string, int> products = new();
+
             try
             {
-                Dictionary<string, int> products = new ();
-
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
                     connection.Open();
@@ -232,9 +229,9 @@ namespace DataAcess
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to retrieve trendy products.", ex);
+                return products;
             }
         }
 
