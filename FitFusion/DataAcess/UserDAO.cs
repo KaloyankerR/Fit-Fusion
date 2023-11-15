@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Models.User;
 using System.Data.SqlClient;
-using DataAcess.Interfaces;
 using Interfaces;
 
 namespace DataAcess

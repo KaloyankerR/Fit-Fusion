@@ -4,12 +4,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAcess.Interfaces;
+using Interfaces;
 using Models.Order;
 using Models.User;
 using Models.Product;
 using System.Data;
-using Interfaces;
 
 namespace DataAcess
 {

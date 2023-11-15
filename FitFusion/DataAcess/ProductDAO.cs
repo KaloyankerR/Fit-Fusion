@@ -1,5 +1,4 @@
-﻿using DataAcess.Interfaces;
-using Models.Product;
+﻿using Models.Product;
 using System;
 using System.Collections.Generic;
 using System.Data;

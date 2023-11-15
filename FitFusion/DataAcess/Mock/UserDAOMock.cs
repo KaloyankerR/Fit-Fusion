@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DataAcess.Interfaces;
 using Models.User;
+using Interfaces;
 
 namespace DataAcess.Mock
 {
-    public class UserDAOMock : IUserDAO
+    public class UserDAOMock : IUser
     {
         private readonly List<User> users;
 

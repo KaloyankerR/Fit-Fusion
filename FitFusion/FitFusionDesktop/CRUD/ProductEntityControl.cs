@@ -92,12 +92,31 @@ namespace FitFusionDesktop.CRUD
 
             if (btnSubmit.TextButton == "Create")
             {
-                _productManager.CreateProduct(product);
+                if (_productManager.CreateProduct(product))
+                {
+                    parentForm.DialogResult = DialogResult.OK;
+                    parentForm.Close();
+                }
+                else
+                {
+                    parentForm.DialogResult = DialogResult.Cancel;
+                    parentForm.Close();
+                }
             }
             else if (btnSubmit.TextButton == "Update")
             {
-                _productManager.UpdateProduct(product);
+                if(_productManager.UpdateProduct(product))
+                {
+                    parentForm.DialogResult = DialogResult.OK;
+                    parentForm.Close();
+                }
+                else
+                {
+                    parentForm.DialogResult = DialogResult.Cancel;
+                    parentForm.Close();
+                }
             }
         }
+
     }
 }

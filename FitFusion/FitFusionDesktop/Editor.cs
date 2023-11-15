@@ -52,22 +52,18 @@ namespace FitFusionDesktop
                 case EditorMode.UserCreate:
                     ClearControls();
                     BodyPanel.Controls.Add((Control)new CRUD.UserEntityControl(this));
-                    DialogResult = DialogResult.OK;
                     break;
                 case EditorMode.UserUpdate:
                     ClearControls();
                     BodyPanel.Controls.Add((Control)new CRUD.UserEntityControl(this, userParam));
-                    DialogResult = DialogResult.OK;
                     break;
                 case EditorMode.ProductCreate:
                     ClearControls();
                     BodyPanel.Controls.Add((Control)new CRUD.ProductEntityControl(this, mode));
-                    DialogResult = DialogResult.OK;
                     break;
                 case EditorMode.ProductUpdate:
                     ClearControls();
                     BodyPanel.Controls.Add((Control)new CRUD.ProductEntityControl(this, mode, product));
-                    DialogResult = DialogResult.OK;
                     break;
                 default:
                     DialogResult = DialogResult.Cancel;
