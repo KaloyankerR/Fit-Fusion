@@ -22,7 +22,7 @@ namespace FitFusionDesktop.UserControls
         {
             InitializeComponent();
             UserManager = new(new DataAcess.UserDAO());
-            CurrentUser = UserManager.GetUser(1, new Owner());
+            CurrentUser = UserManager.GetUserById(1, new Owner());
 
             lblRole.Text = "Owner";
             lblName.Text = CurrentUser.FirstName + " " + CurrentUser.LastName;

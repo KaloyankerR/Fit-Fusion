@@ -52,12 +52,6 @@ namespace DataAcess
                     command.Parameters.AddWithValue("@FirstName", user.FirstName);
                     command.Parameters.AddWithValue("@LastName", user.LastName);
                     command.Parameters.AddWithValue("@Email", user.Email);
-
-                    //string salt = BCrypt.Net.BCrypt.GenerateSalt();
-                    //string hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash, salt);
-                    //command.Parameters.AddWithValue("@PasswordHash", hashedPassword);
-                    //command.Parameters.AddWithValue("@PasswordSalt", salt);
-
                     command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
                     command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
                     command.Parameters.AddWithValue("@Address", user.Address);
@@ -175,7 +169,7 @@ namespace DataAcess
             }
         }
 
-        public User GetUser(int id, User role)
+        public User GetUserById(int id, User role)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -270,25 +264,20 @@ namespace DataAcess
             {
                 connection.Open();
 
-                string getUserQuery = "";
-                string additionalProperty = "";
+                string getUserQuery = @"
+                    SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone as AdditionalProperty, 'Owner' as Role FROM Owner
+                    WHERE Email = @Email
 
-                if (role is Staff)
-                {
-                    additionalProperty = "Phone";
-                }
-                else if (role is Owner)
-                {
-                    additionalProperty = "Phone";
-                }
-                else if (role is Customer)
-                {
-                    additionalProperty = "LoyaltyScore";
-                }
+                    UNION ALL
 
-                getUserQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
-                               $"FROM {role.GetType().Name} " +
-                               $"WHERE Email = @Email;";
+                    SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone as AdditionalProperty, 'Staff' as Role FROM Staff
+                    WHERE Email = @Email
+
+                    UNION ALL
+
+                    SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, CAST(LoyaltyScore AS VARCHAR(16)) as AdditionalProperty, 'Customer' as Role FROM Customer
+                    WHERE Email = @Email;";
+
 
                 using (SqlCommand command = new SqlCommand(getUserQuery, connection))
                 {
@@ -298,53 +287,28 @@ namespace DataAcess
                     {
                         if (reader.Read())
                         {
+                            int id = reader.GetInt32(reader.GetOrdinal("Id"));
+                            string firstName = reader.GetString(reader.GetOrdinal("FirstName"));
+                            string lastName = reader.GetString(reader.GetOrdinal("LastName"));
+                            string retrievedEmail = reader.GetString(reader.GetOrdinal("Email"));
+                            string passwordHash = reader.GetString(reader.GetOrdinal("PasswordHash"));
+                            string passwordSalt = reader.GetString(reader.GetOrdinal("PasswordSalt"));
+                            string address = reader.GetString(reader.GetOrdinal("Address"));
+
                             if (role is Staff)
                             {
-                                Staff staff = new Staff
-                                (
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
-                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    phone: reader.GetString(reader.GetOrdinal("Phone"))
-                                );
-
-                                return staff;
+                                string phone = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
+                                return new Staff(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, phone);
                             }
                             else if (role is Owner)
                             {
-                                Owner owner = new Owner
-                                (
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
-                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    phone: reader.GetString(reader.GetOrdinal("Phone"))
-                                );
-
-                                return owner;
+                                string phone = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
+                                return new Owner(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, phone);
                             }
                             else if (role is Customer)
                             {
-                                Customer customer = new Customer
-                                (
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
-                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
-                                );
-
-                                return customer;
+                                string loyaltyScore = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
+                                return new Customer(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, int.Parse(loyaltyScore));
                             }
                         }
                     }
@@ -353,6 +317,97 @@ namespace DataAcess
                 return null;
             }
         }
+
+
+        //public User GetUserByEmail(string email, User role)
+        //{
+        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
+        //    {
+        //        connection.Open();
+
+        //        string getUserQuery = "";
+        //        string additionalProperty = "";
+
+        //        if (role is Staff)
+        //        {
+        //            additionalProperty = "Phone";
+        //        }
+        //        else if (role is Owner)
+        //        {
+        //            additionalProperty = "Phone";
+        //        }
+        //        else if (role is Customer)
+        //        {
+        //            additionalProperty = "LoyaltyScore";
+        //        }
+
+        //        getUserQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
+        //                       $"FROM {role.GetType().Name} " +
+        //                       $"WHERE Email = @Email;";
+
+        //        using (SqlCommand command = new SqlCommand(getUserQuery, connection))
+        //        {
+        //            command.Parameters.AddWithValue("@Email", email);
+
+        //            using (SqlDataReader reader = command.ExecuteReader())
+        //            {
+        //                if (reader.Read())
+        //                {
+        //                    if (role is Staff)
+        //                    {
+        //                        Staff staff = new Staff
+        //                        (
+        //                            id: reader.GetInt32(reader.GetOrdinal("Id")),
+        //                            firstName: reader.GetString(reader.GetOrdinal("FirstName")),
+        //                            lastName: reader.GetString(reader.GetOrdinal("LastName")),
+        //                            email: reader.GetString(reader.GetOrdinal("Email")),
+        //                            passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+        //                            passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
+        //                            address: reader.GetString(reader.GetOrdinal("Address")),
+        //                            phone: reader.GetString(reader.GetOrdinal("Phone"))
+        //                        );
+
+        //                        return staff;
+        //                    }
+        //                    else if (role is Owner)
+        //                    {
+        //                        Owner owner = new Owner
+        //                        (
+        //                            id: reader.GetInt32(reader.GetOrdinal("Id")),
+        //                            firstName: reader.GetString(reader.GetOrdinal("FirstName")),
+        //                            lastName: reader.GetString(reader.GetOrdinal("LastName")),
+        //                            email: reader.GetString(reader.GetOrdinal("Email")),
+        //                            passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+        //                            passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
+        //                            address: reader.GetString(reader.GetOrdinal("Address")),
+        //                            phone: reader.GetString(reader.GetOrdinal("Phone"))
+        //                        );
+
+        //                        return owner;
+        //                    }
+        //                    else if (role is Customer)
+        //                    {
+        //                        Customer customer = new Customer
+        //                        (
+        //                            id: reader.GetInt32(reader.GetOrdinal("Id")),
+        //                            firstName: reader.GetString(reader.GetOrdinal("FirstName")),
+        //                            lastName: reader.GetString(reader.GetOrdinal("LastName")),
+        //                            email: reader.GetString(reader.GetOrdinal("Email")),
+        //                            passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+        //                            passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
+        //                            address: reader.GetString(reader.GetOrdinal("Address")),
+        //                            loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
+        //                        );
+
+        //                        return customer;
+        //                    }
+        //                }
+        //            }
+        //        }
+
+        //        return null;
+        //    }
+        //}
 
         public List<User> GetUsers(User role)
         {

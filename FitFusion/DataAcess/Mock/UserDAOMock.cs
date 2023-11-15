@@ -52,7 +52,7 @@ namespace DataAcess.Mock
             throw new NotImplementedException();
         }
 
-        public User GetUser(int id, User role)
+        public User GetUserById(int id, User role)
         {
             throw new NotImplementedException();
         }
