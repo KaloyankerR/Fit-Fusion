@@ -25,15 +25,12 @@ namespace FitFusionWeb.Pages
                 OrderDate = DateTime.Now,
                 Customer = new Customer (id: 4 ),
                 Note = "Let her go test order",
-                ShoppingCart = new ShoppingCart
+                Cart = new Dictionary<Product, int>
                 {
-                    Products = new List<Product>
-                {
-                    new Product { Id = 1, Price = 10 }, 
-                    new Product { Id = 3, Price = 25 }  
-                }    
-                },
-            };
+                    { new Product { Id = 1, Price = 10 }, 1 },
+                    { new Product { Id = 3, Price = 25 }, 2 }
+                }
+        };
 
             // order.TotalPrice = order.CalculateTotalPrice();
 

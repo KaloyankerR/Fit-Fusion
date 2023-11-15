@@ -10,7 +10,7 @@ namespace Interfaces
     public interface IOrder
     {
         bool CreateOrder(Order order);
-        Order GetOrder(int id);
+        Order GetOrderById(int id);
         List<Order> GetOrders();
     }
 }

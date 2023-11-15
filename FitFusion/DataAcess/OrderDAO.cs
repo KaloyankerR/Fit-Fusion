@@ -42,21 +42,25 @@ namespace DataAcess
                     {
                         command.Parameters.AddWithValue("@OrderDate", order.OrderDate);
                         command.Parameters.AddWithValue("@CustomerId", order.Customer.Id);
-                        command.Parameters.AddWithValue("@TotalPrice", order.CalculateTotalPrice());
-                        command.Parameters.AddWithValue("@Discount", GetDiscount(order.Customer.Id));
+                        command.Parameters.AddWithValue("@TotalPrice", order.TotalPrice);
+                        command.Parameters.AddWithValue("@Discount", GetCustomerNutriPoints(order.Customer.Id));
                         command.Parameters.AddWithValue("@Note", order.Note);
 
                         int orderId = Convert.ToInt32(command.ExecuteScalar());
 
-                        string insertShoppingCartQuery = "INSERT INTO ShoppingCart (OrderId, ProductId) " +
-                                                         "VALUES (@OrderId, @ProductId);";
+                        string insertShoppingCartQuery = "INSERT INTO ShoppingCart (OrderId, ProductId, Quantity) " +
+                                                         "VALUES (@OrderId, @ProductId, @Quantity);";
 
-                        foreach (var product in order.ShoppingCart.Products)
+                        foreach (var pair in order.Cart)
                         {
+                            Product product = pair.Key;
+                            int quantity = pair.Value;
+
                             using (SqlCommand cartCommand = new SqlCommand(insertShoppingCartQuery, connection))
                             {
                                 cartCommand.Parameters.AddWithValue("@OrderId", orderId);
                                 cartCommand.Parameters.AddWithValue("@ProductId", product.Id);
+                                cartCommand.Parameters.AddWithValue("@Quantity", quantity);
 
                                 cartCommand.ExecuteNonQuery();
                             }
@@ -66,16 +70,15 @@ namespace DataAcess
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to create the new order.", ex);
-                // return false;
+                return false;
             }
         }
 
-        public ShoppingCart GetShoppingCart(int id)
+        public Dictionary<Product, int> GetShoppingCart(int id)
         {
-            ShoppingCart shoppingCart = new ShoppingCart();
+            Dictionary<Product, int> cart = new();
 
             try
             {
@@ -103,22 +106,26 @@ namespace DataAcess
                                     ImageUrl = reader.GetString("ImageUrl")
                                 };
 
-                                shoppingCart.AddProduct(product);
+                                int quantity = reader.GetInt16(reader.GetOrdinal("Quantity"));
+                                cart.Add(product, quantity);
+
+                                // shoppingCart.AddProduct(product);
                             }
                         }
 
-                        return shoppingCart;
+                        return cart;
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to retrieve the shopping cart.", ex);
+                return cart;
             }
         }
 
-        public Order GetOrder(int id)
+        public Order GetOrderById(int id)
         {
+            Order order = new();
             try
             {
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -135,38 +142,32 @@ namespace DataAcess
                         {
                             if (reader.Read())
                             {
-                                Order order = new Order
+                                order = new Order
                                 {
                                     Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                     OrderDate = reader.GetDateTime(reader.GetOrdinal("OrderDate")),
                                     Customer = new(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
-                                    ShoppingCart = GetShoppingCart(id),
+                                    Cart = GetShoppingCart(id),
                                     TotalPrice = (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
-                                    Discount = reader.GetInt32(reader.GetOrdinal("Discount")),
+                                    NutriPointsReward = reader.GetInt32(reader.GetOrdinal("Discount")),
                                     Note = reader.GetString(reader.GetOrdinal("Note"))
                                 };
-
-                                return order;
-                            }
-                            else
-                            {
-                                throw new InvalidOperationException("No orders were found.");
                             }
 
-
+                            return order;
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to retrieve the current order.", ex);
+                return order;
             }
         }
 
         public List<Order> GetOrders()
         {
-            List<Order> orders = new List<Order>();
+            List<Order> orders = new();
 
             try
             {
@@ -187,9 +188,9 @@ namespace DataAcess
                                     Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                     OrderDate = reader.GetDateTime(reader.GetOrdinal("OrderDate")),
                                     Customer = new Customer(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
-                                    ShoppingCart = GetShoppingCart(reader.GetInt32(reader.GetOrdinal("Id"))),
+                                    Cart = GetShoppingCart(reader.GetInt32(reader.GetOrdinal("Id"))),
                                     TotalPrice = (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
-                                    Discount = reader.GetInt32(reader.GetOrdinal("Discount")),
+                                    NutriPointsReward = reader.GetInt32(reader.GetOrdinal("Discount")),
                                     Note = reader.GetString(reader.GetOrdinal("Note"))
                                 };
 
@@ -201,15 +202,15 @@ namespace DataAcess
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to retrieve all orders.", ex);
+                return orders;
             }
         }
 
-        public int GetDiscount(int customerId)
+        public int GetCustomerNutriPoints(int customerId)
         {
-            int discount = 0;
+            int nutriPoints = 0;
 
             try
             {
@@ -227,17 +228,17 @@ namespace DataAcess
                         {
                             if (reader.Read())
                             {
-                                discount = reader.GetInt32(reader.GetOrdinal("LoyaltyScore"));
+                                nutriPoints = reader.GetInt32(reader.GetOrdinal("LoyaltyScore"));
                             }
 
-                            return discount;
+                            return nutriPoints;
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to retrieve the customers discount.", ex);
+                return nutriPoints;
             }
 
         }

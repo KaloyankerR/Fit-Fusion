@@ -14,6 +14,7 @@ namespace Models.Product
         Vegan,
         Snacks,
         Clothing,
-        Accessories
+        Accessories,
+        Redeem
     }
 }

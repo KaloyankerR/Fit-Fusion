@@ -13,39 +13,29 @@ namespace Models.Order
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
         public Customer Customer { get; set; } = new Customer();
-        public ShoppingCart ShoppingCart { get; set; } = new ShoppingCart();
+        // public ShoppingCart ShoppingCart { get; set; } = new ShoppingCart();
+        public Dictionary<ProductModel, int> Cart { get; set; } = new(); 
         public double TotalPrice { get; set; }
-        public int Discount { get; set; }
+        public int NutriPointsReward { get; set; }
         public string Note { get; set; } = string.Empty;
 
         public Order() { }
 
-        public Order(int id, DateTime date, Customer customer, ShoppingCart shoppingCart, int discount, string note)
+        public Order(int id, DateTime date, Customer customer, Dictionary<ProductModel, int> cart, double totalPrice, int nutriPointsReward, string note)
         {
             Id = id;
             OrderDate = date;
             Customer = customer;
-            ShoppingCart = shoppingCart;
-            TotalPrice = CalculateTotalPrice();
-            Discount = discount;
+            Cart = cart;
+            TotalPrice = totalPrice;
+            NutriPointsReward = nutriPointsReward;
             Note = note;
-        }
-
-        public double CalculateTotalPrice()
-        {
-            double totalPrice = 0;
-
-            foreach (ProductModel product in ShoppingCart.Products)
-            {
-                totalPrice += product.Price;
-            }
-
-            return totalPrice - (totalPrice * Discount);
         }
 
         public override string ToString()
         {
             return $"Order №{Id} - {TotalPrice}€";
+            // Add nutri points additionally 
         }
 
     }

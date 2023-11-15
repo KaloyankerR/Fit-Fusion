@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Interfaces;
+using Models.User;
+using Models.Product;
 
 namespace Services
 {
@@ -30,11 +32,11 @@ namespace Services
             }
         }
 
-        public Order GetOrder(int id)
+        public Order GetOrderById(int id)
         {
             try
             {
-                return _dao.GetOrder(id);
+                return _dao.GetOrderById(id);
             }
             catch (Exception ex)
             {
@@ -54,6 +56,74 @@ namespace Services
                 Console.WriteLine(ex.Message);
                 return new List<Order>();
             }
+        }
+
+        public double CalculateCartTotalPrice(Dictionary<Product, int> cart)
+        {
+            double totalPrice = 0;
+
+            foreach (var pair in cart)
+            {
+                Product product = pair.Key;
+                int quantity = pair.Value;
+
+                if (product.Category != Category.Redeem)
+                {
+                    totalPrice += (product.Price * quantity);
+                }
+            }
+
+            return totalPrice;
+        }
+
+        public int CalculateNutriPointsInCart(Dictionary<Product, int> cart)
+        {
+            int nutriPointsGained = 0;
+
+            foreach (var pair in cart)
+            {
+                Product product = pair.Key;
+                int quantity = pair.Value;
+
+                switch (product.Category)
+                {
+                    case Category.Protein:
+                        nutriPointsGained+= 30;
+                        break;
+                    case Category.Supplements:
+                        nutriPointsGained += 30;
+                        break;
+                    default:
+                        nutriPointsGained+= 10;
+                        break;
+                }
+
+                if (quantity > 1) 
+                {
+                    nutriPointsGained += 20 * quantity;
+                }
+
+            }
+
+            return nutriPointsGained;
+        }
+
+        public bool AreNutriPointsEnough(Order order, Customer customer)
+        {
+            int nutriPointsNeeded = 0;
+
+            foreach (var pair in order.Cart)
+            {
+                Product product = pair.Key;
+                int quantity = pair.Value;
+
+                if (product.Category == Category.Redeem)
+                {
+                    nutriPointsNeeded += Convert.ToInt32(product.Price) * quantity;
+                }
+            }
+
+            return nutriPointsNeeded <= customer.NutriPoints;
         }
 
     }
