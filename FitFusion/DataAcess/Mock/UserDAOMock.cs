@@ -57,7 +57,7 @@ namespace DataAcess.Mock
             throw new NotImplementedException();
         }
 
-        public User GetUserByEmail(string email, User role)
+        public User GetUserByEmail(string email)
         {
             throw new NotImplementedException();
         }
