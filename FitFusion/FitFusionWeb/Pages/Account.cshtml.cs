@@ -40,7 +40,7 @@ namespace FitFusionWeb.Pages
                 }
 
 
-                CurrentUser = _userManager.GetUserByEmail(email, newRole);
+                CurrentUser = _userManager.GetUserByEmail(email);
                 // User.FindFirstValue(ClaimTypes.Email);
                 //CurrentUser = _userManager.GetUserByEmail(ClaimTypes.NameIdentifier);
 

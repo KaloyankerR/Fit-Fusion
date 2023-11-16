@@ -27,8 +27,7 @@ namespace FitFusionWeb.Pages
         public void OnGet()
         {
             products = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
-            Email = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
-                    
+            Email = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;    
         }
 
         public IActionResult OnGetAddToCart(int id)

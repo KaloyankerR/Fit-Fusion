@@ -19,11 +19,11 @@ namespace FitFusionWeb.Pages.Authentication
         public string Password { get; set; } = string.Empty;
         [BindProperty]
         public bool RememberMe { get; set; }
-        private UserManager _userManager = new(new UserDAO());
+        private readonly UserManager _userManager = new(new UserDAO());
 
         public IActionResult OnGet()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated ?? false)
             {
                 return RedirectToPage("../Account");
             }
@@ -40,6 +40,7 @@ namespace FitFusionWeb.Pages.Authentication
                 {
                     List<Claim> claims = new List<Claim>
                     {
+                        new Claim(ClaimTypes.NameIdentifier, isAuthenticated.Id.ToString()),
                         new Claim(ClaimTypes.Email, isAuthenticated.Email),
                         new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole())
                     };
@@ -58,7 +59,9 @@ namespace FitFusionWeb.Pages.Authentication
                     }
 
                     HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
+                    HttpContext.Session.SetString("Id", isAuthenticated.Id.ToString());
                     HttpContext.Session.SetString("Email", isAuthenticated.Email);
+                    HttpContext.Session.SetString("Role", isAuthenticated.GetUserRole());
 
                     return RedirectToPage("../Index");
                 }
@@ -66,5 +69,6 @@ namespace FitFusionWeb.Pages.Authentication
 
             return Page();
         }
+
     }
 }
