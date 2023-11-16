@@ -85,9 +85,9 @@ namespace Services
             }
         }
 
-        public UserModel GetUserByEmail(string email, UserModel role)
+        public UserModel GetUserByEmail(string email)
         {
-            UserModel user = dao.GetUserByEmail(email, role);
+            UserModel user = dao.GetUserByEmail(email);
 
             if (user.Email != string.Empty) 
             { 
