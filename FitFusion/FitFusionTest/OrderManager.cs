@@ -84,7 +84,7 @@ namespace FitFusionTest
             };
 
             // Act
-            int nutriPointsGained = orderManager.CalculateNutriPointsInCart(cart);
+            int nutriPointsGained = orderManager.CalculateCartNutriPoints(cart);
 
             // Assert
             Assert.AreEqual(100, nutriPointsGained);

@@ -20,24 +20,9 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            Order order = new Order
-            {
-                OrderDate = DateTime.Now,
-                Customer = new Customer (id: 4 ),
-                Note = "Let her go test order",
-                Cart = new Dictionary<Product, int>
-                {
-                    { new Product { Id = 1, Price = 10 }, 1 },
-                    { new Product { Id = 3, Price = 25 }, 2 }
-                }
-        };
+            OrderManager manager = new(new OrderDAO(), new AlgorithmManager());
 
-            // order.TotalPrice = order.CalculateTotalPrice();
 
-            OrderDAO dao = new OrderDAO();
-            // bool result = dao.CreateOrder(order);
-            var result2 = dao.GetOrders();
-            
         }
 
     }

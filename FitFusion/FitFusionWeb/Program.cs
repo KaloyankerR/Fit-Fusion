@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Models.User;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,19 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = new PathString("/AccessDenied");
     });
 
+builder.Services.AddAuthorization(options =>
+{
+    Dictionary<Role, string> roleMappings = new Dictionary<Role, string>
+{
+    { Role.Owner, "Owner" },
+    { Role.Staff, "Staff" },
+    { Role.Customer, "Customer" },
+};
+    options.AddPolicy("OwnerAccess", policy => policy.RequireRole(roleMappings[Role.Owner]));
+    options.AddPolicy("StaffAccess", policy => policy.RequireRole(roleMappings[Role.Staff]));
+    options.AddPolicy("CustomerAccess", policy => policy.RequireRole(roleMappings[Role.Customer]));
+});
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -26,7 +40,6 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-
 
 //public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 //{
