@@ -9,7 +9,7 @@ namespace Models.User
     public class Staff : User
     {
         protected string phone;
-        public string Phone { get { return phone;  } protected set { phone = value; } }
+        public string Phone { get { return phone;  } set { phone = value; } }
 
         public Staff() { }
 

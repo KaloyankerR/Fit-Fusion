@@ -9,19 +9,19 @@ namespace Models.User
     public abstract class User
     {
         protected int id;
-        public int Id { get { return id; } protected set { id = value; } }
+        public int Id { get { return id; } set { id = value; } }
         protected string firstName;
-        public string FirstName { get { return firstName; } protected set { firstName = value; } }
+        public string FirstName { get { return firstName; } set { firstName = value; } }
         protected string lastName;
-        public string LastName { get { return lastName; } protected set { lastName = value; } }
+        public string LastName { get { return lastName; } set { lastName = value; } }
         protected string email;
-        public string Email { get { return email; } protected set { email = value; }  }
+        public string Email { get { return email; } set { email = value; }  }
         protected string passwordHash;
-        public string PasswordHash { get { return passwordHash; } protected set { passwordHash = value; } }
+        public string PasswordHash { get { return passwordHash; } set { passwordHash = value; } }
         protected string passwordSalt;
-        public string PasswordSalt { get { return passwordSalt; } protected set { passwordSalt = value; } }
+        public string PasswordSalt { get { return passwordSalt; } set { passwordSalt = value; } }
         protected string address;
-        public string Address { get { return address; } protected set { address = value; } }
+        public string Address { get { return address; } set { address = value; } }
 
         public User() { }
 

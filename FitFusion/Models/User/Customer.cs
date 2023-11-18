@@ -9,7 +9,7 @@ namespace Models.User
     public class Customer : User
     {
         protected int nutriPoints;
-        public int NutriPoints { get { return nutriPoints; } protected set { nutriPoints = value; } }
+        public int NutriPoints { get { return nutriPoints; } set { nutriPoints = value; } }
 
         public Customer() { }
 
