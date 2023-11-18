@@ -18,7 +18,7 @@ namespace FitFusionWeb.Pages.Stats
         
         public OrdersModel()
         {
-            _orderManager = new(new OrderDAO());
+            _orderManager = new(new OrderDAO(), new AlgorithmManager());
         }
 
         public void OnGet()

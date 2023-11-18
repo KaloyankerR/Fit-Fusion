@@ -17,7 +17,15 @@ builder.Services.AddSession(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options => {
         options.LoginPath = new PathString("/Authentification/Login");
-        options.AccessDeniedPath = new PathString("/AccessDenied");
+        options.AccessDeniedPath = new PathString("/CustomPages/AccessDenied");
+        options.Events = new CookieAuthenticationEvents
+        {
+            OnRedirectToAccessDenied = context =>
+            {
+                context.Response.StatusCode = 404; 
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddAuthorization(options =>

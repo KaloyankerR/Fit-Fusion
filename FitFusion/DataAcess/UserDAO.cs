@@ -346,97 +346,6 @@ namespace DataAcess
             }
         }
 
-
-        //public User GetUserByEmail(string email, User role)
-        //{
-        //    using (SqlConnection connection = new SqlConnection(ConnectionString))
-        //    {
-        //        connection.Open();
-
-        //        string getUserQuery = "";
-        //        string additionalProperty = "";
-
-        //        if (role is Staff)
-        //        {
-        //            additionalProperty = "Phone";
-        //        }
-        //        else if (role is Owner)
-        //        {
-        //            additionalProperty = "Phone";
-        //        }
-        //        else if (role is Customer)
-        //        {
-        //            additionalProperty = "LoyaltyScore";
-        //        }
-
-        //        getUserQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
-        //                       $"FROM {role.GetType().Name} " +
-        //                       $"WHERE Email = @Email;";
-
-        //        using (SqlCommand command = new SqlCommand(getUserQuery, connection))
-        //        {
-        //            command.Parameters.AddWithValue("@Email", email);
-
-        //            using (SqlDataReader reader = command.ExecuteReader())
-        //            {
-        //                if (reader.Read())
-        //                {
-        //                    if (role is Staff)
-        //                    {
-        //                        Staff staff = new Staff
-        //                        (
-        //                            id: reader.GetInt32(reader.GetOrdinal("Id")),
-        //                            firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-        //                            lastName: reader.GetString(reader.GetOrdinal("LastName")),
-        //                            email: reader.GetString(reader.GetOrdinal("Email")),
-        //                            passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
-        //                            passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-        //                            address: reader.GetString(reader.GetOrdinal("Address")),
-        //                            phone: reader.GetString(reader.GetOrdinal("Phone"))
-        //                        );
-
-        //                        return staff;
-        //                    }
-        //                    else if (role is Owner)
-        //                    {
-        //                        Owner owner = new Owner
-        //                        (
-        //                            id: reader.GetInt32(reader.GetOrdinal("Id")),
-        //                            firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-        //                            lastName: reader.GetString(reader.GetOrdinal("LastName")),
-        //                            email: reader.GetString(reader.GetOrdinal("Email")),
-        //                            passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
-        //                            passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-        //                            address: reader.GetString(reader.GetOrdinal("Address")),
-        //                            phone: reader.GetString(reader.GetOrdinal("Phone"))
-        //                        );
-
-        //                        return owner;
-        //                    }
-        //                    else if (role is Customer)
-        //                    {
-        //                        Customer customer = new Customer
-        //                        (
-        //                            id: reader.GetInt32(reader.GetOrdinal("Id")),
-        //                            firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-        //                            lastName: reader.GetString(reader.GetOrdinal("LastName")),
-        //                            email: reader.GetString(reader.GetOrdinal("Email")),
-        //                            passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
-        //                            passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-        //                            address: reader.GetString(reader.GetOrdinal("Address")),
-        //                            loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
-        //                        );
-
-        //                        return customer;
-        //                    }
-        //                }
-        //            }
-        //        }
-
-        //        return null;
-        //    }
-        //}
-
         public List<User> GetUsers(User role)
         {
             List<User> users = new List<User>();
@@ -578,7 +487,7 @@ namespace DataAcess
             }
         }
 
-        public bool IsEmailAlreadyExists(string email)
+        public bool DoesEmailExists(string email)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -630,17 +539,16 @@ namespace DataAcess
                     return true;
                 }
             }
-            catch (Exception ex)
+            catch
             {
-                throw new Exception("Failed to update user's password.", ex);
-                // return fale;
+                return false;
             }
         }
 
         private bool VerifyPassword(string entered, string hash, string salt)
         {
-            string passwordToCheck = BCrypt.Net.BCrypt.HashPassword(entered, salt);
-            return passwordToCheck == hash;
+            // string passwordToCheck = BCrypt.Net.BCrypt.HashPassword(entered, salt);
+            return BCrypt.Net.BCrypt.HashPassword(entered, salt) == hash;
         }
     
     }
