@@ -20,7 +20,10 @@
                 <li class="menu-text">FitFusion</li>
                 <li><a href="/">Home</a></li>
                 <li><a href="/Products/All">Products</a></li>
-                <li><a href="/Users/Main">Users</a></li>
+                @if (User.IsInRole("Owner") || User.IsInRole("Staff"))
+                {
+                    <li><a href="/Users/Main">Users</a></li>
+                }
             </ul>
         </div>
         <div class="top-bar-right">
