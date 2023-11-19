@@ -3,12 +3,11 @@ using DataAcess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.Order;
-using Models.Product;
 using Microsoft.AspNetCore.Authorization;
 
 namespace FitFusionWeb.Pages.Stats
 {
-    [Authorize(Roles = "Staff")]
+    [Authorize(Roles = "Owner")]
     public class OrdersModel : PageModel
     {
         private readonly OrderManager _orderManager;
