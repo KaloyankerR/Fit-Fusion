@@ -96,24 +96,58 @@ namespace Services
         {
             if (!string.IsNullOrEmpty(param))
             {
+                ISortStrategy<ProductModel> sortStrategy = null;
+
                 switch (param)
                 {
                     case "titleAsc":
-                        products.Sort((a, b) => string.Compare(a.Title, b.Title, StringComparison.Ordinal));
+                        sortStrategy = new Services.Sorting.SortByTitleAscending();
                         break;
                     case "titleDesc":
-                        products.Sort((a, b) => string.Compare(b.Title, a.Title, StringComparison.Ordinal));
+                        sortStrategy = new Services.Sorting.SortByTitleDescending();
                         break;
                     case "priceAsc":
-                        products.Sort((a, b) => a.Price.CompareTo(b.Price));
+                        sortStrategy = new Services.Sorting.SortByPriceAscending();
                         break;
                     case "priceDesc":
-                        products.Sort((a, b) => b.Price.CompareTo(a.Price));
+                        sortStrategy = new Services.Sorting.SortByPriceDescending();
                         break;
                 }
+
+                if (sortStrategy != null)
+                {
+                    return sortStrategy.Sort(products);
+                }
             }
+
             return products;
         }
+
+        //public List<ProductModel> Sort(List<ProductModel> products, string param)
+        //{
+        //    if (!string.IsNullOrEmpty(param))
+        //    {
+        //        switch (param)
+        //        {
+        //            case "titleAsc":
+        //                products.Sort((a, b) => string.Compare(a.Title, b.Title, StringComparison.Ordinal));
+        //                break;
+        //            case "titleDesc":
+        //                products.Sort((a, b) => string.Compare(b.Title, a.Title, StringComparison.Ordinal));
+        //                break;
+        //            case "priceAsc":
+        //                products.Sort((a, b) => a.Price.CompareTo(b.Price));
+        //                break;
+        //            case "priceDesc":
+        //                products.Sort((a, b) => b.Price.CompareTo(a.Price));
+        //                break;
+        //        }
+        //    }
+
+        //    return products;
+        //}
+
+
 
         public Dictionary<Category, int> GetCategoryStats()
         {

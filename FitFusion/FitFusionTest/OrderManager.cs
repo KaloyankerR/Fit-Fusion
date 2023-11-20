@@ -14,7 +14,7 @@ namespace FitFusionTest
         public void Setup()
         {
             MockOrderDAO mockOrderDao = new MockOrderDAO();
-            orderManager = new OrderManager(mockOrderDao);
+            // orderManager = new OrderManager(mockOrderDao);
         }
 
         [Test]
