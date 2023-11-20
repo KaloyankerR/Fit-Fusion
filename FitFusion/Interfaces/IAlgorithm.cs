@@ -11,8 +11,8 @@ namespace Interfaces
 {
     public interface IAlgorithm
     {
-        double CalculateCartTotalPrice(Dictionary<Product, int> cart);
-        int CalculateCartNutriPoints(Dictionary<Product, int> cart);
-        bool AreNutriPointsEnough(Order order, Customer customer);
+        double CalculateCartTotalPrice(Order order);
+        int CalculateCartNutriPoints(Order order);
+        bool AreNutriPointsEnough(Order order);
     }
 }

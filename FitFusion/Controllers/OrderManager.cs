@@ -26,7 +26,13 @@ namespace Services
         {
             try
             {
-                return _dao.CreateOrder(order);
+                if (AreNutriPointsEnough(order))
+                {
+                    return _dao.CreateOrder(order);
+                }
+
+                return false;
+                
             }
             catch (Exception ex)
             {
@@ -62,19 +68,19 @@ namespace Services
         }
 
 
-        public bool AreNutriPointsEnough(Order order, Customer customer)
+        public bool AreNutriPointsEnough(Order order)
         {
-            return _algorithmManager.AreNutriPointsEnough(order, customer);
+            return _algorithmManager.AreNutriPointsEnough(order);
         }
 
-        public double CalculateCartTotalPrice(Dictionary<Product, int> cart)
+        public double CalculateCartTotalPrice(Order order)
         {
-            return _algorithmManager.CalculateCartTotalPrice(cart);
+            return _algorithmManager.CalculateCartTotalPrice(order);
         }
-
-        public int CalculateCartNutriPoints(Dictionary<Product, int> cart)
+        
+        public int CalculateCartNutriPoints(Order order)
         {
-            return _algorithmManager.CalculateCartNutriPoints(cart);  
+            return _algorithmManager.CalculateCartNutriPoints(order);  
         }
 
     }

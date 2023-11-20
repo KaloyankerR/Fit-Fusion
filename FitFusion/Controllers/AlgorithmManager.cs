@@ -12,7 +12,7 @@ namespace Services
 {
     public class AlgorithmManager : IAlgorithm
     {
-        public bool AreNutriPointsEnough(Order order, Customer customer)
+        public bool AreNutriPointsEnough(Order order)
         {
             int nutriPointsNeeded = 0;
 
@@ -27,14 +27,14 @@ namespace Services
                 }
             }
 
-            return nutriPointsNeeded <= customer.NutriPoints;
+            return nutriPointsNeeded <= order.Customer.NutriPoints;
         }
 
-        public double CalculateCartTotalPrice(Dictionary<Product, int> cart)
+        public double CalculateCartTotalPrice(Order order)
         {
             double totalPrice = 0;
 
-            foreach (var pair in cart)
+            foreach (var pair in order.Cart)
             {
                 Product product = pair.Key;
                 int quantity = pair.Value;
@@ -48,11 +48,11 @@ namespace Services
             return totalPrice;
         }
 
-        public int CalculateCartNutriPoints(Dictionary<Product, int> cart)
+        public int CalculateCartNutriPoints(Order order)
         {
             int nutriPointsGained = 0;
 
-            foreach (var pair in cart)
+            foreach (var pair in order.Cart)
             {
                 Product product = pair.Key;
                 int quantity = pair.Value;
