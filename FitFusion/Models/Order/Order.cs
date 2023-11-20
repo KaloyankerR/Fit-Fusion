@@ -13,7 +13,6 @@ namespace Models.Order
         public int Id { get; set; }
         public DateTime OrderDate { get; set; }
         public Customer Customer { get; set; } = new Customer();
-        // public ShoppingCart ShoppingCart { get; set; } = new ShoppingCart();
         public Dictionary<ProductModel, int> Cart { get; set; } = new(); 
         public double TotalPrice { get; set; }
         public int NutriPointsReward { get; set; }

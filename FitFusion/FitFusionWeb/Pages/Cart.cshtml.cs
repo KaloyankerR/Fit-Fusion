@@ -7,49 +7,62 @@ using Models.Product;
 using Services;
 using Models.User;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FitFusionWeb.Pages
 {
+    [Authorize(Roles = "Customer")]
     public class CartModel : PageModel
     {
         public readonly ProductManager ProductManager = new(new ProductDAO());
-        public readonly UserManager UserManager = new(new UserDAO());
+        private readonly UserManager _userManager = new(new UserDAO());
 
-        public ShoppingCart cart = new();
-        public List<Product> products = new List<Product>();
+        public Order Order { get; set; } = new();
+        //public ShoppingCart cart = new();
+        //public List<Product> products = new List<Product>();
 
         [BindProperty]
         public User CurrentUser { get; set; }
 
         public double TotalPrice { get; set; }
-        public string Email = string.Empty;
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            products = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
-            Email = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;    
+            if (User.Identity.IsAuthenticated)
+            {
+                var email = User.FindFirstValue(ClaimTypes.Email);
+                CurrentUser = _userManager.GetUserByEmail(email);
+                Order.Customer = (Customer)CurrentUser;
+                Order.Cart = SessionHelper.SessionHelper.GetObjectFromJson<Dictionary<Product, int>>(HttpContext.Session, "cart");
+                // products = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
+
+                return Page();
+            }
+
+            return RedirectToPage("/Authentication/Login");
         }
 
         public IActionResult OnGetAddToCart(int id)
         {
             Product product = ProductManager.GetProductById(id);
-            var cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
-            
-            if (cart == null)
-            {
-                cart = new List<Product>
-                {
-                    product
-                };
+            var cart = SessionHelper.SessionHelper.GetObjectFromJson<Dictionary<Product, int>>(HttpContext.Session, "cart");
 
-                SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            }
-            else
-            {
-                cart.Add(product);
+            //if (cart == null)
+            //{
+            //    cart = new List<Product>
+            //    {
+            //        product
+            //    };
 
-                SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            }
+            //    SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            //}
+            //else
+            //{
+            //    cart.Add(product);
+
+            //    SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            //}
 
             string returnUrl = Request.Headers["Referer"].ToString();
 

@@ -9,7 +9,6 @@ using System.Security.Claims;
 
 namespace FitFusionWeb.Pages
 {
-    //[Authorize]
     public class AccountModel : PageModel
     {
         public User CurrentUser { get; set; }
