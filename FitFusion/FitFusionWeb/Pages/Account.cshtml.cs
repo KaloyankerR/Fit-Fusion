@@ -15,7 +15,7 @@ namespace FitFusionWeb.Pages
         public User CurrentUser { get; set; }
         private UserManager _userManager = new(new DataAcess.UserDAO());
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -34,17 +34,16 @@ namespace FitFusionWeb.Pages
                     case "Customer":
                         newRole = new Customer();
                         break;
-                    default:
-                        newRole = null;
-                        break;
                 }
-
 
                 CurrentUser = _userManager.GetUserByEmail(email);
                 // User.FindFirstValue(ClaimTypes.Email);
                 //CurrentUser = _userManager.GetUserByEmail(ClaimTypes.NameIdentifier);
 
+                return Page();
             }
+
+            return RedirectToPage("/Authentication/Login");
         }
 
     }

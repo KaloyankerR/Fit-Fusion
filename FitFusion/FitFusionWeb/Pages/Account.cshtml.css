@@ -1,0 +1,30 @@
+﻿h1 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+/* User info styles */
+h3, h5, p {
+    margin-bottom: 10px;
+}
+
+/* Button styles */
+.btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+/* Additional styles for Owner buttons */
+.col-md-3.text-end {
+    margin-top: 20px;
+}
+
+    /* Logout button styles */
+    .col-md-3.text-end a {
+        margin-top: 20px;
+    }

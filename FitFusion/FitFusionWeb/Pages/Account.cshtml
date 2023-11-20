@@ -1,24 +1,40 @@
 ﻿@page
 @model FitFusionWeb.Pages.AccountModel
+@using Models.User;
 @{
-    ViewData["Title"] = "Account";
+    ViewData["Title"] = "Account Page";
 }
 
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Welcome to Your Account</h1>
+            <div>
+                <h3>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</h3>
+                <h5>@Model.CurrentUser.Email</h5>
+                <p>@Model.CurrentUser.Address</p>
+            </div>
 
-<h1>Profile</h1>
+            @if (Model.CurrentUser.GetUserRole() == "Owner")
+            {
+                <div class="owner-options">
+                    <a class="btn btn-dark me-2" asp-page="/Stats/Orders">Orders Stats</a>
+                    <a class="btn btn-dark me-2" asp-page="/Stats/Products">Products Stats</a>
+                </div><br />
+            }
+            else if (Model.CurrentUser is Customer customer)
+            {
+                <div>
+                    <h2>Nutri Points: @customer.NutriPoints</h2>
+                </div>
+            }
 
-@if (User.Identity.IsAuthenticated)
-{
-    <h3>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</h3>
-    <h5>@Model.CurrentUser.Email</h5>
-    <p>@Model.CurrentUser.Address</p>
 
-    <div class="col-md-3 text-end">
-        <a type="button" class="btn btn-outline-primary me-2" asp-page="Logout">Logout</a>
+            <div class="logout-btn">
+                <a class="btn btn-danger me-2" asp-page="Logout">Logout</a>
+            </div>
+        </div>
+
     </div>
-}
-else
-{
-    <p>You must be logged in to view your profile.</p>
-}
+</div>
 
