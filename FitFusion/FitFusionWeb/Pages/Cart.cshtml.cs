@@ -34,8 +34,9 @@ namespace FitFusionWeb.Pages
                 var email = User.FindFirstValue(ClaimTypes.Email);
                 CurrentUser = _userManager.GetUserByEmail(email);
                 Order.Customer = (Customer)CurrentUser;
-                Order.Cart = SessionHelper.SessionHelper.GetObjectFromJson<Dictionary<Product, int>>(HttpContext.Session, "cart");
-                // products = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
+                Order.Cart = SessionHelper.SessionHelper.GetDictionaryFromJson<Product>(HttpContext.Session, "cart");
+
+                // Order.Cart = SessionHelper.SessionHelper.GetObjectFromJson<Dictionary<Product, int>>(HttpContext.Session, "cart");
 
                 return Page();
             }
@@ -46,34 +47,30 @@ namespace FitFusionWeb.Pages
         public IActionResult OnGetAddToCart(int id)
         {
             Product product = ProductManager.GetProductById(id);
-            var cart = SessionHelper.SessionHelper.GetObjectFromJson<Dictionary<Product, int>>(HttpContext.Session, "cart");
+            var cart = SessionHelper.SessionHelper.GetDictionaryFromJson<Product>(HttpContext.Session, "cart");
 
-            //if (cart == null)
-            //{
-            //    cart = new List<Product>
-            //    {
-            //        product
-            //    };
-
-            //    SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            //}
-            //else
-            //{
-            //    cart.Add(product);
-
-            //    SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-            //}
-
-            string returnUrl = Request.Headers["Referer"].ToString();
-
-            if (string.IsNullOrEmpty(returnUrl))
+            if (cart == null)
             {
-                return RedirectToPage("../Index");
+                cart = new Dictionary<Product, int>
+                {
+                    { product, 1 }
+                };
+            }
+            else
+            {
+                if (cart.ContainsKey(product))
+                {
+                    cart[product] += 1;
+                }
+                else
+                {
+                    cart.Add(product, 1);
+                }
             }
 
-            return Redirect(returnUrl);
+            SessionHelper.SessionHelper.SetDictionaryAsJson(HttpContext.Session, "cart", cart);
 
-            // return RedirectToPage("Product");
+            return RedirectToPage("Cart");
         }
 
 

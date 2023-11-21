@@ -17,5 +17,18 @@ namespace FitFusionWeb.SessionHelper
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
 
+        // Add an overload to handle Dictionary<T, int>
+        public static void SetDictionaryAsJson<T>(this ISession session, string key, Dictionary<T, int> value)
+        {
+            session.SetObjectAsJson(key, value);
+        }
+
+        // Add an overload to handle Dictionary<T, int>
+        public static Dictionary<T, int> GetDictionaryFromJson<T>(this ISession session, string key)
+        {
+            return session.GetObjectFromJson<Dictionary<T, int>>(key);
+        }
+
+
     }
 }
