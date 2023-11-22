@@ -14,21 +14,14 @@ namespace FitFusionWeb.SessionHelper
         public static T GetObjectFromJson<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
-            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
-        }
 
-        // Add an overload to handle Dictionary<T, int>
-        public static void SetDictionaryAsJson<T>(this ISession session, string key, Dictionary<T, int> value)
-        {
-            session.SetObjectAsJson(key, value);
-        }
+            if (value == null)
+            {
+                return default(T) == null ? Activator.CreateInstance<T>()! : default!;
+            }
 
-        // Add an overload to handle Dictionary<T, int>
-        public static Dictionary<T, int> GetDictionaryFromJson<T>(this ISession session, string key)
-        {
-            return session.GetObjectFromJson<Dictionary<T, int>>(key);
+            return JsonConvert.DeserializeObject<T>(value)!;
         }
-
 
     }
 }
