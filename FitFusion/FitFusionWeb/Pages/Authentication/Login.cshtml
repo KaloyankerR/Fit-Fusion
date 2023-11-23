@@ -4,37 +4,32 @@
     ViewData["Title"] = "Login";
 }
 
-<h2>@ViewData["Title"]</h2>
-
-<form method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div>
-        <label asp-for="@Model.Email"></label>
-        <input asp-for="@Model.Email" oninput="checkFields()" />
-    </div>
-    <div>
-        <label asp-for="@Model.Password"></label>
-        <input asp-for="@Model.Password" type="password" oninput="checkFields()" />
-    </div>
-
-    <div>
+<div class="login-box">
+    <form method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div>
-            <input type="checkbox" asp-for="@Model.RememberMe" />
-            <label asp-for="@Model.RememberMe">Remember Me</label>
+            <label asp-for="@Model.Email">Email</label>
+            <input asp-for="@Model.Email" oninput="checkFields(this)" />
         </div>
-        <button type="submit" id="submitButton">Log in</button>
-    </div>
-</form>
+        <div>
+            <label asp-for="@Model.Password">Password</label>
+            <input asp-for="@Model.Password" type="password" oninput="checkFields(this)" />
+        </div>
+
+        <div class="remember-me">
+            <div>
+                <input type="checkbox" asp-for="@Model.RememberMe" />
+                <label asp-for="@Model.RememberMe">Remember Me</label>
+            </div>
+            <button type="submit" id="submitButton" style="display: none;">Log in</button>
+        </div>
+    </form>
+</div>
 
 <script>
-    function checkFields() {
-        let email = document.getElementById('Email').value.trim();
-        let password = document.getElementById('Password').value.trim();
-
-        if (email !== '' && password !== '') {
-            document.getElementById('submitButton').style.display = 'block';
-        } else {
-            document.getElementById('submitButton').style.display = 'none';
-        }
+    function checkFields(input) {
+        let email = input.form.elements['Email'].value.trim();
+        let password = input.form.elements['Password'].value.trim();
+        input.form.elements['submitButton'].style.display = email !== '' && password !== '' ? 'block' : 'none';
     }
 </script>
