@@ -1,0 +1,38 @@
+﻿/* styles.css */
+
+body {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #343a40;
+}
+
+.display-4 {
+    color: #007bff;
+}
+
+.lead {
+    font-size: 1.25rem;
+}
+
+.row {
+    margin-top: 20px;
+}
+
+.col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+
+/* Add more styles as needed */
