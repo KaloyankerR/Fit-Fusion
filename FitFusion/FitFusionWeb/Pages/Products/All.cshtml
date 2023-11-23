@@ -66,8 +66,12 @@ else if (messageType == "success")
         <div class="column small-12 medium-12 large-4">
             <button type="submit" class="btn btn-primary">Apply Filter</button>
 
-            <button type="button" class="btn btn-warning" onclick="location.href='./Create'">Create</button>
-            <button type="button" class="btn btn-secondary" onclick="location.href='../Stats/Products'">Statistics</button>
+            @if (User.IsInRole("Owner") || User.IsInRole("Staff"))
+            {
+                <button type="button" class="btn btn-warning" onclick="location.href='./Create'">Create</button>
+            }
+            
+            @* <button type="button" class="btn btn-secondary" onclick="location.href='../Stats/Products'">Statistics</button> *@
         </div>
     </div>
 </form>

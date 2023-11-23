@@ -42,6 +42,11 @@ namespace Models.User
             PasswordSalt = encryptedPassword[1];
         }
 
+        public string GetFullName()
+        {
+            return $"{FirstName} {LastName}";
+        }
+
         public abstract string GetUserRole();
 
         public override string ToString()
