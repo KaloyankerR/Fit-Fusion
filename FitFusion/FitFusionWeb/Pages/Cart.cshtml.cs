@@ -15,28 +15,35 @@ namespace FitFusionWeb.Pages
     [Authorize(Roles = "Customer")]
     public class CartModel : PageModel
     {
-        public readonly ProductManager ProductManager = new(new ProductDAO());
+        public readonly ProductManager _productManager = new(new ProductDAO());
         private readonly UserManager _userManager = new(new UserDAO());
+        private readonly OrderManager _orderManager = new(new OrderDAO(), new AlgorithmManager());
 
         public Order Order { get; set; } = new();
-        //public ShoppingCart cart = new();
-        //public List<Product> products = new List<Product>();
+        public List<Product> MyCart = new();
 
         [BindProperty]
-        public User CurrentUser { get; set; }
+        public Customer CurrentUser { get; set; } = new();
 
         public double TotalPrice { get; set; }
 
+        public Dictionary<Product, int> GetUniqueItemsWithCounts()
+        {
+            return MyCart.GroupBy(item => new { item.Id })
+                         .ToDictionary(group => group.First(), group => group.Count());
+        }
+
         public IActionResult OnGet()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated ?? false)
             {
                 var email = User.FindFirstValue(ClaimTypes.Email);
-                CurrentUser = _userManager.GetUserByEmail(email);
-                Order.Customer = (Customer)CurrentUser;
-                Order.Cart = SessionHelper.SessionHelper.GetDictionaryFromJson<Product>(HttpContext.Session, "cart");
-
-                // Order.Cart = SessionHelper.SessionHelper.GetObjectFromJson<Dictionary<Product, int>>(HttpContext.Session, "cart");
+                CurrentUser = (Customer)_userManager.GetUserByEmail(email);
+                Order.Customer = CurrentUser;
+                MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
+                Order.Cart = GetUniqueItemsWithCounts();
+                Order.TotalPrice = _orderManager.CalculateCartTotalPrice(Order);
+                Order.NutriPointsReward = _orderManager.CalculateCartNutriPoints(Order);
 
                 return Page();
             }
@@ -46,35 +53,14 @@ namespace FitFusionWeb.Pages
 
         public IActionResult OnGetAddToCart(int id)
         {
-            Product product = ProductManager.GetProductById(id);
-            var cart = SessionHelper.SessionHelper.GetDictionaryFromJson<Product>(HttpContext.Session, "cart");
+            Product product = _productManager.GetProductById(id);
+            MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
 
-            if (cart == null)
-            {
-                cart = new Dictionary<Product, int>
-                {
-                    { product, 1 }
-                };
-            }
-            else
-            {
-                if (cart.ContainsKey(product))
-                {
-                    cart[product] += 1;
-                }
-                else
-                {
-                    cart.Add(product, 1);
-                }
-            }
-
-            SessionHelper.SessionHelper.SetDictionaryAsJson(HttpContext.Session, "cart", cart);
+            MyCart.Add(product);
+            SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", MyCart);
 
             return RedirectToPage("Cart");
         }
-
-
-
 
     }
 }

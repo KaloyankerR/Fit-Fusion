@@ -7,16 +7,14 @@
 
 <div class="cart-container">
     <div class="product-list">
-        @if (Model.Order.Cart != null)
+        @if (Model.Order.Cart != null && Model.Order.Cart.Count > 0)
         {
             @foreach (KeyValuePair<Product, int> entry in Model.Order.Cart)
             {
                 <div class="product-item">
                     <h3>@entry.Key.Title</h3>
                     <h5>@entry.Key.Price</h5>
-                    <img src="@entry.Key.ImageUrl">
                     <h6>Quantity: @entry.Value</h6>
-                    <hr />
                 </div>
             }
         }
@@ -28,7 +26,19 @@
 
     <div class="order-summary">
         <h2>Order Summary</h2>
-        <p>Email: @Model.CurrentUser.Email</p>
+        <h5>Customer: @Model.CurrentUser.GetFullName()</h5>
+        <h5>Address: @Model.CurrentUser.Address</h5>
+        <hr />
+        <h5>Total Price: @Model.Order.TotalPrice $</h5>
+        <h5>Needed:  NP</h5>
+        <hr />
+        <h5>Reward: @Model.Order.NutriPointsReward NP</h5>
+        <br />
+        <p>*NP means Nutri Points</p>
+        <hr />
+        <button>Continue shopping</button><br />
+        <button>Order</button>
     </div>
-</div>
 
+    
+</div>
