@@ -30,9 +30,12 @@
         </div>
         <div class="top-bar-right">
             <ul class="menu">
-                @if (User.Identity.IsAuthenticated)
+                @if (User.Identity?.IsAuthenticated ?? false)
                 {
-                    <li><a href="/Cart">Cart</a></li>
+                    @if (User.IsInRole("Customer"))
+                    {
+                        <li><a href="/Cart">Cart</a></li>
+                    }
                     <li><a href="/Account">Account</a></li>
                 }
                 else
