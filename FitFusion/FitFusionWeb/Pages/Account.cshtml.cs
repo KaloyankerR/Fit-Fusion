@@ -16,7 +16,7 @@ namespace FitFusionWeb.Pages
 
         public IActionResult OnGet()
         {
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated ?? false)
             {
                 var email = User.FindFirstValue(ClaimTypes.Email);
                 var role = User.FindFirstValue(ClaimTypes.Role);
@@ -36,9 +36,6 @@ namespace FitFusionWeb.Pages
                 }
 
                 CurrentUser = _userManager.GetUserByEmail(email);
-                // User.FindFirstValue(ClaimTypes.Email);
-                //CurrentUser = _userManager.GetUserByEmail(ClaimTypes.NameIdentifier);
-
                 return Page();
             }
 

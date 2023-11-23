@@ -6,35 +6,45 @@
 }
 
 <div class="container mt-5">
-    <div class="row">
+    <div class="row row-cols-2">
         <div class="col-md-6">
-            <h1>Welcome to Your Account</h1>
-            <div>
-                <h3>@Model.CurrentUser.FirstName @Model.CurrentUser.LastName</h3>
-                <h5>@Model.CurrentUser.Email</h5>
-                <p>@Model.CurrentUser.Address</p>
-            </div>
+            <h1 class="display-4">Welcome to Your Account</h1>
 
+            <div class="section-divider"></div>
+
+            <div class="account-info">
+                <div class="section-title">Information</div>
+                <h3>Name: @Model.CurrentUser.GetFullName()</h3>
+                <h5>Email: @Model.CurrentUser.Email</h5>
+                <p>Address: @Model.CurrentUser.Address</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
             @if (Model.CurrentUser.GetUserRole() == "Owner")
             {
+                <div class="section-divider"></div>
+                <div class="section-title">Owners Statistics</div>
                 <div class="owner-options">
                     <a class="btn btn-dark me-2" asp-page="/Stats/Orders">Orders Stats</a>
                     <a class="btn btn-dark me-2" asp-page="/Stats/Products">Products Stats</a>
-                </div><br />
+                </div>
             }
             else if (Model.CurrentUser is Customer customer)
             {
-                <div>
+                <div class="section-divider"></div>
+                <div class="section-title">Customers Nutri Points</div>
+                <div class="nutri-points">
                     <h2>Nutri Points: @customer.NutriPoints</h2>
                 </div>
             }
 
+            <div class="section-divider"></div>
 
-            <div class="logout-btn">
+            <div class="section-title">Logout</div>
+            <div class="logout-btn mt-4">
                 <a class="btn btn-danger me-2" asp-page="Logout">Logout</a>
             </div>
         </div>
-
     </div>
 </div>
-

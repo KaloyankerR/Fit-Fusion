@@ -1,30 +1,56 @@
-﻿h1 {
-    font-size: 2.5em;
+﻿body {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.container {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #343a40;
+}
+
+.account-info {
     margin-bottom: 20px;
 }
 
-/* User info styles */
-h3, h5, p {
-    margin-bottom: 10px;
-}
-
-/* Button styles */
-.btn-outline-primary {
-    color: #007bff;
-    border-color: #007bff;
-}
-
-    .btn-outline-primary:hover {
-        background-color: #007bff;
-        color: #fff;
-    }
-
-/* Additional styles for Owner buttons */
-.col-md-3.text-end {
+.owner-options, .nutri-points {
     margin-top: 20px;
 }
 
-    /* Logout button styles */
-    .col-md-3.text-end a {
-        margin-top: 20px;
+.btn {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+    .btn-danger:hover {
+        background-color: #bd2130;
+        border-color: #bd2130;
     }
+
+.section-divider {
+    border-bottom: 2px solid #dee2e6;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.section-title {
+    font-size: 24px;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+/* Added styling for two-column layout */
+.row-cols-2 > div {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
