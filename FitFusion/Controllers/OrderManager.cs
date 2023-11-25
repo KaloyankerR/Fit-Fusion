@@ -82,6 +82,5 @@ namespace Services
         {
             return _algorithmManager.CalculateCartNutriPoints(order);  
         }
-
     }
 }

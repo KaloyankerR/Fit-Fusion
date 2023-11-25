@@ -94,59 +94,36 @@ namespace Services
 
         public List<ProductModel> Sort(List<ProductModel> products, string param)
         {
-            if (!string.IsNullOrEmpty(param))
+            if (string.IsNullOrEmpty(param))
             {
-                ISortStrategy<ProductModel> sortStrategy = null;
+                return products;
+            }
 
-                switch (param)
-                {
-                    case "titleAsc":
-                        sortStrategy = new Services.Sorting.SortByTitleAscending();
-                        break;
-                    case "titleDesc":
-                        sortStrategy = new Services.Sorting.SortByTitleDescending();
-                        break;
-                    case "priceAsc":
-                        sortStrategy = new Services.Sorting.SortByPriceAscending();
-                        break;
-                    case "priceDesc":
-                        sortStrategy = new Services.Sorting.SortByPriceDescending();
-                        break;
-                }
+            var sortStrategies = new Dictionary<string, ISortStrategy<ProductModel>>
+            {
+                { "titleAsc", new Services.Sorting.SortByTitleAscending() },
+                { "titleDesc", new Services.Sorting.SortByTitleDescending() },
+                { "priceAsc", new Services.Sorting.SortByPriceAscending() },
+                { "priceDesc", new Services.Sorting.SortByPriceDescending() }
+            };
 
-                if (sortStrategy != null)
-                {
-                    return sortStrategy.Sort(products);
-                }
+            if (sortStrategies.TryGetValue(param, out var sortStrategy))
+            {
+                return sortStrategy.Sort(products);
             }
 
             return products;
         }
 
-        //public List<ProductModel> Sort(List<ProductModel> products, string param)
-        //{
-        //    if (!string.IsNullOrEmpty(param))
-        //    {
-        //        switch (param)
-        //        {
-        //            case "titleAsc":
-        //                products.Sort((a, b) => string.Compare(a.Title, b.Title, StringComparison.Ordinal));
-        //                break;
-        //            case "titleDesc":
-        //                products.Sort((a, b) => string.Compare(b.Title, a.Title, StringComparison.Ordinal));
-        //                break;
-        //            case "priceAsc":
-        //                products.Sort((a, b) => a.Price.CompareTo(b.Price));
-        //                break;
-        //            case "priceDesc":
-        //                products.Sort((a, b) => b.Price.CompareTo(a.Price));
-        //                break;
-        //        }
-        //    }
+        public List<ProductModel> FilterByCategory(List<ProductModel> products, string param)
+        {
+            if (string.IsNullOrEmpty(param) || param == "All")
+            {
+                return products;
+            }
 
-        //    return products;
-        //}
-
+            return products.Where(p => p.Category.ToString().Equals(param, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
 
 
         public Dictionary<Category, int> GetCategoryStats()

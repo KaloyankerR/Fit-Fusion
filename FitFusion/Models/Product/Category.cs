@@ -8,6 +8,7 @@ namespace Models.Product
 {
     public enum Category
     {
+        All,
         Protein,
         Supplements,
         Vitamins,

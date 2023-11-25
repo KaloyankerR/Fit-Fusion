@@ -22,9 +22,9 @@ else if (messageType == "success")
         <div class="column small-12 medium-6 large-4">
             <input type="text" name="searchQuery" class="form-control" placeholder="Search..." value="@Model.SearchQuery">
         </div>
-        <div class="column small-12 medium-6 large-4">
+        <div class="column small-12 medium-6 large-2">
             <select name="sort">
-                <option selected disabled>Select filter</option>
+                <option selected disabled>Select sorting</option>
                 @if (Model.Sort == "titleAsc")
                 {
                     <option value="titleAsc" selected>Title Ascending</option>
@@ -63,6 +63,14 @@ else if (messageType == "success")
 
             </select>
         </div>
+        <div class="column small-12 medium-6 large-2">
+            <select asp-for="FilterByCategory">
+                @foreach (var category in Enum.GetValues(typeof(Models.Product.Category)))
+                {
+                    <option value="@category">@category</option>
+                }
+            </select>
+        </div>
         <div class="column small-12 medium-12 large-4">
             <button type="submit" class="btn btn-primary">Apply Filter</button>
 
@@ -70,7 +78,7 @@ else if (messageType == "success")
             {
                 <button type="button" class="btn btn-warning" onclick="location.href='./Create'">Create</button>
             }
-            
+
             @* <button type="button" class="btn btn-secondary" onclick="location.href='../Stats/Products'">Statistics</button> *@
         </div>
     </div>

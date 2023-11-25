@@ -15,6 +15,8 @@ namespace FitFusionWeb.Pages.Products
 
         [BindProperty]
         public string Sort { get; set; }
+        [BindProperty]
+        public string FilterByCategory { get; set; }
 
         public List<Product> Products { get; set; }
         private ProductManager productManager = new(new ProductDAO());
@@ -29,6 +31,7 @@ namespace FitFusionWeb.Pages.Products
             Products = productManager.GetProducts();
             Products = productManager.Search(Products, SearchQuery);
             Products = productManager.Sort(Products, Sort);
+            Products = productManager.FilterByCategory(Products, FilterByCategory);
         }
         
     }
