@@ -1,12 +1,13 @@
 ﻿@page
-@model FitFusionWeb.Pages.Users.CustomerModel
+@using Models.User;
+@model FitFusionWeb.Pages.Users.AllModel
 @{
     ViewData["Title"] = "Products";
     string messageType = TempData["Type"] as string;
     string message = TempData["Message"] as string;
 }
 
-<h1>All Customers</h1>
+<h1>All Users</h1>
 
 @if (messageType == "danger")
 {
@@ -57,16 +58,29 @@ else if (messageType == "success")
 
 <div class="grid-container">
     <div class="grid-x">
-        @foreach (var customer in Model.Users)
+        @foreach (User user in Model.Users)
         {
             <div class="cell">
                 <article class="card">
                     <div class="card-body">
-                        <h2 class="card-title">@customer.FirstName @customer.LastName</h2>
-                        <p class="card-description">@customer.Email</p>
+                        @if (user.GetUserRole() == "Owner")
+                        {
+                            <p class="owner-label" style="color: darkblue; font-weight: bold;">Owner</p>
+                        }
+                        else if (user.GetUserRole() == "Staff")
+                        {
+                            <p class="owner-label" style="color: grey; font-weight: bold;">Staff</p>
+                        }
+                        else if (user.GetUserRole() == "Customer")
+                        {
+                            <p class="owner-label" style="color: green; font-weight: bold;">Customer</p>
+                        }
+
+                        <h2 class="card-title">@user.FirstName @user.LastName</h2>
+                        <p class="card-description">@user.Email</p>
                     </div>
-
-
+                    <a class="button primary btnElement" style="margin: 0">View Details</a>
+                    <a class="button alert btnElement" style="margin: 0">Delete</a>
                 </article>
             </div>
         }

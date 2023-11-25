@@ -106,6 +106,18 @@ namespace Services
             // throw new Exception("Unable to get current users.");
         }
 
+        public List<UserModel> GetAllUsers()
+        {
+            List<UserModel> users = new List<UserModel>();
+
+            users.AddRange(GetUsers(new Owner()));
+            users.AddRange(GetUsers(new Staff()));
+            users.AddRange(GetUsers(new Customer()));
+
+            return users;
+        }
+
+
         public List<UserModel> Search(List<UserModel> users, string param)
         {
             if (!string.IsNullOrEmpty(param))
@@ -135,6 +147,7 @@ namespace Services
             }
             return users;
         }
+
 
         public UserModel? AuthenticateUser(string email, string password)
         {
