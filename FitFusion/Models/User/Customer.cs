@@ -8,20 +8,25 @@ namespace Models.User
 {
     public class Customer : User
     {
-        protected int nutriPoints;
-        public int NutriPoints { get { return nutriPoints; } set { nutriPoints = value; } }
+        private int nutriPoints;
+
+        public int NutriPoints
+        {
+            get { return nutriPoints; }
+            set { nutriPoints = value; }
+        }
 
         public Customer() { }
 
-        public Customer(int id) 
+        public Customer(int id) // : base(id)
         {
-            this.id = id;
+            Id = id;
         }
 
-        public Customer(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address, int loyaltyScore)
+        public Customer(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address, int nutriPoints)
             : base(id, firstName, lastName, email, passwordHash, passwordSalt, address)
         {
-            this.nutriPoints = loyaltyScore;
+            this.nutriPoints = nutriPoints;
         }
 
         public override string GetUserRole()

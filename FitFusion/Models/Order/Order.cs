@@ -10,13 +10,55 @@ namespace Models.Order
 {
     public class Order
     {
-        public int Id { get; set; }
-        public DateTime OrderDate { get; set; }
-        public Customer Customer { get; set; } = new Customer();
-        public Dictionary<ProductModel, int> Cart { get; set; } = new(); 
-        public double TotalPrice { get; set; }
-        public int NutriPointsReward { get; set; }
-        public string Note { get; set; } = string.Empty;
+        private int _id;
+        private DateTime _orderDate;
+        private Customer _customer = new Customer();
+        private Dictionary<ProductModel, int> _cart = new();
+        private double _totalPrice;
+        private int _nutriPointsReward;
+        private string _note = string.Empty;
+
+        public int Id
+        {
+            get { return _id; }
+            set { _id = value; }
+        }
+
+        public DateTime OrderDate
+        {
+            get { return _orderDate; }
+            set { _orderDate = value; }
+        }
+
+        public Customer Customer
+        {
+            get { return _customer; }
+            set { _customer = value; }
+        }
+
+        public Dictionary<ProductModel, int> Cart
+        {
+            get { return _cart; }
+            set { _cart = value; }
+        }
+
+        public double TotalPrice
+        {
+            get { return _totalPrice; }
+            set { _totalPrice = value; }
+        }
+
+        public int NutriPointsReward
+        {
+            get { return _nutriPointsReward; }
+            set { _nutriPointsReward = value; }
+        }
+
+        public string Note
+        {
+            get { return _note; }
+            set { _note = value; }
+        }
 
         public Order() { }
 

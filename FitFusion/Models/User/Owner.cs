@@ -8,8 +8,13 @@ namespace Models.User
 {
     public class Owner : User
     {
-        protected string phone;
-        public string Phone { get { return phone; } set { phone = value; } }
+        private string phone = string.Empty;
+
+        public string Phone 
+        { 
+            get { return phone; } 
+            set { phone = value; } 
+        }
 
         public Owner() { }
 

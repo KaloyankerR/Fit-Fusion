@@ -1,6 +1,5 @@
 using Models.User;
 using NUnit.Framework;
-using DataAcess.Mock;
 
 namespace FitFusionTest
 {

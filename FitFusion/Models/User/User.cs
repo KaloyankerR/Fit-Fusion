@@ -8,32 +8,67 @@ namespace Models.User
 {
     public abstract class User
     {
-        protected int id;
-        public int Id { get { return id; } set { id = value; } }
-        protected string firstName;
-        public string FirstName { get { return firstName; } set { firstName = value; } }
-        protected string lastName;
-        public string LastName { get { return lastName; } set { lastName = value; } }
-        protected string email;
-        public string Email { get { return email; } set { email = value; }  }
-        protected string passwordHash;
-        public string PasswordHash { get { return passwordHash; } set { passwordHash = value; } }
-        protected string passwordSalt;
-        public string PasswordSalt { get { return passwordSalt; } set { passwordSalt = value; } }
-        protected string address;
-        public string Address { get { return address; } set { address = value; } }
+        private int id;
+        private string firstName = string.Empty;
+        private string lastName = string.Empty;
+        private string email = string.Empty;
+        private string passwordHash = string.Empty;
+        private string passwordSalt = string.Empty;
+        private string address = string.Empty;
+
+        public int Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        public string FirstName
+        {
+            get { return firstName; }
+            set { firstName = value; }
+        }
+
+        public string LastName
+        {
+            get { return lastName; }
+            set { lastName = value; }
+        }
+
+        public string Email
+        {
+            get { return email; }
+            set { email = value; }
+        }
+
+        public string PasswordHash
+        {
+            get { return passwordHash; }
+            set { passwordHash = value; }
+        }
+
+        public string PasswordSalt
+        {
+            get { return passwordSalt; }
+            set { passwordSalt = value; }
+        }
+
+        public string Address
+        {
+            get { return address; }
+            set { address = value; }
+        }
 
         public User() { }
 
         public User(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address)
         {
-            this.id = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.email = email;
-            this.passwordHash = passwordHash;
-            this.passwordSalt = passwordSalt;
-            this.address = address;
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            PasswordHash = passwordHash;
+            PasswordSalt = passwordSalt;
+            Address = address;
         }
 
         public void SetEncryptedPassword(List<string> encryptedPassword)
@@ -51,7 +86,7 @@ namespace Models.User
 
         public override string ToString()
         {
-            return $"{FirstName} {LastName}";
+            return GetFullName();
         }
     }
 }
