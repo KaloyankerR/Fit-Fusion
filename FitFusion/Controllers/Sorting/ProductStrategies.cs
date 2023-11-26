@@ -43,12 +43,4 @@ namespace Services.Sorting
         }
     }
 
-    //public class SortByCategory : ISortStrategy<Product>
-    //{
-    //    public List<Product> Sort(List<Product> products)
-    //    {
-    //        return products.OrderBy(o => o.Category.ToString()).ToList();
-    //    }
-    //}
-
 }

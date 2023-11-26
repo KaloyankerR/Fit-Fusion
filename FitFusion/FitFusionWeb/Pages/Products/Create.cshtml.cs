@@ -2,9 +2,11 @@ using Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.Product;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FitFusionWeb.Pages.Products
 {
+    [Authorize(Roles = "Owner, Staff")]
     public class CreateModel : PageModel
     {
         [BindProperty]

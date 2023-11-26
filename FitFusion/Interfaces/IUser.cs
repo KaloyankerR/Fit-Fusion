@@ -12,10 +12,10 @@ namespace Interfaces
         bool CreateUser(User user);
         bool UpdateUser(User user);
         bool DeleteUser(User user);
-        User GetUserById(int id, User role);
-        User GetUserByEmail(string email);
+        User? GetUserById(int id, User role);
+        User? GetUserByEmail(string email);
         List<User> GetUsers(User role);
-        // bool IsEmailAlreadyExists(string email);
+        // bool DoesEmailExists(string email);
         User? AuthenticateUser(string email, string password);
     }
 }

@@ -71,11 +71,11 @@ namespace Services
             }
         }
 
-        public UserModel GetUserById(int id, UserModel role)
+        public UserModel? GetUserById(int id, UserModel role)
         {
-            UserModel user = dao.GetUserById(id, role);
+            UserModel? user = dao.GetUserById(id, role);
 
-            if (user.Email != string.Empty)
+            if (user != null)
             {
                 return user;
             }
@@ -85,11 +85,11 @@ namespace Services
             }
         }
 
-        public UserModel GetUserByEmail(string email)
+        public UserModel? GetUserByEmail(string email)
         {
-            UserModel user = dao.GetUserByEmail(email);
+            UserModel? user = dao.GetUserByEmail(email);
 
-            if (user.Email != string.Empty) 
+            if (user != null) 
             { 
                 return user; 
             }
@@ -102,8 +102,6 @@ namespace Services
         public List<UserModel> GetUsers(UserModel role)
         {
             return dao.GetUsers(role);
-         
-            // throw new Exception("Unable to get current users.");
         }
 
         public List<UserModel> GetAllUsers()

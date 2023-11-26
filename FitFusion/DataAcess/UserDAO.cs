@@ -188,7 +188,7 @@ namespace DataAcess
             }
         }
 
-        public User GetUserById(int id, User role)
+        public User? GetUserById(int id, User role)
         {
             try
             {
@@ -266,7 +266,7 @@ namespace DataAcess
                                         passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
                                         passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
                                         address: reader.GetString(reader.GetOrdinal("Address")),
-                                        loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
+                                        nutriPoints: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
                                     );
 
                                     return customer;
@@ -284,7 +284,7 @@ namespace DataAcess
             }
         }
 
-        public User GetUserByEmail(string email)
+        public User? GetUserByEmail(string email)
         {
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
@@ -423,7 +423,7 @@ namespace DataAcess
                                     passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
                                     passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
                                     address: reader.GetString(reader.GetOrdinal("Address")),
-                                    loyaltyScore: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
+                                    nutriPoints: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
                                 );
 
                                 users.Add(user);
@@ -460,25 +460,13 @@ namespace DataAcess
                     {
                         while (reader.Read())
                         {
-                            string storedPasswordHash = reader["PasswordHash"].ToString();
-                            string storedPasswordSalt = reader["PasswordSalt"].ToString();
-                            string role = reader["Role"].ToString();
+                            string storedPasswordHash = reader["PasswordHash"].ToString()!;
+                            string storedPasswordSalt = reader["PasswordSalt"].ToString()!;
+                            string role = reader["Role"].ToString()!;
 
                             if (VerifyPassword(password, storedPasswordHash, storedPasswordSalt))
                             {
                                 return GetUserByEmail(email);
-
-                                //switch (role)
-                                //{
-                                //    case "Staff":
-                                //        return GetUserByEmail(email, new Staff());
-                                //    case "Owner":
-                                //        return GetUserByEmail(email, new Owner());
-                                //    case "Customer":
-                                //        return GetUserByEmail(email, new Customer());
-                                //    default:
-                                //        return null;
-                                //}
                             }
                         }
                     }
