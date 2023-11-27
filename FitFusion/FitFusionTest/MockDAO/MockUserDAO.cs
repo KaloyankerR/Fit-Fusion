@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.MockDAO
+namespace FitFusionTest.MockDAO
 {
     public class MockUserDAO : IUser
     {

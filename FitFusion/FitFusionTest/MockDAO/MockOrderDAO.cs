@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Models.Product;
 using Interfaces;
 
-namespace Services.MockDAO
+namespace FitFusionTest.MockDAO
 {
     public class MockOrderDAO : IOrder
     {
