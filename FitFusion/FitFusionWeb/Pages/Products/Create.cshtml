@@ -19,14 +19,17 @@
     <div>
         <label asp-for="Product.Title"></label>
         <input asp-for="Product.Title" class="form-control" />
+        <span asp-validation-for="Product.Title" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Product.Description"></label>
         <input asp-for="Product.Description" class="form-control" />
+        <span asp-validation-for="Product.Description" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Product.Price"></label>
         <input asp-for="Product.Price" class="form-control" />
+        <span asp-validation-for="Product.Price" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Product.Category"></label>
@@ -36,10 +39,12 @@
                 <option value="@category">@category</option>
             }
         </select>
+        <span asp-validation-for="Product.Category" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Product.ImageUrl">Image URL (default one applied)</label>
         <input asp-for="Product.ImageUrl" class="form-control" value="https://demofree.sirv.com/nope-not-here.jpg" />
+        <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
     </div>
 
     <div>
