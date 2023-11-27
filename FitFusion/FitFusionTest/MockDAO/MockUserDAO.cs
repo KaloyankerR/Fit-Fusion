@@ -47,7 +47,7 @@ namespace FitFusionTest.MockDAO
                     passwordHash: "hashed_password",
                     passwordSalt: "salt",
                     address: "789 Pine St",
-                    loyaltyScore: 100
+                    nutriPoints: 100
                 )
             };
         }

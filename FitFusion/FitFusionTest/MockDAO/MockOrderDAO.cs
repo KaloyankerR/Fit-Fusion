@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Models.Product;
 using Interfaces;
+using Models.Product.Category;
 
 namespace FitFusionTest.MockDAO
 {
@@ -23,11 +24,11 @@ namespace FitFusionTest.MockDAO
                 {
                     Id = 1,
                     OrderDate = DateTime.Now.AddDays(-2),
-                    Customer = new Customer { Id = 101, FirstName = "Alice", LastName = "Johnson" },
+                    Customer = new Customer { Id = 1, FirstName = "Alice", LastName = "Johnson" },
                     Cart = new Dictionary<ProductModel, int>
                     {
-                        { new ProductModel { Id = 201, Title = "Product1", Price = 10.99 }, 2 },
-                        { new ProductModel { Id = 202, Title = "Product2", Price = 15.99 }, 1 }
+                        { new ProductModel { Id = 1, Title = "Protein", Price = 10, Category= Category.Protein }, 2 },
+                        { new ProductModel { Id = 2, Title = "Vitamin B12", Price = 15, Category = Category.Vitamins }, 1 }
                     },
                     TotalPrice = 37.97,
                     NutriPointsReward = 20,
