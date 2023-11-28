@@ -36,8 +36,9 @@ namespace Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return false;
+                throw new Exception(ex.Message);
+                //Console.WriteLine(ex.Message);
+                //return false;
             }
         }
 

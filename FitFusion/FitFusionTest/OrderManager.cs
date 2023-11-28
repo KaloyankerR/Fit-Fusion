@@ -3,43 +3,52 @@ using Models.Product;
 using Models.User;
 using Services;
 using FitFusionTest.MockDAO;
+using Interfaces;
 
 namespace FitFusionTest
 {
     public class OrderManagerTests
     {
-        private OrderManager orderManager;
+        private readonly AlgorithmManager _algorithmManager = new();
+        private readonly MockOrderDAO _dao = new MockOrderDAO();
+        private OrderManager _orderManager;
 
         [SetUp]
         public void Setup()
         {
-            MockOrderDAO mockOrderDao = new MockOrderDAO();
-            // orderManager = new OrderManager(mockOrderDao);
+            _orderManager = new(new MockOrderDAO(), _algorithmManager);
         }
 
         [Test]
         public void CreateOrder_ShouldReturnTrue()
         {
-            // Arrange
             Order order = new Order
             {
                 OrderDate = DateTime.Now,
-                Customer = new Customer { Id = 1, FirstName = "John", LastName = "Doe", NutriPoints = 100 },
+                Customer = new Customer { Id = 100, FirstName = "Loki", LastName = "Odinson", NutriPoints = 100 },
                 Cart = new Dictionary<Product, int>
                 {
-                    { new Product { Id = 1, Title = "Product1", Price = 10.99, Category = Category.Protein }, 2 },
-                    { new Product { Id = 2, Title = "Product2", Price = 15.99, Category = Category.Supplements }, 1 }
+                    { new Product { Id = 1, Title = "Thor's hammer", Price = 100, Category = Category.Accessories }, 2 },
+                    { new Product { Id = 2, Title = "Loki's protein", Price = 20, Category = Category.Protein }, 1 }
                 },
-                TotalPrice = 37.97,
-                NutriPointsReward = 20,
-                Note = "Sample order"
+                Note = "Mock order"
             };
 
-            // Act
-            bool result = orderManager.CreateOrder(order);
+            bool result = _orderManager.CreateOrder(order);
 
-            // Assert
+            List<Order> orders = _orderManager.GetOrders();
+
             Assert.IsTrue(result);
+            Assert.IsTrue(orders.Contains(order));
+        }
+
+        [Test]
+        public void CreateOrder_ShouldThrowException()
+        {
+            var product = new Product { Id = 1, Title = "Thor's hammer", Price = 100, Category = Category.Accessories };
+
+
+            Assert.Throws<Exception>(() => _orderManager.CreateOrder(product));
         }
 
         [Test]
@@ -49,7 +58,7 @@ namespace FitFusionTest
             int orderId = 1; // Assuming there is an order with ID 1 in the mock data
 
             // Act
-            Order result = orderManager.GetOrderById(orderId);
+            Order result = _orderManager.GetOrderById(orderId);
 
             // Assert
             Assert.NotNull(result);

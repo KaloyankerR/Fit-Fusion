@@ -22,64 +22,32 @@ namespace FitFusionTest
         [Test]
         public void AreNutriPointsEnough_ShouldReturnTrue()
         {
-            Order order = new Order
-            {
-                OrderDate = System.DateTime.Now,
-                Customer = new Customer { Id = 1, FirstName = "John", LastName = "Doe", NutriPoints = 100 },
-                Cart = new Dictionary<Product, int>
-                {
-                    { new Product { Id = 1, Title = "Product1", Price = 10, Category = Category.Redeem }, 2 },
-                    { new Product { Id = 2, Title = "Product2", Price = 15, Category = Category.Redeem }, 1 }
-                },
-                TotalPrice = 37.97,
-                NutriPointsReward = 20,
-                Note = "Sample order"
-            };
-
+            Order order = _orderManager.GetOrderById(4);
             bool result = _orderManager.AreNutriPointsEnough(order);
-
             Assert.IsTrue(result);
         }
 
         [Test]
         public void AreNutriPointsEnough_ShouldReturnFalse()
         {
-            Order order = new Order
-            {
-                OrderDate = System.DateTime.Now,
-                Customer = new Customer { Id = 1, FirstName = "John", LastName = "Doe", NutriPoints = 100 },
-                Cart = new Dictionary<Product, int>
-                {
-                    { new Product { Id = 1, Title = "Product1", Price = 50, Category = Category.Redeem }, 2 },
-                    { new Product { Id = 2, Title = "Product2", Price = 20, Category = Category.Redeem }, 1 }
-                },
-                TotalPrice = 37.97,
-                NutriPointsReward = 20,
-                Note = "Sample order"
-            };
-
+            Order order = _orderManager.GetOrderById(5);
             bool result = _orderManager.AreNutriPointsEnough(order);
-
             Assert.IsFalse(result);
         }
 
         [Test]
         public void CalculateCartTotalPrice_ShouldReturnCorrectTotalPrice()
         {
-            Order order = new Order
-            {
-                OrderDate = System.DateTime.Now,
-                Customer = new Customer { Id = 1, FirstName = "John", LastName = "Doe", NutriPoints = 100 },
-                Cart = new Dictionary<Product, int>
-                {
-                    { new Product { Id = 1, Title = "Product1", Price = 50, Category = Category.Redeem }, 2 },
-                    { new Product { Id = 2, Title = "Product2", Price = 20, Category = Category.Redeem }, 1 }
-                },
-                TotalPrice = 0,
-                NutriPointsReward = 20,
-                Note = "Sample order"
-            };
+            Order order = _orderManager.GetOrderById(3);
+            order.TotalPrice = _orderManager.CalculateCartTotalPrice(order);
+            Assert.That(order.TotalPrice, Is.EqualTo(35));
         }
+
+        //[Test]
+        //piublic void CalculateNutriPointsInCart_ShouldReturnCorrectNutriPoints()
+        //{
+
+        //}
 
     }
 }
