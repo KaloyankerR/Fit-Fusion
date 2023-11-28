@@ -21,6 +21,13 @@ namespace FitFusionWeb.Pages.Users
         {
             Users = _userManager.GetAllUsers();
         }
+        
+        public void OnPost()
+        {
+            Users = _userManager.GetAllUsers();
+            Users = _userManager.Search(Users, SearchQuery);
+            Users = _userManager.Sort(Users, Sort);
+        }
 
     }
 }
