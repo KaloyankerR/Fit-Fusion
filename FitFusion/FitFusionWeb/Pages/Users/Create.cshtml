@@ -14,34 +14,39 @@
         <option value="Customer">Customer</option>
     </select>
 
-    <p id="userDemo"></p>
-
     <div class="container">
         <div id="userAttributes">
-            <input asp-for="NewUser.Id" type="hidden" class="form-control" />
-            <input asp-for="NewUser.PasswordHash" type="hidden" class="form-control" />
-            <input asp-for="NewUser.PasswordSalt" type="hidden" class="form-control" />
+            <input asp-for="UserForm.Id" type="hidden" class="form-control" />
 
-            <label asp-for="NewUser.FirstName"></label>
-            <input asp-for="NewUser.FirstName" class="form-control" />
+            <label asp-for="UserForm.FirstName">First Name</label>
+            <input asp-for="UserForm.FirstName" class="form-control" />
+            <span asp-validation-for="UserForm.FirstName" class="text-danger"></span>
 
-            <label asp-for="NewUser.LastName"></label>
-            <input asp-for="NewUser.LastName" class="form-control" />
+            <label asp-for="UserForm.LastName">Last Name</label>
+            <input asp-for="UserForm.LastName" class="form-control" />
+            <span asp-validation-for="UserForm.LastName" class="text-danger"></span>
 
-            <label asp-for="NewUser.Email"></label>
-            <input asp-for="NewUser.Email" class="form-control" />
+            <label asp-for="UserForm.Email">Email</label>
+            <input asp-for="UserForm.Email" class="form-control" />
+            <span asp-validation-for="UserForm.Email" class="text-danger"></span>
 
-            <label asp-for="NewUser.Address"></label>
-            <input asp-for="NewUser.Address" class="form-control" />
-        </div>
+            <label asp-for="UserForm.PasswordHash">Password</label>
+            <input asp-for="UserForm.PasswordHash" class="form-control" />
+            <span asp-validation-for="UserForm.PasswordHash" class="text-danger"></span>
 
-        <div id="addtionalAttributes">
-            <label for="phone">Phone</label>
-            <input id="phone"/>
+            <label asp-for="UserForm.Address">Address</label>
+            <input asp-for="UserForm.Address" class="form-control" />
+            <span asp-validation-for="UserForm.Address" class="text-danger"></span>
+
+            <div id="additionalAttributes" style="display:none;">
+                <label for="phone">Phone</label>
+                <input id="phone" />
+                <!-- Add validation message for phone if needed -->
+            </div>
         </div>
     </div>
 
-    <button type="submit">Create User</button>
+    <button type="submit" class="btn btn-warning">Create User</button>
 </form>
 
 @section Scripts
@@ -49,7 +54,14 @@
     <script>
         function userCreation() {
             var role = document.getElementById("userRole").value;
-            document.getElementById("userDemo").innerHTML = role;
+
+            var phoneField = document.getElementById("additionalAttributes");
+
+            if (role === "Owner" || role === "Staff") {
+                phoneField.style.display = "block";
+            } else {
+                phoneField.style.display = "none";
+            }
         }
     </script>
 }
