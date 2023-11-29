@@ -21,7 +21,7 @@ namespace FitFusionWeb.Pages.Products
             if (!ModelState.IsValid)
             {
                 TempData["Type"] = "danger";
-                TempData["Message"] = "Please check the fields again!";
+                TempData["Message"] = "Please, check the fields again!";
                 return Page();
             }
 
