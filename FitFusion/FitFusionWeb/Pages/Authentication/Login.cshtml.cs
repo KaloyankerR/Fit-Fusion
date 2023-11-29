@@ -7,18 +7,25 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace FitFusionWeb.Pages.Authentication
 {
     public class LoginModel : PageModel
     {
         [BindProperty]
+        [Required(ErrorMessage = "Email is required.")]
+        [EmailAddress(ErrorMessage = "Invalid email address.")]
         public string Email { get; set; } = string.Empty;
+
         [BindProperty]
+        [Required(ErrorMessage = "Password is required.")]
+        [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
+        
         [BindProperty]
         public bool RememberMe { get; set; }
+
         private readonly UserManager _userManager = new(new UserDAO());
 
         public IActionResult OnGet()
