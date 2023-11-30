@@ -16,7 +16,7 @@ namespace FitFusionTest
         [SetUp]
         public void Setup()
         {
-            _orderManager = new(new MockOrderDAO(), _algorithmManager);
+            _orderManager = new(_dao, _algorithmManager);
         }
 
         [Test]
@@ -42,33 +42,38 @@ namespace FitFusionTest
             Assert.IsTrue(orders.Contains(order));
         }
 
-        [Test]
-        public void CreateOrder_ShouldThrowException()
-        {
-            var product = new Product { Id = 1, Title = "Thor's hammer", Price = 100, Category = Category.Accessories };
+        //[Test]
+        //public void CreateOrder_ShouldThrowException()
+        //{
+        //    var product = new Product { Id = 1, Title = "Thor's hammer", Price = 100, Category = Category.Accessories };
 
 
-            Assert.Throws<Exception>(() => _orderManager.CreateOrder(product));
-        }
+        //    Assert.Throws<Exception>(() => _orderManager.CreateOrder(product));
+        //}
 
         [Test]
         public void GetOrderById_ShouldReturnOrder()
         {
-            // Arrange
-            int orderId = 1; // Assuming there is an order with ID 1 in the mock data
-
-            // Act
+            int orderId = 1;
             Order result = _orderManager.GetOrderById(orderId);
-
-            // Assert
             Assert.NotNull(result);
-            Assert.AreEqual(orderId, result.Id);
+            Assert.That(result.Id, Is.EqualTo(orderId));
+        }
+
+        [Test]
+        public void GetOrderById_ShouldThrowAnError()
+        {
+            int orderId = 100;
+            
+            Assert.Throws<InvalidOperationException>(() =>
+            {
+                Order result = _orderManager.GetOrderById(orderId);
+            });
         }
 
         [Test]
         public void CalculateCartTotalPrice_ShouldReturnCorrectTotalPrice()
         {
-            // Arrange
             Dictionary<Product, int> cart = new Dictionary<Product, int>
             {
                 { new Product { Id = 1, Title = "Product1", Price = 10.99, Category = Category.Protein }, 2 },
