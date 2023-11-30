@@ -43,7 +43,8 @@ namespace DataAcess
                         command.Parameters.AddWithValue("@OrderDate", order.OrderDate);
                         command.Parameters.AddWithValue("@CustomerId", order.Customer.Id);
                         command.Parameters.AddWithValue("@TotalPrice", order.TotalPrice);
-                        command.Parameters.AddWithValue("@Discount", GetCustomerNutriPoints(order.Customer.Id));
+                        AddNutriPointsToCustomer(order.Customer.Id, order.NutriPointsReward);
+                        command.Parameters.AddWithValue("@Discount", order.NutriPointsReward);
                         command.Parameters.AddWithValue("@Note", order.Note);
 
                         int orderId = Convert.ToInt32(command.ExecuteScalar());
@@ -61,7 +62,7 @@ namespace DataAcess
                                 cartCommand.Parameters.AddWithValue("@OrderId", orderId);
                                 cartCommand.Parameters.AddWithValue("@ProductId", product.Id);
                                 cartCommand.Parameters.AddWithValue("@Quantity", quantity);
-
+                                
                                 cartCommand.ExecuteNonQuery();
                             }
                         }
@@ -72,9 +73,38 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new Exception("The order wasn't created!");
+                throw new ApplicationException("An error occurred in the database operation.");
             }
         }
+
+        public bool AddNutriPointsToCustomer(int customerId, int pointsToAdd)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string addNutriPointsQuery = "UPDATE Customer SET LoyaltyScore = LoyaltyScore + @PointsToAdd WHERE Id = @CustomerId;";
+
+                    using (SqlCommand updateCommand = new SqlCommand(addNutriPointsQuery, connection))
+                    {
+                        updateCommand.Parameters.AddWithValue("@PointsToAdd", pointsToAdd);
+                        updateCommand.Parameters.AddWithValue("@CustomerId", customerId);
+
+                        updateCommand.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+            }
+            catch (SqlException)
+            {
+                throw new ApplicationException("An error occurred in the database operation.");
+            }
+        }
+
+
 
         public Dictionary<Product, int> GetShoppingCart(int id)
         {
@@ -96,16 +126,14 @@ namespace DataAcess
                         {
                             while (reader.Read())
                             {
-                                Product product = new Product
-                                {
-                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                    Title = reader.GetString(reader.GetOrdinal("Title")),
-                                    Description = reader.GetString(reader.GetOrdinal("Description")),
-                                    Price = (double)reader.GetDecimal(reader.GetOrdinal("Price")),
-                                    Category = Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
-                                    ImageUrl = reader.GetString("ImageUrl")
-                                };
+                                int productId = reader.GetInt32(reader.GetOrdinal("Id"));
+                                string title = reader.GetString(reader.GetOrdinal("Title"));
+                                string description = reader.GetString(reader.GetOrdinal("Description"));
+                                double price = (double)reader.GetDecimal(reader.GetOrdinal("Price"));
+                                var productCategory = Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default;
+                                string imageUrl = reader.GetString("ImageUrl");
 
+                                Product product = new Product(productId, title, description, price, productCategory, imageUrl);
                                 int quantity = reader.GetInt16(reader.GetOrdinal("Quantity"));
                                 cart.Add(product, quantity);
                             }
@@ -115,7 +143,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new Exception("Shopping cart wasn't found!");
+                throw new ApplicationException("An error occurred in the database operation.");
             }
 
             return cart;
@@ -123,7 +151,7 @@ namespace DataAcess
 
         public Order GetOrderById(int id)
         {
-            Order order = new();
+            Order order;
 
             try
             {
@@ -142,26 +170,28 @@ namespace DataAcess
                             if (reader.Read())
                             {
                                 order = new Order
-                                {
-                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                    OrderDate = reader.GetDateTime(reader.GetOrdinal("OrderDate")),
-                                    Customer = new(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
-                                    Cart = GetShoppingCart(id),
-                                    TotalPrice = (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
-                                    NutriPointsReward = reader.GetInt32(reader.GetOrdinal("Discount")),
-                                    Note = reader.GetString(reader.GetOrdinal("Note"))
-                                };
+                                (
+                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
+                                    date: reader.GetDateTime(reader.GetOrdinal("OrderDate")),
+                                    customer: new(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    cart: GetShoppingCart(id),
+                                    totalPrice: (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
+                                    nutriPointsReward: reader.GetInt32(reader.GetOrdinal("Discount")),
+                                    note: reader.GetString(reader.GetOrdinal("Note"))
+                                );
+
+                                return order;
                             }
+
+                            throw new NullReferenceException("Order wasn't found.");
                         }
                     }
                 }
             }
             catch (SqlException)
             {
-                throw new Exception("Order wasn't found!");
+                throw new ApplicationException("An error occurred in the database operation.");
             }
-
-            return order;
         }
 
         public List<Order> GetOrders()
@@ -183,15 +213,15 @@ namespace DataAcess
                             while (reader.Read())
                             {
                                 Order order = new Order
-                                {
-                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
-                                    OrderDate = reader.GetDateTime(reader.GetOrdinal("OrderDate")),
-                                    Customer = new Customer(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
-                                    Cart = GetShoppingCart(reader.GetInt32(reader.GetOrdinal("Id"))),
-                                    TotalPrice = (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
-                                    NutriPointsReward = reader.GetInt32(reader.GetOrdinal("Discount")),
-                                    Note = reader.GetString(reader.GetOrdinal("Note"))
-                                };
+                                (
+                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
+                                    date: reader.GetDateTime(reader.GetOrdinal("OrderDate")),
+                                    customer: new Customer(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    cart: GetShoppingCart(reader.GetInt32(reader.GetOrdinal("Id"))),
+                                    totalPrice: (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
+                                    nutriPointsReward: reader.GetInt32(reader.GetOrdinal("Discount")),
+                                    note: reader.GetString(reader.GetOrdinal("Note"))
+                                );
 
                                 orders.Add(order);
                             }
@@ -201,7 +231,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new Exception("Orders weren't found!");
+                throw new ApplicationException("An error occurred in the database operation.");
             }
 
             return orders;
@@ -235,7 +265,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new Exception("NutriPoints weren't found!");
+                throw new ApplicationException("An error occurred in the database operation.");
             }
 
             return nutriPoints;

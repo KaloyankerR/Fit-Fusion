@@ -28,86 +28,107 @@ namespace DataAcess
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                if (GetProductById(product.Id) == null)
                 {
-                    connection.Open();
-
-                    using (SqlCommand productCommand = new SqlCommand("INSERT INTO Product (Title, Description, Price, Category, ImageUrl) VALUES (@Title, @Description, @Price, @Category, @ImageUrl); SELECT SCOPE_IDENTITY();", connection))
+                    using (SqlConnection connection = new(ConnectionString))
                     {
-                        productCommand.Parameters.AddWithValue("@Title", product.Title);
-                        productCommand.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
-                        productCommand.Parameters.AddWithValue("@Price", product.Price);
-                        productCommand.Parameters.AddWithValue("@Category", product.Category.ToString());
-                        productCommand.Parameters.AddWithValue("@ImageUrl", product.ImageUrl ?? (object)DBNull.Value);
+                        connection.Open();
 
-                        int productId = Convert.ToInt32(productCommand.ExecuteScalar());
+                        using (SqlCommand productCommand = new SqlCommand("INSERT INTO Product (Title, Description, Price, Category, ImageUrl) VALUES (@Title, @Description, @Price, @Category, @ImageUrl); SELECT SCOPE_IDENTITY();", connection))
+                        {
+                            productCommand.Parameters.AddWithValue("@Title", product.Title);
+                            productCommand.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
+                            productCommand.Parameters.AddWithValue("@Price", product.Price);
+                            productCommand.Parameters.AddWithValue("@Category", product.Category.ToString());
+                            productCommand.Parameters.AddWithValue("@ImageUrl", product.ImageUrl ?? (object)DBNull.Value);
 
-                        return true;
+                            int productId = Convert.ToInt32(productCommand.ExecuteScalar());
+                        }
                     }
-
                 }
+                else
+                {
+                    throw new DuplicateNameException("Product already exists.");
+                }
+
             }
-            catch
+            catch (SqlException)
             {
-                return false;
+                throw new ApplicationException("An error occurred in the database operation.");
             }
+
+            return true;
         }
 
         public bool UpdateProduct(Product updatedProduct)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                if (GetProductById(updatedProduct.Id) != null)
                 {
-                    connection.Open();
-
-                    using (SqlCommand updateProductCommand = new SqlCommand("UPDATE Product SET Title = @Title, Description = @Description, Price = @Price, Category = @Category, ImageUrl = @ImageUrl WHERE Id = @ProductId", connection))
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
                     {
-                        updateProductCommand.Parameters.AddWithValue("@ProductId", updatedProduct.Id);
-                        updateProductCommand.Parameters.AddWithValue("@Title", updatedProduct.Title);
-                        updateProductCommand.Parameters.AddWithValue("@Description", updatedProduct.Description ?? (object)DBNull.Value);
-                        updateProductCommand.Parameters.AddWithValue("@Price", updatedProduct.Price);
-                        updateProductCommand.Parameters.AddWithValue("@Category", updatedProduct.Category.ToString());
-                        updateProductCommand.Parameters.AddWithValue("@ImageUrl", updatedProduct.ImageUrl ?? (object)DBNull.Value);
+                        connection.Open();
 
-                        updateProductCommand.ExecuteNonQuery();
+                        using (SqlCommand updateProductCommand = new SqlCommand("UPDATE Product SET Title = @Title, Description = @Description, Price = @Price, Category = @Category, ImageUrl = @ImageUrl WHERE Id = @ProductId", connection))
+                        {
+                            updateProductCommand.Parameters.AddWithValue("@ProductId", updatedProduct.Id);
+                            updateProductCommand.Parameters.AddWithValue("@Title", updatedProduct.Title);
+                            updateProductCommand.Parameters.AddWithValue("@Description", updatedProduct.Description ?? (object)DBNull.Value);
+                            updateProductCommand.Parameters.AddWithValue("@Price", updatedProduct.Price);
+                            updateProductCommand.Parameters.AddWithValue("@Category", updatedProduct.Category.ToString());
+                            updateProductCommand.Parameters.AddWithValue("@ImageUrl", updatedProduct.ImageUrl ?? (object)DBNull.Value);
+
+                            updateProductCommand.ExecuteNonQuery();
+                        }
                     }
-
-                    return true;
+                }
+                else
+                {
+                    throw new NullReferenceException("Product wasn't found.");
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return false;
+                throw new ApplicationException("An error occurred in the database operation.");
             }
+
+            return true;
         }
 
         public bool DeleteProduct(int productId)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                if (GetProductById(productId) != null)
                 {
-                    connection.Open();
-
-                    using (SqlCommand deleteProductCommand = new SqlCommand("DELETE FROM Product WHERE Id = @ProductId", connection))
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
                     {
-                        deleteProductCommand.Parameters.AddWithValue("@ProductId", productId);
-                        deleteProductCommand.ExecuteNonQuery();
-                    }
+                        connection.Open();
 
-                    return true;
+                        using (SqlCommand deleteProductCommand = new SqlCommand("DELETE FROM Product WHERE Id = @ProductId", connection))
+                        {
+                            deleteProductCommand.Parameters.AddWithValue("@ProductId", productId);
+                            deleteProductCommand.ExecuteNonQuery();
+                        }
+                    }
+                }
+                else
+                {
+                    throw new NullReferenceException("Product wasn't exist.");
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return false;
+                throw new ApplicationException("An error occurred in the database operation.");
             }
+
+            return true;
         }
 
         public Product GetProductById(int productId)
         {
-            Product product = new();
+            Product product;
 
             try
             {
@@ -115,7 +136,7 @@ namespace DataAcess
                 {
                     connection.Open();
 
-                    using (SqlCommand getProductCommand = new SqlCommand("SELECT * FROM Product WHERE Id = @ProductId", connection))
+                    using (SqlCommand getProductCommand = new("SELECT * FROM Product WHERE Id = @ProductId", connection))
                     {
                         getProductCommand.Parameters.AddWithValue("@ProductId", productId);
 
@@ -132,19 +153,21 @@ namespace DataAcess
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
                                     imageUrl: reader.GetString("ImageUrl")
                                 );
-
-                                
                             }
-
-                            return product;
+                            else
+                            {
+                                throw new NullReferenceException("Product wasn't found.");
+                            }
                         }
                     }
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return product;
+                throw new ApplicationException("An error occurred in the database operation.");
             }
+
+            return product;
         }
 
         public List<Product> GetProducts()
@@ -177,16 +200,16 @@ namespace DataAcess
 
                                 products.Add(product);
                             }
-
-                            return products;
                         }
                     }
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return products;
+                throw new ApplicationException("An error occurred in the database operation.");
             }
+
+            return products;
         }
 
         public Dictionary<string, int> GetTrendyProducts()
@@ -207,32 +230,21 @@ namespace DataAcess
                             {
                                 int productId = reader.GetInt32("Id");
 
-                                //Product product = new Product
-                                //(
-                                //    id: productId,
-                                //    title: reader.GetString("Title"),
-                                //    description: reader.GetString("Description"),
-                                //    price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
-                                //    category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
-                                //    hashtags: hashtagsToAdd,
-                                //    imageUrl: reader.GetString("ImageUrl")
-                                //);
-
                                 string name = reader.GetString("Title");
                                 int count = reader.GetInt32("TimesOrdered");
 
                                 products.Add(name, count);
                             }
-
-                            return products;
                         }
                     }
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return products;
+                throw new ApplicationException("An error occurred in the database operation.");
             }
+
+            return products;
         }
 
     }

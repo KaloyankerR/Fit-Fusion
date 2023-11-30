@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Models.User;
 using System.Data.SqlClient;
 using Interfaces;
+using System.Data;
+using System.ComponentModel.Design;
 
 namespace DataAcess
 {
@@ -27,169 +29,192 @@ namespace DataAcess
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                if (!DoesEmailExists(user.Email))
                 {
-                    connection.Open();
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    {
+                        connection.Open();
 
-                    string query = "";
-
-                    if (user is Staff)
-                    {
-                        query = "INSERT INTO Staff (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone) " +
-                                          "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @Phone);";
-                    }
-                    else if (user is Owner)
-                    {
-                        query = "INSERT INTO Owner (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone) " +
-                                          "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @Phone);";
-                    }
-                    else if (user is Customer)
-                    {
-                        query = "INSERT INTO Customer (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, LoyaltyScore) " +
-                                          "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @LoyaltyScore);";
-                    }
-
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@FirstName", user.FirstName);
-                        command.Parameters.AddWithValue("@LastName", user.LastName);
-                        command.Parameters.AddWithValue("@Email", user.Email);
-                        command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
-                        command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
-                        command.Parameters.AddWithValue("@Address", user.Address);
+                        string query = "";
 
                         if (user is Staff)
                         {
-                            command.Parameters.AddWithValue("@Phone", ((Staff)user).Phone);
+                            query = "INSERT INTO Staff (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone) " +
+                                              "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @Phone);";
                         }
                         else if (user is Owner)
                         {
-                            command.Parameters.AddWithValue("@Phone", ((Owner)user).Phone);
+                            query = "INSERT INTO Owner (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone) " +
+                                              "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @Phone);";
                         }
                         else if (user is Customer)
                         {
-                            command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).NutriPoints);
+                            query = "INSERT INTO Customer (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, LoyaltyScore) " +
+                                              "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @LoyaltyScore);";
                         }
 
-                        command.ExecuteNonQuery();
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@FirstName", user.FirstName);
+                            command.Parameters.AddWithValue("@LastName", user.LastName);
+                            command.Parameters.AddWithValue("@Email", user.Email);
+                            command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
+                            command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
+                            command.Parameters.AddWithValue("@Address", user.Address);
+
+                            if (user is Staff)
+                            {
+                                command.Parameters.AddWithValue("@Phone", ((Staff)user).Phone);
+                            }
+                            else if (user is Owner)
+                            {
+                                command.Parameters.AddWithValue("@Phone", ((Owner)user).Phone);
+                            }
+                            else if (user is Customer)
+                            {
+                                command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).NutriPoints);
+                            }
+
+                            command.ExecuteNonQuery();
+                        }
                     }
                 }
-
-                return true;
+                else
+                {
+                    throw new DuplicateNameException("User already exists.");
+                }
             }
-            catch
+            catch (SqlException)
             {
-                return false;
+                throw new ApplicationException("An error occurred in the database operation.");
             }
+
+            return true;
         }
 
         public bool UpdateUser(User user)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                if (!DoesEmailExists(user.Email))
                 {
-                    connection.Open();
-
-                    string query = "";
-
-                    if (user is Staff)
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
                     {
-                        query = "UPDATE Staff SET FirstName = @FirstName, " +
-                                          "LastName = @LastName, Email = @Email, " +
-                                          "Address = @Address, Phone = @Phone " +
-                                          "WHERE Id = @Id;";
-                    }
-                    else if (user is Owner)
-                    {
-                        query = "UPDATE Owner SET FirstName = @FirstName, " +
-                                          "LastName = @LastName, Email = @Email, " +
-                                          "Address = @Address, Phone = @Phone " +
-                                          "WHERE Id = @Id;";
-                    }
-                    else if (user is Customer)
-                    {
-                        query = "UPDATE Customer SET FirstName = @FirstName, " +
-                                          "LastName = @LastName, Email = @Email, " +
-                                          "Address = @Address, LoyaltyScore = @LoyaltyScore " +
-                                          "WHERE Id = @Id;";
-                    }
+                        connection.Open();
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@FirstName", user.FirstName);
-                        command.Parameters.AddWithValue("@LastName", user.LastName);
-                        command.Parameters.AddWithValue("@Email", user.Email);
-                        command.Parameters.AddWithValue("@Address", user.Address);
-
-                        command.Parameters.AddWithValue("@Id", user.Id);
+                        string query = "";
 
                         if (user is Staff)
                         {
-                            command.Parameters.AddWithValue("@Phone", ((Staff)user).Phone);
+                            query = "UPDATE Staff SET FirstName = @FirstName, " +
+                                              "LastName = @LastName, Email = @Email, " +
+                                              "Address = @Address, Phone = @Phone " +
+                                              "WHERE Id = @Id;";
                         }
                         else if (user is Owner)
                         {
-                            command.Parameters.AddWithValue("@Phone", ((Owner)user).Phone);
+                            query = "UPDATE Owner SET FirstName = @FirstName, " +
+                                              "LastName = @LastName, Email = @Email, " +
+                                              "Address = @Address, Phone = @Phone " +
+                                              "WHERE Id = @Id;";
                         }
                         else if (user is Customer)
                         {
-                            command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).NutriPoints);
+                            query = "UPDATE Customer SET FirstName = @FirstName, " +
+                                              "LastName = @LastName, Email = @Email, " +
+                                              "Address = @Address, LoyaltyScore = @LoyaltyScore " +
+                                              "WHERE Id = @Id;";
                         }
 
-                        command.ExecuteNonQuery();
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@FirstName", user.FirstName);
+                            command.Parameters.AddWithValue("@LastName", user.LastName);
+                            command.Parameters.AddWithValue("@Email", user.Email);
+                            command.Parameters.AddWithValue("@Address", user.Address);
+
+                            command.Parameters.AddWithValue("@Id", user.Id);
+
+                            if (user is Staff)
+                            {
+                                command.Parameters.AddWithValue("@Phone", ((Staff)user).Phone);
+                            }
+                            else if (user is Owner)
+                            {
+                                command.Parameters.AddWithValue("@Phone", ((Owner)user).Phone);
+                            }
+                            else if (user is Customer)
+                            {
+                                command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).NutriPoints);
+                            }
+
+                            command.ExecuteNonQuery();
+                        }
                     }
                 }
-
-                return true;
+                else
+                {
+                    throw new NullReferenceException("User doesn't exist.");
+                }
             }
-            catch
+            catch (SqlException)
             {
-                return false;
+                throw new ApplicationException("An error occurred in the database operation.");
             }
+
+            return true;
         }
 
         public bool DeleteUser(User user)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                if (!DoesEmailExists(user.Email))
                 {
-                    connection.Open();
-
-                    string deleteUserQuery = "";
-
-                    if (user is Staff)
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
                     {
-                        deleteUserQuery = "DELETE FROM Staff WHERE Id = @Id;";
-                    }
-                    else if (user is Owner)
-                    {
-                        deleteUserQuery = "DELETE FROM Owner WHERE Id = @Id;";
-                    }
-                    else if (user is Customer)
-                    {
-                        deleteUserQuery = "DELETE FROM Customer WHERE Id = @Id;";
-                    }
+                        connection.Open();
 
-                    using (SqlCommand command = new SqlCommand(deleteUserQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("@Id", user.Id);
+                        string deleteUserQuery = "";
 
-                        command.ExecuteNonQuery();
+                        if (user is Staff)
+                        {
+                            deleteUserQuery = "DELETE FROM Staff WHERE Id = @Id;";
+                        }
+                        else if (user is Owner)
+                        {
+                            deleteUserQuery = "DELETE FROM Owner WHERE Id = @Id;";
+                        }
+                        else if (user is Customer)
+                        {
+                            deleteUserQuery = "DELETE FROM Customer WHERE Id = @Id;";
+                        }
+
+                        using (SqlCommand command = new SqlCommand(deleteUserQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@Id", user.Id);
+
+                            command.ExecuteNonQuery();
+                        }
                     }
                 }
+                else
+                {
+                    throw new NullReferenceException("User doesn't exist.");
+                }
+            }
+            catch (SqlException)
+            {
+                throw new ApplicationException("An error occurred in the database operation.");
+            }
 
-                return true;
-            }
-            catch 
-            { 
-                return false; 
-            }
+            return true;
         }
 
         public User? GetUserById(int id, User role)
         {
+            User user;
+
             try
             {
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -226,7 +251,7 @@ namespace DataAcess
                             {
                                 if (role is Staff)
                                 {
-                                    Staff staff = new Staff(
+                                    user = new Staff(
                                         id: reader.GetInt32(reader.GetOrdinal("Id")),
                                         firstName: reader.GetString(reader.GetOrdinal("FirstName")),
                                         lastName: reader.GetString(reader.GetOrdinal("LastName")),
@@ -236,12 +261,10 @@ namespace DataAcess
                                         address: reader.GetString(reader.GetOrdinal("Address")),
                                         phone: reader.GetString(reader.GetOrdinal("Phone"))
                                     );
-
-                                    return staff;
                                 }
                                 else if (role is Owner)
                                 {
-                                    Owner owner = new Owner
+                                    user = new Owner
                                     (
                                         id: reader.GetInt32(reader.GetOrdinal("Id")),
                                         firstName: reader.GetString(reader.GetOrdinal("FirstName")),
@@ -252,12 +275,10 @@ namespace DataAcess
                                         address: reader.GetString(reader.GetOrdinal("Address")),
                                         phone: reader.GetString(reader.GetOrdinal("Phone"))
                                     );
-
-                                    return owner;
                                 }
                                 else if (role is Customer)
                                 {
-                                    Customer customer = new Customer
+                                    user = new Customer
                                     (
                                         id: reader.GetInt32(reader.GetOrdinal("Id")),
                                         firstName: reader.GetString(reader.GetOrdinal("FirstName")),
@@ -268,29 +289,39 @@ namespace DataAcess
                                         address: reader.GetString(reader.GetOrdinal("Address")),
                                         nutriPoints: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
                                     );
-
-                                    return customer;
                                 }
+                                else
+                                {
+                                    throw new ApplicationException("An error occurred in the database operation.");
+                                }
+                            }
+                            else
+                            {
+                                throw new NullReferenceException("User doesn't exist.");
                             }
                         }
                     }
-
-                    return null;
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return null;
+                throw new ApplicationException("An error occurred in the database operation.");
             }
+
+            return user;
         }
 
         public User? GetUserByEmail(string email)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                connection.Open();
+            User user;
 
-                string getUserQuery = @"
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string getUserQuery = @"
                     SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, Phone as AdditionalProperty, 'Owner' as Role FROM Owner
                     WHERE Email = @Email
 
@@ -305,134 +336,152 @@ namespace DataAcess
                     WHERE Email = @Email;";
 
 
-                using (SqlCommand command = new SqlCommand(getUserQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@Email", email);
-
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlCommand command = new SqlCommand(getUserQuery, connection))
                     {
-                        if (reader.Read())
+                        command.Parameters.AddWithValue("@Email", email);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            int id = reader.GetInt32(reader.GetOrdinal("Id"));
-                            string firstName = reader.GetString(reader.GetOrdinal("FirstName"));
-                            string lastName = reader.GetString(reader.GetOrdinal("LastName"));
-                            string retrievedEmail = reader.GetString(reader.GetOrdinal("Email"));
-                            string passwordHash = reader.GetString(reader.GetOrdinal("PasswordHash"));
-                            string passwordSalt = reader.GetString(reader.GetOrdinal("PasswordSalt"));
-                            string address = reader.GetString(reader.GetOrdinal("Address"));
+                            if (reader.Read())
+                            {
+                                int id = reader.GetInt32(reader.GetOrdinal("Id"));
+                                string firstName = reader.GetString(reader.GetOrdinal("FirstName"));
+                                string lastName = reader.GetString(reader.GetOrdinal("LastName"));
+                                string retrievedEmail = reader.GetString(reader.GetOrdinal("Email"));
+                                string passwordHash = reader.GetString(reader.GetOrdinal("PasswordHash"));
+                                string passwordSalt = reader.GetString(reader.GetOrdinal("PasswordSalt"));
+                                string address = reader.GetString(reader.GetOrdinal("Address"));
 
-                            string role = reader.GetString(reader.GetOrdinal("Role"));
+                                string role = reader.GetString(reader.GetOrdinal("Role"));
 
-                            if (role == "Staff")
-                            {
-                                string phone = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
-                                return new Staff(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, phone);
+                                if (role == "Staff")
+                                {
+                                    string phone = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
+                                    user = new Staff(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, phone);
+                                }
+                                else if (role == "Owner")
+                                {
+                                    string phone = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
+                                    user = new Owner(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, phone);
+                                }
+                                else if (role == "Customer")
+                                {
+                                    string loyaltyScore = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
+                                    user = new Customer(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, int.Parse(loyaltyScore));
+                                }
+                                else
+                                {
+                                    throw new NullReferenceException("User doesn't exist.");
+                                }
                             }
-                            else if (role == "Owner")
+                            else
                             {
-                                string phone = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
-                                return new Owner(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, phone);
-                            }
-                            else if (role == "Customer")
-                            {
-                                string loyaltyScore = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
-                                return new Customer(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, int.Parse(loyaltyScore));
+                                throw new NullReferenceException("User doesn't exist.");
                             }
                         }
                     }
                 }
-
-                return null;
             }
+            catch (SqlException)
+            {
+                throw new ApplicationException("An error occurred in the database operation.");
+            }
+
+            return user;
         }
 
         public List<User> GetUsers(User role)
         {
             List<User> users = new List<User>();
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            try
             {
-                connection.Open();
-
-                string getAllUsersQuery = "";
-                string additionalProperty = "";
-
-                if (role is Staff)
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
-                    additionalProperty = "Phone";
-                }
-                else if (role is Owner)
-                {
-                    additionalProperty = "Phone";
-                }
-                else if (role is Customer)
-                {
-                    additionalProperty = "LoyaltyScore";
-                }
+                    connection.Open();
 
-                getAllUsersQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
-                                          $"FROM {role.GetType().Name};";
+                    string getAllUsersQuery = "";
+                    string additionalProperty = "";
 
-                using (SqlCommand command = new SqlCommand(getAllUsersQuery, connection))
-                {
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    if (role is Staff)
                     {
-                        while (reader.Read())
+                        additionalProperty = "Phone";
+                    }
+                    else if (role is Owner)
+                    {
+                        additionalProperty = "Phone";
+                    }
+                    else if (role is Customer)
+                    {
+                        additionalProperty = "LoyaltyScore";
+                    }
+
+                    getAllUsersQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
+                                              $"FROM {role.GetType().Name};";
+
+                    using (SqlCommand command = new SqlCommand(getAllUsersQuery, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
-                            User user;
-
-                            if (role is Staff)
+                            while (reader.Read())
                             {
-                                user = new Staff(
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
-                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    phone: reader.GetString(reader.GetOrdinal("Phone"))
-                                );
+                                User user;
 
-                                users.Add(user);
+                                if (role is Staff)
+                                {
+                                    user = new Staff(
+                                        id: reader.GetInt32(reader.GetOrdinal("Id")),
+                                        firstName: reader.GetString(reader.GetOrdinal("FirstName")),
+                                        lastName: reader.GetString(reader.GetOrdinal("LastName")),
+                                        email: reader.GetString(reader.GetOrdinal("Email")),
+                                        passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                        passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
+                                        address: reader.GetString(reader.GetOrdinal("Address")),
+                                        phone: reader.GetString(reader.GetOrdinal("Phone"))
+                                    );
+
+                                    users.Add(user);
+                                }
+                                else if (role is Owner)
+                                {
+                                    user = new Owner
+                                    (
+                                        id: reader.GetInt32(reader.GetOrdinal("Id")),
+                                        firstName: reader.GetString(reader.GetOrdinal("FirstName")),
+                                        lastName: reader.GetString(reader.GetOrdinal("LastName")),
+                                        email: reader.GetString(reader.GetOrdinal("Email")),
+                                        passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                        passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
+                                        address: reader.GetString(reader.GetOrdinal("Address")),
+                                        phone: reader.GetString(reader.GetOrdinal("Phone"))
+                                    );
+
+                                    users.Add(user);
+                                }
+                                else if (role is Customer)
+                                {
+                                    user = new Customer
+                                    (
+                                        id: reader.GetInt32(reader.GetOrdinal("Id")),
+                                        firstName: reader.GetString(reader.GetOrdinal("FirstName")),
+                                        lastName: reader.GetString(reader.GetOrdinal("LastName")),
+                                        email: reader.GetString(reader.GetOrdinal("Email")),
+                                        passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                        passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
+                                        address: reader.GetString(reader.GetOrdinal("Address")),
+                                        nutriPoints: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
+                                    );
+
+                                    users.Add(user);
+                                }
                             }
-                            else if (role is Owner)
-                            {
-                                user = new Owner
-                                (
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
-                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    phone: reader.GetString(reader.GetOrdinal("Phone"))
-                                );
-
-                                users.Add(user);
-                            }
-                            else if (role is Customer)
-                            {
-                                user = new Customer
-                                (
-                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
-                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
-                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
-                                    email: reader.GetString(reader.GetOrdinal("Email")),
-                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
-                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                    address: reader.GetString(reader.GetOrdinal("Address")),
-                                    nutriPoints: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
-                                );
-
-                                users.Add(user);
-                            }
-
-                            // users.Add(user);
                         }
                     }
                 }
+            }
+            catch (SqlException)
+            {
+                throw new ApplicationException("An error occurred in the database operation.");
             }
 
             return users;
@@ -441,63 +490,77 @@ namespace DataAcess
 
         public User? AuthenticateUser(string email, string password)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            try
             {
-                connection.Open();
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
 
-                string selectUserQuery = @"
+                    string selectUserQuery = @"
                     SELECT Email, PasswordHash, PasswordSalt, 'Customer' as Role FROM Customer c WHERE c.Email = @Email
                     UNION
                     SELECT Email, PasswordHash, PasswordSalt, 'Owner' as Role FROM Owner o WHERE o.Email = @Email
                     UNION
                     SELECT Email, PasswordHash, PasswordSalt, 'Staff' as Role FROM Staff s WHERE s.Email = @Email";
 
-                using (SqlCommand command = new SqlCommand(selectUserQuery, connection))
-                {
-                    command.Parameters.AddWithValue("@Email", email);
-
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (SqlCommand command = new SqlCommand(selectUserQuery, connection))
                     {
-                        while (reader.Read())
-                        {
-                            string storedPasswordHash = reader["PasswordHash"].ToString()!;
-                            string storedPasswordSalt = reader["PasswordSalt"].ToString()!;
-                            string role = reader["Role"].ToString()!;
+                        command.Parameters.AddWithValue("@Email", email);
 
-                            if (VerifyPassword(password, storedPasswordHash, storedPasswordSalt))
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
                             {
-                                return GetUserByEmail(email);
+                                string storedPasswordHash = reader["PasswordHash"].ToString()!;
+                                string storedPasswordSalt = reader["PasswordSalt"].ToString()!;
+                                string role = reader["Role"].ToString()!;
+
+                                if (VerifyPassword(password, storedPasswordHash, storedPasswordSalt))
+                                {
+                                    return GetUserByEmail(email);
+                                }
                             }
                         }
                     }
+                    return null;
                 }
-                return null;
+            }
+            catch (SqlException)
+            {
+                throw new ApplicationException("An error occurred in the database operation.");
             }
         }
 
         public bool DoesEmailExists(string email)
         {
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            try
             {
-                connection.Open();
-
-                string checkEmailQuery = "SELECT SUM(EmailCount) AS TotalCount " +
-                                         "FROM (" +
-                                         "    SELECT COUNT(*) AS EmailCount FROM Owner WHERE Email = @Email " +
-                                         "    UNION ALL " +
-                                         "    SELECT COUNT(*) AS EmailCount FROM Staff WHERE Email = @Email " +
-                                         "    UNION ALL " +
-                                         "    SELECT COUNT(*) AS EmailCount FROM Customer WHERE Email = @Email" +
-                                         ") AS Subquery";
-
-                using (SqlCommand command = new SqlCommand(checkEmailQuery, connection))
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
-                    command.Parameters.AddWithValue("@Email", email);
+                    connection.Open();
 
-                    int totalCount = (int)command.ExecuteScalar();
+                    string checkEmailQuery = "SELECT SUM(EmailCount) AS TotalCount " +
+                                             "FROM (" +
+                                             "    SELECT COUNT(*) AS EmailCount FROM Owner WHERE Email = @Email " +
+                                             "    UNION ALL " +
+                                             "    SELECT COUNT(*) AS EmailCount FROM Staff WHERE Email = @Email " +
+                                             "    UNION ALL " +
+                                             "    SELECT COUNT(*) AS EmailCount FROM Customer WHERE Email = @Email" +
+                                             ") AS Subquery";
 
-                    return totalCount > 0;
+                    using (SqlCommand command = new SqlCommand(checkEmailQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@Email", email);
+
+                        int totalCount = (int)command.ExecuteScalar();
+
+                        return totalCount > 0;
+                    }
                 }
+            }
+            catch (SqlException)
+            {
+                throw new ApplicationException("An error occurred in the database operation.");
             }
         }
 
@@ -538,6 +601,6 @@ namespace DataAcess
             // string passwordToCheck = BCrypt.Net.BCrypt.HashPassword(entered, salt);
             return BCrypt.Net.BCrypt.HashPassword(entered, salt) == hash;
         }
-    
+
     }
 }
