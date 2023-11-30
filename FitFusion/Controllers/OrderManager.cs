@@ -32,13 +32,10 @@ namespace Services
                 }
 
                 return false;
-                
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw new Exception(ex.Message);
-                //Console.WriteLine(ex.Message);
-                //return false;
+                throw;
             }
         }
 
@@ -48,10 +45,9 @@ namespace Services
             {
                 return _dao.GetOrderById(id);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
-                return new Order();
+                throw;
             }
         }
 
@@ -61,10 +57,9 @@ namespace Services
             {
                 return _dao.GetOrders();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
-                return new List<Order>();
+                throw;
             }
         }
 

@@ -70,9 +70,9 @@ namespace DataAcess
                     return true;
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return false;
+                throw new Exception("The order wasn't created!");
             }
         }
 
@@ -108,24 +108,23 @@ namespace DataAcess
 
                                 int quantity = reader.GetInt16(reader.GetOrdinal("Quantity"));
                                 cart.Add(product, quantity);
-
-                                // shoppingCart.AddProduct(product);
                             }
                         }
-
-                        return cart;
                     }
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return cart;
+                throw new Exception("Shopping cart wasn't found!");
             }
+
+            return cart;
         }
 
         public Order GetOrderById(int id)
         {
             Order order = new();
+
             try
             {
                 using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -153,16 +152,16 @@ namespace DataAcess
                                     Note = reader.GetString(reader.GetOrdinal("Note"))
                                 };
                             }
-
-                            return order;
                         }
                     }
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return order;
+                throw new Exception("Order wasn't found!");
             }
+
+            return order;
         }
 
         public List<Order> GetOrders()
@@ -196,16 +195,16 @@ namespace DataAcess
 
                                 orders.Add(order);
                             }
-
-                            return orders;
                         }
                     }
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return orders;
+                throw new Exception("Orders weren't found!");
             }
+
+            return orders;
         }
 
         public int GetCustomerNutriPoints(int customerId)
@@ -230,17 +229,16 @@ namespace DataAcess
                             {
                                 nutriPoints = reader.GetInt32(reader.GetOrdinal("LoyaltyScore"));
                             }
-
-                            return nutriPoints;
                         }
                     }
                 }
             }
-            catch
+            catch (SqlException)
             {
-                return nutriPoints;
+                throw new Exception("NutriPoints weren't found!");
             }
 
+            return nutriPoints;
         }
 
     }

@@ -25,8 +25,10 @@ namespace Services
                 dao.CreateProduct(product);
                 return true;
             }
-            catch { return false; }
-            // return productDAO.CreateProduct(product);
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public bool UpdateProduct(ProductModel product)
@@ -36,7 +38,10 @@ namespace Services
                 dao.UpdateProduct(product);
                 return true;
             }
-            catch { return false; }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public bool DeleteProduct(int productId)
@@ -46,7 +51,10 @@ namespace Services
                 dao.DeleteProduct(productId);
                 return true;
             }
-            catch { return false; }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public bool DeleteProduct(ProductModel product)
@@ -56,7 +64,10 @@ namespace Services
                 dao.DeleteProduct(product.Id);
                 return true;
             }
-            catch { return false; }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public ProductModel GetProductById(int productId)
@@ -65,7 +76,10 @@ namespace Services
             {
                 return dao.GetProductById(productId);
             }
-            catch (Exception ex) { throw new Exception(ex.ToString()); }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public List<ProductModel> GetProducts()
@@ -74,7 +88,10 @@ namespace Services
             {
                 return dao.GetProducts();
             }
-            catch (Exception ex) { throw new Exception(ex.ToString()); }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public List<ProductModel> Search(List<ProductModel> products, string searchQuery)
