@@ -8,12 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Models.Product;
 using Interfaces;
+using System.Data.SqlClient;
 
 namespace FitFusionTest.MockDAO
 {
     public class MockOrderDAO : IOrder
     {
-        private readonly List<Order> orders;
+        private List<Order> orders;
 
         public MockOrderDAO()
         {
@@ -130,13 +131,26 @@ namespace FitFusionTest.MockDAO
 
         public Dictionary<ProductModel, int> GetShoppingCart(int id)
         {
-            Order? order = orders.Find(o => o.Id == id);
-            return order?.Cart ?? new Dictionary<ProductModel, int>();
+            Order order = orders.Find(o => o.Id == id)!;
+
+            if (order == null)
+            {
+                throw new InvalidOperationException("Shopping cart wasn't found!");
+            }
+
+            return order.Cart;
         }
 
         public Order GetOrderById(int id)
         {
-            return orders.Find(o => o.Id == id) ?? new Order();
+            Order order = orders.Find(o => o.Id == id)!;
+
+            if (order == null)
+            {
+                throw new InvalidOperationException("Shopping cart wasn't found!");
+            }
+
+            return order;
         }
 
         public List<Order> GetOrders()
