@@ -30,11 +30,11 @@ namespace Services
             return nutriPointsNeeded <= order.Customer.NutriPoints;
         }
 
-        public double CalculateCartTotalPrice(Order order)
+        public double CalculateCartTotalPrice(Dictionary<Product, int> cart)
         {
             double totalPrice = 0;
 
-            foreach (var pair in order.Cart)
+            foreach (var pair in cart)
             {
                 Product product = pair.Key;
                 int quantity = pair.Value;
@@ -48,11 +48,11 @@ namespace Services
             return totalPrice;
         }
 
-        public int CalculateCartNutriPoints(Order order)
+        public int CalculateCartNutriPoints(Dictionary<Product, int> cart)
         {
             int nutriPointsGained = 0;
 
-            foreach (var pair in order.Cart)
+            foreach (var pair in cart)
             {
                 Product product = pair.Key;
                 int quantity = pair.Value;

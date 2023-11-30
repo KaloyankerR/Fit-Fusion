@@ -21,6 +21,30 @@ namespace Services
             _algorithmManager = algorithmManager;
         }
 
+        public Dictionary<Product, int> ConvertListCartToDictionary(List<Product> cart)
+        {
+            return cart.GroupBy(item => new { item.Id })
+                         .ToDictionary(group => group.First(), group => group.Count());
+        }
+
+        public Order SetupOrder(Customer customer, Dictionary<Product, int> cart)
+        {
+            double totalPrice = CalculateCartTotalPrice(cart);
+            int nutriPointsReward = CalculateCartNutriPoints(cart);
+
+            Order order = new(DateTime.Now, customer, cart, totalPrice, nutriPointsReward, "");
+            return order;
+        }
+
+        public Order SetupOrder(Customer customer, List<Product> cart)
+        {
+            Dictionary<Product, int> newCart = ConvertListCartToDictionary(cart);
+            double totalPrice = CalculateCartTotalPrice(newCart);
+            int nutriPointsReward = CalculateCartNutriPoints(newCart);
+
+            Order order = new(DateTime.Now, customer, newCart, totalPrice, nutriPointsReward, "");
+            return order;
+        }
 
         public bool CreateOrder(Order order)
         {
@@ -31,9 +55,10 @@ namespace Services
                     return _dao.CreateOrder(order);
                 }
 
-                return false;
+                throw new ArithmeticException("Nutri Points not sufficient.");
+                // return false;
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -45,7 +70,7 @@ namespace Services
             {
                 return _dao.GetOrderById(id);
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -57,7 +82,7 @@ namespace Services
             {
                 return _dao.GetOrders();
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -69,14 +94,14 @@ namespace Services
             return _algorithmManager.AreNutriPointsEnough(order);
         }
 
-        public double CalculateCartTotalPrice(Order order)
+        public double CalculateCartTotalPrice(Dictionary<Product, int> cart)
         {
-            return _algorithmManager.CalculateCartTotalPrice(order);
+            return _algorithmManager.CalculateCartTotalPrice(cart);
         }
         
-        public int CalculateCartNutriPoints(Order order)
+        public int CalculateCartNutriPoints(Dictionary<Product, int> cart)
         {
-            return _algorithmManager.CalculateCartNutriPoints(order);  
+            return _algorithmManager.CalculateCartNutriPoints(cart);  
         }
     }
 }

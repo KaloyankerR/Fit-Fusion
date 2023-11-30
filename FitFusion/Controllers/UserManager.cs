@@ -35,84 +35,93 @@ namespace Services
 
         public bool CreateUser(UserModel user)
         {
-            user.SetEncryptedPassword(EncryptPassword(user.PasswordHash));
-
-            if (dao.CreateUser(user))
+            try
             {
-                return true;
+                user.SetEncryptedPassword(EncryptPassword(user.PasswordHash));
+                return dao.CreateUser(user);
             }
-            else
+            catch
             {
-                throw new Exception("Unable to add the current user.");
+                throw;
             }
         }
 
         public bool UpdateUser(UserModel user)
         {
-            if (dao.UpdateUser(user))
+            try
             {
-                return true;
+                return dao.UpdateUser(user);
             }
-            else
-            {
-                throw new Exception("Unable to update current user.");
+            catch
+            { 
+                throw; 
             }
         }
 
         public bool DeleteUser(UserModel user)
         {
-            if (dao.DeleteUser(user))
+            try
             {
-                return true;
+                return dao.DeleteUser(user);
             }
-            else
+            catch
             {
-                throw new Exception("Unable to delete current user.");
+                throw;
             }
         }
 
         public UserModel? GetUserById(int id, UserModel role)
         {
-            UserModel? user = dao.GetUserById(id, role);
-
-            if (user != null)
+            try
             {
-                return user;
+                return dao.GetUserById(id, role);
             }
-            else
+            catch
             {
-                throw new Exception("Unable to get current user.");
+                throw;
             }
         }
 
         public UserModel? GetUserByEmail(string email)
         {
-            UserModel? user = dao.GetUserByEmail(email);
-
-            if (user != null) 
-            { 
-                return user; 
+            try
+            {
+                return dao.GetUserByEmail(email);
             }
-            else 
-            { 
-                throw new Exception("Unable to get current user."); 
+            catch
+            {
+                throw;
             }
         }
 
         public List<UserModel> GetUsers(UserModel role)
         {
-            return dao.GetUsers(role);
+            try
+            {
+                return dao.GetUsers(role);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public List<UserModel> GetAllUsers()
         {
-            List<UserModel> users = new List<UserModel>();
+            try
+            {
+                List<UserModel> users = new List<UserModel>();
 
-            users.AddRange(GetUsers(new Owner()));
-            users.AddRange(GetUsers(new Staff()));
-            users.AddRange(GetUsers(new Customer()));
+                users.AddRange(GetUsers(new Owner()));
+                users.AddRange(GetUsers(new Staff()));
+                users.AddRange(GetUsers(new Customer()));
 
-            return users;
+                return users;
+            }
+            catch
+            {
+                throw;
+            }
         }
 
 
@@ -155,7 +164,7 @@ namespace Services
             }
             catch
             {
-                return null;
+                throw;
             }
         }
 

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Interfaces;
+using Models.Order;
+using System.Data.SqlClient;
 
 namespace Services
 {
@@ -22,10 +24,9 @@ namespace Services
         {
             try
             {
-                dao.CreateProduct(product);
-                return true;
+                return dao.CreateProduct(product);
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -35,10 +36,9 @@ namespace Services
         {
             try
             {
-                dao.UpdateProduct(product);
-                return true;
+                return dao.UpdateProduct(product);
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -48,10 +48,9 @@ namespace Services
         {
             try
             {
-                dao.DeleteProduct(productId);
-                return true;
+                return dao.DeleteProduct(productId);
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -61,10 +60,9 @@ namespace Services
         {
             try
             {
-                dao.DeleteProduct(product.Id);
-                return true;
+                return dao.DeleteProduct(product.Id);
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -76,7 +74,7 @@ namespace Services
             {
                 return dao.GetProductById(productId);
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -88,7 +86,7 @@ namespace Services
             {
                 return dao.GetProducts();
             }
-            catch (Exception)
+            catch
             {
                 throw;
             }
@@ -171,7 +169,7 @@ namespace Services
             {
                 return dao.GetTrendyProducts();
             }
-            catch (Exception ex) { throw new Exception(ex.ToString()); }
+            catch { throw; }
         }
 
     }
