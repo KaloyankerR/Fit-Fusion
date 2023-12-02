@@ -16,27 +16,38 @@ namespace FitFusionWeb.Pages
 
         public IActionResult OnGet()
         {
-            if (User.Identity?.IsAuthenticated ?? false)
+            try
             {
-                var email = User.FindFirstValue(ClaimTypes.Email);
-                var role = User.FindFirstValue(ClaimTypes.Role);
-                User newRole;
-
-                switch(role)
+                if (User.Identity?.IsAuthenticated ?? false)
                 {
-                    case "Owner":
-                        newRole = new Owner();
-                        break;
-                    case "Staff":
-                        newRole = new Staff();
-                        break;
-                    case "Customer":
-                        newRole = new Customer();
-                        break;
-                }
+                    var email = User.FindFirstValue(ClaimTypes.Email);
+                    var role = User.FindFirstValue(ClaimTypes.Role);
+                    User newRole;
 
-                CurrentUser = _userManager.GetUserByEmail(email);
-                return Page();
+                    switch (role)
+                    {
+                        case "Owner":
+                            newRole = new Owner();
+                            break;
+                        case "Staff":
+                            newRole = new Staff();
+                            break;
+                        case "Customer":
+                            newRole = new Customer();
+                            break;
+                    }
+
+                    CurrentUser = _userManager.GetUserByEmail(email);
+                    return Page();
+                }
+            }
+            catch (ApplicationException)
+            {
+                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToPage("/CustomPages/NotFound");
             }
 
             return RedirectToPage("/Authentication/Login");

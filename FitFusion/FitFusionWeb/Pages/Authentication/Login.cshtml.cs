@@ -40,38 +40,49 @@ namespace FitFusionWeb.Pages.Authentication
 
         public IActionResult OnPost()
         {
-            if (ModelState.IsValid)
+            try
             {
-                var isAuthenticated = _userManager.AuthenticateUser(Email, Password);
-                if (isAuthenticated != null)
+                if (ModelState.IsValid)
                 {
-                    List<Claim> claims = new List<Claim>
+                    var isAuthenticated = _userManager.AuthenticateUser(Email, Password);
+                    if (isAuthenticated != null)
+                    {
+                        List<Claim> claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.NameIdentifier, isAuthenticated.Id.ToString()),
                         new Claim(ClaimTypes.Email, isAuthenticated.Email),
                         new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole())
                     };
 
-                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                    // HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        // HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
 
-                    AuthenticationProperties? authProperties = null;
-                    if (RememberMe)
-                    {
-                        authProperties = new AuthenticationProperties
+                        AuthenticationProperties? authProperties = null;
+                        if (RememberMe)
                         {
-                            IsPersistent = true,
-                            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5)
-                        };
+                            authProperties = new AuthenticationProperties
+                            {
+                                IsPersistent = true,
+                                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5)
+                            };
+                        }
+
+                        HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
+                        HttpContext.Session.SetString("Id", isAuthenticated.Id.ToString());
+                        HttpContext.Session.SetString("Email", isAuthenticated.Email);
+                        HttpContext.Session.SetString("Role", isAuthenticated.GetUserRole());
+
+                        return RedirectToPage("../Index");
                     }
-
-                    HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
-                    HttpContext.Session.SetString("Id", isAuthenticated.Id.ToString());
-                    HttpContext.Session.SetString("Email", isAuthenticated.Email);
-                    HttpContext.Session.SetString("Role", isAuthenticated.GetUserRole());
-
-                    return RedirectToPage("../Index");
                 }
+            }
+            catch (ApplicationException)
+            {
+                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToPage("/CustomPages/NotFound");
             }
 
             return Page();
