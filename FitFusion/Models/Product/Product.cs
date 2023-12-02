@@ -21,43 +21,41 @@ namespace Models.Product
         public int Id
         {
             get { return id; }
-            set { id = value; }
+            private set { id = value; }
         }
 
         [Required(ErrorMessage = "Title is required")]
         public string Title
         {
             get { return title; }
-            set { title = value; }
+            private set { title = value; }
         }
         
         public string Description
         {
             get { return description; }
-            set { description = value; }
+            private set { description = value; }
         }
 
         [Required(ErrorMessage = "Price is required")]
         public double Price
         {
             get { return price; }
-            set { price = value; }
+            private set { price = value; }
         }
 
         [Required(ErrorMessage = "Category is required")]
         public Category Category
         {
             get { return category; }
-            set { category = value; }
+            private set { category = value; }
         }
 
         public string ImageUrl
         {
             get { return imageUrl; }
-            set { imageUrl = value ?? DefaultImageUrl; }
+            private set { imageUrl = value ?? DefaultImageUrl; }
         }
-
-        public Product() { }
 
         public Product(int id, string title, string description, double price, Category category, string imageUrl)
         {

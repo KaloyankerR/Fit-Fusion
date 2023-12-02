@@ -1,10 +1,12 @@
 ﻿using ProductModel = Models.Product.Product;
 using Models.User;
+using System.ComponentModel.DataAnnotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace Models.Order
 {
@@ -18,49 +20,64 @@ namespace Models.Order
         private int _nutriPointsReward;
         private string _note = string.Empty;
 
+        [Key]
         public int Id
         {
             get { return _id; }
-            set { _id = value; }
+            private set { _id = value; }
         }
 
         public DateTime OrderDate
         {
             get { return _orderDate; }
-            set { _orderDate = value; }
+            private set { _orderDate = value; }
         }
 
+        [Required]
         public Customer Customer
         {
             get { return _customer; }
-            set { _customer = value; }
+            private set { _customer = value; }
         }
 
+        [Required]
         public Dictionary<ProductModel, int> Cart
         {
             get { return _cart; }
-            set { _cart = value; }
+            private set { _cart = value; }
         }
 
+        [Required]
         public double TotalPrice
         {
             get { return _totalPrice; }
-            set { _totalPrice = value; }
+            private set { _totalPrice = value; }
         }
 
+        [Required]
         public int NutriPointsReward
         {
             get { return _nutriPointsReward; }
-            set { _nutriPointsReward = value; }
+            private set { _nutriPointsReward = value; }
         }
 
         public string Note
         {
             get { return _note; }
-            set { _note = value; }
+            private set { _note = value; }
         }
 
         public Order() { }
+
+        public Order(DateTime date, Customer customer, Dictionary<ProductModel, int> cart, double totalPrice, int nutriPointsReward, string note)
+        {
+            OrderDate = date;
+            Customer = customer;
+            Cart = cart;
+            TotalPrice = totalPrice;
+            NutriPointsReward = nutriPointsReward;
+            Note = note;
+        }
 
         public Order(int id, DateTime date, Customer customer, Dictionary<ProductModel, int> cart, double totalPrice, int nutriPointsReward, string note)
         {
@@ -75,8 +92,7 @@ namespace Models.Order
 
         public override string ToString()
         {
-            return $"Order №{Id} - {TotalPrice}€";
-            // Add nutri points additionally 
+            return $"Order №{Id} - {TotalPrice}€ - {NutriPointsReward} NP";
         }
 
     }
