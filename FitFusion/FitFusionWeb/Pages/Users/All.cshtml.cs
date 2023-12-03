@@ -1,4 +1,5 @@
 using DataAcess;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -7,6 +8,7 @@ using Services;
 
 namespace FitFusionWeb.Pages.Users
 {
+    [Authorize(Roles = "Owner, Staff")]
     public class AllModel : PageModel
     {
         [BindProperty]
@@ -17,17 +19,36 @@ namespace FitFusionWeb.Pages.Users
         public List<User> Users { get; set; }
         private readonly UserManager _userManager = new(new UserDAO());
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            Users = _userManager.GetAllUsers();
+            try
+            {
+                Users = _userManager.GetAllUsers();
+            }
+            catch (ApplicationException)
+            {
+                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+            }
+
+            return Page();
         }
         
-        public void OnPost()
+        public IActionResult OnPost()
         {
-            Users = _userManager.GetAllUsers();
-            Users = _userManager.Search(Users, SearchQuery);
-            Users = _userManager.Sort(Users, Sort);
+            try
+            {
+                Users = _userManager.GetAllUsers();
+                Users = _userManager.Search(Users, SearchQuery);
+                Users = _userManager.Sort(Users, Sort);
+            }
+            catch (ApplicationException)
+            {
+                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+            }
+
+            return Page();
         }
+
 
     }
 }

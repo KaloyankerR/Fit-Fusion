@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
@@ -5,6 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FitFusionWeb.Pages.Users
 {
+    [Authorize(Roles = "Owner, Staff")]
     public class CreateModel : PageModel
     {
         public class UserCreateModel
@@ -32,17 +34,24 @@ namespace FitFusionWeb.Pages.Users
         }
 
         [BindProperty]
+        public string Phone { get; set; }
+
+        [BindProperty]
         public UserCreateModel UserForm { get; set; } = new();
             
         public void OnGet()
-        { }
+        {
+            
+        }
 
         public void OnPost() 
         {
-            if (ModelState.IsValid)
-            {
-                
-            }
+            //if (ModelState.IsValid)
+            //{ }                
+            //else
+            //{
+            //    var a = 1;
+            //}
         }
 
     }
