@@ -90,7 +90,7 @@ namespace FitFusionDesktop.CRUD
                         passwordHash: txtPassword.Text,
                         passwordSalt: "",
                         address: txtAddress.Text,
-                        loyaltyScore: 0
+                        nutriPoints: 0
                         );
 
                     break;

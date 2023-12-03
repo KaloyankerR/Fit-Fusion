@@ -56,27 +56,27 @@ namespace FitFusionDesktop.CRUD
 
             if (_currentMode == EditorMode.ProductCreate)
             {
-                product = new()
-                {
-                    Id = 0,
-                    Title = txtTitle.Text,
-                    Description = txtDescription.Text,
-                    Price = (double)txtPrice.Value,
-                    Category = (Category)Enum.Parse(typeof(Category), cbxCategory.SelectedIndex.ToString()),
-                    ImageUrl = txtImageUrl.Text
-                };
+                product = new
+                (
+                    id: 0,
+                    title: txtTitle.Text,
+                    description: txtDescription.Text,
+                    price: (double)txtPrice.Value,
+                    category: (Category)Enum.Parse(typeof(Category), cbxCategory.SelectedIndex.ToString()),
+                    imageUrl: txtImageUrl.Text
+                );
             }
             else if (_currentMode == EditorMode.ProductUpdate)
             {
-                product = new()
-                {
-                    Id = _currentProduct.Id,
-                    Title = txtTitle.Text,
-                    Description = txtDescription.Text,
-                    Price = (double)txtPrice.Value,
-                    Category = (Category)Enum.Parse(typeof(Category), cbxCategory.SelectedIndex.ToString()),
-                    ImageUrl = txtImageUrl.Text
-                };
+                product = new
+                (
+                    id: _currentProduct.Id,
+                    title: txtTitle.Text,
+                    description: txtDescription.Text,
+                    price: (double)txtPrice.Value,
+                    category: (Category)Enum.Parse(typeof(Category), cbxCategory.SelectedIndex.ToString()),
+                    imageUrl: txtImageUrl.Text
+                );
             }
             else
             {
