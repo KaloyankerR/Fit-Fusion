@@ -19,31 +19,22 @@ namespace FitFusionWeb.Pages
         private readonly UserManager _userManager = new(new UserDAO());
         private readonly OrderManager _orderManager = new(new OrderDAO(), new AlgorithmManager());
 
-        public Order Order { get; set; } = new();
-        public List<Product> MyCart = new();
+        [BindProperty]
+        public Order Order { get; set; } = new ();
 
         [BindProperty]
         public Customer CurrentUser { get; set; } = new();
-
-        public double TotalPrice { get; set; }
-
-        public Dictionary<Product, int> GetUniqueItemsWithCounts()
-        {
-            return MyCart.GroupBy(item => new { item.Id })
-                         .ToDictionary(group => group.First(), group => group.Count());
-        }
 
         public IActionResult OnGet()
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
-                var email = User.FindFirstValue(ClaimTypes.Email);
-                CurrentUser = (Customer)_userManager.GetUserByEmail(email);
-                Order.Customer = CurrentUser;
-                MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
-                Order.Cart = GetUniqueItemsWithCounts();
-                Order.TotalPrice = _orderManager.CalculateCartTotalPrice(Order);
-                Order.NutriPointsReward = _orderManager.CalculateCartNutriPoints(Order);
+                CurrentUser = (Customer)_userManager.GetUserByEmail(User.FindFirstValue(ClaimTypes.Email))!;
+
+                Order = _orderManager.SetupOrder(
+                    customer: CurrentUser,
+                    cart: SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart")
+                    );
 
                 return Page();
             }
@@ -53,13 +44,43 @@ namespace FitFusionWeb.Pages
 
         public IActionResult OnGetAddToCart(int id)
         {
-            Product product = _productManager.GetProductById(id);
-            MyCart = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
-
-            MyCart.Add(product);
-            SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", MyCart);
+            Product product = _productManager.GetProductById(id);            
+            List<Product> cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
+            cart.Add(product);
+            SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
 
             return RedirectToPage("Cart");
+        }
+
+        public IActionResult OnPost()
+        {
+            //Console.WriteLine(Order);
+            //Console.WriteLine(CurrentUser);
+            // Displaying null values
+
+            try
+            {
+                CurrentUser = (Customer)_userManager.GetUserByEmail(User.FindFirstValue(ClaimTypes.Email))!;
+
+                Order = _orderManager.SetupOrder(
+                    customer: CurrentUser,
+                    cart: SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart")
+                    );
+
+                _orderManager.CreateOrder(Order);
+            }
+            catch (ApplicationException)
+            {
+                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+            }
+            catch (ArithmeticException)
+            {
+                return RedirectToPage("/CustomPages/NotEnoughNutriPoints");
+            }
+
+            SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", new List<Product>());
+
+            return RedirectToPage("/CustomPages/SuccessfulOrder");
         }
 
     }
