@@ -21,17 +21,36 @@ namespace FitFusionWeb.Pages.Products
         public List<Product> Products { get; set; }
         private ProductManager productManager = new(new ProductDAO());
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            Products = productManager.GetProducts();
+            try
+            {
+                Products = productManager.GetProducts();
+            }
+            catch (ApplicationException)
+            {
+                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+            }
+
+            return Page();
+
         }
 
-        public void OnPost()
+        public IActionResult OnPost()
         {
-            Products = productManager.GetProducts();
-            Products = productManager.Search(Products, SearchQuery);
-            Products = productManager.Sort(Products, Sort);
-            Products = productManager.FilterByCategory(Products, FilterByCategory);
+            try
+            {
+                Products = productManager.GetProducts();
+                Products = productManager.Search(Products, SearchQuery);
+                Products = productManager.Sort(Products, Sort);
+                Products = productManager.FilterByCategory(Products, FilterByCategory);
+            }
+            catch (ApplicationException)
+            {
+                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+            }
+
+            return Page();
         }
         
     }

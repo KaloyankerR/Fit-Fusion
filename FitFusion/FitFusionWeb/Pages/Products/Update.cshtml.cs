@@ -10,31 +10,56 @@ namespace FitFusionWeb.Pages.Products
         [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
         [BindProperty]
-        public Product Product { get; set; } = new Product();
+        public Product Product { get; set; }
         private readonly ProductManager _productManager = new ProductManager(new DataAcess.ProductDAO());
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            Product = _productManager.GetProductById(Id);
+            try
+            {
+                Product = _productManager.GetProductById(Id);
+            }
+            catch (ApplicationException)
+            {
+                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToPage("/CustomPages/NotFound");
+            }
+
+            return Page();
         }
 
         public IActionResult OnPost()
         {
-            if (!ModelState.IsValid)
+            try
             {
-                TempData["Message"] = "Please check the fields again!";
-                return Page();
+                if (!ModelState.IsValid)
+                {
+                    TempData["Message"] = "Please check the fields again!";
+                    return Page();
+                }
+
+                if (_productManager.UpdateProduct(Product))
+                {
+                    TempData["Type"] = "success";
+                    TempData["Message"] = "Product successfully updated!";
+                    return RedirectToPage("./All");
+                }
+
+                TempData["Type"] = "danger";
+                TempData["Message"] = "An error occured!";
+            }
+            catch (ApplicationException)
+            {
+                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToPage("/CustomPages/NotFound");
             }
 
-            if (_productManager.UpdateProduct(Product)) 
-            {
-                TempData["Type"] = "success";
-                TempData["Message"] = "Product successfully updated!";
-                return RedirectToPage("./All");
-            }
-
-            TempData["Type"] = "danger";
-            TempData["Message"] = "An error occured!";
             return RedirectToPage("./All");
         }
 
