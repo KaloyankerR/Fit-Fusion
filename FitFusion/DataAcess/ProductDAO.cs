@@ -28,29 +28,23 @@ namespace DataAcess
         {
             try
             {
-                if (GetProductById(product.Id) == null)
+                using (SqlConnection connection = new(ConnectionString))
                 {
-                    using (SqlConnection connection = new(ConnectionString))
+                    connection.Open();
+
+                    using (SqlCommand productCommand = new SqlCommand("INSERT INTO Product (Title, Description, Price, Category, ImageUrl) VALUES (@Title, @Description, @Price, @Category, @ImageUrl); SELECT SCOPE_IDENTITY();", connection))
                     {
-                        connection.Open();
+                        productCommand.Parameters.AddWithValue("@Title", product.Title);
+                        productCommand.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
+                        productCommand.Parameters.AddWithValue("@Price", product.Price);
+                        productCommand.Parameters.AddWithValue("@Category", product.Category.ToString());
+                        productCommand.Parameters.AddWithValue("@ImageUrl", product.ImageUrl ?? (object)DBNull.Value);
 
-                        using (SqlCommand productCommand = new SqlCommand("INSERT INTO Product (Title, Description, Price, Category, ImageUrl) VALUES (@Title, @Description, @Price, @Category, @ImageUrl); SELECT SCOPE_IDENTITY();", connection))
-                        {
-                            productCommand.Parameters.AddWithValue("@Title", product.Title);
-                            productCommand.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
-                            productCommand.Parameters.AddWithValue("@Price", product.Price);
-                            productCommand.Parameters.AddWithValue("@Category", product.Category.ToString());
-                            productCommand.Parameters.AddWithValue("@ImageUrl", product.ImageUrl ?? (object)DBNull.Value);
-
-                            int productId = Convert.ToInt32(productCommand.ExecuteScalar());
-                        }
+                        int productId = Convert.ToInt32(productCommand.ExecuteScalar());
                     }
                 }
-                else
-                {
-                    throw new DuplicateNameException("Product already exists.");
-                }
 
+                // throw new DuplicateNameException("Product already exists.");
             }
             catch (SqlException)
             {
@@ -64,29 +58,25 @@ namespace DataAcess
         {
             try
             {
-                if (GetProductById(updatedProduct.Id) != null)
+
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
-                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    connection.Open();
+
+                    using (SqlCommand updateProductCommand = new SqlCommand("UPDATE Product SET Title = @Title, Description = @Description, Price = @Price, Category = @Category, ImageUrl = @ImageUrl WHERE Id = @ProductId", connection))
                     {
-                        connection.Open();
+                        updateProductCommand.Parameters.AddWithValue("@ProductId", updatedProduct.Id);
+                        updateProductCommand.Parameters.AddWithValue("@Title", updatedProduct.Title);
+                        updateProductCommand.Parameters.AddWithValue("@Description", updatedProduct.Description ?? (object)DBNull.Value);
+                        updateProductCommand.Parameters.AddWithValue("@Price", updatedProduct.Price);
+                        updateProductCommand.Parameters.AddWithValue("@Category", updatedProduct.Category.ToString());
+                        updateProductCommand.Parameters.AddWithValue("@ImageUrl", updatedProduct.ImageUrl ?? (object)DBNull.Value);
 
-                        using (SqlCommand updateProductCommand = new SqlCommand("UPDATE Product SET Title = @Title, Description = @Description, Price = @Price, Category = @Category, ImageUrl = @ImageUrl WHERE Id = @ProductId", connection))
-                        {
-                            updateProductCommand.Parameters.AddWithValue("@ProductId", updatedProduct.Id);
-                            updateProductCommand.Parameters.AddWithValue("@Title", updatedProduct.Title);
-                            updateProductCommand.Parameters.AddWithValue("@Description", updatedProduct.Description ?? (object)DBNull.Value);
-                            updateProductCommand.Parameters.AddWithValue("@Price", updatedProduct.Price);
-                            updateProductCommand.Parameters.AddWithValue("@Category", updatedProduct.Category.ToString());
-                            updateProductCommand.Parameters.AddWithValue("@ImageUrl", updatedProduct.ImageUrl ?? (object)DBNull.Value);
-
-                            updateProductCommand.ExecuteNonQuery();
-                        }
+                        updateProductCommand.ExecuteNonQuery();
                     }
                 }
-                else
-                {
-                    throw new NullReferenceException("Product wasn't found.");
-                }
+
+                // throw new NullReferenceException("Product wasn't found.");
             }
             catch (SqlException)
             {
@@ -100,23 +90,18 @@ namespace DataAcess
         {
             try
             {
-                if (GetProductById(productId) != null)
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
                 {
-                    using (SqlConnection connection = new SqlConnection(ConnectionString))
-                    {
-                        connection.Open();
+                    connection.Open();
 
-                        using (SqlCommand deleteProductCommand = new SqlCommand("DELETE FROM Product WHERE Id = @ProductId", connection))
-                        {
-                            deleteProductCommand.Parameters.AddWithValue("@ProductId", productId);
-                            deleteProductCommand.ExecuteNonQuery();
-                        }
+                    using (SqlCommand deleteProductCommand = new SqlCommand("DELETE FROM Product WHERE Id = @ProductId", connection))
+                    {
+                        deleteProductCommand.Parameters.AddWithValue("@ProductId", productId);
+                        deleteProductCommand.ExecuteNonQuery();
                     }
                 }
-                else
-                {
-                    throw new NullReferenceException("Product wasn't exist.");
-                }
+
+                // throw new NullReferenceException("Product wasn't exist.");
             }
             catch (SqlException)
             {

@@ -49,8 +49,8 @@ namespace DataAcess
                         }
                         else if (user is Customer)
                         {
-                            query = "INSERT INTO Customer (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, LoyaltyScore) " +
-                                              "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @LoyaltyScore);";
+                            query = "INSERT INTO Customer (FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, NutriPoints) " +
+                                              "VALUES (@FirstName, @LastName, @Email, @PasswordHash, @PasswordSalt, @Address, @NutriPoints);";
                         }
 
                         using (SqlCommand command = new SqlCommand(query, connection))
@@ -72,7 +72,7 @@ namespace DataAcess
                             }
                             else if (user is Customer)
                             {
-                                command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).NutriPoints);
+                                command.Parameters.AddWithValue("@NutriPoints", ((Customer)user).NutriPoints);
                             }
 
                             command.ExecuteNonQuery();
@@ -122,7 +122,7 @@ namespace DataAcess
                         {
                             query = "UPDATE Customer SET FirstName = @FirstName, " +
                                               "LastName = @LastName, Email = @Email, " +
-                                              "Address = @Address, LoyaltyScore = @LoyaltyScore " +
+                                              "Address = @Address, NutriPoints = @NutriPoints " +
                                               "WHERE Id = @Id;";
                         }
 
@@ -145,7 +145,7 @@ namespace DataAcess
                             }
                             else if (user is Customer)
                             {
-                                command.Parameters.AddWithValue("@LoyaltyScore", ((Customer)user).NutriPoints);
+                                command.Parameters.AddWithValue("@NutriPoints", ((Customer)user).NutriPoints);
                             }
 
                             command.ExecuteNonQuery();
@@ -234,7 +234,7 @@ namespace DataAcess
                     }
                     else if (role is Customer)
                     {
-                        additionalProperty = "LoyaltyScore";
+                        additionalProperty = "NutriPoints";
                     }
 
                     getUserQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
@@ -287,7 +287,7 @@ namespace DataAcess
                                         passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
                                         passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
                                         address: reader.GetString(reader.GetOrdinal("Address")),
-                                        nutriPoints: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
+                                        nutriPoints: reader.GetInt32(reader.GetOrdinal("NutriPoints"))
                                     );
                                 }
                                 else
@@ -332,7 +332,7 @@ namespace DataAcess
 
                     UNION ALL
 
-                    SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, CAST(LoyaltyScore AS VARCHAR(16)) as AdditionalProperty, 'Customer' as Role FROM Customer
+                    SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, CAST(NutriPoints AS VARCHAR(16)) as AdditionalProperty, 'Customer' as Role FROM Customer
                     WHERE Email = @Email;";
 
 
@@ -366,8 +366,8 @@ namespace DataAcess
                                 }
                                 else if (role == "Customer")
                                 {
-                                    string loyaltyScore = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
-                                    user = new Customer(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, int.Parse(loyaltyScore));
+                                    string nutriPoints = reader.GetString(reader.GetOrdinal("AdditionalProperty"));
+                                    user = new Customer(id, firstName, lastName, retrievedEmail, passwordHash, passwordSalt, address, int.Parse(nutriPoints));
                                 }
                                 else
                                 {
@@ -413,7 +413,7 @@ namespace DataAcess
                     }
                     else if (role is Customer)
                     {
-                        additionalProperty = "LoyaltyScore";
+                        additionalProperty = "NutriPoints";
                     }
 
                     getAllUsersQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
@@ -469,7 +469,7 @@ namespace DataAcess
                                         passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
                                         passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
                                         address: reader.GetString(reader.GetOrdinal("Address")),
-                                        nutriPoints: reader.GetInt32(reader.GetOrdinal("LoyaltyScore"))
+                                        nutriPoints: reader.GetInt32(reader.GetOrdinal("NutriPoints"))
                                     );
 
                                     users.Add(user);

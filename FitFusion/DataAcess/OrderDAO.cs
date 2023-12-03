@@ -34,8 +34,8 @@ namespace DataAcess
                 {
                     connection.Open();
 
-                    string query = "INSERT INTO [Order] (OrderDate, CustomerId, TotalPrice, Discount, Note) " +
-                                              "VALUES (@OrderDate, @CustomerId, @TotalPrice, @Discount, @Note);" +
+                    string query = "INSERT INTO [Order] (OrderDate, CustomerId, TotalPrice, NutriPoints, Note) " +
+                                              "VALUES (@OrderDate, @CustomerId, @TotalPrice, @NutriPoints, @Note);" +
                                               "SELECT SCOPE_IDENTITY();";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
@@ -44,7 +44,7 @@ namespace DataAcess
                         command.Parameters.AddWithValue("@CustomerId", order.Customer.Id);
                         command.Parameters.AddWithValue("@TotalPrice", order.TotalPrice);
                         AddNutriPointsToCustomer(order.Customer.Id, order.NutriPointsReward);
-                        command.Parameters.AddWithValue("@Discount", order.NutriPointsReward);
+                        command.Parameters.AddWithValue("@NutriPoints", order.NutriPointsReward);
                         command.Parameters.AddWithValue("@Note", order.Note);
 
                         int orderId = Convert.ToInt32(command.ExecuteScalar());
@@ -85,7 +85,7 @@ namespace DataAcess
                 {
                     connection.Open();
 
-                    string addNutriPointsQuery = "UPDATE Customer SET LoyaltyScore = LoyaltyScore + @PointsToAdd WHERE Id = @CustomerId;";
+                    string addNutriPointsQuery = "UPDATE Customer SET NutriPoints = NutriPoints + @PointsToAdd WHERE Id = @CustomerId;";
 
                     using (SqlCommand updateCommand = new SqlCommand(addNutriPointsQuery, connection))
                     {
@@ -159,7 +159,7 @@ namespace DataAcess
                 {
                     connection.Open();
 
-                    string query = $"SELECT Id, OrderDate, CustomerId, TotalPrice, Discount, Note FROM [Order] WHERE Id = @Id;";
+                    string query = $"SELECT Id, OrderDate, CustomerId, TotalPrice, NutriPoints, Note FROM [Order] WHERE Id = @Id;";
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -176,7 +176,7 @@ namespace DataAcess
                                     customer: new(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
                                     cart: GetShoppingCart(id),
                                     totalPrice: (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
-                                    nutriPointsReward: reader.GetInt32(reader.GetOrdinal("Discount")),
+                                    nutriPointsReward: reader.GetInt32(reader.GetOrdinal("NutriPoints")),
                                     note: reader.GetString(reader.GetOrdinal("Note"))
                                 );
 
@@ -204,7 +204,7 @@ namespace DataAcess
                 {
                     connection.Open();
 
-                    string getOrdersQuery = "SELECT Id, OrderDate, CustomerId, TotalPrice, Discount, Note FROM [Order];";
+                    string getOrdersQuery = "SELECT Id, OrderDate, CustomerId, TotalPrice, NutriPoints, Note FROM [Order];";
 
                     using (SqlCommand command = new SqlCommand(getOrdersQuery, connection))
                     {
@@ -219,7 +219,7 @@ namespace DataAcess
                                     customer: new Customer(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
                                     cart: GetShoppingCart(reader.GetInt32(reader.GetOrdinal("Id"))),
                                     totalPrice: (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
-                                    nutriPointsReward: reader.GetInt32(reader.GetOrdinal("Discount")),
+                                    nutriPointsReward: reader.GetInt32(reader.GetOrdinal("NutriPoints")),
                                     note: reader.GetString(reader.GetOrdinal("Note"))
                                 );
 
@@ -257,7 +257,7 @@ namespace DataAcess
                         {
                             if (reader.Read())
                             {
-                                nutriPoints = reader.GetInt32(reader.GetOrdinal("LoyaltyScore"));
+                                nutriPoints = reader.GetInt32(reader.GetOrdinal("NutriPoints"));
                             }
                         }
                     }
