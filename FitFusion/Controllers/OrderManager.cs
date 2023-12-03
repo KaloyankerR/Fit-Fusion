@@ -56,7 +56,6 @@ namespace Services
                 }
 
                 throw new ArithmeticException("Nutri Points not sufficient.");
-                // return false;
             }
             catch
             {

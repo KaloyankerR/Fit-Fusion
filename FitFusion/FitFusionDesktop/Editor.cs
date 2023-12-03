@@ -18,7 +18,7 @@ namespace FitFusionDesktop
     public partial class Editor : Form
     {
         private UserModel userParam = null;
-        private Product product = new();
+        private Product product;
 
         public Editor(EditorMode mode)
         {

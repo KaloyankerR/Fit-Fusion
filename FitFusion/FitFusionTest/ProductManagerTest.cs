@@ -22,14 +22,15 @@ namespace FitFusionTest
         [Test]
         public void CreateProduct_ShouldReturnTrue()
         {
-            Product product = new Product
-            {
-                Id = 1,
-                Title = "Thor's hammer",
-                Description = "Odin son's weapon.",
-                Price = 100,
-                Category = Category.Accessories
-            };
+            Product product = new 
+            (
+                id: 1,
+                title: "Thor's hammer",
+                description: "Odin son's weapon.",
+                price: 100,
+                category: Category.Accessories,
+                imageUrl: "https://google.com"
+            );
 
             bool result = _productManager.CreateProduct(product);
 
