@@ -9,7 +9,7 @@ namespace FitFusionTest
 {
     public class ProductManagerTests
     {
-        private readonly AlgorithmManager _algorithmManager = new();
+        // private readonly AlgorithmManager _algorithmManager = new();
         private readonly MockProductDAO _dao = new MockProductDAO();
         private ProductManager _productManager;
 

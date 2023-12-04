@@ -10,15 +10,15 @@ using Models.Product;
 
 namespace Services
 {
-    public class OrderManager : IOrder, IAlgorithm
+    public class OrderManager : IOrder
     {
         private readonly IOrder _dao;
-        private readonly IAlgorithm _algorithmManager;
+        // private readonly IAlgorithm _algorithmManager;
 
-        public OrderManager(IOrder dao, IAlgorithm algorithmManager)
+        public OrderManager(IOrder dao)
         {
             _dao = dao;
-            _algorithmManager = algorithmManager;
+            // _algorithmManager = algorithmManager;
         }
 
         public Dictionary<Product, int> ConvertListCartToDictionary(List<Product> cart)
@@ -27,30 +27,27 @@ namespace Services
                          .ToDictionary(group => group.First(), group => group.Count());
         }
 
-        public Order SetupOrder(Customer customer, Dictionary<Product, int> cart)
+        public Order SetupOrder(Customer customer, ShoppingCart cart)
         {
-            double totalPrice = CalculateCartTotalPrice(cart);
-            int nutriPointsReward = CalculateCartNutriPoints(cart);
-
-            Order order = new(DateTime.Now, customer, cart, totalPrice, nutriPointsReward, "");
+            Order order = new(DateTime.Now, customer, cart, "");
             return order;
         }
 
-        public Order SetupOrder(Customer customer, List<Product> cart)
-        {
-            Dictionary<Product, int> newCart = ConvertListCartToDictionary(cart);
-            double totalPrice = CalculateCartTotalPrice(newCart);
-            int nutriPointsReward = CalculateCartNutriPoints(newCart);
+        //public Order SetupOrder(Customer customer, ShoppingCart cart)
+        //{
+        //    //Dictionary<Product, int> newCart = ConvertListCartToDictionary(cart);
+        //    //double totalPrice = CalculateCartTotalPrice(newCart);
+        //    //int nutriPointsReward = CalculateCartNutriPoints(newCart);
 
-            Order order = new(DateTime.Now, customer, newCart, totalPrice, nutriPointsReward, "");
-            return order;
-        }
+        //    Order order = new(DateTime.Now, customer, cart, "");
+        //    return order;
+        //}
 
         public bool CreateOrder(Order order)
         {
             try
             {
-                if (AreNutriPointsEnough(order))
+                if (order.Customer.NutriPoints >= order.Cart.NutriPointsNeeded)
                 {
                     return _dao.CreateOrder(order);
                 }
@@ -88,19 +85,81 @@ namespace Services
         }
 
 
-        public bool AreNutriPointsEnough(Order order)
+        //public bool AreNutriPointsEnough(Order order)
+        //{
+        //    return _algorithmManager.AreNutriPointsEnough(order);
+        //}
+    
+        public Dictionary<int, Dictionary<Product, int>> GetRecommendations(int customerId)
         {
-            return _algorithmManager.AreNutriPointsEnough(order);
+            try
+            {
+                return _dao.GetRecommendations(customerId);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
-        public double CalculateCartTotalPrice(Dictionary<Product, int> cart)
+        public Product GetMostTrendingProduct(int customerId)
         {
-            return _algorithmManager.CalculateCartTotalPrice(cart);
+            // Dictionary<int, Dictionary<Product, int>> recommendations passing parameter
+            Dictionary<int, Dictionary<Product, int>> recommendations = GetRecommendations(customerId);
+            
+            Dictionary<Product, int> totalQuantities = new Dictionary<Product, int>();
+            Dictionary<Product, int> consistentProducts = new Dictionary<Product, int>();
+
+            foreach (var monthRecommendation in recommendations.Values)
+            {
+                foreach (var kvp in monthRecommendation)
+                {
+                    Product product = kvp.Key;
+                    int quantity = kvp.Value;
+
+                    if (totalQuantities.ContainsKey(product))
+                    {
+                        totalQuantities[product] += quantity;
+                    }
+                    else
+                    {
+                        totalQuantities[product] = quantity;
+                    }
+
+
+                    if (consistentProducts.ContainsKey(product))
+                    {
+                        consistentProducts[product]++;
+                    }
+                    else
+                    {
+                        consistentProducts[product] = 1;
+                    }
+
+                }
+            }
+
+            foreach (var product in consistentProducts.Keys)
+            {
+                if (totalQuantities.ContainsKey(product))
+                {
+                    totalQuantities[product] += consistentProducts[product] * 2;
+                }
+                else
+                {
+                    totalQuantities[product] = consistentProducts[product] * 2;
+                }
+            }
+
+            Product mostTrendingProduct = totalQuantities.OrderByDescending(kvp => kvp.Value).FirstOrDefault().Key;
+
+            if (mostTrendingProduct != null)
+            {
+                return mostTrendingProduct;
+            }
+
+            throw new NullReferenceException("There are no products.");
         }
-        
-        public int CalculateCartNutriPoints(Dictionary<Product, int> cart)
-        {
-            return _algorithmManager.CalculateCartNutriPoints(cart);  
-        }
+
     }
 }
