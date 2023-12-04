@@ -10,74 +10,74 @@ using Models.User;
 
 namespace Services
 {
-    public class AlgorithmManager : IAlgorithm
-    {
-        public bool AreNutriPointsEnough(Order order)
-        {
-            int nutriPointsNeeded = 0;
+    //public class AlgorithmManager : IAlgorithm
+    //{
+    //    public bool AreNutriPointsEnough(Order order)
+    //    {
+    //        int nutriPointsNeeded = 0;
 
-            foreach (var pair in order.Cart)
-            {
-                Product product = pair.Key;
-                int quantity = pair.Value;
+    //        foreach (var pair in order.Cart)
+    //        {
+    //            Product product = pair.Key;
+    //            int quantity = pair.Value;
 
-                if (product.Category == Category.Redeem)
-                {
-                    nutriPointsNeeded += Convert.ToInt32(product.Price) * quantity;
-                }
-            }
+    //            if (product.Category == Category.Redeem)
+    //            {
+    //                nutriPointsNeeded += Convert.ToInt32(product.Price) * quantity;
+    //            }
+    //        }
 
-            return nutriPointsNeeded <= order.Customer.NutriPoints;
-        }
+    //        return nutriPointsNeeded <= order.Customer.NutriPoints;
+    //    }
 
-        public double CalculateCartTotalPrice(Dictionary<Product, int> cart)
-        {
-            double totalPrice = 0;
+    //    //public double CalculateCartTotalPrice(Dictionary<Product, int> cart)
+    //    //{
+    //    //    double totalPrice = 0;
 
-            foreach (var pair in cart)
-            {
-                Product product = pair.Key;
-                int quantity = pair.Value;
+    //    //    foreach (var pair in cart)
+    //    //    {
+    //    //        Product product = pair.Key;
+    //    //        int quantity = pair.Value;
 
-                if (product.Category != Category.Redeem)
-                {
-                    totalPrice += (product.Price * quantity);
-                }
-            }
+    //    //        if (product.Category != Category.Redeem)
+    //    //        {
+    //    //            totalPrice += (product.Price * quantity);
+    //    //        }
+    //    //    }
 
-            return totalPrice;
-        }
+    //    //    return totalPrice;
+    //    //}
 
-        public int CalculateCartNutriPoints(Dictionary<Product, int> cart)
-        {
-            int nutriPointsGained = 0;
+    //    public int CalculateCartNutriPoints(Dictionary<Product, int> cart)
+    //    {
+    //        int nutriPointsGained = 0;
 
-            foreach (var pair in cart)
-            {
-                Product product = pair.Key;
-                int quantity = pair.Value;
+    //        foreach (var pair in cart)
+    //        {
+    //            Product product = pair.Key;
+    //            int quantity = pair.Value;
 
-                switch (product.Category)
-                {
-                    case Category.Protein:
-                        nutriPointsGained += 30;
-                        break;
-                    case Category.Supplements:
-                        nutriPointsGained += 30;
-                        break;
-                    default:
-                        nutriPointsGained += 10;
-                        break;
-                }
+    //            switch (product.Category)
+    //            {
+    //                case Category.Protein:
+    //                    nutriPointsGained += 30;
+    //                    break;
+    //                case Category.Supplements:
+    //                    nutriPointsGained += 30;
+    //                    break;
+    //                default:
+    //                    nutriPointsGained += 10;
+    //                    break;
+    //            }
 
-                if (quantity > 1)
-                {
-                    nutriPointsGained += 20 * quantity;
-                }
+    //            if (quantity > 1)
+    //            {
+    //                nutriPointsGained += 20 * quantity;
+    //            }
 
-            }
+    //        }
 
-            return nutriPointsGained;
-        }
-    }
+    //        return nutriPointsGained;
+    //    }
+    // }
 }
