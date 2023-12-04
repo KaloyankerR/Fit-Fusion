@@ -15,9 +15,7 @@ namespace Models.Order
         private int _id;
         private DateTime _orderDate;
         private Customer _customer = new Customer();
-        private Dictionary<ProductModel, int> _cart = new();
-        private double _totalPrice;
-        private int _nutriPointsReward;
+        private ShoppingCart _cart = new();
         private string _note = string.Empty;
 
         [Key]
@@ -41,24 +39,10 @@ namespace Models.Order
         }
 
         [Required]
-        public Dictionary<ProductModel, int> Cart
+        public ShoppingCart Cart
         {
             get { return _cart; }
             private set { _cart = value; }
-        }
-
-        [Required]
-        public double TotalPrice
-        {
-            get { return _totalPrice; }
-            private set { _totalPrice = value; }
-        }
-
-        [Required]
-        public int NutriPointsReward
-        {
-            get { return _nutriPointsReward; }
-            private set { _nutriPointsReward = value; }
         }
 
         public string Note
@@ -67,32 +51,34 @@ namespace Models.Order
             private set { _note = value; }
         }
 
-        public Order() { }
+        public Order(Customer customer, ShoppingCart cart, string note) 
+        {
+            OrderDate = DateTime.Now;
+            Customer = customer;
+            Cart = cart;
+            Note = note;
+        }
 
-        public Order(DateTime date, Customer customer, Dictionary<ProductModel, int> cart, double totalPrice, int nutriPointsReward, string note)
+        public Order(DateTime date, Customer customer, ShoppingCart cart, string note)
         {
             OrderDate = date;
             Customer = customer;
             Cart = cart;
-            TotalPrice = totalPrice;
-            NutriPointsReward = nutriPointsReward;
             Note = note;
         }
 
-        public Order(int id, DateTime date, Customer customer, Dictionary<ProductModel, int> cart, double totalPrice, int nutriPointsReward, string note)
+        public Order(int id, DateTime date, Customer customer, ShoppingCart cart, string note)
         {
             Id = id;
             OrderDate = date;
             Customer = customer;
             Cart = cart;
-            TotalPrice = totalPrice;
-            NutriPointsReward = nutriPointsReward;
             Note = note;
         }
 
         public override string ToString()
         {
-            return $"Order №{Id} - {TotalPrice}€ - {NutriPointsReward} NP";
+            return $"Order №{Id} - {_cart.TotalPrice}€";
         }
 
     }
