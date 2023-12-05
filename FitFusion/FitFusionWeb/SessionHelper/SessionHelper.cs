@@ -14,13 +14,7 @@ namespace FitFusionWeb.SessionHelper
         public static T GetObjectFromJson<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
-
-            if (value == null)
-            {
-                return default(T) == null ? Activator.CreateInstance<T>()! : default!;
-            }
-
-            return JsonConvert.DeserializeObject<T>(value)!;
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
 
     }

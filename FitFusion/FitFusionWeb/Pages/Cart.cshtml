@@ -7,9 +7,9 @@
 
 <div class="cart-container">
     <div class="product-list">
-        @if (Model.Order.Cart != null && Model.Order.Cart.Count > 0)
+        @if (Model.Cart != null && Model.Cart.Products.Count() > 0)
         {
-            @foreach (KeyValuePair<Product, int> entry in Model.Order.Cart)
+            @foreach (KeyValuePair<Product, int> entry in Model.Cart.GetCartDictionary())
             {
                 <div class="product-item">
                     <h3>@entry.Key.Title</h3>
@@ -30,14 +30,16 @@
             <h5>Customer: @Model.CurrentUser.GetFullName()</h5>
             <h5>Address: @Model.CurrentUser.Address</h5>
             <hr />
-            <h5>Total Price: @Model.Order.TotalPrice $</h5>
-            <h5>Needed:  NP</h5>
+            <h5>Total Price: @Model.Cart.TotalPrice $</h5>
+            <h5>Needed: @Model.Cart.NutriPointsNeeded NP</h5>
             <hr />
-            <h5>Reward: @Model.Order.NutriPointsReward NP</h5>
+            <h5>Reward: @Model.Cart.NutriPointsReward NP</h5>
             <br />
             <p>*NP means Nutri Points</p>
             <hr />
-            <a class="btn btn-dark me-2" asp-page="/Products/All">Continue Shopping</a>
+            <input asp-for="Note" />
+            <hr />
+            <a class="btn btn-dark me-2" asp-page="/Products/All">Continue Shopping</a><br />
 
             <button type="submit" class="btn btn-success me-2">Finish Order</button>
         </form>

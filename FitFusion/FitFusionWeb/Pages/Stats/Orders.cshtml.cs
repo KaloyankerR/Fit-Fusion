@@ -17,7 +17,7 @@ namespace FitFusionWeb.Pages.Stats
         
         public OrdersModel()
         {
-            _orderManager = new(new OrderDAO(), new AlgorithmManager());
+            _orderManager = new(new OrderDAO());
         }
 
         public void OnGet()
@@ -26,7 +26,7 @@ namespace FitFusionWeb.Pages.Stats
 
             foreach(Order o in Orders)
             {
-                OrdersData.Add(o.OrderDate.DayOfWeek.ToString(), o.TotalPrice);
+                OrdersData.Add(o.OrderDate.DayOfWeek.ToString(), o.Cart.TotalPrice);
             }
         }
 

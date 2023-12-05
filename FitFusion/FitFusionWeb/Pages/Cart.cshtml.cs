@@ -9,6 +9,9 @@ using Models.User;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Interfaces;
+using Newtonsoft.Json;
+using FitFusionWeb.SessionHelper;
 
 namespace FitFusionWeb.Pages
 {
@@ -17,57 +20,54 @@ namespace FitFusionWeb.Pages
     {
         public readonly ProductManager _productManager = new(new ProductDAO());
         private readonly UserManager _userManager = new(new UserDAO());
-        private readonly OrderManager _orderManager = new(new OrderDAO(), new AlgorithmManager());
+        private readonly OrderManager _orderManager = new(new OrderDAO());
 
         [BindProperty]
-        public Order Order { get; set; } = new ();
-
+        public ShoppingCart Cart { get; set; } = new();
         [BindProperty]
         public Customer CurrentUser { get; set; } = new();
+        [BindProperty]
+        public string Note { get; set; } = string.Empty;
 
         public IActionResult OnGet()
         {
-            if (User.Identity?.IsAuthenticated ?? false)
+            if (User.Identity?.IsAuthenticated != true)
             {
-                CurrentUser = (Customer)_userManager.GetUserByEmail(User.FindFirstValue(ClaimTypes.Email))!;
-
-                Order = _orderManager.SetupOrder(
-                    customer: CurrentUser,
-                    cart: SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart")
-                    );
-
-                return Page();
+                return RedirectToPage("/Authentication/Login");
             }
 
-            return RedirectToPage("/Authentication/Login");
+            CurrentUser = (Customer)_userManager.GetUserByEmail(User.FindFirstValue(ClaimTypes.Email))!;
+
+            Cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("cart") ?? new ShoppingCart();
+            Cart.CalcuteCart();
+
+            HttpContext.Session.SetObjectAsJson("cart", Cart);
+
+            return Page();
         }
 
         public IActionResult OnGetAddToCart(int id)
         {
-            Product product = _productManager.GetProductById(id);            
-            List<Product> cart = SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart");
-            cart.Add(product);
-            SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+            Product product = _productManager.GetProductById(id);
+            Cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("cart") ?? new ShoppingCart();
 
+            Cart.AddToCart(product);
+
+            HttpContext.Session.SetObjectAsJson("cart", Cart);
             return RedirectToPage("Cart");
         }
 
         public IActionResult OnPost()
         {
-            //Console.WriteLine(Order);
-            //Console.WriteLine(CurrentUser);
-            // Displaying null values
-
             try
             {
                 CurrentUser = (Customer)_userManager.GetUserByEmail(User.FindFirstValue(ClaimTypes.Email))!;
+                Cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("cart") ?? new ShoppingCart();
+                Cart.CalcuteCart();
 
-                Order = _orderManager.SetupOrder(
-                    customer: CurrentUser,
-                    cart: SessionHelper.SessionHelper.GetObjectFromJson<List<Product>>(HttpContext.Session, "cart")
-                    );
+                Order order = new(CurrentUser, Cart, Note);
 
-                _orderManager.CreateOrder(Order);
+                _orderManager.CreateOrder(order);
             }
             catch (ApplicationException)
             {
@@ -78,7 +78,7 @@ namespace FitFusionWeb.Pages
                 return RedirectToPage("/CustomPages/NotEnoughNutriPoints");
             }
 
-            SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", new List<Product>());
+            SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", new ShoppingCart());
 
             return RedirectToPage("/CustomPages/SuccessfulOrder");
         }

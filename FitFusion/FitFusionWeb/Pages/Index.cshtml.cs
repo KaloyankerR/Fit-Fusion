@@ -20,7 +20,7 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            OrderManager manager = new(new OrderDAO(), new AlgorithmManager());
+            OrderManager manager = new(new OrderDAO());
 
 
         }
