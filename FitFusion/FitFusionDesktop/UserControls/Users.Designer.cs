@@ -38,6 +38,7 @@
             btnCreate = new ReaLTaiizor.Controls.Button();
             txtSearchQuery = new ReaLTaiizor.Controls.HopeTextBox();
             btnSearch = new ReaLTaiizor.Controls.Button();
+            btnRecommendations = new ReaLTaiizor.Controls.Button();
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -134,6 +135,7 @@
             btnDelete.TabIndex = 9;
             btnDelete.Text = "Delete";
             btnDelete.TextAlignment = StringAlignment.Center;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnUpdate
             // 
@@ -222,11 +224,33 @@
             btnSearch.TextAlignment = StringAlignment.Center;
             btnSearch.Click += btnSearch_Click;
             // 
+            // btnRecommendations
+            // 
+            btnRecommendations.BackColor = Color.Gray;
+            btnRecommendations.BorderColor = Color.FromArgb(41, 41, 41);
+            btnRecommendations.Cursor = Cursors.Hand;
+            btnRecommendations.EnteredBorderColor = Color.FromArgb(255, 163, 26);
+            btnRecommendations.EnteredColor = Color.FromArgb(41, 41, 41);
+            btnRecommendations.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnRecommendations.Image = null;
+            btnRecommendations.ImageAlign = ContentAlignment.MiddleLeft;
+            btnRecommendations.InactiveColor = Color.FromArgb(41, 41, 41);
+            btnRecommendations.Location = new Point(656, 550);
+            btnRecommendations.Name = "btnRecommendations";
+            btnRecommendations.PressedBorderColor = Color.FromArgb(255, 163, 26);
+            btnRecommendations.PressedColor = Color.FromArgb(255, 163, 26);
+            btnRecommendations.Size = new Size(213, 62);
+            btnRecommendations.TabIndex = 12;
+            btnRecommendations.Text = "Get Recommendations";
+            btnRecommendations.TextAlignment = StringAlignment.Center;
+            btnRecommendations.Click += btnRecommendations_Click;
+            // 
             // Users
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
+            Controls.Add(btnRecommendations);
             Controls.Add(txtSearchQuery);
             Controls.Add(btnSearch);
             Controls.Add(btnDelete);
@@ -250,5 +274,6 @@
         private ReaLTaiizor.Controls.Button btnCreate;
         private ReaLTaiizor.Controls.HopeTextBox txtSearchQuery;
         private ReaLTaiizor.Controls.Button btnSearch;
+        private ReaLTaiizor.Controls.Button btnRecommendations;
     }
 }

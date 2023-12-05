@@ -80,41 +80,51 @@ namespace FitFusionDesktop.CRUD
             }
             else
             {
-                product = null;
+                throw new ArgumentException("Invalid page mode selected.");
             }
+            
 
             return product;
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            Product product = DefineProduct();
-
-            if (btnSubmit.TextButton == "Create")
+            try
             {
-                if (_productManager.CreateProduct(product))
+                Product product = DefineProduct();
+
+                if (btnSubmit.TextButton == "Create")
                 {
-                    parentForm.DialogResult = DialogResult.OK;
-                    parentForm.Close();
+                    if (_productManager.CreateProduct(product))
+                    {
+                        parentForm.DialogResult = DialogResult.OK;
+                        parentForm.Close();
+                    }
+                    else
+                    {
+                        parentForm.DialogResult = DialogResult.Cancel;
+                        parentForm.Close();
+                    }
                 }
-                else
+                else if (btnSubmit.TextButton == "Update")
                 {
-                    parentForm.DialogResult = DialogResult.Cancel;
-                    parentForm.Close();
+                    if (_productManager.UpdateProduct(product))
+                    {
+                        parentForm.DialogResult = DialogResult.OK;
+                        parentForm.Close();
+                    }
+                    else
+                    {
+                        parentForm.DialogResult = DialogResult.Cancel;
+                        parentForm.Close();
+                    }
                 }
             }
-            else if (btnSubmit.TextButton == "Update")
+            catch (ApplicationException)
             {
-                if(_productManager.UpdateProduct(product))
-                {
-                    parentForm.DialogResult = DialogResult.OK;
-                    parentForm.Close();
-                }
-                else
-                {
-                    parentForm.DialogResult = DialogResult.Cancel;
-                    parentForm.Close();
-                }
+                MessageBox.Show("There was a problem in the DB. Please try again later.");
+                parentForm.DialogResult = DialogResult.Cancel;
+                parentForm.Close();
             }
         }
 

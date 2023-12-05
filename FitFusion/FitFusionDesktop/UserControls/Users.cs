@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using FitFusionDesktop.CRUD;
 
 namespace FitFusionDesktop.UserControls
 {
@@ -24,7 +25,6 @@ namespace FitFusionDesktop.UserControls
             InitializeComponent();
             userManager = new(new UserDAO());
             roleCmbBox.SelectedIndex = 2;
-            // FillDataGridViewWithMockData("Customers");
         }
 
         private void FillDataGridViewWithMockData(List<User> users)
@@ -58,38 +58,71 @@ namespace FitFusionDesktop.UserControls
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            Editor frm = new Editor(EditorMode.UserCreate);
-            frm.ShowDialog();
-
-            if (frm.DialogResult == DialogResult.OK)
+            try
             {
-                MessageBox.Show("User created!");
+                CRUD.UserCreate frm = new();
+                frm.ShowDialog();
             }
-            else
+            catch
             {
-                MessageBox.Show("Failed to create the user!");
+                MessageBox.Show("Something went wrong, please try again later.");
             }
-
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            //string selectedEmail = Convert.ToString(UsersDataGrid.SelectedRows[0].Cells[3].Value);
-            //User user = userManager.GetUserByEmail(selectedEmail);
-
-            Editor frm = new Editor(EditorMode.UserUpdate, new Owner());
-            frm.ShowDialog();
-
-            if (frm.DialogResult == DialogResult.OK)
+            try
             {
-                MessageBox.Show("User updated!");
+                string selectedEmail = UsersDataGrid.SelectedRows[0].Cells[3].Value.ToString()!;
+                User user = userManager.GetUserByEmail(selectedEmail)!;
+
+                CRUD.UserUpdate frm = new(user);
+                frm.ShowDialog();
             }
-            else
+            catch
             {
-                MessageBox.Show("Failed to update the user!");
+                MessageBox.Show("Something went wrong, please try again later.");
             }
         }
 
+        private void btnRecommendations_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataGridViewRow selectedRow = UsersDataGrid.SelectedRows[0];
+                User selectedUser = (User)selectedRow.DataBoundItem;
 
+                Recommendations frm = new(selectedUser.Id);
+                frm.ShowDialog();
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show("No products were bought.");
+            }
+            catch (ApplicationException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                DataGridViewRow selectedRow = UsersDataGrid.SelectedRows[0];
+                User selectedUser = (User)selectedRow.DataBoundItem;
+
+                userManager.DeleteUser(selectedUser);
+                MessageBox.Show("User successfully deleted.");
+            }
+            catch (NullReferenceException ex)
+            {
+                MessageBox.Show("No products were bought.");
+            }
+            catch (ApplicationException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

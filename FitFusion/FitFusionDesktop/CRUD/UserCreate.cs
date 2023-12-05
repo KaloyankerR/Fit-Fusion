@@ -1,7 +1,4 @@
-﻿using DataAcess;
-using Models.User;
-using Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,45 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataAcess;
+using Models.User;
+using ReaLTaiizor.Forms;
+using Services;
 
 namespace FitFusionDesktop.CRUD
 {
-    public partial class UserEntityControl : UserControl
+    public partial class UserCreate : Form
     {
         private readonly UserManager _userManager = new(new UserDAO());
-        private Editor parentForm;
-        private User user; // keep this in mind
 
-        public UserEntityControl(Editor frm)
+        public UserCreate()
         {
             InitializeComponent();
-            parentForm = frm;
-            btnSubmit.TextButton = "Create";
             cbxRole.SelectedItem = "Owner";
-        }
-
-        public UserEntityControl(Editor frm, User currentUser)
-        {
-            InitializeComponent();
-            parentForm = frm;
-            user = currentUser;
-            btnSubmit.TextButton = "Update";
-            cbxRole.SelectedItem = currentUser.GetType();
-        }
-
-        private void FillUserData()
-        {
-            cbxRole.Visible = false;
-            txtFirstName.Text = user.FirstName;
-            txtLastName.Text = user.LastName;
-            txtEmail.Text = user.Email;
-            txtPassword.Visible = false;
-            txtAddress.Text = user.Address;
-
-            if (user.GetType().Name == "Customer")
-            {
-                txtPhone.Visible = false;
-            }
         }
 
         private void cbxRole_SelectedIndexChanged(object sender, EventArgs e)
@@ -61,7 +34,6 @@ namespace FitFusionDesktop.CRUD
             {
                 groupBxPhone.Visible = false;
             }
-
         }
 
         private User DefineUser()
@@ -110,41 +82,37 @@ namespace FitFusionDesktop.CRUD
 
                     break;
                 default:
-                    user = null; 
-                    break;
+                    throw new ArgumentException("Form hasn't been correctly filled.");
             }
 
             return user;
         }
 
-        private void CreateUser()
-        {
-            User user = DefineUser();
-            _userManager.CreateUser(user);
-        }
-
-        private void UpdateUser()
-        {
-            User user = DefineUser();
-            _userManager.UpdateUser(user);
-        }
-
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (btnSubmit.TextButton == "Create")
+            try
             {
-                CreateUser();
-                parentForm.DialogResult = DialogResult.OK;
+                User user = DefineUser();
+                _userManager.CreateUser(user);
+                MessageBox.Show("User successfully created.");
+                Close();
             }
-            else if (btnSubmit.TextButton == "Update")
+            catch (NullReferenceException ex)
             {
-                UpdateUser();
-                parentForm.DialogResult = DialogResult.OK;
+                MessageBox.Show(ex.Message);
             }
-
-            parentForm.DialogResult = DialogResult.Cancel;
-            parentForm.Close();
-
+            catch (ApplicationException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (DuplicateNameException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch(ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
     }

@@ -1,7 +1,4 @@
-﻿using DataAcess;
-using Models.User;
-using Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,45 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DataAcess;
+using Models.User;
+using Services;
 
 namespace FitFusionDesktop.CRUD
 {
-    public partial class UserEntityControl : UserControl
+    public partial class UserUpdate : Form
     {
         private readonly UserManager _userManager = new(new UserDAO());
-        private Editor parentForm;
-        private User user; // keep this in mind
+        private User User { get; set; }
 
-        public UserEntityControl(Editor frm)
+        public UserUpdate(User user)
         {
             InitializeComponent();
-            parentForm = frm;
-            btnSubmit.TextButton = "Create";
-            cbxRole.SelectedItem = "Owner";
-        }
-
-        public UserEntityControl(Editor frm, User currentUser)
-        {
-            InitializeComponent();
-            parentForm = frm;
-            user = currentUser;
-            btnSubmit.TextButton = "Update";
-            cbxRole.SelectedItem = currentUser.GetType();
-        }
-
-        private void FillUserData()
-        {
-            cbxRole.Visible = false;
-            txtFirstName.Text = user.FirstName;
-            txtLastName.Text = user.LastName;
-            txtEmail.Text = user.Email;
-            txtPassword.Visible = false;
-            txtAddress.Text = user.Address;
-
-            if (user.GetType().Name == "Customer")
-            {
-                txtPhone.Visible = false;
-            }
+            User = user;
+            FillData();
         }
 
         private void cbxRole_SelectedIndexChanged(object sender, EventArgs e)
@@ -61,6 +35,24 @@ namespace FitFusionDesktop.CRUD
             {
                 groupBxPhone.Visible = false;
             }
+        }
+
+        private void FillData()
+        {
+            cbxRole.SelectedItem = User.GetUserRole();
+            txtFirstName.Text = User.FirstName;
+            txtLastName.Text = User.LastName;
+            txtEmail.Text = User.Email;
+            txtAddress.Text = User.Address;
+            
+            if (User is Owner owner)
+            {
+                txtPhone.Text = owner.Phone;
+            }
+            else if (User is Staff staff)
+            {
+                txtPhone.Text = staff.Phone;
+            }
 
         }
 
@@ -72,12 +64,12 @@ namespace FitFusionDesktop.CRUD
             {
                 case "Owner":
                     user = new Owner(
-                        id: 0,
+                        id: User.Id,
                         firstName: txtFirstName.Text,
                         lastName: txtLastName.Text,
                         email: txtEmail.Text,
-                        passwordHash: txtPassword.Text,
-                        passwordSalt: "",
+                        passwordHash: User.PasswordHash,
+                        passwordSalt: User.PasswordSalt,
                         address: txtAddress.Text,
                         phone: txtPhone.Text
                         );
@@ -85,12 +77,12 @@ namespace FitFusionDesktop.CRUD
                     break;
                 case "Staff":
                     user = new Staff(
-                        id: 0,
+                        id: User.Id,
                         firstName: txtFirstName.Text,
                         lastName: txtLastName.Text,
                         email: txtEmail.Text,
-                        passwordHash: txtPassword.Text,
-                        passwordSalt: "",
+                        passwordHash: User.PasswordHash,
+                        passwordSalt: User.PasswordSalt,
                         address: txtAddress.Text,
                         phone: txtPhone.Text
                         );
@@ -98,53 +90,49 @@ namespace FitFusionDesktop.CRUD
                     break;
                 case "Customer":
                     user = new Customer(
-                        id: 0,
+                        id: User.Id,
                         firstName: txtFirstName.Text,
                         lastName: txtLastName.Text,
                         email: txtEmail.Text,
-                        passwordHash: txtPassword.Text,
-                        passwordSalt: "",
+                        passwordHash: User.PasswordHash,
+                        passwordSalt: User.PasswordSalt,
                         address: txtAddress.Text,
                         nutriPoints: 0
                         );
 
                     break;
                 default:
-                    user = null; 
-                    break;
+                    throw new ArgumentException("Form hasn't been correctly filled.");
             }
 
             return user;
         }
 
-        private void CreateUser()
-        {
-            User user = DefineUser();
-            _userManager.CreateUser(user);
-        }
-
-        private void UpdateUser()
-        {
-            User user = DefineUser();
-            _userManager.UpdateUser(user);
-        }
-
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            if (btnSubmit.TextButton == "Create")
+            try
             {
-                CreateUser();
-                parentForm.DialogResult = DialogResult.OK;
+                User user = DefineUser();
+                _userManager.UpdateUser(user);
+                MessageBox.Show("User successfully updated.");
+                Close();
             }
-            else if (btnSubmit.TextButton == "Update")
+            catch (NullReferenceException ex)
             {
-                UpdateUser();
-                parentForm.DialogResult = DialogResult.OK;
+                MessageBox.Show(ex.Message);
             }
-
-            parentForm.DialogResult = DialogResult.Cancel;
-            parentForm.Close();
-
+            catch (ApplicationException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (DuplicateNameException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
     }
