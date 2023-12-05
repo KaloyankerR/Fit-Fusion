@@ -96,7 +96,7 @@ namespace DataAcess
         {
             try
             {
-                if (!DoesEmailExists(user.Email))
+                if (DoesEmailExists(user.Email))
                 {
                     using (SqlConnection connection = new SqlConnection(ConnectionString))
                     {
@@ -122,7 +122,7 @@ namespace DataAcess
                         {
                             query = "UPDATE Customer SET FirstName = @FirstName, " +
                                               "LastName = @LastName, Email = @Email, " +
-                                              "Address = @Address, NutriPoints = @NutriPoints " +
+                                              "Address = @Address " +
                                               "WHERE Id = @Id;";
                         }
 
@@ -142,10 +142,6 @@ namespace DataAcess
                             else if (user is Owner)
                             {
                                 command.Parameters.AddWithValue("@Phone", ((Owner)user).Phone);
-                            }
-                            else if (user is Customer)
-                            {
-                                command.Parameters.AddWithValue("@NutriPoints", ((Customer)user).NutriPoints);
                             }
 
                             command.ExecuteNonQuery();
@@ -169,7 +165,7 @@ namespace DataAcess
         {
             try
             {
-                if (!DoesEmailExists(user.Email))
+                if (DoesEmailExists(user.Email))
                 {
                     using (SqlConnection connection = new SqlConnection(ConnectionString))
                     {

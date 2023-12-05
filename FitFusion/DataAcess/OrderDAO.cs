@@ -42,9 +42,9 @@ namespace DataAcess
                     {
                         command.Parameters.AddWithValue("@OrderDate", order.OrderDate);
                         command.Parameters.AddWithValue("@CustomerId", order.Customer.Id);
-                        command.Parameters.AddWithValue("@TotalPrice", order.TotalPrice);
-                        AddNutriPointsToCustomer(order.Customer.Id, order.NutriPointsReward);
-                        command.Parameters.AddWithValue("@NutriPoints", order.NutriPointsReward);
+                        command.Parameters.AddWithValue("@TotalPrice", order.Cart.TotalPrice);
+                        AddNutriPointsToCustomer(order.Customer.Id, order.Cart.NutriPointsReward);
+                        command.Parameters.AddWithValue("@NutriPoints", order.Cart.NutriPointsReward);
                         command.Parameters.AddWithValue("@Note", order.Note);
 
                         int orderId = Convert.ToInt32(command.ExecuteScalar());
@@ -52,7 +52,7 @@ namespace DataAcess
                         string insertShoppingCartQuery = "INSERT INTO ShoppingCart (OrderId, ProductId, Quantity) " +
                                                          "VALUES (@OrderId, @ProductId, @Quantity);";
 
-                        foreach (var pair in order.Cart)
+                        foreach (var pair in order.Cart.GetCartDictionary())
                         {
                             Product product = pair.Key;
                             int quantity = pair.Value;
@@ -62,7 +62,7 @@ namespace DataAcess
                                 cartCommand.Parameters.AddWithValue("@OrderId", orderId);
                                 cartCommand.Parameters.AddWithValue("@ProductId", product.Id);
                                 cartCommand.Parameters.AddWithValue("@Quantity", quantity);
-                                
+
                                 cartCommand.ExecuteNonQuery();
                             }
                         }
@@ -104,11 +104,9 @@ namespace DataAcess
             }
         }
 
-
-
-        public Dictionary<Product, int> GetShoppingCart(int id)
+        public ShoppingCart GetShoppingCart(int id)
         {
-            Dictionary<Product, int> cart = new();
+            ShoppingCart cart = new();
 
             try
             {
@@ -135,7 +133,11 @@ namespace DataAcess
 
                                 Product product = new Product(productId, title, description, price, productCategory, imageUrl);
                                 int quantity = reader.GetInt16(reader.GetOrdinal("Quantity"));
-                                cart.Add(product, quantity);
+
+                                for (int i = 0; i < quantity; i++)
+                                {
+                                    cart.AddToCart(product);
+                                }
                             }
                         }
                     }
@@ -175,8 +177,8 @@ namespace DataAcess
                                     date: reader.GetDateTime(reader.GetOrdinal("OrderDate")),
                                     customer: new(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
                                     cart: GetShoppingCart(id),
-                                    totalPrice: (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
-                                    nutriPointsReward: reader.GetInt32(reader.GetOrdinal("NutriPoints")),
+                                    //totalPrice: (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
+                                    //nutriPointsReward: reader.GetInt32(reader.GetOrdinal("NutriPoints")),
                                     note: reader.GetString(reader.GetOrdinal("Note"))
                                 );
 
@@ -218,8 +220,8 @@ namespace DataAcess
                                     date: reader.GetDateTime(reader.GetOrdinal("OrderDate")),
                                     customer: new Customer(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
                                     cart: GetShoppingCart(reader.GetInt32(reader.GetOrdinal("Id"))),
-                                    totalPrice: (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
-                                    nutriPointsReward: reader.GetInt32(reader.GetOrdinal("NutriPoints")),
+                                    // totalPrice: (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
+                                    // nutriPointsReward: reader.GetInt32(reader.GetOrdinal("NutriPoints")),
                                     note: reader.GetString(reader.GetOrdinal("Note"))
                                 );
 
@@ -269,6 +271,79 @@ namespace DataAcess
             }
 
             return nutriPoints;
+        }
+
+        public Dictionary<int, Dictionary<Product, int>> GetRecommendations(int customerId)
+        {
+            // List<Product> products = new List<Product>();
+            Dictionary<int, Dictionary<Product, int>> data = new Dictionary<int, Dictionary<Product, int>>();
+
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    string query = $@"
+                        SELECT 
+                            p.*, 
+                            MONTH(o.OrderDate) AS OrderMonth,
+                            COUNT(*) AS ItemCount,
+                            SUM(sc.Quantity) AS TotalQuantity
+                        FROM ShoppingCart sc
+                        JOIN Product p ON sc.ProductId = p.Id
+                        JOIN [Order] o ON sc.OrderId = o.Id
+                        WHERE o.OrderDate >= DATEADD(MONTH, -3, GETDATE())
+                            AND o.CustomerId = @CustomerId
+                        GROUP BY p.Id, p.Title, p.Description, p.Price, p.Category, p.Price, p.ImageUrl, MONTH(o.OrderDate);
+                    ";
+
+                    // Add @CustomerId as a parameter to your SqlCommand or other database command.
+
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@CustomerId", customerId);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                {
+                                    Product product = new
+                                    (
+                                        id: reader.GetInt32("Id"),
+                                        title: reader.GetString("Title"),
+                                        description: reader.GetString("Description"),
+                                        price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
+                                        category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
+                                        imageUrl: reader.GetString("ImageUrl")
+                                    );
+
+                                    int month = reader.GetInt32("OrderMonth");
+                                    int itemCount = reader.GetInt32("TotalQuantity");
+
+                                    if (!data.ContainsKey(month))
+                                    {
+                                        data[month] = new Dictionary<Product, int>();
+                                    }
+
+                                    data[month][product] = itemCount;
+                                }
+
+                                // throw new NullReferenceException("No ");
+                            }
+                        }
+
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw new ApplicationException("An error occurred in the database operation.");
+            }
+
+            return data;
         }
 
     }
