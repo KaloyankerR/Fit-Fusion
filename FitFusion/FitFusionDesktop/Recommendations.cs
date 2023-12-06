@@ -39,7 +39,7 @@ namespace FitFusionDesktop
                     for (int i = 0; i < Math.Min(months.Count, 3); i++)
                     {
                         int currentMonthValue = months[i];
-                        ListBox currentListBox = null;
+                        ListBox currentListBox = new();
 
                         switch (i)
                         {
@@ -91,9 +91,9 @@ namespace FitFusionDesktop
             }
         }
 
-
-
-
-
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
     }
 }

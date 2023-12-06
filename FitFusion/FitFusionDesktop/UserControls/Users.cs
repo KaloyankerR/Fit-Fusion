@@ -18,7 +18,7 @@ namespace FitFusionDesktop.UserControls
     public partial class Users : UserControl
     {
         private readonly UserManager userManager;
-        private List<User> users;
+        private List<User> users = new();
 
         public Users()
         {
@@ -27,12 +27,7 @@ namespace FitFusionDesktop.UserControls
             roleCmbBox.SelectedIndex = 2;
         }
 
-        private void FillDataGridViewWithMockData(List<User> users)
-        {
-            UsersDataGrid.DataSource = users;
-        }
-
-        private void roleCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void RefreshFormData()
         {
             if (roleCmbBox.SelectedItem.ToString() == "Owners")
             {
@@ -47,13 +42,18 @@ namespace FitFusionDesktop.UserControls
                 users = userManager.GetUsers(new Customer());
             }
 
-            FillDataGridViewWithMockData(users);
+            users = userManager.Search(users, txtSearchQuery.Text);
+            UsersDataGrid.DataSource = users;
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            users = userManager.Search(users, txtSearchQuery.Text);
-            FillDataGridViewWithMockData(users);
+            RefreshFormData();
+        }
+
+        private void roleCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefreshFormData();
         }
 
         private void btnCreate_Click(object sender, EventArgs e)
@@ -62,6 +62,7 @@ namespace FitFusionDesktop.UserControls
             {
                 CRUD.UserCreate frm = new();
                 frm.ShowDialog();
+                RefreshFormData();
             }
             catch
             {
@@ -95,7 +96,7 @@ namespace FitFusionDesktop.UserControls
                 Recommendations frm = new(selectedUser.Id);
                 frm.ShowDialog();
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("No products were bought.");
             }
@@ -113,9 +114,10 @@ namespace FitFusionDesktop.UserControls
                 User selectedUser = (User)selectedRow.DataBoundItem;
 
                 userManager.DeleteUser(selectedUser);
+                RefreshFormData();
                 MessageBox.Show("User successfully deleted.");
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
                 MessageBox.Show("No products were bought.");
             }
@@ -124,5 +126,6 @@ namespace FitFusionDesktop.UserControls
                 MessageBox.Show(ex.Message);
             }
         }
+
     }
 }

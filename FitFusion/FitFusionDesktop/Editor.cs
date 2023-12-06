@@ -49,14 +49,14 @@ namespace FitFusionDesktop
         {
             switch (mode)
             {
-                case EditorMode.UserCreate:
-                    ClearControls();
-                    BodyPanel.Controls.Add((Control)new CRUD.UserEntityControl(this));
-                    break;
-                case EditorMode.UserUpdate:
-                    ClearControls();
-                    BodyPanel.Controls.Add((Control)new CRUD.UserEntityControl(this, userParam));
-                    break;
+                //case EditorMode.UserCreate:
+                //    ClearControls();
+                //    BodyPanel.Controls.Add((Control)new CRUD.UserEntityControl(this));
+                //    break;
+                //case EditorMode.UserUpdate:
+                //    ClearControls();
+                //    BodyPanel.Controls.Add((Control)new CRUD.UserEntityControl(this, userParam));
+                //    break;
                 case EditorMode.ProductCreate:
                     ClearControls();
                     BodyPanel.Controls.Add((Control)new CRUD.ProductEntityControl(this, mode));
