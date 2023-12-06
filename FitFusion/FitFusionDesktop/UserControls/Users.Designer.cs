@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
             UsersDataGrid = new ReaLTaiizor.Controls.PoisonDataGridView();
             roleCmbBox = new ReaLTaiizor.Controls.DungeonComboBox();
             btnDelete = new ReaLTaiizor.Controls.Button();
@@ -39,6 +39,8 @@
             txtSearchQuery = new ReaLTaiizor.Controls.HopeTextBox();
             btnSearch = new ReaLTaiizor.Controls.Button();
             btnRecommendations = new ReaLTaiizor.Controls.Button();
+            label1 = new Label();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -49,37 +51,37 @@
             UsersDataGrid.BorderStyle = BorderStyle.None;
             UsersDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.SunkenVertical;
             UsersDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Sunken;
-            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = Color.FromArgb(41, 41, 41);
-            dataGridViewCellStyle1.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle1.ForeColor = Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle1.SelectionForeColor = Color.White;
-            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
-            UsersDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle7.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle7.ForeColor = Color.White;
+            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle7.SelectionForeColor = Color.White;
+            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
+            UsersDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
             UsersDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = Color.Gray;
-            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
-            dataGridViewCellStyle2.ForeColor = Color.White;
-            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle2.SelectionForeColor = Color.White;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
-            UsersDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.Gray;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
+            dataGridViewCellStyle8.ForeColor = Color.White;
+            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle8.SelectionForeColor = Color.White;
+            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
+            UsersDataGrid.DefaultCellStyle = dataGridViewCellStyle8;
             UsersDataGrid.EnableHeadersVisualStyles = false;
             UsersDataGrid.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
             UsersDataGrid.GridColor = Color.FromArgb(255, 255, 255);
             UsersDataGrid.Location = new Point(0, 0);
             UsersDataGrid.Name = "UsersDataGrid";
             UsersDataGrid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.FromArgb(41, 41, 41);
-            dataGridViewCellStyle3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle3.ForeColor = Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle3.SelectionForeColor = Color.White;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
-            UsersDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle9.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle9.ForeColor = Color.White;
+            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle9.SelectionForeColor = Color.White;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            UsersDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
             UsersDataGrid.RowHeadersWidth = 51;
             UsersDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             UsersDataGrid.RowTemplate.Height = 29;
@@ -109,7 +111,7 @@
             roleCmbBox.IntegralHeight = false;
             roleCmbBox.ItemHeight = 20;
             roleCmbBox.Items.AddRange(new object[] { "Owners", "Staff", "Customers" });
-            roleCmbBox.Location = new Point(306, 518);
+            roleCmbBox.Location = new Point(344, 520);
             roleCmbBox.Name = "roleCmbBox";
             roleCmbBox.Size = new Size(191, 26);
             roleCmbBox.StartIndex = 0;
@@ -189,7 +191,7 @@
             txtSearchQuery.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             txtSearchQuery.ForeColor = Color.White;
             txtSearchQuery.Hint = "";
-            txtSearchQuery.Location = new Point(306, 550);
+            txtSearchQuery.Location = new Point(344, 563);
             txtSearchQuery.MaxLength = 32767;
             txtSearchQuery.Multiline = false;
             txtSearchQuery.Name = "txtSearchQuery";
@@ -214,11 +216,11 @@
             btnSearch.Image = null;
             btnSearch.ImageAlign = ContentAlignment.MiddleLeft;
             btnSearch.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnSearch.Location = new Point(306, 599);
+            btnSearch.Location = new Point(228, 630);
             btnSearch.Name = "btnSearch";
             btnSearch.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnSearch.PressedColor = Color.FromArgb(255, 163, 26);
-            btnSearch.Size = new Size(191, 43);
+            btnSearch.Size = new Size(307, 43);
             btnSearch.TabIndex = 10;
             btnSearch.Text = "Search";
             btnSearch.TextAlignment = StringAlignment.Center;
@@ -235,7 +237,7 @@
             btnRecommendations.Image = null;
             btnRecommendations.ImageAlign = ContentAlignment.MiddleLeft;
             btnRecommendations.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnRecommendations.Location = new Point(656, 550);
+            btnRecommendations.Location = new Point(642, 562);
             btnRecommendations.Name = "btnRecommendations";
             btnRecommendations.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnRecommendations.PressedColor = Color.FromArgb(255, 163, 26);
@@ -245,11 +247,33 @@
             btnRecommendations.TextAlignment = StringAlignment.Center;
             btnRecommendations.Click += btnRecommendations_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.ForeColor = SystemColors.Control;
+            label1.Location = new Point(228, 518);
+            label1.Name = "label1";
+            label1.Size = new Size(110, 23);
+            label1.TabIndex = 13;
+            label1.Text = "Select role:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.ForeColor = SystemColors.Control;
+            label2.Location = new Point(228, 574);
+            label2.Name = "label2";
+            label2.Size = new Size(108, 23);
+            label2.TabIndex = 14;
+            label2.Text = "Search for:";
+            // 
             // Users
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(btnRecommendations);
             Controls.Add(txtSearchQuery);
             Controls.Add(btnSearch);
@@ -264,6 +288,7 @@
             Size = new Size(932, 703);
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -275,5 +300,7 @@
         private ReaLTaiizor.Controls.HopeTextBox txtSearchQuery;
         private ReaLTaiizor.Controls.Button btnSearch;
         private ReaLTaiizor.Controls.Button btnRecommendations;
+        private Label label1;
+        private Label label2;
     }
 }
