@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using Interfaces;
 using System.Data;
 using System.ComponentModel.Design;
+using System.Transactions;
 
 namespace DataAcess
 {
@@ -161,6 +162,66 @@ namespace DataAcess
             return true;
         }
 
+        //public bool DeleteUser(User user)
+        //{
+        //    try
+        //    {
+        //        if (DoesEmailExists(user.Email))
+        //        {
+        //            using (SqlConnection connection = new SqlConnection(ConnectionString))
+        //            {
+        //                connection.Open();
+
+        //                string deleteUserQuery = "";
+
+        //                if (user is Staff)
+        //                {
+        //                    deleteUserQuery = "DELETE FROM Staff WHERE Id = @Id;";
+        //                }
+        //                else if (user is Owner)
+        //                {
+        //                    deleteUserQuery = "DELETE FROM Owner WHERE Id = @Id;";
+        //                }
+        //                else if (user is Customer)
+        //                {
+        //                    string deleteShoppingCartQuery = "DELETE FROM ShoppingCart WHERE OrderId IN (SELECT Id FROM [Order] WHERE CustomerId = @UserId);";
+        //                    using (SqlCommand shoppingCartCommand = new SqlCommand(deleteShoppingCartQuery, connection, transaction))
+        //                    {
+        //                        shoppingCartCommand.Parameters.AddWithValue("@UserId", user.Id);
+        //                        shoppingCartCommand.ExecuteNonQuery();
+        //                    }
+
+        //                    string deleteOrderQuery = "DELETE FROM [Order] WHERE CustomerId = @UserId;";
+        //                    using (SqlCommand orderCommand = new SqlCommand(deleteOrderQuery, connection, transaction))
+        //                    {
+        //                        orderCommand.Parameters.AddWithValue("@UserId", user.Id);
+        //                        orderCommand.ExecuteNonQuery();
+        //                    }
+
+        //                    deleteUserQuery = "DELETE FROM Customer WHERE Id = @Id;";
+        //                }
+
+        //                using (SqlCommand command = new SqlCommand(deleteUserQuery, connection))
+        //                {
+        //                    command.Parameters.AddWithValue("@Id", user.Id);
+
+        //                    command.ExecuteNonQuery();
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+        //            throw new NullReferenceException("User doesn't exist.");
+        //        }
+        //    }
+        //    catch (SqlException)
+        //    {
+        //        throw new ApplicationException("An error occurred in the database operation.");
+        //    }
+
+        //    return true;
+        //}
+
         public bool DeleteUser(User user)
         {
             try
@@ -171,26 +232,52 @@ namespace DataAcess
                     {
                         connection.Open();
 
-                        string deleteUserQuery = "";
+                        using (SqlTransaction transaction = connection.BeginTransaction())
+                        {
+                            try
+                            {
+                                string deleteUserQuery = "";
 
-                        if (user is Staff)
-                        {
-                            deleteUserQuery = "DELETE FROM Staff WHERE Id = @Id;";
-                        }
-                        else if (user is Owner)
-                        {
-                            deleteUserQuery = "DELETE FROM Owner WHERE Id = @Id;";
-                        }
-                        else if (user is Customer)
-                        {
-                            deleteUserQuery = "DELETE FROM Customer WHERE Id = @Id;";
-                        }
+                                if (user is Staff)
+                                {
+                                    deleteUserQuery = "DELETE FROM Staff WHERE Id = @Id;";
+                                }
+                                else if (user is Owner)
+                                {
+                                    deleteUserQuery = "DELETE FROM Owner WHERE Id = @Id;";
+                                }
+                                else if (user is Customer)
+                                {
+                                    string deleteShoppingCartQuery = "DELETE FROM ShoppingCart WHERE OrderId IN (SELECT Id FROM [Order] WHERE CustomerId = @UserId);";
+                                    using (SqlCommand shoppingCartCommand = new SqlCommand(deleteShoppingCartQuery, connection, transaction))
+                                    {
+                                        shoppingCartCommand.Parameters.AddWithValue("@UserId", user.Id);
+                                        shoppingCartCommand.ExecuteNonQuery();
+                                    }
 
-                        using (SqlCommand command = new SqlCommand(deleteUserQuery, connection))
-                        {
-                            command.Parameters.AddWithValue("@Id", user.Id);
+                                    string deleteOrderQuery = "DELETE FROM [Order] WHERE CustomerId = @UserId;";
+                                    using (SqlCommand orderCommand = new SqlCommand(deleteOrderQuery, connection, transaction))
+                                    {
+                                        orderCommand.Parameters.AddWithValue("@UserId", user.Id);
+                                        orderCommand.ExecuteNonQuery();
+                                    }
 
-                            command.ExecuteNonQuery();
+                                    deleteUserQuery = "DELETE FROM Customer WHERE Id = @Id;";
+                                }
+
+                                using (SqlCommand command = new SqlCommand(deleteUserQuery, connection, transaction))
+                                {
+                                    command.Parameters.AddWithValue("@Id", user.Id);
+                                    command.ExecuteNonQuery();
+                                }
+
+                                transaction.Commit();
+                            }
+                            catch (Exception)
+                            {
+                                transaction.Rollback();
+                                throw;
+                            }
                         }
                     }
                 }
@@ -206,6 +293,7 @@ namespace DataAcess
 
             return true;
         }
+
 
         public User? GetUserById(int id, User role)
         {
