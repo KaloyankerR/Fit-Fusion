@@ -19,20 +19,6 @@ namespace Services
             dao = userDao;
         }
 
-        public List<string> EncryptPassword(string password)
-        {
-            List<string> encryptedPassword = new();
-
-            string salt = BCrypt.Net.BCrypt.GenerateSalt();
-            string hash = BCrypt.Net.BCrypt.HashPassword(password, salt);
-
-            encryptedPassword.Add(hash);
-            encryptedPassword.Add(salt);
-
-            return encryptedPassword;
-        }
-
-
         public bool CreateUser(UserModel user)
         {
             try
@@ -70,7 +56,7 @@ namespace Services
             }
         }
 
-        public UserModel? GetUserById(int id, UserModel role)
+        public UserModel GetUserById(int id, UserModel role)
         {
             try
             {
@@ -82,7 +68,7 @@ namespace Services
             }
         }
 
-        public UserModel? GetUserByEmail(string email)
+        public UserModel GetUserByEmail(string email)
         {
             try
             {
@@ -110,7 +96,7 @@ namespace Services
         {
             try
             {
-                List<UserModel> users = new List<UserModel>();
+                List<UserModel> users = new();
 
                 users.AddRange(GetUsers(new Owner()));
                 users.AddRange(GetUsers(new Staff()));
@@ -131,7 +117,8 @@ namespace Services
             {
                 users = users.FindAll(u =>
                     u.FirstName.Contains(param, StringComparison.OrdinalIgnoreCase) ||
-                    u.LastName.Contains(param, StringComparison.OrdinalIgnoreCase)
+                    u.LastName.Contains(param, StringComparison.OrdinalIgnoreCase) ||
+                    u.Address.Contains(param, StringComparison.OrdinalIgnoreCase)
                 );
             }
 
@@ -156,7 +143,20 @@ namespace Services
         }
 
 
-        public UserModel? AuthenticateUser(string email, string password)
+        public List<string> EncryptPassword(string password)
+        {
+            List<string> encryptedPassword = new();
+
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+            string hash = BCrypt.Net.BCrypt.HashPassword(password, salt);
+
+            encryptedPassword.Add(hash);
+            encryptedPassword.Add(salt);
+
+            return encryptedPassword;
+        }
+
+        public UserModel AuthenticateUser(string email, string password)
         {
             try
             {

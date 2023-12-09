@@ -13,18 +13,18 @@ namespace Services
 {
     public class ProductManager : IProduct
     {
-        private readonly IProduct dao;
+        private readonly IProduct _dao;
 
-        public ProductManager(IProduct productDao)
+        public ProductManager(IProduct dao)
         {
-            dao = productDao;
+            _dao = dao;
         }
 
         public bool CreateProduct(ProductModel product)
         {
             try
             {
-                return dao.CreateProduct(product);
+                return _dao.CreateProduct(product);
             }
             catch
             {
@@ -36,7 +36,7 @@ namespace Services
         {
             try
             {
-                return dao.UpdateProduct(product);
+                return _dao.UpdateProduct(product);
             }
             catch
             {
@@ -48,7 +48,7 @@ namespace Services
         {
             try
             {
-                return dao.DeleteProduct(productId);
+                return _dao.DeleteProduct(productId);
             }
             catch
             {
@@ -60,7 +60,7 @@ namespace Services
         {
             try
             {
-                return dao.DeleteProduct(product.Id);
+                return _dao.DeleteProduct(product.Id);
             }
             catch
             {
@@ -68,11 +68,11 @@ namespace Services
             }
         }
 
-        public ProductModel GetProductById(int productId)
+        public ProductModel GetProductById(int id)
         {
             try
             {
-                return dao.GetProductById(productId);
+                return _dao.GetProductById(id);
             }
             catch
             {
@@ -84,7 +84,7 @@ namespace Services
         {
             try
             {
-                return dao.GetProducts();
+                return _dao.GetProducts();
             }
             catch
             {
@@ -167,7 +167,7 @@ namespace Services
         {
             try
             {
-                return dao.GetTrendyProducts();
+                return _dao.GetTrendyProducts();
             }
             catch { throw; }
         }
