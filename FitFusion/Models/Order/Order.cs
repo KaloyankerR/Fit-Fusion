@@ -14,7 +14,7 @@ namespace Models.Order
     {
         private int _id;
         private DateTime _orderDate;
-        private Customer _customer = new Customer();
+        private Customer _customer = new ();
         private ShoppingCart _cart = new();
         private string _note = string.Empty;
 
@@ -51,7 +51,7 @@ namespace Models.Order
             private set { _note = value; }
         }
 
-        public Order(Customer customer, ShoppingCart cart, string note) 
+        public Order(Customer customer, ShoppingCart cart, string note)
         {
             OrderDate = DateTime.Now;
             Customer = customer;
@@ -59,13 +59,13 @@ namespace Models.Order
             Note = note;
         }
 
-        public Order(DateTime date, Customer customer, ShoppingCart cart, string note)
-        {
-            OrderDate = date;
-            Customer = customer;
-            Cart = cart;
-            Note = note;
-        }
+        //public Order(DateTime date, Customer customer, ShoppingCart cart, string note)
+        //{
+        //    OrderDate = date;
+        //    Customer = customer;
+        //    Cart = cart;
+        //    Note = note;
+        //}
 
         public Order(int id, DateTime date, Customer customer, ShoppingCart cart, string note)
         {

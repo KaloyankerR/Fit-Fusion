@@ -70,21 +70,21 @@ namespace Models.Product
             return $"{Title} - {Category}";
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
+        //public override bool Equals(object obj)
+        //{
+        //    if (obj == null || GetType() != obj.GetType())
+        //    {
+        //        return false;
+        //    }
 
-            Product otherProduct = (Product)obj;
-            return Id == otherProduct.Id;
-        }
+        //    Product otherProduct = (Product)obj;
+        //    return Id == otherProduct.Id;
+        //}
 
-        public override int GetHashCode()
-        {
-            return Id.GetHashCode();
-        }
+        //public override int GetHashCode()
+        //{
+        //    return Id.GetHashCode();
+        //}
 
     }
 }

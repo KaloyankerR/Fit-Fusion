@@ -14,7 +14,6 @@ namespace Models.Order
     [Serializable]
     public class ShoppingCart
     {
-        // private Dictionary<ProductModel, int> _products = new();
         private List<ProductModel> _products = new();
         private double _totalPrice;
         private int _nutriPointsReward;
