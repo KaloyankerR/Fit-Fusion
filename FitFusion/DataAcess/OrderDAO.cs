@@ -73,7 +73,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
         }
 
@@ -100,7 +100,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
         }
 
@@ -145,7 +145,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return cart;
@@ -177,8 +177,6 @@ namespace DataAcess
                                     date: reader.GetDateTime(reader.GetOrdinal("OrderDate")),
                                     customer: new(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
                                     cart: GetShoppingCart(id),
-                                    //totalPrice: (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
-                                    //nutriPointsReward: reader.GetInt32(reader.GetOrdinal("NutriPoints")),
                                     note: reader.GetString(reader.GetOrdinal("Note"))
                                 );
 
@@ -192,7 +190,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
         }
 
@@ -220,8 +218,6 @@ namespace DataAcess
                                     date: reader.GetDateTime(reader.GetOrdinal("OrderDate")),
                                     customer: new Customer(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
                                     cart: GetShoppingCart(reader.GetInt32(reader.GetOrdinal("Id"))),
-                                    // totalPrice: (double)reader.GetDecimal(reader.GetOrdinal("TotalPrice")),
-                                    // nutriPointsReward: reader.GetInt32(reader.GetOrdinal("NutriPoints")),
                                     note: reader.GetString(reader.GetOrdinal("Note"))
                                 );
 
@@ -233,7 +229,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return orders;
@@ -267,7 +263,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return nutriPoints;
@@ -275,9 +271,7 @@ namespace DataAcess
 
         public Dictionary<int, Dictionary<Product, int>> GetRecommendations(int customerId)
         {
-            // List<Product> products = new List<Product>();
-            Dictionary<int, Dictionary<Product, int>> data = new Dictionary<int, Dictionary<Product, int>>();
-
+            Dictionary<int, Dictionary<Product, int>> data = new();
 
             try
             {
@@ -297,9 +291,6 @@ namespace DataAcess
                             AND o.CustomerId = @CustomerId
                         GROUP BY p.Id, p.Title, p.Description, p.Price, p.Category, p.Price, p.ImageUrl, MONTH(o.OrderDate);
                     ";
-
-                    // Add @CustomerId as a parameter to your SqlCommand or other database command.
-
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
@@ -340,7 +331,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return data;

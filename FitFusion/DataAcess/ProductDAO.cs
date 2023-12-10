@@ -10,25 +10,30 @@ using Interfaces;
 
 namespace DataAcess
 {
-    public class ProductDAO : IProduct
+    public class ProductDAO : IProduct, IStorageAccess
     {
-        private readonly string ConnectionString;
+        private readonly string _connectionString;
+
+        string IStorageAccess.ConnectionString
+        {
+            get { return _connectionString; }
+        }
 
         public ProductDAO()
         {
-            ConnectionString = Connection.DbConnection.ConnectionString;
+            _connectionString = Connection.DbConnection.ConnectionString;
         }
 
         public ProductDAO(string connectionString)
         {
-            ConnectionString = connectionString;
+            _connectionString = connectionString;
         }
 
         public bool CreateProduct(Product product)
         {
             try
             {
-                using (SqlConnection connection = new(ConnectionString))
+                using (SqlConnection connection = new(_connectionString))
                 {
                     connection.Open();
 
@@ -46,31 +51,31 @@ namespace DataAcess
 
                 // throw new DuplicateNameException("Product already exists.");
             }
-            catch (SqlException)
+            catch (SqlException ex)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.", ex);
             }
 
             return true;
         }
 
-        public bool UpdateProduct(Product updatedProduct)
+        public bool UpdateProduct(Product product)
         {
             try
             {
 
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
                     using (SqlCommand updateProductCommand = new SqlCommand("UPDATE Product SET Title = @Title, Description = @Description, Price = @Price, Category = @Category, ImageUrl = @ImageUrl WHERE Id = @ProductId", connection))
                     {
-                        updateProductCommand.Parameters.AddWithValue("@ProductId", updatedProduct.Id);
-                        updateProductCommand.Parameters.AddWithValue("@Title", updatedProduct.Title);
-                        updateProductCommand.Parameters.AddWithValue("@Description", updatedProduct.Description ?? (object)DBNull.Value);
-                        updateProductCommand.Parameters.AddWithValue("@Price", updatedProduct.Price);
-                        updateProductCommand.Parameters.AddWithValue("@Category", updatedProduct.Category.ToString());
-                        updateProductCommand.Parameters.AddWithValue("@ImageUrl", updatedProduct.ImageUrl ?? (object)DBNull.Value);
+                        updateProductCommand.Parameters.AddWithValue("@ProductId", product.Id);
+                        updateProductCommand.Parameters.AddWithValue("@Title", product.Title);
+                        updateProductCommand.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
+                        updateProductCommand.Parameters.AddWithValue("@Price", product.Price);
+                        updateProductCommand.Parameters.AddWithValue("@Category", product.Category.ToString());
+                        updateProductCommand.Parameters.AddWithValue("@ImageUrl", product.ImageUrl ?? (object)DBNull.Value);
 
                         updateProductCommand.ExecuteNonQuery();
                     }
@@ -80,23 +85,23 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return true;
         }
 
-        public bool DeleteProduct(int productId)
+        public bool DeleteProduct(int id)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
                     using (SqlCommand deleteProductCommand = new SqlCommand("DELETE FROM Product WHERE Id = @ProductId", connection))
                     {
-                        deleteProductCommand.Parameters.AddWithValue("@ProductId", productId);
+                        deleteProductCommand.Parameters.AddWithValue("@ProductId", id);
                         deleteProductCommand.ExecuteNonQuery();
                     }
                 }
@@ -105,25 +110,25 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return true;
         }
 
-        public Product GetProductById(int productId)
+        public Product GetProductById(int id)
         {
             Product product;
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
                     using (SqlCommand getProductCommand = new("SELECT * FROM Product WHERE Id = @ProductId", connection))
                     {
-                        getProductCommand.Parameters.AddWithValue("@ProductId", productId);
+                        getProductCommand.Parameters.AddWithValue("@ProductId", id);
 
                         using (SqlDataReader reader = getProductCommand.ExecuteReader())
                         {
@@ -149,7 +154,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return product;
@@ -161,7 +166,7 @@ namespace DataAcess
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -191,7 +196,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return products;
@@ -203,7 +208,7 @@ namespace DataAcess
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -226,7 +231,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return products;

@@ -14,16 +14,16 @@ namespace DataAcess
 {
     public class UserDAO : IUser
     {
-        private readonly string ConnectionString;
+        private readonly string _connectionString;
 
         public UserDAO()
         {
-            ConnectionString = Connection.DbConnection.ConnectionString;
+            _connectionString = Connection.DbConnection.ConnectionString;
         }
 
         public UserDAO(string connectionString)
         {
-            ConnectionString = connectionString;
+            _connectionString = connectionString;
         }
 
         public bool CreateUser(User user)
@@ -32,7 +32,7 @@ namespace DataAcess
             {
                 if (!DoesEmailExists(user.Email))
                 {
-                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    using (SqlConnection connection = new SqlConnection(_connectionString))
                     {
                         connection.Open();
 
@@ -87,7 +87,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return true;
@@ -99,7 +99,7 @@ namespace DataAcess
             {
                 if (DoesEmailExists(user.Email))
                 {
-                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    using (SqlConnection connection = new SqlConnection(_connectionString))
                     {
                         connection.Open();
 
@@ -156,71 +156,11 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return true;
         }
-
-        //public bool DeleteUser(User user)
-        //{
-        //    try
-        //    {
-        //        if (DoesEmailExists(user.Email))
-        //        {
-        //            using (SqlConnection connection = new SqlConnection(ConnectionString))
-        //            {
-        //                connection.Open();
-
-        //                string deleteUserQuery = "";
-
-        //                if (user is Staff)
-        //                {
-        //                    deleteUserQuery = "DELETE FROM Staff WHERE Id = @Id;";
-        //                }
-        //                else if (user is Owner)
-        //                {
-        //                    deleteUserQuery = "DELETE FROM Owner WHERE Id = @Id;";
-        //                }
-        //                else if (user is Customer)
-        //                {
-        //                    string deleteShoppingCartQuery = "DELETE FROM ShoppingCart WHERE OrderId IN (SELECT Id FROM [Order] WHERE CustomerId = @UserId);";
-        //                    using (SqlCommand shoppingCartCommand = new SqlCommand(deleteShoppingCartQuery, connection, transaction))
-        //                    {
-        //                        shoppingCartCommand.Parameters.AddWithValue("@UserId", user.Id);
-        //                        shoppingCartCommand.ExecuteNonQuery();
-        //                    }
-
-        //                    string deleteOrderQuery = "DELETE FROM [Order] WHERE CustomerId = @UserId;";
-        //                    using (SqlCommand orderCommand = new SqlCommand(deleteOrderQuery, connection, transaction))
-        //                    {
-        //                        orderCommand.Parameters.AddWithValue("@UserId", user.Id);
-        //                        orderCommand.ExecuteNonQuery();
-        //                    }
-
-        //                    deleteUserQuery = "DELETE FROM Customer WHERE Id = @Id;";
-        //                }
-
-        //                using (SqlCommand command = new SqlCommand(deleteUserQuery, connection))
-        //                {
-        //                    command.Parameters.AddWithValue("@Id", user.Id);
-
-        //                    command.ExecuteNonQuery();
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            throw new NullReferenceException("User doesn't exist.");
-        //        }
-        //    }
-        //    catch (SqlException)
-        //    {
-        //        throw new ApplicationException("An error occurred in the database operation.");
-        //    }
-
-        //    return true;
-        //}
 
         public bool DeleteUser(User user)
         {
@@ -228,7 +168,7 @@ namespace DataAcess
             {
                 if (DoesEmailExists(user.Email))
                 {
-                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    using (SqlConnection connection = new SqlConnection(_connectionString))
                     {
                         connection.Open();
 
@@ -288,20 +228,20 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return true;
         }
 
 
-        public User? GetUserById(int id, User role)
+        public User GetUserById(int id, User role)
         {
             User user;
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -376,7 +316,7 @@ namespace DataAcess
                                 }
                                 else
                                 {
-                                    throw new ApplicationException("An error occurred in the database operation.");
+                                    throw new DataAccessException("An error occurred in the database operation.");
                                 }
                             }
                             else
@@ -389,19 +329,19 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return user;
         }
 
-        public User? GetUserByEmail(string email)
+        public User GetUserByEmail(string email)
         {
             User user;
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -468,7 +408,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return user;
@@ -480,7 +420,7 @@ namespace DataAcess
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -565,18 +505,18 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
 
             return users;
         }
 
 
-        public User? AuthenticateUser(string email, string password)
+        public User AuthenticateUser(string email, string password)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -606,12 +546,17 @@ namespace DataAcess
                             }
                         }
                     }
-                    return null;
+
+                    throw new NullReferenceException("User doesn't exist.");
                 }
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
+            }
+            catch 
+            {            
+                throw;
             }
         }
 
@@ -619,7 +564,7 @@ namespace DataAcess
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -644,7 +589,7 @@ namespace DataAcess
             }
             catch (SqlException)
             {
-                throw new ApplicationException("An error occurred in the database operation.");
+                throw new DataAccessException("An error occurred in the database operation.");
             }
         }
 
@@ -652,7 +597,7 @@ namespace DataAcess
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -682,7 +627,6 @@ namespace DataAcess
 
         private bool VerifyPassword(string entered, string hash, string salt)
         {
-            // string passwordToCheck = BCrypt.Net.BCrypt.HashPassword(entered, salt);
             return BCrypt.Net.BCrypt.HashPassword(entered, salt) == hash;
         }
 
