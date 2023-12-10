@@ -121,7 +121,7 @@ namespace FitFusionDesktop.CRUD
             {
                 MessageBox.Show(ex.Message);
             }
-            catch (ApplicationException ex)
+            catch (DataAccessException ex)
             {
                 MessageBox.Show(ex.Message);
             }
