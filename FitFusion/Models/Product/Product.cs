@@ -12,8 +12,7 @@ namespace Models.Product
         private string description = string.Empty;
         private double price;
         private Category category;
-        private const string DefaultImageUrl = "https://sudbury.legendboats.com/resource/defaultProductImage";
-        private string imageUrl = DefaultImageUrl;
+        private string? imageUrl;
 
         [Key]
         public int Id
@@ -49,13 +48,16 @@ namespace Models.Product
             private set { category = value; }
         }
 
-        public string ImageUrl
+        public string? ImageUrl
         {
             get { return imageUrl; }
-            private set { imageUrl = value ?? DefaultImageUrl; }
+            private set { imageUrl = value; }
         }
 
-        public Product(int id, string title, string description, double price, Category category, string imageUrl)
+        public Product()
+        { }
+
+        public Product(int id, string title, string description, double price, Category category, string? imageUrl)
         {
             Id = id;
             Title = title;
