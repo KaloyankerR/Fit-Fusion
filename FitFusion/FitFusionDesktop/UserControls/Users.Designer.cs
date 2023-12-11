@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
             UsersDataGrid = new ReaLTaiizor.Controls.PoisonDataGridView();
             roleCmbBox = new ReaLTaiizor.Controls.DungeonComboBox();
             btnDelete = new ReaLTaiizor.Controls.Button();
@@ -41,6 +41,7 @@
             btnRecommendations = new ReaLTaiizor.Controls.Button();
             label1 = new Label();
             label2 = new Label();
+            btnRefresh = new ReaLTaiizor.Controls.Button();
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -51,37 +52,37 @@
             UsersDataGrid.BorderStyle = BorderStyle.None;
             UsersDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.SunkenVertical;
             UsersDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Sunken;
-            dataGridViewCellStyle7.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle7.BackColor = Color.FromArgb(41, 41, 41);
-            dataGridViewCellStyle7.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle7.ForeColor = Color.White;
-            dataGridViewCellStyle7.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle7.SelectionForeColor = Color.White;
-            dataGridViewCellStyle7.WrapMode = DataGridViewTriState.True;
-            UsersDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle4.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle4.ForeColor = Color.White;
+            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle4.SelectionForeColor = Color.White;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            UsersDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             UsersDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle8.BackColor = Color.Gray;
-            dataGridViewCellStyle8.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
-            dataGridViewCellStyle8.ForeColor = Color.White;
-            dataGridViewCellStyle8.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle8.SelectionForeColor = Color.White;
-            dataGridViewCellStyle8.WrapMode = DataGridViewTriState.False;
-            UsersDataGrid.DefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = Color.Gray;
+            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
+            dataGridViewCellStyle5.ForeColor = Color.White;
+            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle5.SelectionForeColor = Color.White;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
+            UsersDataGrid.DefaultCellStyle = dataGridViewCellStyle5;
             UsersDataGrid.EnableHeadersVisualStyles = false;
             UsersDataGrid.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
             UsersDataGrid.GridColor = Color.FromArgb(255, 255, 255);
             UsersDataGrid.Location = new Point(0, 0);
             UsersDataGrid.Name = "UsersDataGrid";
             UsersDataGrid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle9.BackColor = Color.FromArgb(41, 41, 41);
-            dataGridViewCellStyle9.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle9.ForeColor = Color.White;
-            dataGridViewCellStyle9.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle9.SelectionForeColor = Color.White;
-            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
-            UsersDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle6.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle6.ForeColor = Color.White;
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            UsersDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
             UsersDataGrid.RowHeadersWidth = 51;
             UsersDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             UsersDataGrid.RowTemplate.Height = 29;
@@ -237,7 +238,7 @@
             btnRecommendations.Image = null;
             btnRecommendations.ImageAlign = ContentAlignment.MiddleLeft;
             btnRecommendations.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnRecommendations.Location = new Point(642, 562);
+            btnRecommendations.Location = new Point(666, 611);
             btnRecommendations.Name = "btnRecommendations";
             btnRecommendations.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnRecommendations.PressedColor = Color.FromArgb(255, 163, 26);
@@ -267,11 +268,33 @@
             label2.TabIndex = 14;
             label2.Text = "Search for:";
             // 
+            // btnRefresh
+            // 
+            btnRefresh.BackColor = Color.Gray;
+            btnRefresh.BorderColor = Color.FromArgb(41, 41, 41);
+            btnRefresh.Cursor = Cursors.Hand;
+            btnRefresh.EnteredBorderColor = Color.FromArgb(255, 163, 26);
+            btnRefresh.EnteredColor = Color.FromArgb(41, 41, 41);
+            btnRefresh.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnRefresh.Image = null;
+            btnRefresh.ImageAlign = ContentAlignment.MiddleLeft;
+            btnRefresh.InactiveColor = Color.FromArgb(41, 41, 41);
+            btnRefresh.Location = new Point(666, 518);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.PressedBorderColor = Color.FromArgb(255, 163, 26);
+            btnRefresh.PressedColor = Color.FromArgb(255, 163, 26);
+            btnRefresh.Size = new Size(213, 62);
+            btnRefresh.TabIndex = 15;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.TextAlignment = StringAlignment.Center;
+            btnRefresh.Click += btnRefresh_Click;
+            // 
             // Users
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
+            Controls.Add(btnRefresh);
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(btnRecommendations);
@@ -302,5 +325,6 @@
         private ReaLTaiizor.Controls.Button btnRecommendations;
         private Label label1;
         private Label label2;
+        private ReaLTaiizor.Controls.Button btnRefresh;
     }
 }

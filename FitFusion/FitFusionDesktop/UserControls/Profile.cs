@@ -9,23 +9,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Services;
+using UserModel = Models.User.User;
+using DataAcess;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace FitFusionDesktop.UserControls
 {
     public partial class Profile : UserControl
     {
-        private UserManager UserManager { get; set; }
-        private User CurrentUser { get; set; }
+        private readonly UserManager _userManager = new(new UserDAO());
+        private UserModel CurrentUser;
 
-        public Profile(User user)
+        public Profile(UserModel user)
         {
             InitializeComponent();
-            UserManager = new(new DataAcess.UserDAO());
-            CurrentUser = UserManager.GetUserById(1, new Owner());
-
-            lblRole.Text = "Owner";
+            CurrentUser = user;
+            lblRole.Text = user.GetUserRole();
             lblName.Text = CurrentUser.FirstName + " " + CurrentUser.LastName;
         }
+
     }
 }

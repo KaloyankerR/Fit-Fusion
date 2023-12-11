@@ -10,85 +10,66 @@ using System.Windows.Forms;
 using Models.Product;
 using DataAcess;
 using Services;
+using Interfaces;
 
 namespace FitFusionDesktop.UserControls
 {
     public partial class Products : UserControl
     {
-        private readonly ProductManager productManger;
-        private List<Product> products;
+        private readonly ProductManager productManger = new(new ProductDAO());
 
         public Products()
         {
             InitializeComponent();
-            productManger = new(new ProductDAO());
-            products = productManger.GetProducts();
-            FillDataGridViewWithMockData();
-
+            RefreshFormData();
             categoryCmbBox.DataSource = Enum.GetValues(typeof(Category));
         }
 
-        private void FillDataGridViewWithMockData()
+        private void RefreshFormData()
         {
-            ProductsDataGrid.DataSource = products;
+            ProductsDataGrid.DataSource = productManger.GetProducts();
         }
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            Editor frm = new Editor(EditorMode.ProductCreate);
-
-            if (!frm.IsDisposed)
+            try
             {
+                CRUD.ProductCreate frm = new();
                 frm.ShowDialog();
-
-                if (frm.DialogResult == DialogResult.OK)
-                {
-                    MessageBox.Show("Product created!");
-                }
-                else
-                {
-                    MessageBox.Show("Failed to create a product!");
-                }
+                RefreshFormData();
             }
-            else
+            catch
             {
-                MessageBox.Show("Incorrect mode!");
+                MessageBox.Show("Something went wrong, please try again later.");
             }
-
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            int selectedId = Convert.ToInt16(ProductsDataGrid.SelectedRows[0].Cells[0].Value);
-            Product product = productManger.GetProductById(selectedId);
-
-            Editor frm = new Editor(EditorMode.ProductUpdate, product);
-
-            if (!frm.IsDisposed)
+            try
             {
+                int selectedId = Convert.ToInt16(ProductsDataGrid.SelectedRows[0].Cells[0].Value);
+                Product product = productManger.GetProductById(selectedId);
+
+                CRUD.ProductUpdate frm = new(product);
                 frm.ShowDialog();
-
-                if (frm.DialogResult == DialogResult.OK)
-                {
-                    MessageBox.Show("Product updated!");
-                }
-                else
-                {
-                    MessageBox.Show("Failed to update the product!");
-                }
+                RefreshFormData();
             }
-            else
+            catch
             {
-                MessageBox.Show("Incorrect mode!");
+                MessageBox.Show("Something went wrong, please try again later.");
             }
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            products = productManger.Search(productManger.GetProducts(), txtSearchQuery.Text);
-            FillDataGridViewWithMockData();
+            List<Product> products = productManger.Search(productManger.GetProducts(), txtSearchQuery.Text);
+            ProductsDataGrid.DataSource = products;
         }
 
-        
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshFormData();
+        }
     }
 }

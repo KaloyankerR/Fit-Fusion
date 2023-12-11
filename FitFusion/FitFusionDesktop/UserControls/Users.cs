@@ -100,7 +100,7 @@ namespace FitFusionDesktop.UserControls
             {
                 MessageBox.Show("No products were bought.");
             }
-            catch (ApplicationException ex)
+            catch (DataAccessException ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -121,11 +121,15 @@ namespace FitFusionDesktop.UserControls
             {
                 MessageBox.Show("No products were bought.");
             }
-            catch (ApplicationException ex)
+            catch (DataAccessException ex)
             {
                 MessageBox.Show(ex.Message);
             }
         }
 
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            RefreshFormData();
+        }
     }
 }

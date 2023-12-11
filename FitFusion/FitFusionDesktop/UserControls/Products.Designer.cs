@@ -38,6 +38,9 @@
             btnSearch = new ReaLTaiizor.Controls.Button();
             txtSearchQuery = new ReaLTaiizor.Controls.HopeTextBox();
             categoryCmbBox = new ReaLTaiizor.Controls.DungeonComboBox();
+            label1 = new Label();
+            label2 = new Label();
+            btnRefresh = new ReaLTaiizor.Controls.Button();
             ((System.ComponentModel.ISupportInitialize)ProductsDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -159,11 +162,11 @@
             btnSearch.Image = null;
             btnSearch.ImageAlign = ContentAlignment.MiddleLeft;
             btnSearch.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnSearch.Location = new Point(323, 626);
+            btnSearch.Location = new Point(207, 640);
             btnSearch.Name = "btnSearch";
             btnSearch.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnSearch.PressedColor = Color.FromArgb(255, 163, 26);
-            btnSearch.Size = new Size(191, 43);
+            btnSearch.Size = new Size(351, 43);
             btnSearch.TabIndex = 8;
             btnSearch.Text = "Search";
             btnSearch.TextAlignment = StringAlignment.Center;
@@ -179,7 +182,7 @@
             txtSearchQuery.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             txtSearchQuery.ForeColor = Color.White;
             txtSearchQuery.Hint = "";
-            txtSearchQuery.Location = new Point(323, 577);
+            txtSearchQuery.Location = new Point(367, 577);
             txtSearchQuery.MaxLength = 32767;
             txtSearchQuery.Multiline = false;
             txtSearchQuery.Name = "txtSearchQuery";
@@ -214,17 +217,61 @@
             categoryCmbBox.HoverSelectionColor = Color.Empty;
             categoryCmbBox.IntegralHeight = false;
             categoryCmbBox.ItemHeight = 20;
-            categoryCmbBox.Location = new Point(323, 545);
+            categoryCmbBox.Location = new Point(367, 531);
             categoryCmbBox.Name = "categoryCmbBox";
             categoryCmbBox.Size = new Size(191, 26);
             categoryCmbBox.StartIndex = 0;
             categoryCmbBox.TabIndex = 11;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.ForeColor = SystemColors.Control;
+            label1.Location = new Point(207, 531);
+            label1.Name = "label1";
+            label1.Size = new Size(154, 23);
+            label1.TabIndex = 14;
+            label1.Text = "Select category:";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.ForeColor = SystemColors.Control;
+            label2.Location = new Point(253, 588);
+            label2.Name = "label2";
+            label2.Size = new Size(108, 23);
+            label2.TabIndex = 15;
+            label2.Text = "Search for:";
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.BackColor = Color.Gray;
+            btnRefresh.BorderColor = Color.FromArgb(41, 41, 41);
+            btnRefresh.Cursor = Cursors.Hand;
+            btnRefresh.EnteredBorderColor = Color.FromArgb(255, 163, 26);
+            btnRefresh.EnteredColor = Color.FromArgb(41, 41, 41);
+            btnRefresh.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnRefresh.Image = null;
+            btnRefresh.ImageAlign = ContentAlignment.MiddleLeft;
+            btnRefresh.InactiveColor = Color.FromArgb(41, 41, 41);
+            btnRefresh.Location = new Point(661, 621);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.PressedBorderColor = Color.FromArgb(255, 163, 26);
+            btnRefresh.PressedColor = Color.FromArgb(255, 163, 26);
+            btnRefresh.Size = new Size(213, 62);
+            btnRefresh.TabIndex = 16;
+            btnRefresh.Text = "Refresh";
+            btnRefresh.TextAlignment = StringAlignment.Center;
+            btnRefresh.Click += btnRefresh_Click;
             // 
             // Products
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
+            Controls.Add(btnRefresh);
+            Controls.Add(label2);
+            Controls.Add(label1);
             Controls.Add(categoryCmbBox);
             Controls.Add(txtSearchQuery);
             Controls.Add(btnSearch);
@@ -238,6 +285,7 @@
             Size = new Size(932, 703);
             ((System.ComponentModel.ISupportInitialize)ProductsDataGrid).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -249,5 +297,8 @@
         private ReaLTaiizor.Controls.Button btnSearch;
         private ReaLTaiizor.Controls.HopeTextBox txtSearchQuery;
         private ReaLTaiizor.Controls.DungeonComboBox categoryCmbBox;
+        private Label label1;
+        private Label label2;
+        private ReaLTaiizor.Controls.Button btnRefresh;
     }
 }
