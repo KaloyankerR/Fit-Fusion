@@ -69,7 +69,7 @@ namespace FitFusionWeb.Pages
 
                 _orderManager.CreateOrder(order);
             }
-            catch (ApplicationException)
+            catch (DataAccessException)
             {
                 return RedirectToPage("/CustomPages/DatabaseConnectionError");
             }

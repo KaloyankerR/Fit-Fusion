@@ -27,7 +27,7 @@ namespace FitFusionWeb.Pages.Products
             {
                 Products = productManager.GetProducts();
             }
-            catch (ApplicationException)
+            catch (DataAccessException)
             {
                 return RedirectToPage("/CustomPages/DatabaseConnectionError");
             }
@@ -45,7 +45,7 @@ namespace FitFusionWeb.Pages.Products
                 Products = productManager.Sort(Products, Sort);
                 Products = productManager.FilterByCategory(Products, FilterByCategory);
             }
-            catch (ApplicationException)
+            catch (DataAccessException)
             {
                 return RedirectToPage("/CustomPages/DatabaseConnectionError");
             }

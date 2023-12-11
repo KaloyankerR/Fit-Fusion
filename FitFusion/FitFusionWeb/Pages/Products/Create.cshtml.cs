@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.Product;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using DataAcess;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -39,7 +40,7 @@ namespace FitFusionWeb.Pages.Products
                     TempData["Message"] = "Something went wrong!";
                 }
             }
-            catch (ApplicationException)
+            catch (DataAccessException)
             {
                 return RedirectToPage("/CustomPages/DatabaseConnectionError");
             }

@@ -22,7 +22,7 @@ namespace FitFusionWeb.Pages.Authentication
         [Required(ErrorMessage = "Password is required.")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
-        
+
         [BindProperty]
         public bool RememberMe { get; set; }
 
@@ -44,39 +44,12 @@ namespace FitFusionWeb.Pages.Authentication
             {
                 if (ModelState.IsValid)
                 {
-                    var isAuthenticated = _userManager.AuthenticateUser(Email, Password);
-                    if (isAuthenticated != null)
-                    {
-                        List<Claim> claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.NameIdentifier, isAuthenticated.Id.ToString()),
-                        new Claim(ClaimTypes.Email, isAuthenticated.Email),
-                        new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole())
-                    };
-
-                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                        // HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity));
-
-                        AuthenticationProperties? authProperties = null;
-                        if (RememberMe)
-                        {
-                            authProperties = new AuthenticationProperties
-                            {
-                                IsPersistent = true,
-                                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5)
-                            };
-                        }
-
-                        HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
-                        HttpContext.Session.SetString("Id", isAuthenticated.Id.ToString());
-                        HttpContext.Session.SetString("Email", isAuthenticated.Email);
-                        HttpContext.Session.SetString("Role", isAuthenticated.GetUserRole());
-
-                        return RedirectToPage("../Index");
-                    }
+                    User isAuthenticated = _userManager.AuthenticateUser(Email, Password);
+                    SetAuthentication(isAuthenticated);
+                    return RedirectToPage("../Index");
                 }
             }
-            catch (ApplicationException)
+            catch (DataAccessException)
             {
                 return RedirectToPage("/CustomPages/DatabaseConnectionError");
             }
@@ -84,9 +57,41 @@ namespace FitFusionWeb.Pages.Authentication
             {
                 return RedirectToPage("/CustomPages/NotFound");
             }
+            catch (Exception)
+            {
+                return RedirectToPage("/CustomPages/SomethingWentWrong");
+            }
 
             return Page();
         }
+
+        private void SetAuthentication(User isAuthenticated)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, isAuthenticated.Id.ToString()),
+                new Claim(ClaimTypes.Email, isAuthenticated.Email),
+                new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            AuthenticationProperties? authProperties = null;
+            if (RememberMe)
+            {
+                authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5)
+                };
+            }
+
+            HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
+            HttpContext.Session.SetString("Id", isAuthenticated.Id.ToString());
+            HttpContext.Session.SetString("Email", isAuthenticated.Email);
+            HttpContext.Session.SetString("Role", isAuthenticated.GetUserRole());
+        }
+
 
     }
 }

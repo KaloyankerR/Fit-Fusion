@@ -2,6 +2,7 @@ using Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.Product;
+using DataAcess;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -19,13 +20,17 @@ namespace FitFusionWeb.Pages.Products
             {
                 Product = _productManager.GetProductById(Id);
             }
-            catch (ApplicationException)
+            catch (DataAccessException)
             {
                 return RedirectToPage("/CustomPages/DatabaseConnectionError");
             }
             catch (NullReferenceException)
             {
                 return RedirectToPage("/CustomPages/NotFound");
+            }
+            catch
+            {
+                return RedirectToPage("/CustomPages/SomethingWentWrong");
             }
 
             return Page();

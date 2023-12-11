@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
 using System.Security.Claims;
+using DataAcess;
 
 namespace FitFusionWeb.Pages
 {
@@ -41,7 +42,7 @@ namespace FitFusionWeb.Pages
                     return Page();
                 }
             }
-            catch (ApplicationException)
+            catch (DataAccessException)
             {
                 return RedirectToPage("/CustomPages/DatabaseConnectionError");
             }

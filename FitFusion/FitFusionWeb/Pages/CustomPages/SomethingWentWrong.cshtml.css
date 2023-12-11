@@ -1,0 +1,36 @@
+﻿body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.error-container {
+    text-align: center;
+    padding: 20px;
+    margin: 10%;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #dc3545; /* Bootstrap's danger color */
+}
+
+.btn-back-home {
+    background-color: #007bff; /* Bootstrap's primary color */
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-back-home:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+    }

@@ -1,0 +1,48 @@
+﻿@page
+@model FitFusionWeb.Pages.Users.Create.StaffModel
+@{
+    ViewData["Title"] = "Create Staff";
+}
+
+<h1>Create Staff</h1>
+
+<form method="post">
+    <div>
+        <input asp-for="Staff.Id" type="hidden" class="form-control" value="0" />
+        <input asp-for="Staff.PasswordSalt" type="hidden" class="form-control" value="asd" />
+    </div>
+    <div>
+        <label asp-for="Staff.FirstName"></label>
+        <input asp-for="Staff.FirstName" class="form-control" />
+        <span asp-validation-for="Staff.FirstName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Staff.LastName"></label>
+        <input asp-for="Staff.LastName" class="form-control" />
+        <span asp-validation-for="Staff.LastName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Staff.Email"></label>
+        <input asp-for="Staff.Email" class="form-control" />
+        <span asp-validation-for="Staff.Email" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Staff.PasswordHash">Password</label>
+        <input asp-for="Staff.PasswordHash" class="form-control" />
+        <span asp-validation-for="Staff.PasswordHash" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Staff.Address"></label>
+        <input asp-for="Staff.Address" class="form-control" />
+        <span asp-validation-for="Staff.Address" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Staff.Phone"></label>
+        <input asp-for="Staff.Phone" class="form-control" />
+        <span asp-validation-for="Staff.Phone" class="text-danger"></span>
+    </div>
+
+    <div>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>

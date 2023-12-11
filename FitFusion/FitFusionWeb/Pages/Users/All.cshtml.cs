@@ -25,7 +25,7 @@ namespace FitFusionWeb.Pages.Users
             {
                 Users = _userManager.GetAllUsers();
             }
-            catch (ApplicationException)
+            catch (DataAccessException)
             {
                 return RedirectToPage("/CustomPages/DatabaseConnectionError");
             }
@@ -41,7 +41,7 @@ namespace FitFusionWeb.Pages.Users
                 Users = _userManager.Search(Users, SearchQuery);
                 Users = _userManager.Sort(Users, Sort);
             }
-            catch (ApplicationException)
+            catch (DataAccessException)
             {
                 return RedirectToPage("/CustomPages/DatabaseConnectionError");
             }

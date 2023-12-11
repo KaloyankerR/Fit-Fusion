@@ -1,0 +1,48 @@
+﻿@page
+@model FitFusionWeb.Pages.Users.Create.OwnerModel
+@{
+    ViewData["Title"] = "Create Owner";
+}
+
+<h1>Create Owner</h1>
+
+<form method="post">
+    <div>
+        <input asp-for="Owner.Id" type="hidden" class="form-control" value="0" />
+        <input asp-for="Owner.PasswordSalt" type="hidden" class="form-control" value="salt" />
+    </div>
+    <div>
+        <label asp-for="Owner.FirstName"></label>
+        <input asp-for="Owner.FirstName" class="form-control" />
+        <span asp-validation-for="Owner.FirstName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Owner.LastName"></label>
+        <input asp-for="Owner.LastName" class="form-control" />
+        <span asp-validation-for="Owner.LastName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Owner.Email"></label>
+        <input asp-for="Owner.Email" class="form-control" />
+        <span asp-validation-for="Owner.Email" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Owner.PasswordHash">Password</label>
+        <input asp-for="Owner.PasswordHash" class="form-control" />
+        <span asp-validation-for="Owner.PasswordHash" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Owner.Address"></label>
+        <input asp-for="Owner.Address" class="form-control" />
+        <span asp-validation-for="Owner.Address" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Owner.Phone"></label>
+        <input asp-for="Owner.Phone" class="form-control" />
+        <span asp-validation-for="Owner.Phone" class="text-danger"></span>
+    </div>
+
+    <div>
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
