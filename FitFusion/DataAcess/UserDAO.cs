@@ -234,7 +234,6 @@ namespace DataAcess
             return true;
         }
 
-
         public User GetUserById(int id, User role)
         {
             User user;
