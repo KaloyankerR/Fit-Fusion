@@ -9,7 +9,7 @@ namespace Models.Product
     {
         private int id;
         private string title = string.Empty;
-        private string description = string.Empty;
+        private string? description = string.Empty;
         private double price;
         private Category category;
         private string? imageUrl;
@@ -28,7 +28,7 @@ namespace Models.Product
             private set { title = value; }
         }
         
-        public string Description
+        public string? Description
         {
             get { return description; }
             private set { description = value; }
@@ -57,7 +57,7 @@ namespace Models.Product
         public Product()
         { }
 
-        public Product(int id, string title, string description, double price, Category category, string? imageUrl)
+        public Product(int id, string title, string? description, double price, Category category, string? imageUrl)
         {
             Id = id;
             Title = title;

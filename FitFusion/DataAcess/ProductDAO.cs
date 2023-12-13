@@ -138,7 +138,7 @@ namespace DataAcess
                                 (
                                     id: reader.GetInt32("Id"),
                                     title: reader.GetString("Title"),
-                                    description: reader.GetString("Description"),
+                                    description: reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString("Description"),
                                     price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
                                     imageUrl: reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString("ImageUrl")
@@ -182,7 +182,7 @@ namespace DataAcess
                                 (
                                     id: productId,
                                     title: reader.GetString("Title"),
-                                    description: reader.GetString("Description"),
+                                    description: reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString("Description"),
                                     price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                     category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
                                     imageUrl: reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString("ImageUrl")
