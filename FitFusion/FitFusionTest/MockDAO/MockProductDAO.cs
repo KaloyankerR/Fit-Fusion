@@ -1,80 +1,96 @@
-﻿//using Interfaces;
-//using Models.Order;
-//using Models.Product;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using Interfaces;
+using Models.Order;
+using Models.Product;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-//namespace FitFusionTest.MockDAO
-//{
-//    public class MockProductDAO : IProduct
-//    {
-//        private List<Product> products;
+namespace FitFusionTest.MockDAO
+{
+    public class MockProductDAO : IProduct
+    {
+        private List<Product> products;
 
-//        public MockProductDAO()
-//        {
-//            products = new List<Product>
-//            {
-//                new Product { Id = 1, Title = "Protein", Price = 10, Category = Category.Protein },
-//                new Product { Id = 2, Title = "Vitamin B12", Price = 15, Category = Category.Vitamins },
-//                new Product { Id = 3, Title = "Gym EZ Bar", Price = 35, Category = Category.Accessories },
-//                new Product { Id = 4, Title = "Vegan Brownies", Price = 5, Category = Category.Vegan },
-//                new Product { Id = 5, Title = "Healthy Chips", Price = 5, Category = Category.Snacks },
-//                new Product { Id = 6, Title = "Gym Tank Top", Price = 5, Category = Category.Clothing },
-//                new Product { Id = 7, Title = "Shaker Bottle", Price = 10, Category = Category.Redeem },
-//                new Product { Id = 8, Title = "Gym Towel", Price = 15, Category = Category.Redeem },
-//                new Product { Id = 9, Title = "Gym Bag", Price = 50, Category = Category.Redeem },
-//                new Product { Id = 10, Title = "Olympic Bar", Price = 20, Category = Category.Redeem }
-//            };
-//        }
+        public MockProductDAO()
+        {
+            products = new List<Product>
+            {
+                new Product(id: 1, title: "Protein", description: null, price: 10, category: Category.Protein, imageUrl: null),
+                new Product(id: 2, title: "Vitamin B12", description: null, price: 15, category: Category.Vitamins, imageUrl: null),
+                new Product(id: 3, title: "Gym EZ Bar", description: null, price: 35, category: Category.Accessories, imageUrl: null),
+                new Product(id: 4, title: "Vegan Brownies", description: null, price: 5, category: Category.Vegan, imageUrl: null),
+                new Product(id: 5, title: "Healthy Chips", description: null, price: 5, category: Category.Snacks, imageUrl: null),
+                new Product(id: 6, title: "Gym Tank Top", description: null, price: 5, category: Category.Clothing, imageUrl: null),
+                new Product(id: 7, title: "Shaker Bottle", description: null, price: 10, category: Category.Redeem, imageUrl: null),
+                new Product(id: 8, title: "Gym Towel", description: null, price: 15, category: Category.Redeem, imageUrl: null),
+                new Product(id: 9, title: "Gym Bag", description: null, price: 50, category: Category.Redeem, imageUrl: null),
+                new Product(id: 10, title: "Olympic Bar", description: null, price: 20, category: Category.Redeem, imageUrl: null)
+            };
 
-//        public bool CreateProduct(Product product)
-//        {
-//            product.Id = products.Count + 1;
-//            products.Add(product);
-//            return true;
-//        }
+        }
 
-//        public bool DeleteProduct(int id)
-//        {
-//            var productToRemove = products.FirstOrDefault(p => p.Id == id);
+        public bool CreateProduct(Product product)
+        {
+            // product.Id = products.Count + 1;
+            products.Add(product);
+            return true;
+        }
 
-//            if (productToRemove != null)
-//            {
-//                products.Remove(productToRemove);
-//                return true;
-//            }
+        public bool UpdateProduct(Product product)
+        {
+            var productToUpdate = products.FirstOrDefault(p => p.Id == product.Id);
 
-//            return false;
-//        }
+            if (productToUpdate != null)
+            {
+                products.Remove(productToUpdate);
+                products.Add(productToUpdate);
+                return true;
+            }
+            else
+            {
+                throw new NullReferenceException("Product wasn't found.");
+            }
+        }
 
-//        public Product GetProductById(int id)
-//        {
-//            Product product = products.Find(o => o.Id == id)!;
+        public bool DeleteProduct(int id)
+        {
+            var productToRemove = products.FirstOrDefault(p => p.Id == id);
 
-//            if (product == null)
-//            {
-//                throw new InvalidOperationException("Product wasn't found!");
-//            }
+            if (productToRemove != null)
+            {
+                products.Remove(productToRemove);
+                return true;
+            }
+            else
+            {
+                throw new NullReferenceException("Product wasn't found.");
+            }
+        }
 
-//            return product;
-//        }
+        public Product GetProductById(int id)
+        {
+            Product product = products.Find(o => o.Id == id)!;
 
-//        public List<Product> GetProducts()
-//        {
-//            return products;
-//        }
+            if (product == null)
+            {
+                throw new NullReferenceException("Product wasn't found.");
+            }
 
-//        public Dictionary<string, int> GetTrendyProducts()
-//        {
-//            throw new NotImplementedException();
-//        }
+            return product;
+        }
 
-//        public bool UpdateProduct(Product updatedProduct)
-//        {
-//            throw new NotImplementedException();
-//        }
-//    }
-//}
+        public List<Product> GetProducts()
+        {
+            return products;
+        }
+
+        public Dictionary<string, int> GetTrendyProducts()
+        {
+            throw new NotImplementedException();
+        }
+
+        
+    }
+}
