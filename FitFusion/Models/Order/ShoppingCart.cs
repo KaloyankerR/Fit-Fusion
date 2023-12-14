@@ -47,6 +47,9 @@ namespace Models.Order
             private set { _nutriPointsNeeded = value; }
         }
 
+        public ShoppingCart() 
+        { }
+
         public void AddToCart(ProductModel product)
         {
             _products.Add(product);
