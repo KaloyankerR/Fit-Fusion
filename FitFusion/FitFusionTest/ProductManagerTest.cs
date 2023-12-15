@@ -4,6 +4,7 @@ using Models.User;
 using Services;
 using FitFusionTest.MockDAO;
 using Interfaces;
+using Services.Sorting;
 
 namespace FitFusionTest
 {
@@ -103,6 +104,15 @@ namespace FitFusionTest
             });
         }
 
+        [Test]
+        public void FilterByCategory_ShouldReturnFilteredProducts()
+        {
+            List<Product> products = _manager.GetProducts();
+
+            List<Product> firstSort = _manager.Sort();
+            _manager.SetSortStrategy(new SortProductByPriceAscending());
+            List<Product> products2 = _manager.GetProducts();
+        }
 
     }
 }

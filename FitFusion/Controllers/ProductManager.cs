@@ -8,16 +8,23 @@ using System.Threading.Tasks;
 using Interfaces;
 using Models.Order;
 using System.Data.SqlClient;
+using Interfaces.Strategy;
+using Services.Filter;
+using Services.Sorting;
 
 namespace Services
 {
     public class ProductManager : IProduct
     {
         private readonly IProduct _dao;
+        private IProductFilter _filter;
+        private IProductSort _sort;
 
         public ProductManager(IProduct dao)
         {
             _dao = dao;
+            _filter = new FilterByCategory();
+            _sort = new SortProductByTitleAscending();
         }
 
         public bool CreateProduct(ProductModel product)
@@ -92,13 +99,14 @@ namespace Services
             }
         }
 
+
         public List<ProductModel> Search(List<ProductModel> products, string searchQuery)
         {
             if (!string.IsNullOrEmpty(searchQuery))
             {
                 products = products.FindAll(p =>
                     p.Title.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    p.Description.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    (p.Description ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
                     p.Category.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
                     p.Price.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
                 );
@@ -107,37 +115,48 @@ namespace Services
             return products;
         }
 
-        public List<ProductModel> Sort(List<ProductModel> products, string param)
+        //public List<ProductModel> Sort(List<ProductModel> products, string param)
+        //{
+        //    if (string.IsNullOrEmpty(param))
+        //    {
+        //        return products;
+        //    }
+
+        //    var sortStrategies = new Dictionary<string, IProductSort>
+        //    {
+        //        { "titleAsc", new SortProductByTitleAscending() },
+        //        { "titleDesc", new SortProductByTitleDescending() },
+        //        { "priceAsc", new SortProductByPriceAscending() },
+        //        { "priceDesc", new SortProductByPriceDescending() }
+        //    };
+
+        //    if (sortStrategies.TryGetValue(param, out var sortStrategy))
+        //    {
+        //        return sortStrategy.Sort(products);
+        //    }
+
+        //    return products;
+        //}
+
+        public List<Product> Sort(List<Product> products)
         {
-            if (string.IsNullOrEmpty(param))
-            {
-                return products;
-            }
-
-            var sortStrategies = new Dictionary<string, ISortStrategy<ProductModel>>
-            {
-                { "titleAsc", new Services.Sorting.SortByTitleAscending() },
-                { "titleDesc", new Services.Sorting.SortByTitleDescending() },
-                { "priceAsc", new Services.Sorting.SortByPriceAscending() },
-                { "priceDesc", new Services.Sorting.SortByPriceDescending() }
-            };
-
-            if (sortStrategies.TryGetValue(param, out var sortStrategy))
-            {
-                return sortStrategy.Sort(products);
-            }
-
-            return products;
+            return _sort.Sort(products);
         }
 
         public List<ProductModel> FilterByCategory(List<ProductModel> products, string param)
         {
-            if (string.IsNullOrEmpty(param) || param == "All")
-            {
-                return products;
-            }
+            _filter = new FilterByCategory(); // TODO: set the filtering strategy
+            return _filter.Filter(products, param);
+        }
 
-            return products.Where(p => p.Category.ToString().Equals(param, StringComparison.OrdinalIgnoreCase)).ToList();
+        public void SetSortStrategy(IProductSort sortStrategy)
+        {
+            _sort = sortStrategy;
+        }
+
+        public void SetFilterStrategy(IProductFilter filterStrategy)
+        {
+            _filter = filterStrategy;
         }
 
 

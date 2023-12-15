@@ -42,7 +42,7 @@ namespace FitFusionWeb.Pages.Products
             {
                 Products = productManager.GetProducts();
                 Products = productManager.Search(Products, SearchQuery);
-                Products = productManager.Sort(Products, Sort);
+                Products = productManager.Sort(Products);
                 Products = productManager.FilterByCategory(Products, FilterByCategory);
             }
             catch (DataAccessException)
