@@ -222,6 +222,7 @@
             categoryCmbBox.Size = new Size(191, 26);
             categoryCmbBox.StartIndex = 0;
             categoryCmbBox.TabIndex = 11;
+            categoryCmbBox.SelectedIndexChanged += categoryCmbBox_SelectedIndexChanged;
             // 
             // label1
             // 

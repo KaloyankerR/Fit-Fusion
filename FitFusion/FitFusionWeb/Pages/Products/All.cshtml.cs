@@ -11,14 +11,14 @@ namespace FitFusionWeb.Pages.Products
     public class AllModel : PageModel
     {
         [BindProperty]
-        public string SearchQuery { get; set; }
+        public string SearchQuery { get; set; } = string.Empty;
 
         [BindProperty]
-        public string Sort { get; set; }
+        public string Sort { get; set; } = "titleAsc";
         [BindProperty]
-        public string FilterByCategory { get; set; }
+        public string FilterByCategory { get; set; } = "All";
 
-        public List<Product> Products { get; set; }
+        public List<Product> Products { get; set; } = new();
         private ProductManager productManager = new(new ProductDAO());
 
         public IActionResult OnGet()
@@ -42,8 +42,8 @@ namespace FitFusionWeb.Pages.Products
             {
                 Products = productManager.GetProducts();
                 Products = productManager.Search(Products, SearchQuery);
-                Products = productManager.Sort(Products);
-                Products = productManager.FilterByCategory(Products, FilterByCategory);
+                Products = productManager.Filter(Products, FilterByCategory);
+                Products = productManager.Sort(Products, Sort);
             }
             catch (DataAccessException)
             {

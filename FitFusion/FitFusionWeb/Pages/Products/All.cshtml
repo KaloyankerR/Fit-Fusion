@@ -2,8 +2,8 @@
 @model FitFusionWeb.Pages.Products.AllModel
 @{
     ViewData["Title"] = "Products";
-    string messageType = TempData["Type"] as string;
-    string message = TempData["Message"] as string;
+    string? messageType = TempData["Type"] as string;
+    string? message = TempData["Message"] as string;
 }
 
 <h1>All products</h1>

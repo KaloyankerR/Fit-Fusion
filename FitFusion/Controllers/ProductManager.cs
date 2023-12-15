@@ -18,7 +18,7 @@ namespace Services
     public class ProductManager : IProduct
     {
         private readonly IProduct _dao;
-        private IProductFilter _filter;
+        private IFilter<Product> _filter;
         private ISort<Product> _sort;
 
         public ProductManager(IProduct dao)
@@ -163,21 +163,20 @@ namespace Services
             return _sort.Sort(products);
         }
 
-        public List<Product> FilterByCategory(List<Product> products, string param)
+        public List<Product> Filter(List<Product> products, string param)
         {
-            // _filter = new FilterByCategory(); // TODO: set the filtering strategy
             return _filter.Filter(products, param);
         }
 
-        public void SetSortStrategy(ISort<Product> sortStrategy)
-        {
-            _sort = sortStrategy;
-        }
+        //public void SetSortStrategy(ISort<Product> sortStrategy)
+        //{
+        //    _sort = sortStrategy;
+        //}
 
-        public void SetFilterStrategy(IProductFilter filterStrategy)
-        {
-            _filter = filterStrategy;
-        }
+        //public void SetFilterStrategy(IFilter<Product> filterStrategy)
+        //{
+        //    _filter = filterStrategy;
+        //}
 
 
         public Dictionary<Category, int> GetCategoryStats()

@@ -63,13 +63,21 @@ namespace FitFusionDesktop.UserControls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            List<Product> products = productManger.Search(productManger.GetProducts(), txtSearchQuery.Text);
+            List<Product> products = productManger.GetProducts();
+            products = productManger.Filter(products, categoryCmbBox.SelectedItem.ToString()!);
+            products = productManger.Search(products, txtSearchQuery.Text);
+            
             ProductsDataGrid.DataSource = products;
         }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             RefreshFormData();
+        }
+
+        private void categoryCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

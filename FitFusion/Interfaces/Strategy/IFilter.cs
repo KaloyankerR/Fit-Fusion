@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Interfaces.Strategy
 {
-    public interface IProductFilter
+    public interface IFilter<T>
     {
-        List<Product> Filter(List<Product> products, string param);
+        List<T> Filter(List<T> elements, string param);
     }
 }

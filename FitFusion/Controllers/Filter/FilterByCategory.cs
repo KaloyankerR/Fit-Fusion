@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Services.Filter
 {
-    public class FilterByCategory : IProductFilter
+    public class FilterByCategory : IFilter<Product>
     {
         public List<Product> Filter(List<Product> products, string param)
         {
