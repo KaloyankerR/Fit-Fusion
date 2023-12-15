@@ -7,6 +7,22 @@ namespace Models.Product
 {
     public class Product
     {
+        //[Key]
+        //public int Id { get; private set; }
+
+        //[Required(ErrorMessage = "Title is required")]
+        //public string Title { get; private set; } = string.Empty;
+
+        //public string? Description { get; private set; } = string.Empty;
+
+        //[Required(ErrorMessage = "Price is required")]
+        //public double Price { get; private set; }
+
+        //[Required(ErrorMessage = "Category is required")]
+        //public Category Category { get; private set; }
+
+        //public string? ImageUrl { get; private set; }
+
         private int id;
         private string title = string.Empty;
         private string? description = string.Empty;
