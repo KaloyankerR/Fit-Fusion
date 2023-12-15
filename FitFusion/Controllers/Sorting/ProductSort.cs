@@ -13,7 +13,7 @@ namespace Services.Sorting
     //{
     //}
 
-    public class SortProductByTitleAscending: IProductSort
+    public class SortProductByTitleAscending: ISort<Product>
     {
         public List<Product> Sort(List<Product> products)
         {
@@ -21,7 +21,7 @@ namespace Services.Sorting
         }
     }
 
-    public class SortProductByTitleDescending : IProductSort 
+    public class SortProductByTitleDescending : ISort<Product> 
     {
         public List<Product> Sort(List<Product> products)
         {
@@ -29,7 +29,7 @@ namespace Services.Sorting
         }
     }
 
-    public class SortProductByPriceDescending : IProductSort
+    public class SortProductByPriceDescending : ISort<Product>
     {
         public List<Product> Sort(List<Product> products)
         {
@@ -37,7 +37,7 @@ namespace Services.Sorting
         }
     }
 
-    public class SortProductByPriceAscending : IProductSort
+    public class SortProductByPriceAscending : ISort<Product>
     {
         public List<Product> Sort(List<Product> products)
         {

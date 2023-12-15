@@ -1,5 +1,6 @@
 ﻿using Models.Product;
-using ProductModel = Models.Product.Product;
+// using ProductModel = Models.Product.Product;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Services
     {
         private readonly IProduct _dao;
         private IProductFilter _filter;
-        private IProductSort _sort;
+        private ISort<Product> _sort;
 
         public ProductManager(IProduct dao)
         {
@@ -27,7 +28,7 @@ namespace Services
             _sort = new SortProductByTitleAscending();
         }
 
-        public bool CreateProduct(ProductModel product)
+        public bool CreateProduct(Product product)
         {
             try
             {
@@ -39,7 +40,7 @@ namespace Services
             }
         }
 
-        public bool UpdateProduct(ProductModel product)
+        public bool UpdateProduct(Product product)
         {
             try
             {
@@ -63,7 +64,7 @@ namespace Services
             }
         }
 
-        public bool DeleteProduct(ProductModel product)
+        public bool DeleteProduct(Product product)
         {
             try
             {
@@ -75,7 +76,7 @@ namespace Services
             }
         }
 
-        public ProductModel GetProductById(int id)
+        public Product GetProductById(int id)
         {
             try
             {
@@ -87,7 +88,7 @@ namespace Services
             }
         }
 
-        public List<ProductModel> GetProducts()
+        public List<Product> GetProducts()
         {
             try
             {
@@ -100,7 +101,7 @@ namespace Services
         }
 
 
-        public List<ProductModel> Search(List<ProductModel> products, string searchQuery)
+        public List<Product> Search(List<Product> products, string searchQuery)
         {
             if (!string.IsNullOrEmpty(searchQuery))
             {
@@ -138,18 +139,37 @@ namespace Services
         //    return products;
         //}
 
-        public List<Product> Sort(List<Product> products)
+        public List<Product> Sort(List<Product> products, string param)
         {
+            switch (param)
+            {
+                case "titleAsc":
+                    _sort = new SortProductByTitleAscending();
+                    break;
+                case "titleDesc":
+                    _sort = new SortProductByTitleDescending();
+                    break;
+                case "priceAsc":
+                    _sort = new SortProductByPriceAscending();
+                    break;
+                case "priceDesc":
+                    _sort = new SortProductByPriceDescending();
+                    break;
+                default:
+                    _sort = new SortProductByPriceAscending();
+                    break;
+            }
+
             return _sort.Sort(products);
         }
 
-        public List<ProductModel> FilterByCategory(List<ProductModel> products, string param)
+        public List<Product> FilterByCategory(List<Product> products, string param)
         {
-            _filter = new FilterByCategory(); // TODO: set the filtering strategy
+            // _filter = new FilterByCategory(); // TODO: set the filtering strategy
             return _filter.Filter(products, param);
         }
 
-        public void SetSortStrategy(IProductSort sortStrategy)
+        public void SetSortStrategy(ISort<Product> sortStrategy)
         {
             _sort = sortStrategy;
         }
@@ -162,10 +182,10 @@ namespace Services
 
         public Dictionary<Category, int> GetCategoryStats()
         {
-            List<ProductModel> products = GetProducts();
+            List<Product> products = GetProducts();
             Dictionary<Category, int> categoryCounts = new Dictionary<Category, int>();
 
-            foreach (ProductModel product in products)
+            foreach (Product product in products)
             {
                 Category category = product.Category;
 

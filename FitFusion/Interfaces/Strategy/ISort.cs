@@ -1,5 +1,4 @@
-﻿using Models.Product;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Interfaces.Strategy
 {
-    public interface IProductSort
+    public interface ISort<T>
     {
-        List<Product> Sort(List<Product> products);
+        List<T> Sort(List<T> elements);
     }
 }
