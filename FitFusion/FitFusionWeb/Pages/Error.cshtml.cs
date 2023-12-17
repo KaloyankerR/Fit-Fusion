@@ -22,6 +22,9 @@ namespace FitFusionWeb.Pages
         public void OnGet()
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
+            _logger.LogWarning($"Error code accessed by user {User.Identity.Name}");
+
         }
+
     }
 }
