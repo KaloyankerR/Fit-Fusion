@@ -7,16 +7,21 @@ using Models.Product;
 using Models.User;
 using UserModel = Models.User.User;
 using Interfaces;
+using Interfaces.Strategy;
+using Services.Sort;
 
 namespace Services
 {
     public class UserManager : IUser
     {
         public readonly IUser dao;
+        // TODO: change to private
+        private ISort<User> _sort;
 
         public UserManager(IUser userDao)
         {
             dao = userDao;
+            _sort = new SortUserByFirstNameAscending();
         }
 
         public bool CreateUser(UserModel user)
@@ -125,22 +130,41 @@ namespace Services
             return users;
         }
 
-        public List<UserModel> Sort(List<UserModel> users, string param)
+        public List<UserModel> Sort(List<UserModel> users, SortParameter param)
         {
-            if (!string.IsNullOrEmpty(param))
+            switch (param)
             {
-                switch (param.ToLower())
-                {
-                    case "asc":
-                        users.Sort((a, b) => string.Compare(a.FirstName, b.FirstName, StringComparison.Ordinal));
-                        break;
-                    case "desc":
-                        users.Sort((a, b) => string.Compare(b.FirstName, a.FirstName, StringComparison.Ordinal));
-                        break;
-                }
+                case SortParameter.FirstNameAscending:
+                    _sort = new SortUserByFirstNameAscending();
+                    break;
+                case SortParameter.LastNameAscending:
+                    _sort = new SortUserByLastNameAscending();
+                    break;
+                default:
+                    _sort = new SortUserByFirstNameAscending();
+                    break;
             }
-            return users;
+
+            return _sort.Sort(users);
         }
+
+        //public List<UserModel> Sort(List<UserModel> users, string param)
+        //{
+        //    switch (param)
+        //    {
+        //        case "asc":
+        //            _sort = new SortUserByFirstNameAscending();
+        //            break;
+        //        case "desc":
+        //            _sort = new SortUserByLastNameAscending();
+        //            break;
+        //        default:
+        //            _sort = new SortUserByFirstNameAscending();
+        //            break;
+        //    }
+
+        //    return _sort.Sort(users);
+        //}
 
 
         public List<string> EncryptPassword(string password)

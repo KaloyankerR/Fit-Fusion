@@ -3,8 +3,8 @@
 @model FitFusionWeb.Pages.Users.AllModel
 @{
     ViewData["Title"] = "Users";
-    string messageType = TempData["Type"] as string;
-    string message = TempData["Message"] as string;
+    string? messageType = TempData["Type"] as string;
+    string? message = TempData["Message"] as string;
 }
 
 <h1>All Users</h1>
@@ -25,26 +25,10 @@ else if (messageType == "success")
         </div>
 
         <div class="column small-12 medium-6 large-2">
-            <select name="sort">
+            <select name="sort" asp-for="Sort">
                 <option selected disabled>Select filter</option>
-                @if (Model.Sort == "asc")
-                {
-                    <option value="asc" selected>Ascending</option>
-                }
-                else
-                {
-                    <option value="asc">Ascending</option>
-                }
-
-                @if (Model.Sort == "desc")
-                {
-                    <option value="desc" selected>Descending</option>
-                }
-                else
-                {
-                    <option value="desc">Descending</option>
-                }
-
+                <option value="FirstNameAscending">First Name Ascending</option>
+                <option value="LastNameAscending">Last Name Descending</option>
             </select>
         </div>
 
@@ -64,6 +48,7 @@ else if (messageType == "success")
             </ul>
 
         </div>
+
     </div>
 </form>
 

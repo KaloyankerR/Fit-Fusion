@@ -20,4 +20,35 @@ namespace Services.Sort
         }
     }
 
+    public class SortUserByFirstNameDescending : ISort<User>
+    {
+        public List<User> Sort(List<User> users)
+        {
+            return users.OrderByDescending(x => x.FirstName).ToList();
+        }
+    }
+
+    public class SortUserByLastNameAscending : ISort<User>
+    {
+        public List<User> Sort(List<User> users)
+        {
+            return users.OrderBy(x => x.LastName).ToList();
+        }
+    }
+
+    public class SortUserByLastNameDescending : ISort<User>
+    {
+        public List<User> Sort(List<User> users)
+        {
+            return users.OrderByDescending(x => x.LastName).ToList();
+        }
+    }
+
+    public class SortUserByRole : ISort<User>
+    {
+        public List<User> Sort(List<User> users)
+        {
+            return users.OrderBy(x => x.GetUserRole()).ToList();
+        }
+    }
 }

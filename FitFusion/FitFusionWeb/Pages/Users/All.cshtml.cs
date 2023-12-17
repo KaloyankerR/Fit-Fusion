@@ -12,11 +12,11 @@ namespace FitFusionWeb.Pages.Users
     public class AllModel : PageModel
     {
         [BindProperty]
-        public string SearchQuery { get; set; }
+        public string SearchQuery { get; set; } = string.Empty;
         [BindProperty]
-        public string Sort { get; set; }
+        public SortParameter Sort { get; set; }
 
-        public List<User> Users { get; set; }
+        public List<User> Users { get; set; } = new List<User>();
         private readonly UserManager _userManager = new(new UserDAO());
 
         public IActionResult OnGet()
