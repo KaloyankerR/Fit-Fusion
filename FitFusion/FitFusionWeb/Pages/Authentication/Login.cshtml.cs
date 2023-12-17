@@ -51,15 +51,18 @@ namespace FitFusionWeb.Pages.Authentication
             }
             catch (DataAccessException)
             {
-                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+                // return RedirectToPage("/CustomPages/DatabaseConnectionError");
+                return RedirectToPage("/Error", new { code = 500 });
             }
             catch (NullReferenceException)
             {
-                return RedirectToPage("/CustomPages/NotFound");
+                // return RedirectToPage("/CustomPages/NotFound");
+                return RedirectToPage("/Error", new { code = 400 });
             }
             catch (Exception)
             {
-                return RedirectToPage("/CustomPages/SomethingWentWrong");
+                // return RedirectToPage("/CustomPages/SomethingWentWrong");
+                return RedirectToPage("/Error");
             }
 
             return Page();

@@ -17,6 +17,9 @@ namespace FitFusionWeb.Pages
             string errorMessage;
             switch (code)
             {
+                case "400":
+                    errorMessage = "Null reference";
+                    break;
                 case "404":
                     errorMessage = "Page not found!";
                     break;
