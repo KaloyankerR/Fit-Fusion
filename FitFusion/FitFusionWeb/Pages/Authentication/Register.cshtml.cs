@@ -12,6 +12,12 @@ namespace FitFusionWeb.Pages.Authentication
         [BindProperty]
         public Customer Customer { get; set; } = new();
         private readonly UserManager _userManager = new UserManager(new UserDAO());
+        private readonly ILogger<ErrorModel> _logger;
+
+        public RegisterModel(ILogger<ErrorModel> logger)
+        {
+            _logger = logger;
+        }
 
         public IActionResult OnGet()
         {
@@ -30,6 +36,7 @@ namespace FitFusionWeb.Pages.Authentication
                 if (!ModelState.IsValid)
                 {
                     _userManager.CreateUser(Customer);
+                    _logger.LogInformation("Register successful");
                     return RedirectToPage("/Authentication/Login");
                 }
             }

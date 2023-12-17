@@ -28,10 +28,18 @@ namespace FitFusionWeb.Pages.Authentication
 
         private readonly UserManager _userManager = new(new UserDAO());
 
+        private readonly ILogger<ErrorModel> _logger;
+
+        public LoginModel(ILogger<ErrorModel> logger)
+        {
+            _logger = logger;
+        }
+
         public IActionResult OnGet()
         {
             if (User.Identity?.IsAuthenticated ?? false)
             {
+                // _logger.LogInformation("User has already logged in!");
                 return RedirectToPage("../Account");
             }
 
@@ -44,6 +52,7 @@ namespace FitFusionWeb.Pages.Authentication
             {
                 if (ModelState.IsValid)
                 {
+                    _logger.LogInformation("Login successful!");
                     User isAuthenticated = _userManager.AuthenticateUser(Email, Password);
                     SetAuthentication(isAuthenticated);
                     return RedirectToPage("../Index");
