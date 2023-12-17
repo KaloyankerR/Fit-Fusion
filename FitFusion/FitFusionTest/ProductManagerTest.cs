@@ -4,7 +4,7 @@ using Models.User;
 using Services;
 using FitFusionTest.MockDAO;
 using Interfaces;
-using Services.Sorting;
+using Services.Sort;
 
 namespace FitFusionTest
 {

@@ -1,6 +1,4 @@
 ﻿using Models.Product;
-// using ProductModel = Models.Product.Product;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +9,7 @@ using Models.Order;
 using System.Data.SqlClient;
 using Interfaces.Strategy;
 using Services.Filter;
-using Services.Sorting;
+using Services.Sort;
 
 namespace Services
 {
