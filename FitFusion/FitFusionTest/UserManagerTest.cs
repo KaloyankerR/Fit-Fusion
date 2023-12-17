@@ -144,5 +144,16 @@ namespace FitFusionTest
             Assert.That(authenticatedUser.LastName, Is.EqualTo("Grayson"));
         }
 
+        [Test]
+        public void Sort_ShouldSortUsersByLastNameInDescendingOrder()
+        {
+            List<User> users = _manager.GetAllUsers();
+
+            List<User> usersToCompare = users.OrderByDescending(x => x.LastName).ToList();
+            List<User> usersToCheck = _manager.Sort(users, SortParameter.LastNameDescending);
+
+            Assert.That(usersToCheck, Is.EqualTo(usersToCompare));
+        }
+
     }
 }

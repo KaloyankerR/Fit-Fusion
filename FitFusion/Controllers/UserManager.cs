@@ -140,6 +140,12 @@ namespace Services
                 case SortParameter.LastNameAscending:
                     _sort = new SortUserByLastNameAscending();
                     break;
+                case SortParameter.FirstNameDescending:
+                    _sort = new SortUserByFirstNameDescending();
+                    break;
+                case SortParameter.LastNameDescending:
+                    _sort = new SortUserByLastNameDescending();
+                    break;
                 default:
                     _sort = new SortUserByFirstNameAscending();
                     break;
@@ -147,24 +153,6 @@ namespace Services
 
             return _sort.Sort(users);
         }
-
-        //public List<UserModel> Sort(List<UserModel> users, string param)
-        //{
-        //    switch (param)
-        //    {
-        //        case "asc":
-        //            _sort = new SortUserByFirstNameAscending();
-        //            break;
-        //        case "desc":
-        //            _sort = new SortUserByLastNameAscending();
-        //            break;
-        //        default:
-        //            _sort = new SortUserByFirstNameAscending();
-        //            break;
-        //    }
-
-        //    return _sort.Sort(users);
-        //}
 
 
         public List<string> EncryptPassword(string password)
