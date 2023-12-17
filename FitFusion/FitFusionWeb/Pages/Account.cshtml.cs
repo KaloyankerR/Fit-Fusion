@@ -13,7 +13,7 @@ namespace FitFusionWeb.Pages
     public class AccountModel : PageModel
     {
         [BindProperty]
-        public User CurrentUser { get; set; }
+        public User? CurrentUser { get; set; }
         private UserManager _userManager = new(new DataAcess.UserDAO());
 
         public IActionResult OnGet()
