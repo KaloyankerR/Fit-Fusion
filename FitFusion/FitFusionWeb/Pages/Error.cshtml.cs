@@ -1,17 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Diagnostics;
 
 namespace FitFusionWeb.Pages
 {
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    [IgnoreAntiforgeryToken]
     public class ErrorModel : PageModel
     {
-        public string? RequestId { get; set; }
-
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
-
         private readonly ILogger<ErrorModel> _logger;
 
         public ErrorModel(ILogger<ErrorModel> logger)
@@ -19,12 +12,29 @@ namespace FitFusionWeb.Pages
             _logger = logger;
         }
 
-        public void OnGet()
+        public IActionResult OnGet(string code)
         {
-            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
-            _logger.LogWarning($"Error code accessed by user {User.Identity.Name}");
+            string errorMessage;
+            switch (code)
+            {
+                case "404":
+                    errorMessage = "Page not found!";
+                    break;
 
+                case "500":
+                    errorMessage = "Internal Server Error!";
+                    break;
+
+                // TODO: Add more cases as needed
+
+                default:
+                    errorMessage = "An error occurred!";
+                    break;
+            }
+
+            ViewData["ErrorMessage"] = errorMessage;
+            _logger.LogError(errorMessage);
+            return Page();
         }
-
     }
 }
