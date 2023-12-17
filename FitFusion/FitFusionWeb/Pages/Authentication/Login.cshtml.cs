@@ -66,7 +66,7 @@ namespace FitFusionWeb.Pages.Authentication
             catch (NullReferenceException)
             {
                 // return RedirectToPage("/CustomPages/NotFound");
-                return RedirectToPage("/Error", new { code = 400 });
+                return RedirectToPage("/Error", new { code = 404 });
             }
             catch (Exception)
             {

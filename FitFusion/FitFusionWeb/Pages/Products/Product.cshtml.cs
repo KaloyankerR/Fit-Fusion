@@ -11,7 +11,7 @@ namespace FitFusionWeb.Pages.Products
         [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
         [BindProperty]
-        public Product Product { get; set; }
+        public Product Product { get; set; } = new();
         private readonly ProductManager _productManager = new ProductManager(new DataAcess.ProductDAO());
 
         public IActionResult OnGet()
@@ -22,15 +22,15 @@ namespace FitFusionWeb.Pages.Products
             }
             catch (DataAccessException)
             {
-                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+                return RedirectToPage("/Error", new { code = 500 });
             }
             catch (NullReferenceException)
             {
-                return RedirectToPage("/CustomPages/NotFound");
+                return RedirectToPage("/Error", new { code = 404 });
             }
             catch
             {
-                return RedirectToPage("/CustomPages/SomethingWentWrong");
+                return RedirectToPage("/Error");
             }
 
             return Page();

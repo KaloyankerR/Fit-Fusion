@@ -12,7 +12,7 @@ namespace FitFusionWeb.Pages.Products
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public Product Product { get; set; }
+        public Product Product { get; set; } = new();
         private readonly ProductManager _productManager = new(new DataAcess.ProductDAO());
 
         public void OnGet()
@@ -42,12 +42,13 @@ namespace FitFusionWeb.Pages.Products
             }
             catch (DataAccessException)
             {
-                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+                return RedirectToPage("/Error", new { code = 500 });
             }
             catch (DuplicateNameException)
             {
                 TempData["Type"] = "danger";
                 TempData["Message"] = "Something went wrong!";
+                // TODO: write a better message
             }
 
 

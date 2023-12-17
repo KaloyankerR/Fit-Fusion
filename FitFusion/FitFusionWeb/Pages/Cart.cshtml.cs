@@ -71,15 +71,16 @@ namespace FitFusionWeb.Pages
             }
             catch (DataAccessException)
             {
-                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+                return RedirectToPage("/Error", new { code = 500 });
             }
             catch (ArithmeticException)
             {
+                //TODO: Make exception for this
                 return RedirectToPage("/CustomPages/NotEnoughNutriPoints");
             }
 
             SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", new ShoppingCart());
-
+            // TODO: Make pages for information about the data provided
             return RedirectToPage("/CustomPages/SuccessfulOrder");
         }
 

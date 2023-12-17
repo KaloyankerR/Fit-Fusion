@@ -20,9 +20,6 @@ namespace FitFusionWeb.Pages
 
         public void OnGet()
         {
-            OrderManager manager = new(new OrderDAO());
-
-
         }
 
     }

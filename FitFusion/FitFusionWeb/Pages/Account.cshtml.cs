@@ -12,6 +12,7 @@ namespace FitFusionWeb.Pages
 {
     public class AccountModel : PageModel
     {
+        [BindProperty]
         public User CurrentUser { get; set; }
         private UserManager _userManager = new(new DataAcess.UserDAO());
 
@@ -44,11 +45,11 @@ namespace FitFusionWeb.Pages
             }
             catch (DataAccessException)
             {
-                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+                return RedirectToPage("/Error", new { code = 500 });
             }
             catch (NullReferenceException)
             {
-                return RedirectToPage("/CustomPages/NotFound");
+                return RedirectToPage("/Error", new { code = 404 });
             }
 
             return RedirectToPage("/Authentication/Login");

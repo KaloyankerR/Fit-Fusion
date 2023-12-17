@@ -29,7 +29,7 @@ namespace FitFusionWeb.Pages.Products
             }
             catch (DataAccessException)
             {
-                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+                return RedirectToPage("/Error", new { code = 500 });
             }
 
             return Page();
@@ -47,7 +47,7 @@ namespace FitFusionWeb.Pages.Products
             }
             catch (DataAccessException)
             {
-                return RedirectToPage("/CustomPages/DatabaseConnectionError");
+                return RedirectToPage("/Error", new { code = 500 });
             }
 
             return Page();
