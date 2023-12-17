@@ -26,6 +26,7 @@ jobs:
     steps:
     - name: Restore dependencies
       run: dotnet restore
+      working-directory: ./Fit-Fusion/Fit-Fusion/FitFusion
 
   build:
     runs-on: ubuntu-latest
