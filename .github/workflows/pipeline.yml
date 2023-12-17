@@ -6,9 +6,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Setup .NET
@@ -21,12 +19,19 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
       working-directory: ./FitFusion
-    - name: Test
-      
+
   test:
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+      working-directory: ./FitFusion
     - name: Test
-    run: dotnet test --no-build --verbosity normal --filter FullyQualifiedName~FitFusionTest
-    working-directory: ./FitFusion/FitFusionTest
-
+      run: dotnet test --no-build --verbosity normal --filter FullyQualifiedName~FitFusionTest
+      working-directory: ./FitFusion/FitFusionTest
