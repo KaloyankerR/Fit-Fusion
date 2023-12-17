@@ -25,4 +25,4 @@ jobs:
       working-directory: ./FitFusion
     - name: Test
       run: dotnet test --no-build --verbosity normal --filter FullyQualifiedName~FitFusionTest
-      working-directory: ./FitFusion
+      working-directory: ./FitFusion/FitFusionTest
