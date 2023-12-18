@@ -33,7 +33,6 @@ namespace FitFusionWeb.Pages.Products
             }
 
             return Page();
-
         }
 
         public IActionResult OnPost()
