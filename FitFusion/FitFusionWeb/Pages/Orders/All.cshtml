@@ -1,0 +1,14 @@
+﻿@page
+@model FitFusionWeb.Pages.Orders.AllModel
+@{
+    ViewData["Title"] = "Orders Page";
+}
+
+@foreach(var order in Model.Orders)
+{
+    <p>Date: @order.OrderDate</p>
+    <p>Customer: @order.Customer.FirstName</p>
+    <p>Cart: @order.Cart</p>
+    <p>Note: @order.Note</p>
+    <hr />
+}

@@ -98,7 +98,6 @@ namespace Services
             }
         }
 
-
         public List<Product> Search(List<Product> products, string searchQuery)
         {
             if (!string.IsNullOrEmpty(searchQuery))
@@ -113,29 +112,6 @@ namespace Services
 
             return products;
         }
-
-        //public List<ProductModel> Sort(List<ProductModel> products, string param)
-        //{
-        //    if (string.IsNullOrEmpty(param))
-        //    {
-        //        return products;
-        //    }
-
-        //    var sortStrategies = new Dictionary<string, IProductSort>
-        //    {
-        //        { "titleAsc", new SortProductByTitleAscending() },
-        //        { "titleDesc", new SortProductByTitleDescending() },
-        //        { "priceAsc", new SortProductByPriceAscending() },
-        //        { "priceDesc", new SortProductByPriceDescending() }
-        //    };
-
-        //    if (sortStrategies.TryGetValue(param, out var sortStrategy))
-        //    {
-        //        return sortStrategy.Sort(products);
-        //    }
-
-        //    return products;
-        //}
 
         public List<Product> Sort(List<Product> products, string param)
         {
@@ -165,17 +141,6 @@ namespace Services
         {
             return _filter.Filter(products, param);
         }
-
-        //public void SetSortStrategy(ISort<Product> sortStrategy)
-        //{
-        //    _sort = sortStrategy;
-        //}
-
-        //public void SetFilterStrategy(IFilter<Product> filterStrategy)
-        //{
-        //    _filter = filterStrategy;
-        //}
-
 
         public Dictionary<Category, int> GetCategoryStats()
         {

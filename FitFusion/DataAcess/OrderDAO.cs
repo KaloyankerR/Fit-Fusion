@@ -129,10 +129,11 @@ namespace DataAcess
                                 string description = reader.GetString(reader.GetOrdinal("Description"));
                                 double price = (double)reader.GetDecimal(reader.GetOrdinal("Price"));
                                 var productCategory = Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default;
-                                string imageUrl = reader.GetString("ImageUrl");
+                                // string imageUrl = reader.GetString("ImageUrl");
+                                string imageUrl = !reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? reader.GetString(reader.GetOrdinal("ImageUrl")) : null!;
 
                                 Product product = new Product(productId, title, description, price, productCategory, imageUrl);
-                                int quantity = reader.GetInt16(reader.GetOrdinal("Quantity"));
+                                int quantity = reader.GetInt32(reader.GetOrdinal("Quantity"));
 
                                 for (int i = 0; i < quantity; i++)
                                 {
