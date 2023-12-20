@@ -23,6 +23,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    needs: build  # Specify that the "test" job needs the "build" job to complete before running
 
     steps:
     - uses: actions/checkout@v3
