@@ -21,12 +21,11 @@ jobs:
       run: dotnet build --no-restore
       working-directory: ./FitFusion
 
-	
   test:
     runs-on: ubuntu-latest
-	
-	steps:
-	- uses: actions/checkout@v3
-	- name: Test
-	  run: dotnet test --no-build --verbosity normal --filter FullyQualifiedName~FitFusionTest
-	  working-directory: ./FitFusion/FitFusionTest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Test
+      run: dotnet test --no-build --verbosity normal --filter FullyQualifiedName~FitFusionTest
+      working-directory: ./FitFusion/FitFusionTest
