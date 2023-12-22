@@ -5,6 +5,8 @@ using Models.Product;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
 using DataAcess;
+using Services.Filter;
+using Services.Sort;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -13,7 +15,7 @@ namespace FitFusionWeb.Pages.Products
     {
         [BindProperty]
         public Product Product { get; set; } = new();
-        private readonly ProductManager _productManager = new(new DataAcess.ProductDAO());
+        private readonly ProductManager _productManager = new(new DataAcess.ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
 
         public void OnGet()
         { }

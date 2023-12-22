@@ -5,6 +5,8 @@ using Models.Product;
 using System;
 using System.Collections.Generic;
 using Services;
+using Services.Filter;
+using Services.Sort;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -19,7 +21,7 @@ namespace FitFusionWeb.Pages.Products
         public string FilterByCategory { get; set; } = "All";
 
         public List<Product> Products { get; set; } = new();
-        private ProductManager productManager = new(new ProductDAO());
+        private ProductManager productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
 
         public IActionResult OnGet()
         {

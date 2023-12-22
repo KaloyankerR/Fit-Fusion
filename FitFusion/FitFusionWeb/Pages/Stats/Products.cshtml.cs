@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.Product;
 using Microsoft.AspNetCore.Authorization;
+using Services.Filter;
+using Services.Sort;
 
 namespace FitFusionWeb.Pages.Stats
 {
@@ -19,7 +21,7 @@ namespace FitFusionWeb.Pages.Stats
 
         public ProductsModel()
         {
-            _productManager = new(new ProductDAO());
+            _productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
         }
 
         public void OnGet()

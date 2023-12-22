@@ -1,6 +1,8 @@
 ﻿using DataAcess;
 using Models.User;
 using Services;
+using Services.Filter;
+using Services.Sort;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,7 +18,7 @@ namespace FitFusionDesktop.UserControls
     public partial class Home : UserControl
     {
         private readonly UserManager _userManager = new(new UserDAO());
-        private readonly ProductManager _productManager = new(new ProductDAO());
+        private readonly ProductManager _productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
 
         public Home(User user)
         {

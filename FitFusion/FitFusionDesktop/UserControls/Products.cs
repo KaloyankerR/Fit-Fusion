@@ -11,12 +11,14 @@ using Models.Product;
 using DataAcess;
 using Services;
 using Interfaces;
+using Services.Filter;
+using Services.Sort;
 
 namespace FitFusionDesktop.UserControls
 {
     public partial class Products : UserControl
     {
-        private readonly ProductManager productManger = new(new ProductDAO());
+        private readonly ProductManager productManger = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
 
         public Products()
         {

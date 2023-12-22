@@ -6,6 +6,8 @@ using Services;
 using Models.User;
 using FitFusionWeb.Pages.Products;
 using Models.Order;
+using Services.Filter;
+using Services.Sort;
 
 namespace FitFusionWeb.Pages
 {
@@ -13,7 +15,7 @@ namespace FitFusionWeb.Pages
     {
         [BindProperty]
         public List<Product> Products { get; set; } = new();
-        private readonly ProductManager _productManager = new(new ProductDAO());
+        private readonly ProductManager _productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(ILogger<IndexModel> logger)

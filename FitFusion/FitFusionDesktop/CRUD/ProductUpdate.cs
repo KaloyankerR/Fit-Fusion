@@ -1,6 +1,8 @@
 ﻿using DataAcess;
 using Models.Product;
 using Services;
+using Services.Filter;
+using Services.Sort;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +17,7 @@ namespace FitFusionDesktop.CRUD
 {
     public partial class ProductUpdate : Form
     {
-        private readonly ProductManager _productManager = new(new ProductDAO());
+        private readonly ProductManager _productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
         private Product _product;
 
         public ProductUpdate(Product product)

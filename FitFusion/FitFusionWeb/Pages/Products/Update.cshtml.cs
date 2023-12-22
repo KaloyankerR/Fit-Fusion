@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.Product;
 using DataAcess;
+using Services.Filter;
+using Services.Sort;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -12,7 +14,7 @@ namespace FitFusionWeb.Pages.Products
         public int Id { get; set; }
         [BindProperty]
         public Product Product { get; set; } = new();
-        private readonly ProductManager _productManager = new (new DataAcess.ProductDAO());
+        private readonly ProductManager _productManager = new (new DataAcess.ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
 
         public IActionResult OnGet()
         {

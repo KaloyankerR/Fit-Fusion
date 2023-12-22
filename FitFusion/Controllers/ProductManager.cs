@@ -19,11 +19,13 @@ namespace Services
         private IFilter<Product> _filter;
         private ISort<Product> _sort;
 
-        public ProductManager(IProduct dao)
+        public ProductManager(IProduct dao, IFilter<Product> filter, ISort<Product> sort)
         {
             _dao = dao;
-            _filter = new FilterByCategory();
-            _sort = new SortProductByTitleAscending();
+            _filter = filter;
+            _sort = sort;
+            // _filter = new FilterByCategory();
+            // _sort = new SortProductByTitleAscending();
         }
 
         public bool CreateProduct(Product product)

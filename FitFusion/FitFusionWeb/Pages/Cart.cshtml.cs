@@ -12,13 +12,15 @@ using Microsoft.AspNetCore.Authorization;
 using Interfaces;
 using Newtonsoft.Json;
 using FitFusionWeb.SessionHelper;
+using Services.Filter;
+using Services.Sort;
 
 namespace FitFusionWeb.Pages
 {
     [Authorize(Roles = "Customer")]
     public class CartModel : PageModel
     {
-        public readonly ProductManager _productManager = new(new ProductDAO());
+        public readonly ProductManager _productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
         private readonly UserManager _userManager = new(new UserDAO());
         private readonly OrderManager _orderManager = new(new OrderDAO());
 
