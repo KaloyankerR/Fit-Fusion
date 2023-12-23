@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
 using System.Security.Claims;
 using DataAcess;
+using Services.Sort;
 
 namespace FitFusionWeb.Pages
 {
@@ -14,7 +15,7 @@ namespace FitFusionWeb.Pages
     {
         [BindProperty]
         public User? CurrentUser { get; set; }
-        private UserManager _userManager = new(new DataAcess.UserDAO());
+        private UserManager _userManager = new(new DataAcess.UserDAO(), new SortUserByFirstNameAscending());
 
         public IActionResult OnGet()
         {

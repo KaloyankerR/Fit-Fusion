@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
 using Services;
+using Services.Sort;
 using System.Data;
 
 namespace FitFusionWeb.Pages.Authentication
@@ -11,7 +12,7 @@ namespace FitFusionWeb.Pages.Authentication
     {
         [BindProperty]
         public Customer Customer { get; set; } = new();
-        private readonly UserManager _userManager = new UserManager(new UserDAO());
+        private readonly UserManager _userManager = new UserManager(new UserDAO(), new SortUserByFirstNameAscending());
         private readonly ILogger<ErrorModel> _logger;
 
         public RegisterModel(ILogger<ErrorModel> logger)

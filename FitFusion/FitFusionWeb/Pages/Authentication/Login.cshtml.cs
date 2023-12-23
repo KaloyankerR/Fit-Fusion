@@ -8,6 +8,7 @@ using Models.User;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
+using Services.Sort;
 
 namespace FitFusionWeb.Pages.Authentication
 {
@@ -26,7 +27,7 @@ namespace FitFusionWeb.Pages.Authentication
         [BindProperty]
         public bool RememberMe { get; set; }
 
-        private readonly UserManager _userManager = new(new UserDAO());
+        private readonly UserManager _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
 
         private readonly ILogger<ErrorModel> _logger;
 

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
 using Services;
+using Services.Sort;
 
 namespace FitFusionWeb.Pages.Users
 {
@@ -17,7 +18,7 @@ namespace FitFusionWeb.Pages.Users
         public SortParameter Sort { get; set; }
 
         public List<User> Users { get; set; } = new List<User>();
-        private readonly UserManager _userManager = new(new UserDAO());
+        private readonly UserManager _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
 
         public IActionResult OnGet()
         {

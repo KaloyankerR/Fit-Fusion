@@ -12,12 +12,13 @@ using System.Windows.Forms;
 using UserModel = Models.User.User;
 using DataAcess;
 using Microsoft.VisualBasic.ApplicationServices;
+using Services.Sort;
 
 namespace FitFusionDesktop.UserControls
 {
     public partial class Profile : UserControl
     {
-        private readonly UserManager _userManager = new(new UserDAO());
+        private readonly UserManager _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
         private UserModel CurrentUser;
 
         public Profile(UserModel user)

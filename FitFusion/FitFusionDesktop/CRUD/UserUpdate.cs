@@ -10,12 +10,13 @@ using System.Windows.Forms;
 using DataAcess;
 using Models.User;
 using Services;
+using Services.Sort;
 
 namespace FitFusionDesktop.CRUD
 {
     public partial class UserUpdate : Form
     {
-        private readonly UserManager _userManager = new(new UserDAO());
+        private readonly UserManager _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
         private User User { get; set; }
 
         public UserUpdate(User user)

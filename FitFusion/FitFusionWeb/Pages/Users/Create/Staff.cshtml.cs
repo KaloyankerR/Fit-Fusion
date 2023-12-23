@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
 using Services;
+using Services.Sort;
 using System.Data;
 
 namespace FitFusionWeb.Pages.Users.Create
@@ -13,7 +14,7 @@ namespace FitFusionWeb.Pages.Users.Create
     {
         [BindProperty]
         public Staff Staff { get; set; } = new();
-        private readonly UserManager _usermanager = new(new UserDAO());
+        private readonly UserManager _usermanager = new(new UserDAO(), new SortUserByFirstNameAscending());
 
         public void OnGet()
         {

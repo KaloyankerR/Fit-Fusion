@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using DataAcess;
 using Services;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
+using Services.Sort;
 
 namespace FitFusionDesktop
 {
@@ -21,7 +22,7 @@ namespace FitFusionDesktop
         public Login()
         {
             InitializeComponent();
-            _userManager = new(new UserDAO());
+            _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
         }
 
         private void btnLogin_Click(object sender, EventArgs e)

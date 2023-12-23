@@ -14,14 +14,14 @@ namespace Services
 {
     public class UserManager : IUser
     {
-        public readonly IUser dao;
-        // TODO: change to private
+        private readonly IUser dao;
         private ISort<User> _sort;
 
-        public UserManager(IUser userDao)
+        public UserManager(IUser userDao, ISort<User> sort)
         {
             dao = userDao;
-            _sort = new SortUserByFirstNameAscending();
+            _sort = sort;
+            // _sort = new SortUserByFirstNameAscending();
         }
 
         public bool CreateUser(UserModel user)

@@ -11,12 +11,13 @@ using DataAcess;
 using Models.User;
 using ReaLTaiizor.Forms;
 using Services;
+using Services.Sort;
 
 namespace FitFusionDesktop.CRUD
 {
     public partial class UserCreate : Form
     {
-        private readonly UserManager _userManager = new(new UserDAO());
+        private readonly UserManager _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
 
         public UserCreate()
         {

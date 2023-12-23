@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FitFusionDesktop.CRUD;
+using Services.Sort;
 
 namespace FitFusionDesktop.UserControls
 {
@@ -23,7 +24,7 @@ namespace FitFusionDesktop.UserControls
         public Users()
         {
             InitializeComponent();
-            userManager = new(new UserDAO());
+            userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
             roleCmbBox.SelectedIndex = 2;
         }
 
