@@ -14,7 +14,7 @@ namespace FitFusionWeb.Pages.Users.Create
     {
         [BindProperty]
         public Customer Customer { get; set; } = new();
-        private readonly UserManager _usermanager = new(new UserDAO(), new SortUserByFirstNameAscending());
+        private readonly UserManager _usermanager = new(new UserDAO(), new UserSorter());
 
         public void OnGet()
         {

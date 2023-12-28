@@ -27,7 +27,7 @@ namespace FitFusionWeb.Pages.Authentication
         [BindProperty]
         public bool RememberMe { get; set; }
 
-        private readonly UserManager _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
+        private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
 
         private readonly ILogger<ErrorModel> _logger;
 

@@ -13,7 +13,7 @@ namespace Services.Sort
     //{
     //}
 
-    public class ProductSorter // : ISort<Product>
+    public class ProductSorter : ISort<Product>
     {
         public List<Product> Sort(List<Product> products, string param)
         {
@@ -33,36 +33,36 @@ namespace Services.Sort
         }
     }
 
-    public class SortProductByTitleAscending: ISort<Product>
-    {
-        public List<Product> Sort(List<Product> products)
-        {
-            return products.OrderBy(o => o.Title).ToList();
-        }
-    }
+    //public class SortProductByTitleAscending: ISort<Product>
+    //{
+    //    public List<Product> Sort(List<Product> products)
+    //    {
+    //        return products.OrderBy(o => o.Title).ToList();
+    //    }
+    //}
 
-    public class SortProductByTitleDescending : ISort<Product> 
-    {
-        public List<Product> Sort(List<Product> products)
-        {
-            return products.OrderByDescending(o => o.Title).ToList();
-        }
-    }
+    //public class SortProductByTitleDescending : ISort<Product> 
+    //{
+    //    public List<Product> Sort(List<Product> products)
+    //    {
+    //        return products.OrderByDescending(o => o.Title).ToList();
+    //    }
+    //}
 
-    public class SortProductByPriceDescending : ISort<Product>
-    {
-        public List<Product> Sort(List<Product> products)
-        {
-            return products.OrderByDescending(o => o.Price).ToList();
-        }
-    }
+    //public class SortProductByPriceDescending : ISort<Product>
+    //{
+    //    public List<Product> Sort(List<Product> products)
+    //    {
+    //        return products.OrderByDescending(o => o.Price).ToList();
+    //    }
+    //}
 
-    public class SortProductByPriceAscending : ISort<Product>
-    {
-        public List<Product> Sort(List<Product> products)
-        {
-            return products.OrderBy(o => o.Price).ToList();
-        }
-    }
+    //public class SortProductByPriceAscending : ISort<Product>
+    //{
+    //    public List<Product> Sort(List<Product> products)
+    //    {
+    //        return products.OrderBy(o => o.Price).ToList();
+    //    }
+    //}
 
 }

@@ -15,13 +15,13 @@ namespace Services
     public class UserManager : IUser
     {
         private readonly IUser dao;
-        private ISort<User> _sort;
+        // private ISort<User> _sort;
+        private UserSorter _sorter;
 
-        public UserManager(IUser userDao, ISort<User> sort)
+        public UserManager(IUser userDao, UserSorter sorter)
         {
             dao = userDao;
-            _sort = sort;
-            // _sort = new SortUserByFirstNameAscending();
+            _sorter = sorter;
         }
 
         public bool CreateUser(UserModel user)
@@ -132,27 +132,32 @@ namespace Services
 
         public List<UserModel> Sort(List<UserModel> users, SortParameter param)
         {
-            switch (param)
-            {
-                case SortParameter.FirstNameAscending:
-                    _sort = new SortUserByFirstNameAscending();
-                    break;
-                case SortParameter.LastNameAscending:
-                    _sort = new SortUserByLastNameAscending();
-                    break;
-                case SortParameter.FirstNameDescending:
-                    _sort = new SortUserByFirstNameDescending();
-                    break;
-                case SortParameter.LastNameDescending:
-                    _sort = new SortUserByLastNameDescending();
-                    break;
-                default:
-                    _sort = new SortUserByFirstNameAscending();
-                    break;
-            }
-
-            return _sort.Sort(users);
+            return _sorter.Sort(users, param.ToString());
         }
+
+        //public List<UserModel> Sort(List<UserModel> users, SortParameter param)
+        //{
+        //    switch (param)
+        //    {
+        //        case SortParameter.FirstNameAscending:
+        //            _sort = new SortUserByFirstNameAscending();
+        //            break;
+        //        case SortParameter.LastNameAscending:
+        //            _sort = new SortUserByLastNameAscending();
+        //            break;
+        //        case SortParameter.FirstNameDescending:
+        //            _sort = new SortUserByFirstNameDescending();
+        //            break;
+        //        case SortParameter.LastNameDescending:
+        //            _sort = new SortUserByLastNameDescending();
+        //            break;
+        //        default:
+        //            _sort = new SortUserByFirstNameAscending();
+        //            break;
+        //    }
+
+        //    return _sort.Sort(users);
+        //}
 
 
         public List<string> EncryptPassword(string password)

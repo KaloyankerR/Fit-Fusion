@@ -18,7 +18,7 @@ namespace FitFusionWeb.Pages.Users
         public SortParameter Sort { get; set; }
 
         public List<User> Users { get; set; } = new List<User>();
-        private readonly UserManager _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
+        private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
 
         public IActionResult OnGet()
         {

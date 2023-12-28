@@ -12,7 +12,7 @@ namespace FitFusionWeb.Pages.Authentication
     {
         [BindProperty]
         public Customer Customer { get; set; } = new();
-        private readonly UserManager _userManager = new UserManager(new UserDAO(), new SortUserByFirstNameAscending());
+        private readonly UserManager _userManager = new UserManager(new UserDAO(), new UserSorter());
         private readonly ILogger<ErrorModel> _logger;
 
         public RegisterModel(ILogger<ErrorModel> logger)

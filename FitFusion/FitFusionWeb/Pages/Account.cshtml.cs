@@ -15,7 +15,7 @@ namespace FitFusionWeb.Pages
     {
         [BindProperty]
         public User? CurrentUser { get; set; }
-        private UserManager _userManager = new(new DataAcess.UserDAO(), new SortUserByFirstNameAscending());
+        private UserManager _userManager = new(new DataAcess.UserDAO(), new UserSorter());
 
         public IActionResult OnGet()
         {

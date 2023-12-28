@@ -16,7 +16,7 @@ namespace FitFusionWeb.Pages.Users.Update
         public int Id { get; set; }
         [BindProperty]
         public Staff Staff { get; set; } = new();
-        private readonly UserManager _usermanager = new(new UserDAO(), new SortUserByFirstNameAscending());
+        private readonly UserManager _usermanager = new(new UserDAO(), new UserSorter());
 
         public void OnGet()
         {

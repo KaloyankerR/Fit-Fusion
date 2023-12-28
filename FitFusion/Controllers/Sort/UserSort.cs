@@ -12,43 +12,65 @@ namespace Services.Sort
     //{
     //}
 
-    public class SortUserByFirstNameAscending : ISort<User> 
+    public class UserSorter : ISort<User>
     {
-        public List<User> Sort(List<User> users)
+        public List<User> Sort(List<User> users, string param)
         {
-            return users.OrderBy(x => x.FirstName).ToList();
+            switch (param)
+            {
+                case "FirstNameAscending":
+                    return users.OrderBy(x => x.FirstName).ToList();
+                case "FirstNameDescending":
+                    return users.OrderByDescending(x => x.FirstName).ToList();
+                case "LastNameAscending":
+                    return users.OrderBy(x => x.LastName).ToList();
+                case "LastNameDescending":
+                    return users.OrderByDescending(x => x.LastName).ToList();
+                case "Role":
+                    return users.OrderBy(x => x.GetUserRole()).ToList();
+                default:
+                    return users;
+            }
         }
     }
 
-    public class SortUserByFirstNameDescending : ISort<User>
-    {
-        public List<User> Sort(List<User> users)
-        {
-            return users.OrderByDescending(x => x.FirstName).ToList();
-        }
-    }
+    //public class SortUserByFirstNameAscending : ISort<User> 
+    //{
+    //    public List<User> Sort(List<User> users)
+    //    {
+    //        return users.OrderBy(x => x.FirstName).ToList();
+    //    }
+    //}
 
-    public class SortUserByLastNameAscending : ISort<User>
-    {
-        public List<User> Sort(List<User> users)
-        {
-            return users.OrderBy(x => x.LastName).ToList();
-        }
-    }
+    //public class SortUserByFirstNameDescending : ISort<User>
+    //{
+    //    public List<User> Sort(List<User> users)
+    //    {
+    //        return users.OrderByDescending(x => x.FirstName).ToList();
+    //    }
+    //}
 
-    public class SortUserByLastNameDescending : ISort<User>
-    {
-        public List<User> Sort(List<User> users)
-        {
-            return users.OrderByDescending(x => x.LastName).ToList();
-        }
-    }
+    //public class SortUserByLastNameAscending : ISort<User>
+    //{
+    //    public List<User> Sort(List<User> users)
+    //    {
+    //        return users.OrderBy(x => x.LastName).ToList();
+    //    }
+    //}
 
-    public class SortUserByRole : ISort<User>
-    {
-        public List<User> Sort(List<User> users)
-        {
-            return users.OrderBy(x => x.GetUserRole()).ToList();
-        }
-    }
+    //public class SortUserByLastNameDescending : ISort<User>
+    //{
+    //    public List<User> Sort(List<User> users)
+    //    {
+    //        return users.OrderByDescending(x => x.LastName).ToList();
+    //    }
+    //}
+
+    //public class SortUserByRole : ISort<User>
+    //{
+    //    public List<User> Sort(List<User> users)
+    //    {
+    //        return users.OrderBy(x => x.GetUserRole()).ToList();
+    //    }
+    //}
 }
