@@ -21,7 +21,7 @@ namespace FitFusionWeb.Pages.Stats
 
         public ProductsModel()
         {
-            _productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
+            _productManager = new(new ProductDAO(), new FilterByCategory(), new ProductSorter());
         }
 
         public void OnGet()

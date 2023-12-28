@@ -17,15 +17,14 @@ namespace Services
     {
         private readonly IProduct _dao;
         private IFilter<Product> _filter;
-        private ISort<Product> _sort;
+        // private ISort<Product> _sort;
+        private ProductSorter _sorter;
 
-        public ProductManager(IProduct dao, IFilter<Product> filter, ISort<Product> sort)
+        public ProductManager(IProduct dao, IFilter<Product> filter, ProductSorter sorter)
         {
             _dao = dao;
             _filter = filter;
-            _sort = sort;
-            // _filter = new FilterByCategory();
-            // _sort = new SortProductByTitleAscending();
+            _sorter = sorter;
         }
 
         public bool CreateProduct(Product product)
@@ -104,11 +103,12 @@ namespace Services
         {
             if (!string.IsNullOrEmpty(searchQuery))
             {
+                searchQuery = searchQuery.ToLower();
                 products = products.FindAll(p =>
-                    p.Title.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    (p.Description ?? "").Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    p.Category.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    p.Price.ToString().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    p.Title.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    (p.Description ?? "").ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    p.Category.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    p.Price.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) //might be used in cases like EUR/Eur 
                 );
             }
 
@@ -117,32 +117,42 @@ namespace Services
 
         public List<Product> Sort(List<Product> products, string param)
         {
-            switch (param)
-            {
-                case "titleAsc":
-                    _sort = new SortProductByTitleAscending();
-                    break;
-                case "titleDesc":
-                    _sort = new SortProductByTitleDescending();
-                    break;
-                case "priceAsc":
-                    _sort = new SortProductByPriceAscending();
-                    break;
-                case "priceDesc":
-                    _sort = new SortProductByPriceDescending();
-                    break;
-                default:
-                    _sort = new SortProductByPriceAscending();
-                    break;
-            }
-
-            return _sort.Sort(products);
+            return _sorter.Sort(products, param);
         }
 
-        public List<Product> Filter(List<Product> products, string param)
+        //public List<Product> Sort(List<Product> products, string param)
+        //{
+        //    switch (param)
+        //    {
+        //        case "titleAsc":
+        //            _sort = new SortProductByTitleAscending();
+        //            break;
+        //        case "titleDesc":
+        //            _sort = new SortProductByTitleDescending();
+        //            break;
+        //        case "priceAsc":
+        //            _sort = new SortProductByPriceAscending();
+        //            break;
+        //        case "priceDesc":
+        //            _sort = new SortProductByPriceDescending();
+        //            break;
+        //        default:
+        //            _sort = new SortProductByPriceAscending();
+        //            break;
+        //    }
+
+        //    return _sort.Sort(products);
+        //}
+
+        public List<Product> Filter(List<Product> products, Dictionary<string, object> filters)
         {
-            return _filter.Filter(products, param);
+            return _filter.Filter(products, filters);
         }
+
+        //public List<Product> Filter(List<Product> products, string param)
+        //{
+        //    return _filter.Filter(products, param);
+        //}
 
         public Dictionary<Category, int> GetCategoryStats()
         {

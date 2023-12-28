@@ -13,6 +13,26 @@ namespace Services.Sort
     //{
     //}
 
+    public class ProductSorter // : ISort<Product>
+    {
+        public List<Product> Sort(List<Product> products, string param)
+        {
+            switch (param)
+            {
+                case "titleAsc":
+                    return products.OrderBy(o => o.Title).ToList();
+                case "titleDesc":
+                    return products.OrderByDescending(o => o.Title).ToList();
+                case "priceAsc":
+                    return products.OrderBy(o => o.Price).ToList();
+                case "priceDesc":
+                    return products.OrderByDescending(o => o.Price).ToList();
+                default:
+                    return products;
+            }
+        }
+    }
+
     public class SortProductByTitleAscending: ISort<Product>
     {
         public List<Product> Sort(List<Product> products)
@@ -45,27 +65,4 @@ namespace Services.Sort
         }
     }
 
-
-    //    public List<ProductModel> Sort(List<ProductModel> products, string param)
-    //{
-    //    if (string.IsNullOrEmpty(param))
-    //    {
-    //        return products;
-    //    }
-
-    //    var sortStrategies = new Dictionary<string, ISortStrategy<ProductModel>>
-    //        {
-    //            { "titleAsc", new Services.Sorting.SortByTitleAscending() },
-    //            { "titleDesc", new Services.Sorting.SortByTitleDescending() },
-    //            { "priceAsc", new Services.Sorting.SortByPriceAscending() },
-    //            { "priceDesc", new Services.Sorting.SortByPriceDescending() }
-    //        };
-
-    //    if (sortStrategies.TryGetValue(param, out var sortStrategy))
-    //    {
-    //        return sortStrategy.Sort(products);
-    //    }
-
-    //    return products;
-    //}
 }

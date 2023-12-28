@@ -15,7 +15,7 @@ namespace FitFusionWeb.Pages
     {
         [BindProperty]
         public List<Product> Products { get; set; } = new();
-        private readonly ProductManager _productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
+        private readonly ProductManager _productManager = new(new ProductDAO(), new FilterByCategory(), new ProductSorter());
         private readonly ILogger<IndexModel> _logger;
 
         public IndexModel(ILogger<IndexModel> logger)

@@ -21,7 +21,7 @@ namespace FitFusionWeb.Pages.Products
         public string FilterByCategory { get; set; } = "All";
 
         public List<Product> Products { get; set; } = new();
-        private ProductManager productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
+        private ProductManager productManager = new(new ProductDAO(), new FilterByCategory(), new ProductSorter());
 
         public IActionResult OnGet()
         {
@@ -43,7 +43,7 @@ namespace FitFusionWeb.Pages.Products
             {
                 Products = productManager.GetProducts();
                 Products = productManager.Search(Products, SearchQuery);
-                Products = productManager.Filter(Products, FilterByCategory);
+                // Products = productManager.Filter(Products, FilterByCategory);
                 Products = productManager.Sort(Products, Sort);
             }
             catch (DataAccessException)

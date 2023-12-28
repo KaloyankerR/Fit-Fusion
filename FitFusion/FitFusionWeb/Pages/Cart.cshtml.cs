@@ -20,7 +20,7 @@ namespace FitFusionWeb.Pages
     [Authorize(Roles = "Customer")]
     public class CartModel : PageModel
     {
-        public readonly ProductManager _productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
+        public readonly ProductManager _productManager = new(new ProductDAO(), new FilterByCategory(), new ProductSorter());
         private readonly UserManager _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
         private readonly OrderManager _orderManager = new(new OrderDAO());
 
