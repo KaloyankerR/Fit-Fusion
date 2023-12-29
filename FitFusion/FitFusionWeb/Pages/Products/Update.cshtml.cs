@@ -14,7 +14,7 @@ namespace FitFusionWeb.Pages.Products
         public int Id { get; set; }
         [BindProperty]
         public Product Product { get; set; } = new();
-        private readonly ProductManager _productManager = new (new DataAcess.ProductDAO(), new FilterByCategory(), new ProductSorter());
+        private readonly ProductManager _productManager = new (new DataAcess.ProductDAO(), new ProductFilter(), new ProductSorter());
 
         public IActionResult OnGet()
         {

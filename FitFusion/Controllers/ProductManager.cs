@@ -16,11 +16,12 @@ namespace Services
     public class ProductManager : IProduct
     {
         private readonly IProduct _dao;
-        private IFilter<Product> _filter;
+        // private IFilter<Product> _filter;
         // private ISort<Product> _sort;
         private ProductSorter _sorter;
+        private ProductFilter _filter;
 
-        public ProductManager(IProduct dao, IFilter<Product> filter, ProductSorter sorter)
+        public ProductManager(IProduct dao, ProductFilter filter, ProductSorter sorter)
         {
             _dao = dao;
             _filter = filter;
