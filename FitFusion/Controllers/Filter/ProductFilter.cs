@@ -10,17 +10,18 @@ namespace Services.Filter
 {
     public class CategoryFilterStrategy : IFilter<Product>
     {
-        public List<Product> Filter(List<Product> products, Dictionary<string, object> filters)
+        public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
         {
-            string filterKey = filters.Keys.FirstOrDefault()!;
+            FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
 
-            if (filterKey == "category" && filters.TryGetValue(filterKey, out var filterValue))
+            if (filterKey == FilterParameter.Category && filters.TryGetValue(filterKey, out var filterValueObj))
             {
-                string categoryFilter = filterValue.ToString()!;
-
-                if (!string.IsNullOrEmpty(categoryFilter) && categoryFilter != "All")
+                if (filterValueObj is Category filterValue)
                 {
-                    return products.Where(p => p.Category.ToString().Equals(categoryFilter, StringComparison.OrdinalIgnoreCase)).ToList();
+                    if (filterValue != Category.All)
+                    {
+                        return products.Where(p => p.Category == filterValue).ToList();
+                    }
                 }
             }
 
@@ -30,11 +31,11 @@ namespace Services.Filter
 
     public class PriceFilterStrategy : IFilter<Product>
     {
-        public List<Product> Filter(List<Product> products, Dictionary<string, object> filters)
+        public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
         {
-            string filterKey = filters.Keys.FirstOrDefault()!;
+            FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
 
-            if (filterKey == "price" && filters.TryGetValue(filterKey, out var priceRangeObj) && priceRangeObj is List<double> priceRange)
+            if (filterKey == FilterParameter.Price && filters.TryGetValue(filterKey, out var priceRangeObj) && priceRangeObj is List<double> priceRange)
             {
                 double min = priceRange[0];
                 double max = priceRange[1];
@@ -51,7 +52,7 @@ namespace Services.Filter
 
     public class ProductFilter
     {
-        public List<Product> Filter(List<Product> products, Dictionary<string, object> filters)
+        public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
         {
             IFilter<Product> filter;
 
@@ -60,14 +61,14 @@ namespace Services.Filter
                 return products;
             }
 
-            string filterKey = filters.Keys.FirstOrDefault()!;
+            FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
 
             switch (filterKey)
             {
-                case "category":
+                case FilterParameter.Category:
                     filter = new CategoryFilterStrategy();
                     break;
-                case "price":
+                case FilterParameter.Price:
                     filter = new PriceFilterStrategy();
                     break;
                 default:
@@ -77,5 +78,4 @@ namespace Services.Filter
             return filter.Filter(products, filters);
         }
     }
-
 }

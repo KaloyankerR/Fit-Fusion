@@ -16,8 +16,6 @@ namespace Services
     public class ProductManager : IProduct
     {
         private readonly IProduct _dao;
-        // private IFilter<Product> _filter;
-        // private ISort<Product> _sort;
         private ProductSorter _sorter;
         private ProductFilter _filter;
 
@@ -121,39 +119,10 @@ namespace Services
             return _sorter.Sort(products, param);
         }
 
-        //public List<Product> Sort(List<Product> products, string param)
-        //{
-        //    switch (param)
-        //    {
-        //        case "titleAsc":
-        //            _sort = new SortProductByTitleAscending();
-        //            break;
-        //        case "titleDesc":
-        //            _sort = new SortProductByTitleDescending();
-        //            break;
-        //        case "priceAsc":
-        //            _sort = new SortProductByPriceAscending();
-        //            break;
-        //        case "priceDesc":
-        //            _sort = new SortProductByPriceDescending();
-        //            break;
-        //        default:
-        //            _sort = new SortProductByPriceAscending();
-        //            break;
-        //    }
-
-        //    return _sort.Sort(products);
-        //}
-
-        public List<Product> Filter(List<Product> products, Dictionary<string, object> filters)
+        public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
         {
             return _filter.Filter(products, filters);
         }
-
-        //public List<Product> Filter(List<Product> products, string param)
-        //{
-        //    return _filter.Filter(products, param);
-        //}
 
         public Dictionary<Category, int> GetCategoryStats()
         {

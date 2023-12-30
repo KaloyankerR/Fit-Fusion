@@ -9,7 +9,6 @@ namespace Interfaces.Strategy
 {
     public interface IFilter<T>
     {
-        // List<T> Filter(List<T> elements, string param);
-        List<T> Filter(List<T> elements, Dictionary<string, object> filters);
+        List<T> Filter(List<T> elements, Dictionary<Enum, object> filters);
     }
 }

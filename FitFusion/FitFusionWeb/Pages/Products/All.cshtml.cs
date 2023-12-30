@@ -41,8 +41,10 @@ namespace FitFusionWeb.Pages.Products
         {
             try
             {
-                Dictionary<string, object> filter = new Dictionary<string, object>();
-                filter.Add("category", FilterByCategory);
+                Dictionary<Enum, object> filter = new();
+                Category category = Enum.TryParse(FilterByCategory, true, out Category result) ? result : Category.All;
+
+                filter.Add(FilterParameter.Category, category);
 
                 Products = productManager.GetProducts();
                 Products = productManager.Search(Products, SearchQuery);
