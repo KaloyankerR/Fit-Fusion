@@ -41,6 +41,8 @@
             label1 = new Label();
             label2 = new Label();
             btnRefresh = new ReaLTaiizor.Controls.Button();
+            label3 = new Label();
+            sortCmbBox = new ReaLTaiizor.Controls.DungeonComboBox();
             ((System.ComponentModel.ISupportInitialize)ProductsDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -217,7 +219,7 @@
             categoryCmbBox.HoverSelectionColor = Color.Empty;
             categoryCmbBox.IntegralHeight = false;
             categoryCmbBox.ItemHeight = 20;
-            categoryCmbBox.Location = new Point(367, 531);
+            categoryCmbBox.Location = new Point(367, 512);
             categoryCmbBox.Name = "categoryCmbBox";
             categoryCmbBox.Size = new Size(191, 26);
             categoryCmbBox.StartIndex = 0;
@@ -228,7 +230,7 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = SystemColors.Control;
-            label1.Location = new Point(207, 531);
+            label1.Location = new Point(207, 512);
             label1.Name = "label1";
             label1.Size = new Size(154, 23);
             label1.TabIndex = 14;
@@ -265,11 +267,50 @@
             btnRefresh.TextAlignment = StringAlignment.Center;
             btnRefresh.Click += btnRefresh_Click;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.ForeColor = SystemColors.Control;
+            label3.Location = new Point(207, 548);
+            label3.Name = "label3";
+            label3.Size = new Size(53, 23);
+            label3.TabIndex = 18;
+            label3.Text = "Sort:";
+            // 
+            // sortCmbBox
+            // 
+            sortCmbBox.BackColor = Color.FromArgb(41, 41, 41);
+            sortCmbBox.ColorA = Color.FromArgb(255, 163, 26);
+            sortCmbBox.ColorB = Color.FromArgb(255, 163, 26);
+            sortCmbBox.ColorC = Color.FromArgb(41, 41, 41);
+            sortCmbBox.ColorD = Color.FromArgb(41, 41, 41);
+            sortCmbBox.ColorE = Color.FromArgb(41, 41, 41);
+            sortCmbBox.ColorF = Color.FromArgb(41, 41, 41);
+            sortCmbBox.ColorG = Color.FromArgb(255, 163, 26);
+            sortCmbBox.ColorH = Color.FromArgb(41, 41, 41);
+            sortCmbBox.ColorI = Color.FromArgb(41, 41, 41);
+            sortCmbBox.DrawMode = DrawMode.OwnerDrawFixed;
+            sortCmbBox.DropDownHeight = 100;
+            sortCmbBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            sortCmbBox.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            sortCmbBox.ForeColor = Color.FromArgb(255, 163, 26);
+            sortCmbBox.FormattingEnabled = true;
+            sortCmbBox.HoverSelectionColor = Color.Empty;
+            sortCmbBox.IntegralHeight = false;
+            sortCmbBox.ItemHeight = 20;
+            sortCmbBox.Location = new Point(367, 548);
+            sortCmbBox.Name = "sortCmbBox";
+            sortCmbBox.Size = new Size(191, 26);
+            sortCmbBox.StartIndex = 0;
+            sortCmbBox.TabIndex = 17;
+            // 
             // Products
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
+            Controls.Add(label3);
+            Controls.Add(sortCmbBox);
             Controls.Add(btnRefresh);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -301,5 +342,7 @@
         private Label label1;
         private Label label2;
         private ReaLTaiizor.Controls.Button btnRefresh;
+        private Label label3;
+        private ReaLTaiizor.Controls.DungeonComboBox sortCmbBox;
     }
 }

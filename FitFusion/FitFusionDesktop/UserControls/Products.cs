@@ -25,6 +25,7 @@ namespace FitFusionDesktop.UserControls
             InitializeComponent();
             RefreshFormData();
             categoryCmbBox.DataSource = Enum.GetValues(typeof(Category));
+            sortCmbBox.DataSource = Enum.GetValues(typeof(SortParameter));
         }
 
         private void RefreshFormData()
@@ -73,7 +74,12 @@ namespace FitFusionDesktop.UserControls
 
             products = productManger.Filter(products, filter);
             products = productManger.Search(products, txtSearchQuery.Text);
-            
+
+            if (sortCmbBox.SelectedItem is SortParameter selectedSort)
+            {
+                products = productManger.Sort(products, selectedSort);
+            }
+
             ProductsDataGrid.DataSource = products;
         }
 

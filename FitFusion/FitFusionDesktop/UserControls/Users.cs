@@ -1,6 +1,5 @@
 ﻿using Services;
 using DataAcess;
-using Models.Product;
 using Models.User;
 using System;
 using System.Collections.Generic;
@@ -26,6 +25,7 @@ namespace FitFusionDesktop.UserControls
             InitializeComponent();
             userManager = new(new UserDAO(), new UserSorter());
             roleCmbBox.SelectedIndex = 2;
+            sortCmbBox.DataSource = Enum.GetValues(typeof(SortParameter));
         }
 
         private void RefreshFormData()
@@ -41,6 +41,11 @@ namespace FitFusionDesktop.UserControls
             else
             {
                 users = userManager.GetUsers(new Customer());
+            }
+
+            if (sortCmbBox.SelectedItem is SortParameter selectedSort)
+            {
+                users = userManager.Sort(users, selectedSort);
             }
 
             users = userManager.Search(users, txtSearchQuery.Text);
