@@ -309,7 +309,7 @@ namespace DataAcess
                                         description: reader.GetString("Description"),
                                         price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
                                         category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
-                                        imageUrl: reader.GetString("ImageUrl")
+                                        imageUrl: reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString("ImageUrl")
                                     );
 
                                     int month = reader.GetInt32("OrderMonth");
