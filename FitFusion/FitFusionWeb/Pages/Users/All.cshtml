@@ -26,9 +26,10 @@ else if (messageType == "success")
 
         <div class="column small-12 medium-6 large-2">
             <select name="sort" asp-for="Sort">
-                <option selected disabled>Select filter</option>
-                <option value="FirstNameAscending">First Name Ascending</option>
-                <option value="LastNameAscending">Last Name Descending</option>
+                <option value="@SortParameter.FirstNameAscending">First Name Ascending</option>
+                <option value="@SortParameter.FirstNameDescending">First Name Descending</option>
+                <option value="@SortParameter.LastNameAscending">Last Name Ascending</option>
+                <option value="@SortParameter.LastNameDescending">Last Name Descending</option>
             </select>
         </div>
 

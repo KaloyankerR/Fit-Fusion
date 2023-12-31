@@ -1,4 +1,5 @@
 ﻿@page
+@using Models.Product;
 @model FitFusionWeb.Pages.Products.AllModel
 @{
     ViewData["Title"] = "Products";
@@ -22,7 +23,17 @@ else if (messageType == "success")
         <div class="column small-12 medium-6 large-4">
             <input type="text" name="searchQuery" class="form-control" placeholder="Search..." value="@Model.SearchQuery">
         </div>
+
         <div class="column small-12 medium-6 large-2">
+            <select name="sort" asp-for="Sort">
+                <option value="@SortParameter.TitleAsc">Title Ascending</option>
+                <option value="@SortParameter.TitleDesc">Title Descending</option>
+                <option value="@SortParameter.PriceAsc">Price Ascending</option>
+                <option value="@SortParameter.PriceDesc">Price Descending</option>
+            </select>
+        </div>
+
+        @* <div class="column small-12 medium-6 large-2">
             <select name="sort">
                 <option selected disabled>Select sorting</option>
                 @if (Model.Sort == "titleAsc")
@@ -63,6 +74,7 @@ else if (messageType == "success")
 
             </select>
         </div>
+         *@
         <div class="column small-12 medium-6 large-2">
             <select asp-for="FilterByCategory">
                 @foreach (var category in Enum.GetValues(typeof(Models.Product.Category)))

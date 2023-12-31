@@ -15,7 +15,6 @@ namespace Services
     public class UserManager : IUser
     {
         private readonly IUser dao;
-        // private ISort<User> _sort;
         private UserSorter _sorter;
 
         public UserManager(IUser userDao, UserSorter sorter)
@@ -134,31 +133,6 @@ namespace Services
         {
             return _sorter.Sort(users, param);
         }
-
-        //public List<UserModel> Sort(List<UserModel> users, SortParameter param)
-        //{
-        //    switch (param)
-        //    {
-        //        case SortParameter.FirstNameAscending:
-        //            _sort = new SortUserByFirstNameAscending();
-        //            break;
-        //        case SortParameter.LastNameAscending:
-        //            _sort = new SortUserByLastNameAscending();
-        //            break;
-        //        case SortParameter.FirstNameDescending:
-        //            _sort = new SortUserByFirstNameDescending();
-        //            break;
-        //        case SortParameter.LastNameDescending:
-        //            _sort = new SortUserByLastNameDescending();
-        //            break;
-        //        default:
-        //            _sort = new SortUserByFirstNameAscending();
-        //            break;
-        //    }
-
-        //    return _sort.Sort(users);
-        //}
-
 
         public List<string> EncryptPassword(string password)
         {

@@ -16,7 +16,7 @@ namespace FitFusionWeb.Pages.Products
         public string SearchQuery { get; set; } = string.Empty;
 
         [BindProperty]
-        public string Sort { get; set; } = "titleAsc";
+        public SortParameter Sort { get; set; }
         [BindProperty]
         public string FilterByCategory { get; set; } = "All";
 
