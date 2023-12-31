@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Models.Product;
-using Models.User;
+﻿using Models.User;
 using UserModel = Models.User.User;
 using Interfaces;
 using Interfaces.Strategy;
-using Services.Sort;
 
 namespace Services
 {
     public class UserManager : IUser
     {
         private readonly IUser dao;
-        private UserSorter _sorter;
+        private ISort<UserModel> _sorter;
 
-        public UserManager(IUser userDao, UserSorter sorter)
+        public UserManager(IUser userDao, ISort<UserModel> sorter)
         {
             dao = userDao;
             _sorter = sorter;

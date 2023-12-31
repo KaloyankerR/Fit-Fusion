@@ -1,25 +1,19 @@
 ﻿using Models.Product;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Interfaces;
 using Models.Order;
 using System.Data.SqlClient;
 using Interfaces.Strategy;
 using Services.Filter;
-using Services.Sort;
 
 namespace Services
 {
     public class ProductManager : IProduct
     {
         private readonly IProduct _dao;
-        private ProductSorter _sorter;
+        private ISort<Product> _sorter;
         private ProductFilter _filter;
 
-        public ProductManager(IProduct dao, ProductFilter filter, ProductSorter sorter)
+        public ProductManager(IProduct dao, ProductFilter filter, ISort<Product> sorter)
         {
             _dao = dao;
             _filter = filter;

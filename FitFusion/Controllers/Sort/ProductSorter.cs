@@ -45,17 +45,37 @@ namespace Services.Sort
             switch (param)
             {
                 case SortParameter.TitleAsc:
-                    return products.OrderBy(o => o.Title).ToList();
+                    return SortByTitleAscending(products);
                 case SortParameter.TitleDesc:
-                    return products.OrderByDescending(o => o.Title).ToList();
+                    return SortByTitleDescending(products);
                 case SortParameter.PriceAsc:
-                    return products.OrderBy(o => o.Price).ToList();
+                    return SortByPriceAscending(products);
                 case SortParameter.PriceDesc:
-                    return products.OrderByDescending(o => o.Price).ToList();
+                    return SortByPriceDescending(products);
                 default:
                     return products;
             }
         }
-        
+
+        private List<Product> SortByTitleAscending(List<Product> products)
+        {
+            return products.OrderBy(o => o.Title).ToList();
+        }
+
+        private List<Product> SortByTitleDescending(List<Product> products)
+        {
+            return products.OrderByDescending(o => o.Title).ToList();
+        }
+
+        private List<Product> SortByPriceAscending(List<Product> products)
+        {
+            return products.OrderBy(o => o.Price).ToList();
+        }
+
+        private List<Product> SortByPriceDescending(List<Product> products)
+        {
+            return products.OrderByDescending(o => o.Price).ToList();
+        }
     }
+
 }
