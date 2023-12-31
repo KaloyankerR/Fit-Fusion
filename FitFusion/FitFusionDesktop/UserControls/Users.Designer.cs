@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             UsersDataGrid = new ReaLTaiizor.Controls.PoisonDataGridView();
             roleCmbBox = new ReaLTaiizor.Controls.DungeonComboBox();
             btnDelete = new ReaLTaiizor.Controls.Button();
@@ -42,6 +42,8 @@
             label1 = new Label();
             label2 = new Label();
             btnRefresh = new ReaLTaiizor.Controls.Button();
+            label3 = new Label();
+            dungeonComboBox1 = new ReaLTaiizor.Controls.DungeonComboBox();
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).BeginInit();
             SuspendLayout();
             // 
@@ -52,37 +54,37 @@
             UsersDataGrid.BorderStyle = BorderStyle.None;
             UsersDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.SunkenVertical;
             UsersDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Sunken;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(41, 41, 41);
-            dataGridViewCellStyle4.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            UsersDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle1.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            UsersDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             UsersDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.Gray;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
-            UsersDataGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.Gray;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            UsersDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             UsersDataGrid.EnableHeadersVisualStyles = false;
             UsersDataGrid.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
             UsersDataGrid.GridColor = Color.FromArgb(255, 255, 255);
             UsersDataGrid.Location = new Point(0, 0);
             UsersDataGrid.Name = "UsersDataGrid";
             UsersDataGrid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(41, 41, 41);
-            dataGridViewCellStyle6.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle6.ForeColor = Color.White;
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle6.SelectionForeColor = Color.White;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            UsersDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            UsersDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             UsersDataGrid.RowHeadersWidth = 51;
             UsersDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             UsersDataGrid.RowTemplate.Height = 29;
@@ -112,7 +114,7 @@
             roleCmbBox.IntegralHeight = false;
             roleCmbBox.ItemHeight = 20;
             roleCmbBox.Items.AddRange(new object[] { "Owners", "Staff", "Customers" });
-            roleCmbBox.Location = new Point(344, 520);
+            roleCmbBox.Location = new Point(344, 487);
             roleCmbBox.Name = "roleCmbBox";
             roleCmbBox.Size = new Size(191, 26);
             roleCmbBox.StartIndex = 0;
@@ -252,7 +254,7 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = SystemColors.Control;
-            label1.Location = new Point(228, 518);
+            label1.Location = new Point(228, 485);
             label1.Name = "label1";
             label1.Size = new Size(110, 23);
             label1.TabIndex = 13;
@@ -289,11 +291,51 @@
             btnRefresh.TextAlignment = StringAlignment.Center;
             btnRefresh.Click += btnRefresh_Click;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.ForeColor = SystemColors.Control;
+            label3.Location = new Point(228, 529);
+            label3.Name = "label3";
+            label3.Size = new Size(53, 23);
+            label3.TabIndex = 17;
+            label3.Text = "Sort:";
+            // 
+            // dungeonComboBox1
+            // 
+            dungeonComboBox1.BackColor = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorA = Color.FromArgb(255, 163, 26);
+            dungeonComboBox1.ColorB = Color.FromArgb(255, 163, 26);
+            dungeonComboBox1.ColorC = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorD = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorE = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorF = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorG = Color.FromArgb(255, 163, 26);
+            dungeonComboBox1.ColorH = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.ColorI = Color.FromArgb(41, 41, 41);
+            dungeonComboBox1.DrawMode = DrawMode.OwnerDrawFixed;
+            dungeonComboBox1.DropDownHeight = 100;
+            dungeonComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
+            dungeonComboBox1.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            dungeonComboBox1.ForeColor = Color.FromArgb(255, 163, 26);
+            dungeonComboBox1.FormattingEnabled = true;
+            dungeonComboBox1.HoverSelectionColor = Color.Empty;
+            dungeonComboBox1.IntegralHeight = false;
+            dungeonComboBox1.ItemHeight = 20;
+            dungeonComboBox1.Items.AddRange(new object[] { "Owners", "Staff", "Customers" });
+            dungeonComboBox1.Location = new Point(344, 531);
+            dungeonComboBox1.Name = "dungeonComboBox1";
+            dungeonComboBox1.Size = new Size(191, 26);
+            dungeonComboBox1.StartIndex = 0;
+            dungeonComboBox1.TabIndex = 16;
+            // 
             // Users
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
+            Controls.Add(label3);
+            Controls.Add(dungeonComboBox1);
             Controls.Add(btnRefresh);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -326,5 +368,7 @@
         private Label label1;
         private Label label2;
         private ReaLTaiizor.Controls.Button btnRefresh;
+        private Label label3;
+        private ReaLTaiizor.Controls.DungeonComboBox dungeonComboBox1;
     }
 }
