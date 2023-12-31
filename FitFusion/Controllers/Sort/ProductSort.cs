@@ -1,39 +1,12 @@
 ﻿using Interfaces;
 using Interfaces.Strategy;
 using Models.Product;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.Sort
 {
-    //internal class ProductSortStrategies
-    //{
-    //}
-
-    public class ProductSorter : ISort<Product>
-    {
-        public List<Product> Sort(List<Product> products, string param)
-        {
-            switch (param)
-            {
-                case "titleAsc":
-                    return products.OrderBy(o => o.Title).ToList();
-                case "titleDesc":
-                    return products.OrderByDescending(o => o.Title).ToList();
-                case "priceAsc":
-                    return products.OrderBy(o => o.Price).ToList();
-                case "priceDesc":
-                    return products.OrderByDescending(o => o.Price).ToList();
-                default:
-                    return products;
-            }
-        }
-    }
-
-    //public class SortProductByTitleAscending: ISort<Product>
+    //public class TitleAscSortStrategy : ISort<Product>
     //{
     //    public List<Product> Sort(List<Product> products)
     //    {
@@ -41,7 +14,7 @@ namespace Services.Sort
     //    }
     //}
 
-    //public class SortProductByTitleDescending : ISort<Product> 
+    //public class TitleDescSortStrategy : ISort<Product>
     //{
     //    public List<Product> Sort(List<Product> products)
     //    {
@@ -49,15 +22,7 @@ namespace Services.Sort
     //    }
     //}
 
-    //public class SortProductByPriceDescending : ISort<Product>
-    //{
-    //    public List<Product> Sort(List<Product> products)
-    //    {
-    //        return products.OrderByDescending(o => o.Price).ToList();
-    //    }
-    //}
-
-    //public class SortProductByPriceAscending : ISort<Product>
+    //public class PriceAscSortStrategy : ISort<Product>
     //{
     //    public List<Product> Sort(List<Product> products)
     //    {
@@ -65,4 +30,32 @@ namespace Services.Sort
     //    }
     //}
 
+    //public class PriceDescSortStrategy : ISort<Product>
+    //{
+    //    public List<Product> Sort(List<Product> products)
+    //    {
+    //        return products.OrderByDescending(o => o.Price).ToList();
+    //    }
+    //}
+
+    public class ProductSorter : ISort<Product>
+    {
+        public List<Product> Sort(List<Product> products, Enum param)
+        {
+            switch (param)
+            {
+                case SortParameter.TitleAsc:
+                    return products.OrderBy(o => o.Title).ToList();
+                case SortParameter.TitleDesc:
+                    return products.OrderByDescending(o => o.Title).ToList();
+                case SortParameter.PriceAsc:
+                    return products.OrderBy(o => o.Price).ToList();
+                case SortParameter.PriceDesc:
+                    return products.OrderByDescending(o => o.Price).ToList();
+                default:
+                    return products;
+            }
+        }
+        
+    }
 }

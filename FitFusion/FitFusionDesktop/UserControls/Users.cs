@@ -24,7 +24,7 @@ namespace FitFusionDesktop.UserControls
         public Users()
         {
             InitializeComponent();
-            userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
+            userManager = new(new UserDAO(), new UserSorter());
             roleCmbBox.SelectedIndex = 2;
         }
 

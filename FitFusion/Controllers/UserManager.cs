@@ -130,9 +130,9 @@ namespace Services
             return users;
         }
 
-        public List<UserModel> Sort(List<UserModel> users, SortParameter param)
+        public List<UserModel> Sort(List<UserModel> users, Enum param)
         {
-            return _sorter.Sort(users, param.ToString());
+            return _sorter.Sort(users, param);
         }
 
         //public List<UserModel> Sort(List<UserModel> users, SortParameter param)

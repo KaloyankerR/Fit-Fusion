@@ -18,7 +18,7 @@ namespace FitFusionDesktop.UserControls
 {
     public partial class Products : UserControl
     {
-        private readonly ProductManager productManger = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
+        private readonly ProductManager productManger = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
 
         public Products()
         {
@@ -66,7 +66,12 @@ namespace FitFusionDesktop.UserControls
         private void btnSearch_Click(object sender, EventArgs e)
         {
             List<Product> products = productManger.GetProducts();
-            products = productManger.Filter(products, categoryCmbBox.SelectedItem.ToString()!);
+
+            Dictionary<Enum, object> filter = new();
+            Category category = Enum.TryParse(categoryCmbBox.SelectedItem.ToString(), true, out Category result) ? result : Category.All;
+            filter.Add(FilterParameter.Category, category);
+
+            products = productManger.Filter(products, filter);
             products = productManger.Search(products, txtSearchQuery.Text);
             
             ProductsDataGrid.DataSource = products;

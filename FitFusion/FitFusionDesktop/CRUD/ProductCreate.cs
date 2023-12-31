@@ -17,7 +17,7 @@ namespace FitFusionDesktop.CRUD
 {
     public partial class ProductCreate : Form
     {
-        private readonly ProductManager _productManager = new(new ProductDAO(), new FilterByCategory(), new SortProductByTitleAscending());
+        private readonly ProductManager _productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
 
         public ProductCreate()
         {

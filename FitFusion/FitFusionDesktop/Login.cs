@@ -22,7 +22,7 @@ namespace FitFusionDesktop
         public Login()
         {
             InitializeComponent();
-            _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
+            _userManager = new(new UserDAO(), new UserSorter());
         }
 
         private void btnLogin_Click(object sender, EventArgs e)

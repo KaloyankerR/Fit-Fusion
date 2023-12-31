@@ -8,25 +8,21 @@ using System.Threading.Tasks;
 
 namespace Services.Sort
 {
-    //internal class UserSort
-    //{
-    //}
-
     public class UserSorter : ISort<User>
     {
-        public List<User> Sort(List<User> users, string param)
+        public List<User> Sort(List<User> users, Enum param)
         {
             switch (param)
             {
-                case "FirstNameAscending":
+                case SortParameter.FirstNameAscending:
                     return users.OrderBy(x => x.FirstName).ToList();
-                case "FirstNameDescending":
+                case SortParameter.FirstNameDescending:
                     return users.OrderByDescending(x => x.FirstName).ToList();
-                case "LastNameAscending":
+                case SortParameter.LastNameAscending:
                     return users.OrderBy(x => x.LastName).ToList();
-                case "LastNameDescending":
+                case SortParameter.LastNameDescending:
                     return users.OrderByDescending(x => x.LastName).ToList();
-                case "Role":
+                case SortParameter.Role:
                     return users.OrderBy(x => x.GetUserRole()).ToList();
                 default:
                     return users;

@@ -16,7 +16,7 @@ namespace FitFusionDesktop.CRUD
 {
     public partial class UserUpdate : Form
     {
-        private readonly UserManager _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
+        private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
         private User User { get; set; }
 
         public UserUpdate(User user)

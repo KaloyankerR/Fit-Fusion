@@ -17,7 +17,7 @@ namespace FitFusionDesktop.CRUD
 {
     public partial class UserCreate : Form
     {
-        private readonly UserManager _userManager = new(new UserDAO(), new SortUserByFirstNameAscending());
+        private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
 
         public UserCreate()
         {

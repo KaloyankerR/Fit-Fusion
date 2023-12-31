@@ -114,7 +114,7 @@ namespace Services
             return products;
         }
 
-        public List<Product> Sort(List<Product> products, string param)
+        public List<Product> Sort(List<Product> products, Enum param)
         {
             return _sorter.Sort(products, param);
         }
