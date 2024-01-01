@@ -1,0 +1,40 @@
+﻿@page
+@model FitFusionWeb.Pages.RecommendationsModel
+@{
+}
+
+<div class="grid-container">
+    <div class="grid-x">
+
+        <h1>System recommendation</h1>
+        <div class="cell">
+            <article class="card">
+                <img class="card-img" src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg" alt="@Model.SystemRecommendation.Title">
+                
+                <div class="card-body">
+                    <h2 class="card-title">@Model.SystemRecommendation.Title</h2>
+                    <p class="card-description">@Model.SystemRecommendation.Description</p>
+                    <p class="card-price">@Model.SystemRecommendation.Price</p>
+                </div>
+
+                <a class="button primary btnElement" href="./Product/@Model.SystemRecommendation.Id">View product</a>
+            </article>
+        </div>
+
+        <h1>Merchant recommendation</h1>
+        <div class="cell">
+            <article class="card">
+                <img class="card-img" src="https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg" alt="@Model.MerchantRecommendation.Title">
+
+                <div class="card-body">
+                    <h2 class="card-title">@Model.MerchantRecommendation.Title</h2>
+                    <p class="card-description">@Model.MerchantRecommendation.Description</p>
+                    <p class="card-price">@Model.MerchantRecommendation.Price</p>
+                </div>
+
+                <a class="button primary btnElement" href="./Product/@Model.MerchantRecommendation.Id">View product</a>
+            </article>
+        </div>
+
+    </div>
+</div>

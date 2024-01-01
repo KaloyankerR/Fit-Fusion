@@ -1,21 +1,23 @@
-using Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
+using DataAcess;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Models.Product;
 using Models.User;
-using System.Security.Claims;
-using DataAcess;
+using Services;
 using Services.Sort;
+using System.Security.Claims;
 
 namespace FitFusionWeb.Pages
 {
-    public class AccountModel : PageModel
+    public class RecommendationsModel : PageModel
     {
-        [BindProperty]
-        public User? CurrentUser { get; set; }
+        private readonly OrderManager _orderManager = new(new OrderDAO());
+        private User? CurrentUser { get; set; }
         private UserManager _userManager = new(new DataAcess.UserDAO(), new UserSorter());
+        [BindProperty]
+        public Product SystemRecommendation { get; set; } = new();
+        [BindProperty]
+        public Product MerchantRecommendation { get; set; } = new();
 
         public IActionResult OnGet()
         {
@@ -25,22 +27,10 @@ namespace FitFusionWeb.Pages
                 {
                     var email = User.FindFirstValue(ClaimTypes.Email);
                     var role = User.FindFirstValue(ClaimTypes.Role);
-                    //User newRole;
-
-                    //switch (role)
-                    //{
-                    //    case "Owner":
-                    //        newRole = new Owner();
-                    //        break;
-                    //    case "Staff":
-                    //        newRole = new Staff();
-                    //        break;
-                    //    case "Customer":
-                    //        newRole = new Customer();
-                    //        break;
-                    //}
-
+                    
                     CurrentUser = _userManager.GetUserByEmail(email);
+                    SystemRecommendation = _orderManager.GetMostTrendingProduct(CurrentUser.Id);
+                    MerchantRecommendation = _orderManager.GetMerchantRecommendation(CurrentUser.Id);
                     return Page();
                 }
             }
@@ -55,6 +45,5 @@ namespace FitFusionWeb.Pages
 
             return RedirectToPage("/Authentication/Login");
         }
-
     }
 }
