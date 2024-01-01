@@ -62,8 +62,16 @@ namespace FitFusionDesktop
                         }
                     }
 
-                    Product mostTrendingProduct = _orderManager.GetMostTrendingProduct(_customerId);
-                    listBox4.Items.Add($"Most Trending Product: {mostTrendingProduct.Title}");
+                    listBox4.Items.Add(_orderManager.GetMostTrendingProduct(_customerId).Title);
+                    try
+                    {
+                        listBxMerchantRecommendation.Items.Add(_orderManager.GetMerchantRecommendation(_customerId).Title);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Customer doesn't have merchant recommendation.");
+                    }
+                    
                 }
                 else
                 {
@@ -75,10 +83,6 @@ namespace FitFusionDesktop
                 throw;
             }
         }
-
-
-
-
 
         private void AddProductsToListBox(ListBox listBox, Dictionary<Product, int> productCounts)
         {
@@ -94,6 +98,19 @@ namespace FitFusionDesktop
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnSuggest_Click(object sender, EventArgs e)
+        {
+            ProductSuggestion frm = new(_customerId);
+            frm.ShowDialog();
+
+            listBox1.Items.Clear();
+            listBox2.Items.Clear();
+            listBox3.Items.Clear();
+            listBxMerchantRecommendation.Items.Clear();
+
+            FillListBoxes();
         }
     }
 }

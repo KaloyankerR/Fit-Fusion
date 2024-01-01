@@ -78,6 +78,18 @@ namespace Services
             }
         }
 
+        public Product GetMerchantRecommendation(int customerId)
+        {
+            try
+            {
+                return _dao.GetMerchantRecommendation(customerId);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public Product GetMostTrendingProduct(int customerId)
         {
             Dictionary<int, Dictionary<Product, int>> recommendations = GetRecommendations(customerId);
@@ -133,6 +145,18 @@ namespace Services
             }
 
             throw new NullReferenceException("There are no products.");
+        }
+
+        public bool CreateMerchantRecommendation(int customerId, Product newProduct)
+        {
+            try
+            {
+                return _dao.CreateMerchantRecommendation(customerId, newProduct);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
     }

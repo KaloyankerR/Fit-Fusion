@@ -14,5 +14,7 @@ namespace Interfaces
         Order GetOrderById(int id);
         List<Order> GetOrders();
         Dictionary<int, Dictionary<Product, int>> GetRecommendations(int customerId);
+        Product GetMerchantRecommendation(int customerId);
+        bool CreateMerchantRecommendation(int customerId, Product newProduct);
     }
 }

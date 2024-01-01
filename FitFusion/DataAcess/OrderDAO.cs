@@ -338,5 +338,85 @@ namespace DataAcess
             return data;
         }
 
+        public Product GetMerchantRecommendation(int customerId)
+        {
+            Product product;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string getOrdersQuery = "SELECT * FROM Recommendation r JOIN Product p ON p.Id=r.ProductId WHERE CustomerId=@CustomerId;";
+
+                    using (SqlCommand command = new SqlCommand(getOrdersQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@CustomerId", customerId);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                product = new Product
+                                (
+                                    id: reader.GetInt32("Id"),
+                                    title: reader.GetString("Title"),
+                                    description: reader.IsDBNull(reader.GetOrdinal("Description")) ? null : reader.GetString("Description"),
+                                    price: (double)reader.GetDecimal(reader.GetOrdinal("Price")),
+                                    category: Enum.TryParse(reader.GetString("Category"), out Category category) ? category : default(Category),
+                                    imageUrl: reader.IsDBNull(reader.GetOrdinal("ImageUrl")) ? null : reader.GetString("ImageUrl")
+                                );
+                            }
+                            else
+                            {
+                                throw new NullReferenceException("Product wasn't found.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw new DataAccessException("An error occurred in the database operation.");
+            }
+
+            return product;
+        }
+
+        public bool CreateMerchantRecommendation(int customerId, Product newProduct)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string addOrUpdateQuery = @"
+                MERGE INTO Recommendation AS Target
+                USING (VALUES (@CustomerId, @ProductId)) AS Source (CustomerId, ProductId)
+                ON Target.CustomerId = Source.CustomerId
+                WHEN MATCHED THEN
+                    UPDATE SET Target.ProductId = Source.ProductId
+                WHEN NOT MATCHED THEN
+                    INSERT (CustomerId, ProductId)
+                    VALUES (Source.CustomerId, Source.ProductId);";
+
+                    using (SqlCommand command = new SqlCommand(addOrUpdateQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@CustomerId", customerId);
+                        command.Parameters.AddWithValue("@ProductId", newProduct.Id);
+
+                        command.ExecuteNonQuery();
+                    }
+
+                    return true;
+                }
+            }
+            catch (SqlException)
+            {
+                throw new DataAccessException("An error occurred in the database operation.");
+            }
+        }
     }
 }

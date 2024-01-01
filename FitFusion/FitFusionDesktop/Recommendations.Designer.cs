@@ -35,7 +35,7 @@
             btnClose = new ReaLTaiizor.Controls.Button();
             label1 = new Label();
             label2 = new Label();
-            listBox5 = new ListBox();
+            listBxMerchantRecommendation = new ListBox();
             btnSuggest = new ReaLTaiizor.Controls.Button();
             SuspendLayout();
             // 
@@ -126,16 +126,16 @@
             label2.TabIndex = 17;
             label2.Text = "Merchant suggestion:";
             // 
-            // listBox5
+            // listBxMerchantRecommendation
             // 
-            listBox5.BackColor = Color.Gray;
-            listBox5.ForeColor = Color.White;
-            listBox5.FormattingEnabled = true;
-            listBox5.ItemHeight = 23;
-            listBox5.Location = new Point(12, 549);
-            listBox5.Name = "listBox5";
-            listBox5.Size = new Size(368, 50);
-            listBox5.TabIndex = 16;
+            listBxMerchantRecommendation.BackColor = Color.Gray;
+            listBxMerchantRecommendation.ForeColor = Color.White;
+            listBxMerchantRecommendation.FormattingEnabled = true;
+            listBxMerchantRecommendation.ItemHeight = 23;
+            listBxMerchantRecommendation.Location = new Point(12, 549);
+            listBxMerchantRecommendation.Name = "listBxMerchantRecommendation";
+            listBxMerchantRecommendation.Size = new Size(368, 50);
+            listBxMerchantRecommendation.TabIndex = 16;
             // 
             // btnSuggest
             // 
@@ -156,6 +156,7 @@
             btnSuggest.TabIndex = 18;
             btnSuggest.Text = "Suggest";
             btnSuggest.TextAlignment = StringAlignment.Center;
+            btnSuggest.Click += btnSuggest_Click;
             // 
             // Recommendations
             // 
@@ -165,7 +166,7 @@
             ClientSize = new Size(391, 780);
             Controls.Add(btnSuggest);
             Controls.Add(label2);
-            Controls.Add(listBox5);
+            Controls.Add(listBxMerchantRecommendation);
             Controls.Add(label1);
             Controls.Add(btnClose);
             Controls.Add(listBox4);
@@ -189,7 +190,7 @@
         private ReaLTaiizor.Controls.Button btnClose;
         private Label label1;
         private Label label2;
-        private ListBox listBox5;
+        private ListBox listBxMerchantRecommendation;
         private ReaLTaiizor.Controls.Button btnSuggest;
     }
 }
