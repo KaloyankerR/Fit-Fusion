@@ -1,4 +1,4 @@
-﻿using Models.Product;
+﻿using Models.Product.Enums;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -49,6 +49,8 @@ namespace Models.Order
 
         public ShoppingCart() 
         { }
+
+        // TODO: add constructor with parameter for products
 
         public void AddToCart(ProductModel product)
         {
@@ -141,7 +143,7 @@ namespace Models.Order
 
         public override string ToString()
         {
-            return $"Cart: {Products.Count} products";
+            return $"Cart: {Products.Count} products count";
         }
 
     }

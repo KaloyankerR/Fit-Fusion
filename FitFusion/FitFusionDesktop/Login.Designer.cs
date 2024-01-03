@@ -82,6 +82,7 @@
             txtPassword.LinearGradientPen = false;
             txtPassword.Location = new Point(275, 256);
             txtPassword.Name = "txtPassword";
+            txtPassword.Password = true;
             txtPassword.PenWidth = 15;
             txtPassword.RGB = false;
             txtPassword.Rounding = true;

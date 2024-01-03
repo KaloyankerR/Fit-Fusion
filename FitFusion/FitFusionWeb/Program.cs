@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Models.User;
+using Models.User.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 

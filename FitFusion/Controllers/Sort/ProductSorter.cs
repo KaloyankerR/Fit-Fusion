@@ -1,6 +1,7 @@
 ﻿using Interfaces;
 using Interfaces.Strategy;
 using Models.Product;
+using Models.Product.Enums;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -44,13 +45,13 @@ namespace Services.Sort
         {
             switch (param)
             {
-                case SortParameter.TitleAsc:
+                case Models.Product.Enums.SortParameter.TitleAsc:
                     return SortByTitleAscending(products);
-                case SortParameter.TitleDesc:
+                case Models.Product.Enums.SortParameter.TitleDesc:
                     return SortByTitleDescending(products);
-                case SortParameter.PriceAsc:
+                case Models.Product.Enums.SortParameter.PriceAsc:
                     return SortByPriceAscending(products);
-                case SortParameter.PriceDesc:
+                case Models.Product.Enums.SortParameter.PriceDesc:
                     return SortByPriceDescending(products);
                 default:
                     return products;

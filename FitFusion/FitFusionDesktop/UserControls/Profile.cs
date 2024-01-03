@@ -25,8 +25,10 @@ namespace FitFusionDesktop.UserControls
         {
             InitializeComponent();
             CurrentUser = user;
-            lblRole.Text = user.GetUserRole();
-            lblName.Text = CurrentUser.FirstName + " " + CurrentUser.LastName;
+            lblRole.Text = $"Role: {user.GetUserRole()}";
+            lblName.Text = $"Full name: {CurrentUser}";
+            lblEmail.Text = $"Email: {CurrentUser.Email}";
+            lblAddress.Text = $"Address: {CurrentUser.Address}";
         }
 
     }

@@ -44,7 +44,13 @@
             btnRefresh = new ReaLTaiizor.Controls.Button();
             label3 = new Label();
             sortCmbBox = new ReaLTaiizor.Controls.DungeonComboBox();
+            groupBox1 = new GroupBox();
+            groupBox2 = new GroupBox();
+            groupBox3 = new GroupBox();
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).BeginInit();
+            groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox3.SuspendLayout();
             SuspendLayout();
             // 
             // UsersDataGrid
@@ -114,12 +120,11 @@
             roleCmbBox.IntegralHeight = false;
             roleCmbBox.ItemHeight = 20;
             roleCmbBox.Items.AddRange(new object[] { "Owners", "Staff", "Customers" });
-            roleCmbBox.Location = new Point(344, 487);
+            roleCmbBox.Location = new Point(120, 19);
             roleCmbBox.Name = "roleCmbBox";
             roleCmbBox.Size = new Size(191, 26);
             roleCmbBox.StartIndex = 0;
             roleCmbBox.TabIndex = 3;
-            roleCmbBox.SelectedIndexChanged += roleCmbBox_SelectedIndexChanged;
             // 
             // btnDelete
             // 
@@ -132,7 +137,7 @@
             btnDelete.Image = null;
             btnDelete.ImageAlign = ContentAlignment.MiddleLeft;
             btnDelete.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnDelete.Location = new Point(24, 630);
+            btnDelete.Location = new Point(6, 147);
             btnDelete.Name = "btnDelete";
             btnDelete.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnDelete.PressedColor = Color.FromArgb(255, 163, 26);
@@ -153,7 +158,7 @@
             btnUpdate.Image = null;
             btnUpdate.ImageAlign = ContentAlignment.MiddleLeft;
             btnUpdate.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnUpdate.Location = new Point(24, 574);
+            btnUpdate.Location = new Point(6, 91);
             btnUpdate.Name = "btnUpdate";
             btnUpdate.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnUpdate.PressedColor = Color.FromArgb(255, 163, 26);
@@ -174,7 +179,7 @@
             btnCreate.Image = null;
             btnCreate.ImageAlign = ContentAlignment.MiddleLeft;
             btnCreate.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnCreate.Location = new Point(24, 518);
+            btnCreate.Location = new Point(6, 35);
             btnCreate.Name = "btnCreate";
             btnCreate.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnCreate.PressedColor = Color.FromArgb(255, 163, 26);
@@ -194,7 +199,7 @@
             txtSearchQuery.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             txtSearchQuery.ForeColor = Color.White;
             txtSearchQuery.Hint = "";
-            txtSearchQuery.Location = new Point(344, 563);
+            txtSearchQuery.Location = new Point(120, 95);
             txtSearchQuery.MaxLength = 32767;
             txtSearchQuery.Multiline = false;
             txtSearchQuery.Name = "txtSearchQuery";
@@ -219,7 +224,7 @@
             btnSearch.Image = null;
             btnSearch.ImageAlign = ContentAlignment.MiddleLeft;
             btnSearch.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnSearch.Location = new Point(228, 630);
+            btnSearch.Location = new Point(6, 154);
             btnSearch.Name = "btnSearch";
             btnSearch.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnSearch.PressedColor = Color.FromArgb(255, 163, 26);
@@ -240,7 +245,7 @@
             btnRecommendations.Image = null;
             btnRecommendations.ImageAlign = ContentAlignment.MiddleLeft;
             btnRecommendations.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnRecommendations.Location = new Point(666, 611);
+            btnRecommendations.Location = new Point(11, 135);
             btnRecommendations.Name = "btnRecommendations";
             btnRecommendations.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnRecommendations.PressedColor = Color.FromArgb(255, 163, 26);
@@ -254,17 +259,17 @@
             // 
             label1.AutoSize = true;
             label1.ForeColor = SystemColors.Control;
-            label1.Location = new Point(228, 485);
+            label1.Location = new Point(4, 17);
             label1.Name = "label1";
-            label1.Size = new Size(110, 23);
+            label1.Size = new Size(56, 23);
             label1.TabIndex = 13;
-            label1.Text = "Select role:";
+            label1.Text = "Role:";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.ForeColor = SystemColors.Control;
-            label2.Location = new Point(228, 574);
+            label2.Location = new Point(4, 106);
             label2.Name = "label2";
             label2.Size = new Size(108, 23);
             label2.TabIndex = 14;
@@ -281,7 +286,7 @@
             btnRefresh.Image = null;
             btnRefresh.ImageAlign = ContentAlignment.MiddleLeft;
             btnRefresh.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnRefresh.Location = new Point(666, 518);
+            btnRefresh.Location = new Point(11, 35);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnRefresh.PressedColor = Color.FromArgb(255, 163, 26);
@@ -295,11 +300,11 @@
             // 
             label3.AutoSize = true;
             label3.ForeColor = SystemColors.Control;
-            label3.Location = new Point(228, 529);
+            label3.Location = new Point(6, 62);
             label3.Name = "label3";
-            label3.Size = new Size(53, 23);
+            label3.Size = new Size(80, 23);
             label3.TabIndex = 17;
-            label3.Text = "Sort:";
+            label3.Text = "Sort by:";
             // 
             // sortCmbBox
             // 
@@ -323,37 +328,67 @@
             sortCmbBox.IntegralHeight = false;
             sortCmbBox.ItemHeight = 20;
             sortCmbBox.Items.AddRange(new object[] { "Owners", "Staff", "Customers" });
-            sortCmbBox.Location = new Point(344, 531);
+            sortCmbBox.Location = new Point(120, 59);
             sortCmbBox.Name = "sortCmbBox";
             sortCmbBox.Size = new Size(191, 26);
             sortCmbBox.StartIndex = 0;
             sortCmbBox.TabIndex = 16;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(label3);
+            groupBox1.Controls.Add(roleCmbBox);
+            groupBox1.Controls.Add(sortCmbBox);
+            groupBox1.Controls.Add(btnSearch);
+            groupBox1.Controls.Add(txtSearchQuery);
+            groupBox1.Controls.Add(label2);
+            groupBox1.Location = new Point(14, 460);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(326, 227);
+            groupBox1.TabIndex = 18;
+            groupBox1.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(btnCreate);
+            groupBox2.Controls.Add(btnUpdate);
+            groupBox2.Controls.Add(btnDelete);
+            groupBox2.Location = new Point(346, 460);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(167, 227);
+            groupBox2.TabIndex = 19;
+            groupBox2.TabStop = false;
+            // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(btnRefresh);
+            groupBox3.Controls.Add(btnRecommendations);
+            groupBox3.Location = new Point(519, 460);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(230, 227);
+            groupBox3.TabIndex = 20;
+            groupBox3.TabStop = false;
             // 
             // Users
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            Controls.Add(label3);
-            Controls.Add(sortCmbBox);
-            Controls.Add(btnRefresh);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(btnRecommendations);
-            Controls.Add(txtSearchQuery);
-            Controls.Add(btnSearch);
-            Controls.Add(btnDelete);
-            Controls.Add(btnUpdate);
-            Controls.Add(btnCreate);
-            Controls.Add(roleCmbBox);
+            Controls.Add(groupBox3);
+            Controls.Add(groupBox2);
+            Controls.Add(groupBox1);
             Controls.Add(UsersDataGrid);
             Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
             Margin = new Padding(4, 3, 4, 3);
             Name = "Users";
             Size = new Size(932, 703);
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).EndInit();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox3.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -370,5 +405,8 @@
         private ReaLTaiizor.Controls.Button btnRefresh;
         private Label label3;
         private ReaLTaiizor.Controls.DungeonComboBox sortCmbBox;
+        private GroupBox groupBox1;
+        private GroupBox groupBox2;
+        private GroupBox groupBox3;
     }
 }

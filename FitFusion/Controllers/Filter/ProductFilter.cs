@@ -1,5 +1,6 @@
 ﻿using Interfaces.Strategy;
 using Models.Product;
+using Models.Product.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Services.Filter
         {
             FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
 
-            if (filterKey == FilterParameter.Category && filters.TryGetValue(filterKey, out var filterValueObj))
+            if (filterKey == Models.Product.Enums.FilterParameter.Category && filters.TryGetValue((Enum)filterKey, out var filterValueObj))
             {
                 if (filterValueObj is Category filterValue)
                 {
@@ -35,7 +36,7 @@ namespace Services.Filter
         {
             FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
 
-            if (filterKey == FilterParameter.Price && filters.TryGetValue(filterKey, out var priceRangeObj) && priceRangeObj is List<double> priceRange)
+            if (filterKey == Models.Product.Enums.FilterParameter.Price && filters.TryGetValue((Enum)filterKey, out var priceRangeObj) && priceRangeObj is List<double> priceRange)
             {
                 double min = priceRange[0];
                 double max = priceRange[1];
@@ -65,10 +66,10 @@ namespace Services.Filter
 
             switch (filterKey)
             {
-                case FilterParameter.Category:
+                case Models.Product.Enums.FilterParameter.Category:
                     filter = new CategoryFilterStrategy();
                     break;
-                case FilterParameter.Price:
+                case Models.Product.Enums.FilterParameter.Price:
                     filter = new PriceFilterStrategy();
                     break;
                 default:

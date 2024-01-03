@@ -1,5 +1,6 @@
 ﻿@page
 @using Models.Product;
+@using Models.Product.Enums;
 @model FitFusionWeb.Pages.Products.AllModel
 @{
     ViewData["Title"] = "Products";
@@ -33,51 +34,9 @@ else if (messageType == "success")
             </select>
         </div>
 
-        @* <div class="column small-12 medium-6 large-2">
-            <select name="sort">
-                <option selected disabled>Select sorting</option>
-                @if (Model.Sort == "titleAsc")
-                {
-                    <option value="titleAsc" selected>Title Ascending</option>
-                }
-                else
-                {
-                    <option value="titleAsc">Title Ascending</option>
-                }
-
-                @if (Model.Sort == "titleDesc")
-                {
-                    <option value="titleDesc" selected>Title Descending</option>
-                }
-                else
-                {
-                    <option value="titleDesc">Title Descending</option>
-                }
-
-                @if (Model.Sort == "priceAsc")
-                {
-                    <option value="priceAsc" selected>Price Ascending</option>
-                }
-                else
-                {
-                    <option value="priceAsc">Price Ascending</option>
-                }
-
-                @if (Model.Sort == "priceDesc")
-                {
-                    <option value="priceDesc" selected>Price Descending</option>
-                }
-                else
-                {
-                    <option value="priceDesc">Price Descending</option>
-                }
-
-            </select>
-        </div>
-         *@
         <div class="column small-12 medium-6 large-2">
             <select asp-for="FilterByCategory">
-                @foreach (var category in Enum.GetValues(typeof(Models.Product.Category)))
+                @foreach (var category in Enum.GetValues(typeof(Category)))
                 {
                     <option value="@category">@category</option>
                 }

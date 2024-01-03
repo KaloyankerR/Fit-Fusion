@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models.User
+namespace Models.Product.Enums
 {
     public enum SortParameter
     {
-        FirstNameAscending,
-        FirstNameDescending,
-        LastNameAscending,
-        LastNameDescending,
-        Role,
+        TitleAsc,
+        TitleDesc,
+        PriceAsc,
+        PriceDesc,
     }
 }

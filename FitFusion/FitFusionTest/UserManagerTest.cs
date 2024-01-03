@@ -1,5 +1,6 @@
 using FitFusionTest.MockDAO;
 using Models.User;
+using Models.User.Enums;
 using NUnit.Framework;
 using Services;
 using System.Data;

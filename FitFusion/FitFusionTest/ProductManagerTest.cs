@@ -5,6 +5,7 @@ using Services;
 using FitFusionTest.MockDAO;
 using Interfaces;
 using Services.Sort;
+using Models.Product.Enums;
 
 namespace FitFusionTest
 {

@@ -9,6 +9,7 @@ using Models.Order;
 using Models.User;
 using Models.Product;
 using System.Data;
+using Models.Product.Enums;
 
 namespace DataAcess
 {

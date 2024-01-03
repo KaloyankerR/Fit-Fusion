@@ -1,6 +1,7 @@
 ﻿using Interfaces;
 using Models.Order;
 using Models.Product;
+using Models.Product.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -23,7 +23,7 @@ namespace FitFusionDesktop.UserControls
         public Home(User user)
         {
             InitializeComponent();
-            label1.Text = user.FirstName + " " + user.LastName;
+            label1.Text = $"Hello, {user.FirstName}!";
             FillData();
         }
 

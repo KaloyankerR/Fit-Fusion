@@ -50,7 +50,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Arial", 18F, FontStyle.Regular, GraphicsUnit.Point);
             label1.ForeColor = Color.FromArgb(255, 163, 26);
-            label1.Location = new Point(392, 35);
+            label1.Location = new Point(56, 31);
             label1.Name = "label1";
             label1.Size = new Size(94, 35);
             label1.TabIndex = 0;
@@ -97,9 +97,9 @@
             label6.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             label6.Location = new Point(6, 143);
             label6.Name = "label6";
-            label6.Size = new Size(91, 33);
+            label6.Size = new Size(175, 33);
             label6.TabIndex = 7;
-            label6.Text = "Total:";
+            label6.Text = "Total count:";
             // 
             // txtTotalUsers
             // 
@@ -162,9 +162,9 @@
             label3.Font = new Font("Arial", 16.2F, FontStyle.Bold, GraphicsUnit.Point);
             label3.Location = new Point(19, 44);
             label3.Name = "label3";
-            label3.Size = new Size(91, 33);
+            label3.Size = new Size(175, 33);
             label3.TabIndex = 7;
-            label3.Text = "Total:";
+            label3.Text = "Total count:";
             // 
             // txtTotalProducts
             // 

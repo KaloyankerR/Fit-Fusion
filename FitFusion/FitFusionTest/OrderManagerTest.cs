@@ -4,6 +4,7 @@ using Models.User;
 using Services;
 using FitFusionTest.MockDAO;
 using Interfaces;
+using Models.Product.Enums;
 
 namespace FitFusionTest
 {

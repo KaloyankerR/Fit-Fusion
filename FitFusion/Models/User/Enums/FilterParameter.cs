@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models.Product
+namespace Models.User.Enums
 {
     public enum FilterParameter
     {
-        Category,
-        Price,
+        Role,
+        NutriPoints,
     }
 }

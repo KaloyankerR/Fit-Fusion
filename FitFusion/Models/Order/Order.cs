@@ -59,14 +59,6 @@ namespace Models.Order
             Note = note;
         }
 
-        //public Order(DateTime date, Customer customer, ShoppingCart cart, string note)
-        //{
-        //    OrderDate = date;
-        //    Customer = customer;
-        //    Cart = cart;
-        //    Note = note;
-        //}
-
         public Order(int id, DateTime date, Customer customer, ShoppingCart cart, string note)
         {
             Id = id;

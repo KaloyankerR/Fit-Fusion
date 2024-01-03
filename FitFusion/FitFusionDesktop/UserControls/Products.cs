@@ -13,12 +13,13 @@ using Services;
 using Interfaces;
 using Services.Filter;
 using Services.Sort;
+using Models.Product.Enums;
 
 namespace FitFusionDesktop.UserControls
 {
     public partial class Products : UserControl
     {
-        private readonly ProductManager productManger = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
+        private readonly ProductManager _productManger = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
 
         public Products()
         {
@@ -30,7 +31,7 @@ namespace FitFusionDesktop.UserControls
 
         private void RefreshFormData()
         {
-            ProductsDataGrid.DataSource = productManger.GetProducts();
+            btnSearch_Click(this, EventArgs.Empty);
         }
 
         private void btnCreate_Click(object sender, EventArgs e)
@@ -52,7 +53,7 @@ namespace FitFusionDesktop.UserControls
             try
             {
                 int selectedId = Convert.ToInt16(ProductsDataGrid.SelectedRows[0].Cells[0].Value);
-                Product product = productManger.GetProductById(selectedId);
+                Product product = _productManger.GetProductById(selectedId);
 
                 CRUD.ProductUpdate frm = new(product);
                 frm.ShowDialog();
@@ -66,29 +67,30 @@ namespace FitFusionDesktop.UserControls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            List<Product> products = productManger.GetProducts();
+            List<Product> products = _productManger.GetProducts();
 
-            Dictionary<Enum, object> filter = new();
-            Category category = Enum.TryParse(categoryCmbBox.SelectedItem.ToString(), true, out Category result) ? result : Category.All;
-            filter.Add(FilterParameter.Category, category);
+            Dictionary<Enum, object> filter = new()
+            {
+                { FilterParameter.Category, Enum.TryParse(categoryCmbBox.SelectedItem?.ToString(), true, out Category result) ? result : Category.All }
+            };
 
-            products = productManger.Filter(products, filter);
-            products = productManger.Search(products, txtSearchQuery.Text);
+            products = _productManger.Search(_productManger.Filter(products, filter), txtSearchQuery.Text);
 
             if (sortCmbBox.SelectedItem is SortParameter selectedSort)
             {
-                products = productManger.Sort(products, selectedSort);
+                products = _productManger.Sort(products, selectedSort);
             }
 
             ProductsDataGrid.DataSource = products;
         }
+
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             RefreshFormData();
         }
 
-        private void categoryCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnDelete_Click(object sender, EventArgs e)
         {
 
         }

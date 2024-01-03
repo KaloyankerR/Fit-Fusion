@@ -6,6 +6,7 @@ using Models.Product;
 using Microsoft.AspNetCore.Authorization;
 using Services.Filter;
 using Services.Sort;
+using Models.Product.Enums;
 
 namespace FitFusionWeb.Pages.Stats
 {

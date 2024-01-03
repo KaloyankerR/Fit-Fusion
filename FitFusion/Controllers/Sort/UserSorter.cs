@@ -1,5 +1,6 @@
 ﻿using Interfaces.Strategy;
 using Models.User;
+using Models.User.Enums;
 
 namespace Services.Sort
 {

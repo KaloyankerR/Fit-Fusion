@@ -12,54 +12,62 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FitFusionDesktop.CRUD;
 using Services.Sort;
+using Models.User.Enums;
 
 namespace FitFusionDesktop.UserControls
 {
     public partial class Users : UserControl
     {
-        private readonly UserManager userManager;
+        private readonly UserManager _userManager;
         private List<User> users = new();
 
         public Users()
         {
             InitializeComponent();
-            userManager = new(new UserDAO(), new UserSorter());
-            roleCmbBox.SelectedIndex = 2;
+            _userManager = new(new UserDAO(), new UserSorter());
+            roleCmbBox.DataSource = Enum.GetValues(typeof(Role));
             sortCmbBox.DataSource = Enum.GetValues(typeof(SortParameter));
-        }
-
-        private void RefreshFormData()
-        {
-            if (roleCmbBox.SelectedItem.ToString() == "Owners")
-            {
-                users = userManager.GetUsers(new Owner());
-            }
-            else if (roleCmbBox.SelectedItem.ToString() == "Staff")
-            {
-                users = userManager.GetUsers(new Staff());
-            }
-            else
-            {
-                users = userManager.GetUsers(new Customer());
-            }
-
-            if (sortCmbBox.SelectedItem is SortParameter selectedSort)
-            {
-                users = userManager.Sort(users, selectedSort);
-            }
-
-            users = userManager.Search(users, txtSearchQuery.Text);
-            UsersDataGrid.DataSource = users;
+            btnSearch_Click(this, EventArgs.Empty);
         }
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            RefreshFormData();
-        }
+            List<User> users = new();
 
-        private void roleCmbBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            RefreshFormData();
+            //Dictionary<Enum, object> filter = new()
+            //{
+            //    {FilterParameter.Role, Enum.TryParse(roleCmbBox.SelectedItem?.ToString(), true, out Role result) ? result: Role.All }
+            //};
+
+            //users = _userManager.Search(_userManager.Filter(users, filter), txtSearchQuery.Text);
+
+            Role role = Enum.TryParse(roleCmbBox.SelectedItem?.ToString(), true, out Role result) ? result : Role.All;
+
+            if (role == Role.Owner)
+            {
+                users = _userManager.GetUsers(new Owner());
+            }
+            else if (role == Role.Staff)
+            {
+                users = _userManager.GetUsers(new Staff());
+            }
+            else if (role == Role.Customer)
+            {
+                users = _userManager.GetUsers(new Customer());
+            }
+            else
+            {
+                users = _userManager.GetAllUsers();
+            }
+
+            users = _userManager.Search(users, txtSearchQuery.Text);
+
+            if (sortCmbBox.SelectedItem is SortParameter selectedSort)
+            {
+                users = _userManager.Sort(users, selectedSort);
+            }
+
+            UsersDataGrid.DataSource = users;
         }
 
         private void btnCreate_Click(object sender, EventArgs e)
@@ -68,7 +76,7 @@ namespace FitFusionDesktop.UserControls
             {
                 CRUD.UserCreate frm = new();
                 frm.ShowDialog();
-                RefreshFormData();
+                btnSearch_Click(this, EventArgs.Empty);
             }
             catch
             {
@@ -81,7 +89,7 @@ namespace FitFusionDesktop.UserControls
             try
             {
                 string selectedEmail = UsersDataGrid.SelectedRows[0].Cells[3].Value.ToString()!;
-                User user = userManager.GetUserByEmail(selectedEmail)!;
+                User user = _userManager.GetUserByEmail(selectedEmail)!;
 
                 CRUD.UserUpdate frm = new(user);
                 frm.ShowDialog();
@@ -119,8 +127,8 @@ namespace FitFusionDesktop.UserControls
                 DataGridViewRow selectedRow = UsersDataGrid.SelectedRows[0];
                 User selectedUser = (User)selectedRow.DataBoundItem;
 
-                userManager.DeleteUser(selectedUser);
-                RefreshFormData();
+                _userManager.DeleteUser(selectedUser);
+                btnSearch_Click(this, EventArgs.Empty);
                 MessageBox.Show("User successfully deleted.");
             }
             catch (NullReferenceException)
@@ -135,7 +143,7 @@ namespace FitFusionDesktop.UserControls
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            RefreshFormData();
+            btnSearch_Click(this, EventArgs.Empty);
         }
     }
 }

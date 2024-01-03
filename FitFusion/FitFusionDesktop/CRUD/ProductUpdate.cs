@@ -1,5 +1,6 @@
 ﻿using DataAcess;
 using Models.Product;
+using Models.Product.Enums;
 using Services;
 using Services.Filter;
 using Services.Sort;

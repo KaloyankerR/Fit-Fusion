@@ -4,6 +4,7 @@ using Models.Order;
 using System.Data.SqlClient;
 using Interfaces.Strategy;
 using Services.Filter;
+using Models.Product.Enums;
 
 namespace Services
 {

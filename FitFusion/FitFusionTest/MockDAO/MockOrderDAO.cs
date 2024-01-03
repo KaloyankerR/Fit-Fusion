@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Models.Product;
 using Interfaces;
 using System.Data.SqlClient;
+using Models.Product.Enums;
 
 namespace FitFusionTest.MockDAO
 {

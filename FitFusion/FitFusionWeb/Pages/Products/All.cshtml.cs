@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Services;
 using Services.Filter;
 using Services.Sort;
+using Models.Product.Enums;
 
 namespace FitFusionWeb.Pages.Products
 {

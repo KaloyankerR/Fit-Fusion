@@ -1,5 +1,6 @@
 ﻿using Interfaces.Strategy;
 using Models.User;
+using Models.User.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

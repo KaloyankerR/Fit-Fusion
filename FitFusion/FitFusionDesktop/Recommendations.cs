@@ -108,6 +108,7 @@ namespace FitFusionDesktop
             listBox1.Items.Clear();
             listBox2.Items.Clear();
             listBox3.Items.Clear();
+            listBox4.Items.Clear();
             listBxMerchantRecommendation.Items.Clear();
 
             FillListBoxes();
