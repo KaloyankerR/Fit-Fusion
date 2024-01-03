@@ -21,7 +21,7 @@ namespace FitFusionWeb.Pages.Products
         [BindProperty]
         public SortParameter Sort { get; set; }
         [BindProperty]
-        public string FilterByCategory { get; set; } = "All";
+        public Category FilterByCategory { get; set; } = Category.All;
 
         public List<ProductView> Products { get; set; } = new();
         private readonly ProductManager productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
@@ -47,7 +47,7 @@ namespace FitFusionWeb.Pages.Products
             {
                 var filter = new Dictionary<Enum, object>
                 {
-                    { FilterParameter.Category, Enum.TryParse(FilterByCategory, true, out Category result) ? result : Category.All }
+                    { FilterParameter.Category, FilterByCategory }
                 };
 
                 List<Product> products = productManager
