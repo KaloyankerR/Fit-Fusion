@@ -75,7 +75,7 @@ namespace DataAcess
                         updateProductCommand.Parameters.AddWithValue("@Title", product.Title);
                         updateProductCommand.Parameters.AddWithValue("@Description", product.Description ?? (object)DBNull.Value);
                         updateProductCommand.Parameters.AddWithValue("@Price", product.Price);
-                        updateProductCommand.Parameters.AddWithValue("@Category", product.Category.ToString());
+                        updateProductCommand.Parameters.AddWithValue("@Category", product.Category);
                         updateProductCommand.Parameters.AddWithValue("@ImageUrl", product.ImageUrl ?? (object)DBNull.Value);
 
                         updateProductCommand.ExecuteNonQuery();

@@ -7,6 +7,8 @@ using System.Data;
 using DataAcess;
 using Services.Filter;
 using Services.Sort;
+using FitFusionWeb.Converters;
+using FitFusionWeb.Views;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -14,8 +16,9 @@ namespace FitFusionWeb.Pages.Products
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public Product Product { get; set; } = new();
+        public ProductView ProductView { get; set; } = new();
         private readonly ProductManager _productManager = new(new DataAcess.ProductDAO(), new ProductFilter(), new ProductSorter());
+        private readonly ProductConverter _converter = new();
 
         public void OnGet()
         { }
@@ -31,7 +34,7 @@ namespace FitFusionWeb.Pages.Products
                     return Page();
                 }
 
-                if (_productManager.CreateProduct(Product))
+                if (_productManager.CreateProduct(_converter.ToProduct(ProductView)))
                 {
                     TempData["Type"] = "success";
                     TempData["Message"] = "Successfully created a product!";

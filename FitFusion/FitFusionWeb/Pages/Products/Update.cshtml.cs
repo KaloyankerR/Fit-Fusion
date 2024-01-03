@@ -6,22 +6,33 @@ using DataAcess;
 using Services.Filter;
 using Services.Sort;
 using Models.Product.Enums;
+using FitFusionWeb.Converters;
+using FitFusionWeb.Views;
 
 namespace FitFusionWeb.Pages.Products
 {
     public class UpdateModel : PageModel
     {
         [BindProperty]
-        public Product Product { get; set; } = new();
+        public ProductView ProductView { get; set; } = new();
         [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
         private readonly ProductManager _productManager = new (new DataAcess.ProductDAO(), new ProductFilter(), new ProductSorter());
+        private readonly ProductConverter _converter = new();
 
         public IActionResult OnGet()
         {
             try
             {
-                Product = _productManager.GetProductById(Id);
+                ProductView = _converter.ToProductView(_productManager.GetProductById(Id));
+
+                //TODO:
+                //if (product != null)
+                //{
+                //    ProductView = _converter.ToProductView(product);
+                //}
+                //else
+                //{}
             }
             catch (DataAccessException)
             {
@@ -39,24 +50,13 @@ namespace FitFusionWeb.Pages.Products
         {
             try
             {
-                int id = int.Parse(Request.Form["Product.Id"]);
-                string title = Request.Form["Product.Title"];
-                string description = Request.Form["Product.Description"];
-                decimal price = decimal.Parse(Request.Form["Product.Price"]);
-                Category category = Enum.Parse<Category>(Request.Form["Product.Category"]);
-                string imageUrl = Request.Form["Product.ImageUrl"];
+                if (!ModelState.IsValid)
+                {
+                    TempData["Message"] = "Please check the fields again!";
+                    return Page();
+                }
 
-                Product updatedProduct = new Product
-                (
-                    id: id,
-                    title: title,
-                    description: description,
-                    price: Convert.ToDouble(price),
-                    category: category,
-                    imageUrl: imageUrl
-                );
-
-                if (_productManager.UpdateProduct(updatedProduct))
+                if (_productManager.UpdateProduct(_converter.ToProduct(ProductView)))
                 {
                     TempData["Type"] = "success";
                     TempData["Message"] = "Product successfully updated!";
@@ -64,7 +64,7 @@ namespace FitFusionWeb.Pages.Products
                 }
 
                 TempData["Type"] = "danger";
-                TempData["Message"] = "An error occurred!";
+                TempData["Message"] = "An error occured!";
             }
             catch (DataAccessException)
             {

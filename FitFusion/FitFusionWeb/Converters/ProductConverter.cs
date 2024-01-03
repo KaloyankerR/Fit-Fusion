@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using FitFusionWeb.Views;
 using Models.Product;
 
 namespace FitFusionWeb.Converters

@@ -9,6 +9,7 @@ using Services.Filter;
 using Services.Sort;
 using Models.Product.Enums;
 using FitFusionWeb.Converters;
+using FitFusionWeb.Views;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -23,16 +24,14 @@ namespace FitFusionWeb.Pages.Products
         public string FilterByCategory { get; set; } = "All";
 
         public List<ProductView> Products { get; set; } = new();
-        private ProductManager productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
-        private ProductConverter _converter = new();
+        private readonly ProductManager productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
+        private readonly ProductConverter _converter = new();
 
         public IActionResult OnGet()
         {
             try
             {
-                List<Product> productsDomainObj = productManager.GetProducts();
-                Products = _converter.ToProductViews(productsDomainObj);
-
+                Products = _converter.ToProductViews(productManager.GetProducts());
             }
             catch (DataAccessException)
             {
@@ -46,17 +45,21 @@ namespace FitFusionWeb.Pages.Products
         {
             try
             {
-                Dictionary<Enum, object> filter = new();
-                Category category = Enum.TryParse(FilterByCategory, true, out Category result) ? result : Category.All;
+                var filter = new Dictionary<Enum, object>
+                {
+                    { FilterParameter.Category, Enum.TryParse(FilterByCategory, true, out Category result) ? result : Category.All }
+                };
 
-                filter.Add(FilterParameter.Category, category);
+                List<Product> products = productManager
+                    .Sort(
+                        productManager
+                            .Filter(
+                                productManager
+                                    .Search(productManager.GetProducts(), SearchQuery),
+                                filter),
+                        Sort);
 
-                List<Product> productsDomainObj = productManager.GetProducts();
-                productsDomainObj = productManager.Search(productsDomainObj, SearchQuery);
-                productsDomainObj = productManager.Filter(productsDomainObj, filter);
-                productsDomainObj = productManager.Sort(productsDomainObj, Sort);
-
-                Products = _converter.ToProductViews(productsDomainObj);
+                Products = _converter.ToProductViews(products);
             }
             catch (DataAccessException)
             {

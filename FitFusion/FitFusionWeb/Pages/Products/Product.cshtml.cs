@@ -5,6 +5,8 @@ using Models.Product;
 using DataAcess;
 using Services.Filter;
 using Services.Sort;
+using FitFusionWeb.Views;
+using FitFusionWeb.Converters;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -13,14 +15,15 @@ namespace FitFusionWeb.Pages.Products
         [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
         [BindProperty]
-        public Product Product { get; set; } = new();
+        public ProductView ProductView { get; set; } = new();
         private readonly ProductManager _productManager = new ProductManager(new DataAcess.ProductDAO(), new ProductFilter(), new ProductSorter());
+        private readonly ProductConverter _converter = new();
 
         public IActionResult OnGet()
         {
             try
             {
-                Product = _productManager.GetProductById(Id);
+                ProductView = _converter.ToProductView(_productManager.GetProductById(Id));            
             }
             catch (DataAccessException)
             {

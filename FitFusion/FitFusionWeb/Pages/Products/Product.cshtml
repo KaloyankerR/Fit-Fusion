@@ -6,20 +6,20 @@
 
 <div class="product-details-container">
     <div class="product-image">
-        <img src="@Model.Product.ImageUrl" alt="Product Image" />
+        <img src="@Model.ProductView.ImageUrl" alt="Product Image" />
     </div>
 
     <div class="product-info">
-        <h2>@Model.Product.Title</h2>
+        <h2>@Model.ProductView.Title</h2>
 
         <div class="product-description">
-            <p>Description: @Model.Product.Description</p>
+            <p>Description: @Model.ProductView.Description</p>
         </div>
 
         <div class="product-details">
-            <p>Price: @Model.Product.Price $</p>
+            <p>Price: @Model.ProductView.Price $</p>
             <span>Category:</span>
-            <p class="category">@Model.Product.Category.ToString()</p>
+            <p class="category">@Model.ProductView.Category.ToString()</p>
         </div>
     </div>
 </div>

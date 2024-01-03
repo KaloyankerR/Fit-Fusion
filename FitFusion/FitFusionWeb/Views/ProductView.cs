@@ -10,6 +10,7 @@ namespace FitFusionWeb.Views
 {
     public class ProductView
     {
+        [Key]
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Title is required")]
