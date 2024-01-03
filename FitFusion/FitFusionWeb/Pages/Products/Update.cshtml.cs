@@ -5,15 +5,16 @@ using Models.Product;
 using DataAcess;
 using Services.Filter;
 using Services.Sort;
+using Models.Product.Enums;
 
 namespace FitFusionWeb.Pages.Products
 {
     public class UpdateModel : PageModel
     {
-        [BindProperty(SupportsGet = true)]
-        public int Id { get; set; }
         [BindProperty]
         public Product Product { get; set; } = new();
+        [BindProperty(SupportsGet = true)]
+        public int Id { get; set; }
         private readonly ProductManager _productManager = new (new DataAcess.ProductDAO(), new ProductFilter(), new ProductSorter());
 
         public IActionResult OnGet()
@@ -38,13 +39,24 @@ namespace FitFusionWeb.Pages.Products
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    TempData["Message"] = "Please check the fields again!";
-                    return Page();
-                }
+                int id = int.Parse(Request.Form["Product.Id"]);
+                string title = Request.Form["Product.Title"];
+                string description = Request.Form["Product.Description"];
+                decimal price = decimal.Parse(Request.Form["Product.Price"]);
+                Category category = Enum.Parse<Category>(Request.Form["Product.Category"]);
+                string imageUrl = Request.Form["Product.ImageUrl"];
 
-                if (_productManager.UpdateProduct(Product))
+                Product updatedProduct = new Product
+                (
+                    id: id,
+                    title: title,
+                    description: description,
+                    price: Convert.ToDouble(price),
+                    category: category,
+                    imageUrl: imageUrl
+                );
+
+                if (_productManager.UpdateProduct(updatedProduct))
                 {
                     TempData["Type"] = "success";
                     TempData["Message"] = "Product successfully updated!";
@@ -52,7 +64,7 @@ namespace FitFusionWeb.Pages.Products
                 }
 
                 TempData["Type"] = "danger";
-                TempData["Message"] = "An error occured!";
+                TempData["Message"] = "An error occurred!";
             }
             catch (DataAccessException)
             {
@@ -65,6 +77,7 @@ namespace FitFusionWeb.Pages.Products
 
             return RedirectToPage("./All");
         }
+
 
     }
 }

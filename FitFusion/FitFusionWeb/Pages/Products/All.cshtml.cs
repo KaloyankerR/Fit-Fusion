@@ -8,6 +8,7 @@ using Services;
 using Services.Filter;
 using Services.Sort;
 using Models.Product.Enums;
+using FitFusionWeb.Converters;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -21,14 +22,17 @@ namespace FitFusionWeb.Pages.Products
         [BindProperty]
         public string FilterByCategory { get; set; } = "All";
 
-        public List<Product> Products { get; set; } = new();
+        public List<ProductView> Products { get; set; } = new();
         private ProductManager productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
+        private ProductConverter _converter = new();
 
         public IActionResult OnGet()
         {
             try
             {
-                Products = productManager.GetProducts();
+                List<Product> productsDomainObj = productManager.GetProducts();
+                Products = _converter.ToProductViews(productsDomainObj);
+
             }
             catch (DataAccessException)
             {
@@ -47,10 +51,12 @@ namespace FitFusionWeb.Pages.Products
 
                 filter.Add(FilterParameter.Category, category);
 
-                Products = productManager.GetProducts();
-                Products = productManager.Search(Products, SearchQuery);
-                Products = productManager.Filter(Products, filter);
-                Products = productManager.Sort(Products, Sort);
+                List<Product> productsDomainObj = productManager.GetProducts();
+                productsDomainObj = productManager.Search(productsDomainObj, SearchQuery);
+                productsDomainObj = productManager.Filter(productsDomainObj, filter);
+                productsDomainObj = productManager.Sort(productsDomainObj, Sort);
+
+                Products = _converter.ToProductViews(productsDomainObj);
             }
             catch (DataAccessException)
             {

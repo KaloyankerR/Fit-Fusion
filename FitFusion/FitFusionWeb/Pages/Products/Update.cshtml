@@ -14,38 +14,38 @@
 
 <form method="post">
     <div>
-        <input asp-for="Product.Id" type="hidden" class="form-control" />
+        <input name="Product.Id" type="hidden" value="@Model.Product.Id" class="form-control" />
     </div>
     <div>
-        <label asp-for="Product.Title"></label>
-        <input asp-for="Product.Title" class="form-control" />
-        <span asp-validation-for="Product.Title" class="text-danger"></span>
+        <label for="Product.Title">Title</label>
+        <input name="Product.Title" value="@Model.Product.Title" class="form-control" />
+        <span class="text-danger">@(ModelState["Product.Title"]?.Errors.FirstOrDefault()?.ErrorMessage)</span>
     </div>
     <div>
-        <label asp-for="Product.Description"></label>
-        <input asp-for="Product.Description" class="form-control" />
-        <span asp-validation-for="Product.Description" class="text-danger"></span>
+        <label for="Product.Description">Description</label>
+        <input name="Product.Description" value="@Model.Product.Description" class="form-control" />
+        <span class="text-danger">@(ModelState["Product.Description"]?.Errors.FirstOrDefault()?.ErrorMessage)</span>
     </div>
     <div>
-        <label asp-for="Product.Price"></label>
-        <input asp-for="Product.Price" class="form-control" />
-        <span asp-validation-for="Product.Price" class="text-danger"></span>
+        <label for="Product.Price">Price</label>
+        <input name="Product.Price" value="@Model.Product.Price" class="form-control" />
+        <span class="text-danger">@(ModelState["Product.Price"]?.Errors.FirstOrDefault()?.ErrorMessage)</span>
     </div>
     <div>
-        <label asp-for="Product.Category"></label>
-        <select asp-for="Product.Category" class="form-control">
+        <label for="Product.Category">Category</label>
+        <select name="Product.Category" class="form-control">
             @foreach (var category in Enum.GetValues(typeof(Category)))
             {
                 <option value="@category" selected="@Model.Product.Category == category">@category</option>
             }
         </select>
-        <span asp-validation-for="Product.Category" class="text-danger"></span>
+        <span class="text-danger">@(ModelState["Product.Category"]?.Errors.FirstOrDefault()?.ErrorMessage)</span>
     </div>
     <div>
-        <label asp-for="Product.ImageUrl"></label>
-        <input asp-for="Product.ImageUrl" class="form-control" />
-        <span asp-validation-for="Product.ImageUrl" class="text-danger"></span>
-    </div>
+        <label for="Product.ImageUrl">ImageUrl</label>
+        <input name="Product.ImageUrl" value="@Model.Product.ImageUrl" class="form-control" />
+        <span class="text-danger">@(ModelState["Product.ImageUrl"]?.Errors.FirstOrDefault()?.ErrorMessage)</span>
+    </div><br />
 
     <div>
         <input type="submit" value="Update" class="btn btn-primary" />
