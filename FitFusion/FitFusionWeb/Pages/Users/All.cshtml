@@ -1,5 +1,5 @@
 ﻿@page
-@using Models.User;
+@using FitFusionWeb.Views;
 @using Models.User.Enums;
 @model FitFusionWeb.Pages.Users.AllModel
 @{
@@ -56,7 +56,7 @@ else if (messageType == "success")
 
 <div class="grid-container">
     <div class="grid-x">
-        @foreach (User user in Model.Users)
+        @foreach (UserView user in Model.Users)
         {
             <div class="cell">
                 <article class="card">

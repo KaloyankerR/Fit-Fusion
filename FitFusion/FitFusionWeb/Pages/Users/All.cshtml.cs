@@ -1,4 +1,6 @@
 using DataAcess;
+using FitFusionWeb.Converters;
+using FitFusionWeb.Views;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +20,17 @@ namespace FitFusionWeb.Pages.Users
         [BindProperty]
         public SortParameter Sort { get; set; }
 
-        public List<User> Users { get; set; } = new List<User>();
+        public List<UserView> Users { get; set; } = new();
+        // public List<User> Users { get; set; } = new List<User>();
         private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
+        private readonly UserConverter _converter = new();
 
         public IActionResult OnGet()
         {
             try
             {
-                Users = _userManager.GetAllUsers();
+                List<User> users = _userManager.GetAllUsers();
+                Users = _converter.ToUserViews(users);            
             }
             catch (DataAccessException)
             {
@@ -39,9 +44,13 @@ namespace FitFusionWeb.Pages.Users
         {
             try
             {
-                Users = _userManager.GetAllUsers();
-                Users = _userManager.Search(Users, SearchQuery);
-                Users = _userManager.Sort(Users, Sort);
+                List<User> users = new();
+
+                users = _userManager.GetAllUsers();
+                users = _userManager.Search(users, SearchQuery);
+                users = _userManager.Sort(users, Sort);
+
+                Users = _converter.ToUserViews(users);
             }
             catch (DataAccessException)
             {
