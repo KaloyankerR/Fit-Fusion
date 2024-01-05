@@ -100,6 +100,27 @@ namespace DataAcess
                 {
                     connection.Open();
 
+                    //using (SqlCommand deleteCommand = new SqlCommand(
+                    //    "DELETE ShoppingCart, Recommendation, Product " +
+                    //    "FROM ShoppingCart " +
+                    //    "JOIN Recommendation ON ShoppingCart.ProductId = Recommendation.ProductId " +
+                    //    "WHERE ShoppingCart.ProductId = @ProductId", connection))
+                    //{
+                    //    deleteCommand.Parameters.AddWithValue("@ProductId", id);
+                    //    deleteCommand.ExecuteNonQuery();
+                    //}
+                    using (SqlCommand deleteShoppingCartCommand = new SqlCommand("DELETE FROM ShoppingCart WHERE ProductId = @ProductId", connection))
+                    {
+                        deleteShoppingCartCommand.Parameters.AddWithValue("@ProductId", id);
+                        deleteShoppingCartCommand.ExecuteNonQuery();
+                    }
+
+                    using (SqlCommand deleteRecommendationCommand = new SqlCommand("DELETE FROM Recommendation WHERE ProductId = @ProductId", connection))
+                    {
+                        deleteRecommendationCommand.Parameters.AddWithValue("@ProductId", id);
+                        deleteRecommendationCommand.ExecuteNonQuery();
+                    }
+
                     using (SqlCommand deleteProductCommand = new SqlCommand("DELETE FROM Product WHERE Id = @ProductId", connection))
                     {
                         deleteProductCommand.Parameters.AddWithValue("@ProductId", id);

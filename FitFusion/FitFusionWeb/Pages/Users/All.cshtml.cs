@@ -49,10 +49,6 @@ namespace FitFusionWeb.Pages.Users
                             .Search(_userManager.GetAllUsers(), SearchQuery),
                     Sort);
 
-                //users = _userManager.GetAllUsers();
-                //users = _userManager.Search(users, SearchQuery);
-                //users = _userManager.Sort(users, Sort);
-
                 Users = _converter.ToUserViews(users);
             }
             catch (DataAccessException)
@@ -63,6 +59,31 @@ namespace FitFusionWeb.Pages.Users
             return Page();
         }
 
+        public IActionResult OnPostDelete(int id, string role)
+        {
+            //TODO implement
+            try
+            {
+                if (role == "Owner")
+                {
+                    _userManager.DeleteUser(_userManager.GetUserById(id, new Owner()));
+                }
+                else if (role == "Staff")
+                {
+                    _userManager.DeleteUser(_userManager.GetUserById(id, new Staff()));
+                }
+                else
+                {
+                    _userManager.DeleteUser(_userManager.GetUserById(id, new Customer()));
+                }
+            }
+            catch (DataAccessException)
+            {
+                return RedirectToPage("/Error", new { code = 500 });
+            }
+
+            return RedirectToPage();
+        }
 
     }
 }

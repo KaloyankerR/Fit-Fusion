@@ -83,10 +83,16 @@ else if (messageType == "success")
                     @if (User.IsInRole("Owner") || User.IsInRole("Staff"))
                     {
                         <a class="button warning btnElement" href="./Update/@user.GetUserRole()/@user.Id">Update product</a>
-                        <a class="button alert btnElement" style="margin: 0" asp-page="All" asp-page-handler="delete" asp-route-id="@user.Id">Delete</a>
+
+                        <form method="post" asp-page-handler="Delete">
+                            <input type="hidden" name="id" value="@user.Id" />
+                            <input type="hidden" name="role" value="@user.GetUserRole()" />
+
+                            <button type="submit" class="button alert btnElement" style="width: 100%;">Delete</button>
+                        </form>
+
                     }
-                    
-                    <a class="button alert btnElement" style="margin: 0">Delete</a>
+
                 </article>
             </div>
         }

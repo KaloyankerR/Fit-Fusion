@@ -80,7 +80,7 @@ namespace FitFusionWeb.Pages.Products
                 return RedirectToPage("/Error", new { code = 500 });
             }
 
-            return Page();
+            return RedirectToPage();
         }
 
     }
