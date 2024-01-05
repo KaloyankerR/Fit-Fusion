@@ -1,0 +1,21 @@
+﻿@page
+@model FitFusionWeb.Pages.HistoryModel
+@{
+    ViewData["Title"] = "Orders History";
+}
+
+@if (Model.Orders.Any())
+{
+    @foreach (var order in Model.Orders)
+    {
+        <p>Date: @order.OrderDate</p>
+        <p>Customer: @order.Customer.FirstName</p>
+        <p>Cart: @order.Cart</p>
+        <p>Note: @order.Note</p>
+        <hr />
+    }
+}
+else
+{
+    <h1>No orders made</h1>
+}

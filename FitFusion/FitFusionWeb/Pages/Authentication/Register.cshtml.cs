@@ -1,4 +1,6 @@
 using DataAcess;
+using FitFusionWeb.Converters;
+using FitFusionWeb.Views;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
@@ -11,8 +13,9 @@ namespace FitFusionWeb.Pages.Authentication
     public class RegisterModel : PageModel
     {
         [BindProperty]
-        public Customer Customer { get; set; } = new();
+        public CustomerView Customer { get; set; } = new();
         private readonly UserManager _userManager = new UserManager(new UserDAO(), new UserSorter());
+        private readonly UserConverter _converter = new();
         private readonly ILogger<ErrorModel> _logger;
 
         public RegisterModel(ILogger<ErrorModel> logger)
@@ -36,7 +39,7 @@ namespace FitFusionWeb.Pages.Authentication
             {
                 if (!ModelState.IsValid)
                 {
-                    _userManager.CreateUser(Customer);
+                    _userManager.CreateUser(_converter.ToUser(Customer));
                     _logger.LogInformation("Register successful");
                     return RedirectToPage("/Authentication/Login");
                 }

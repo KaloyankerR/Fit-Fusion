@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Services.Filter;
 using Services.Sort;
 using Models.Product.Enums;
+using FitFusionWeb.Views;
 
 namespace FitFusionWeb.Pages.Stats
 {
@@ -15,7 +16,7 @@ namespace FitFusionWeb.Pages.Stats
     {
         private readonly ProductManager _productManager;
         [BindProperty]
-        public List<Product> Products { get; set; } = new();
+        public int ProductsCount { get; set; } = new();
         public Dictionary<Category, int> ProductCategoriesData { get; set; } = new();
         public Dictionary<string, int> ProductTrendData { get; set; } = new();
 
@@ -27,7 +28,7 @@ namespace FitFusionWeb.Pages.Stats
 
         public void OnGet()
         {
-            Products = _productManager.GetProducts();
+            ProductsCount = _productManager.GetProducts().Count();
             ProductCategoriesData = _productManager.GetCategoryStats();
             ProductTrendData = _productManager.GetTrendyProducts();
         }
