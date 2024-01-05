@@ -1,4 +1,6 @@
 using DataAcess;
+using FitFusionWeb.Converters;
+using FitFusionWeb.Views;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,8 +15,9 @@ namespace FitFusionWeb.Pages.Users.Create
     public class CustomerModel : PageModel
     {
         [BindProperty]
-        public Customer Customer { get; set; } = new();
+        public CustomerView Customer { get; set; } = new();
         private readonly UserManager _usermanager = new(new UserDAO(), new UserSorter());
+        private readonly UserConverter _converter = new();
 
         public void OnGet()
         {
@@ -26,7 +29,7 @@ namespace FitFusionWeb.Pages.Users.Create
             {
                 if (ModelState.IsValid)
                 {
-                    _usermanager.CreateUser(Customer);
+                    _usermanager.CreateUser(_converter.ToUser(Customer));
                     return RedirectToPage("../All");
                 }
             }
@@ -37,7 +40,7 @@ namespace FitFusionWeb.Pages.Users.Create
             catch (DuplicateNameException)
             {
                 return RedirectToPage("../CustomPages/DatabaseConnectionError");
-                // set the original page
+                // TODO set the original page
             }
 
             return Page();

@@ -1,4 +1,6 @@
 using DataAcess;
+using FitFusionWeb.Converters;
+using FitFusionWeb.Views;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,12 +17,14 @@ namespace FitFusionWeb.Pages.Users.Update
         [BindProperty(SupportsGet = true)]
         public int Id { get; set; }
         [BindProperty]
-        public Customer Customer { get; set; } = new();
+        public CustomerView Customer { get; set; } = new();
         private readonly UserManager _usermanager = new(new UserDAO(), new UserSorter());
+        private readonly UserConverter _converter = new();
 
         public void OnGet()
         {
-            Customer = (Customer)_usermanager.GetUserById(Id, Customer);
+            Customer customer = (Customer)_usermanager.GetUserById(Id, new Customer());
+            Customer = (CustomerView)_converter.ToUserView(customer);
         }
 
         public IActionResult OnPost()
@@ -29,7 +33,7 @@ namespace FitFusionWeb.Pages.Users.Update
             {
                 if (ModelState.IsValid)
                 {
-                    // _usermanager.CreateUser(Owner);
+                    _usermanager.UpdateUser(_converter.ToUser(Customer));
                     return RedirectToPage("../All");
                 }
             }

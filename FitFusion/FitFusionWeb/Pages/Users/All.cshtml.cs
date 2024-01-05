@@ -21,7 +21,6 @@ namespace FitFusionWeb.Pages.Users
         public SortParameter Sort { get; set; }
 
         public List<UserView> Users { get; set; } = new();
-        // public List<User> Users { get; set; } = new List<User>();
         private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
         private readonly UserConverter _converter = new();
 
@@ -44,11 +43,15 @@ namespace FitFusionWeb.Pages.Users
         {
             try
             {
-                List<User> users = new();
+                List<User> users = _userManager
+                    .Sort(
+                        _userManager
+                            .Search(_userManager.GetAllUsers(), SearchQuery),
+                    Sort);
 
-                users = _userManager.GetAllUsers();
-                users = _userManager.Search(users, SearchQuery);
-                users = _userManager.Sort(users, Sort);
+                //users = _userManager.GetAllUsers();
+                //users = _userManager.Search(users, SearchQuery);
+                //users = _userManager.Sort(users, Sort);
 
                 Users = _converter.ToUserViews(users);
             }

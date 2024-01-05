@@ -1,15 +1,15 @@
 ﻿@page "{Id}"
 @model FitFusionWeb.Pages.Users.Update.StaffModel
 @{
-    ViewData["Title"] = "Create Staff";
+    ViewData["Title"] = "Update Staff";
 }
 
-<h1>Create Staff</h1>
+<h1>Udapte Staff</h1>
 
 <form method="post">
     <div>
-        <input asp-for="Staff.Id" type="hidden" class="form-control" value="0" />
-        <input asp-for="Staff.PasswordSalt" type="hidden" class="form-control" value="salt" />
+        <input asp-for="Staff.Id" type="hidden" class="form-control" />
+        <input asp-for="Staff.Password" type="hidden" class="form-control" value="Staff.Password" />
     </div>
     <div>
         <label asp-for="Staff.FirstName"></label>
@@ -27,11 +27,6 @@
         <span asp-validation-for="Staff.Email" class="text-danger"></span>
     </div>
     <div>
-        <label asp-for="Staff.PasswordHash">Password</label>
-        <input asp-for="Staff.PasswordHash" class="form-control" />
-        <span asp-validation-for="Staff.PasswordHash" class="text-danger"></span>
-    </div>
-    <div>
         <label asp-for="Staff.Address"></label>
         <input asp-for="Staff.Address" class="form-control" />
         <span asp-validation-for="Staff.Address" class="text-danger"></span>
@@ -43,6 +38,6 @@
     </div>
 
     <div>
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Update" class="btn btn-primary" />
     </div>
 </form>

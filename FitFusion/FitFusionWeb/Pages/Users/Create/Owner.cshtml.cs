@@ -1,4 +1,6 @@
 using DataAcess;
+using FitFusionWeb.Converters;
+using FitFusionWeb.Views;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -13,8 +15,9 @@ namespace FitFusionWeb.Pages.Users.Create
     public class OwnerModel : PageModel
     {
         [BindProperty]
-        public Owner Owner { get; set; } = new();
+        public OwnerView Owner { get; set; } = new();
         private readonly UserManager _usermanager = new(new UserDAO(), new UserSorter());
+        private readonly UserConverter _converter = new();
 
         public void OnGet()
         {
@@ -26,7 +29,7 @@ namespace FitFusionWeb.Pages.Users.Create
             {
                 if (ModelState.IsValid)
                 {
-                    _usermanager.CreateUser(Owner);
+                    _usermanager.CreateUser(_converter.ToUser(Owner));
                     return RedirectToPage("../All");
                 }
             }

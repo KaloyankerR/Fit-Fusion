@@ -9,7 +9,6 @@
 <form method="post">
     <div>
         <input asp-for="Staff.Id" type="hidden" class="form-control" value="0" />
-        <input asp-for="Staff.PasswordSalt" type="hidden" class="form-control" value="asd" />
     </div>
     <div>
         <label asp-for="Staff.FirstName"></label>
@@ -27,9 +26,9 @@
         <span asp-validation-for="Staff.Email" class="text-danger"></span>
     </div>
     <div>
-        <label asp-for="Staff.PasswordHash">Password</label>
-        <input asp-for="Staff.PasswordHash" class="form-control" />
-        <span asp-validation-for="Staff.PasswordHash" class="text-danger"></span>
+        <label asp-for="Staff.Password">Password</label>
+        <input asp-for="Staff.Password" class="form-control" />
+        <span asp-validation-for="Staff.Password" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Staff.Address"></label>

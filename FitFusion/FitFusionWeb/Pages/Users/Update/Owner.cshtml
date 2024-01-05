@@ -1,15 +1,15 @@
 ﻿@page "{Id}"
 @model FitFusionWeb.Pages.Users.Update.OwnerModel
 @{
-    ViewData["Title"] = "Create Owner";
+    ViewData["Title"] = "Update Owner";
 }
 
-<h1>Create Owner</h1>
+<h1>Update Owner</h1>
 
 <form method="post">
     <div>
-        <input asp-for="Owner.Id" type="hidden" class="form-control" value="0" />
-        <input asp-for="Owner.PasswordSalt" type="hidden" class="form-control" value="salt" />
+        <input asp-for="Owner.Id" type="hidden" class="form-control" />
+        <input asp-for="Owner.Password" type="hidden" class="form-control" value="Owner.Password" />
     </div>
     <div>
         <label asp-for="Owner.FirstName"></label>
@@ -27,11 +27,6 @@
         <span asp-validation-for="Owner.Email" class="text-danger"></span>
     </div>
     <div>
-        <label asp-for="Owner.PasswordHash">Password</label>
-        <input asp-for="Owner.PasswordHash" class="form-control" />
-        <span asp-validation-for="Owner.PasswordHash" class="text-danger"></span>
-    </div>
-    <div>
         <label asp-for="Owner.Address"></label>
         <input asp-for="Owner.Address" class="form-control" />
         <span asp-validation-for="Owner.Address" class="text-danger"></span>
@@ -43,6 +38,6 @@
     </div>
 
     <div>
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Update" class="btn btn-primary" />
     </div>
 </form>

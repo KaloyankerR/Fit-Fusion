@@ -1,16 +1,16 @@
 ﻿@page "{Id}"
 @model FitFusionWeb.Pages.Users.Update.CustomerModel
 @{
-    ViewData["Title"] = "Create Customer";
+    ViewData["Title"] = "Update Customer";
 }
 
-<h1>Create Customer</h1>
+<h1>Update Customer</h1>
 
 <form method="post">
     <div>
-        <input asp-for="Customer.Id" type="hidden" class="form-control" value="0" />
-        <input asp-for="Customer.PasswordSalt" type="hidden" class="form-control" value="salt" />
-        <input asp-for="Customer.NutriPoints" type="hidden" class="form-control" value="salt" />
+        <input asp-for="Customer.Id" type="hidden" class="form-control"/>
+        <input asp-for="Customer.Password" type="hidden" class="form-control" value="Customer.Password" />
+        <input asp-for="Customer.NutriPoints" type="hidden" class="form-control" value="0" />
     </div>
     <div>
         <label asp-for="Customer.FirstName"></label>
@@ -28,17 +28,12 @@
         <span asp-validation-for="Customer.Email" class="text-danger"></span>
     </div>
     <div>
-        <label asp-for="Customer.PasswordHash">Password</label>
-        <input asp-for="Customer.PasswordHash" class="form-control" />
-        <span asp-validation-for="Customer.PasswordHash" class="text-danger"></span>
-    </div>
-    <div>
         <label asp-for="Customer.Address"></label>
         <input asp-for="Customer.Address" class="form-control" />
         <span asp-validation-for="Customer.Address" class="text-danger"></span>
     </div>
 
     <div>
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Update" class="btn btn-primary" />
     </div>
 </form>

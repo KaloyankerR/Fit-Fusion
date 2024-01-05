@@ -9,7 +9,6 @@
 <form method="post">
     <div>
         <input asp-for="Owner.Id" type="hidden" class="form-control" value="0" />
-        <input asp-for="Owner.PasswordSalt" type="hidden" class="form-control" value="salt" />
     </div>
     <div>
         <label asp-for="Owner.FirstName"></label>
@@ -27,9 +26,9 @@
         <span asp-validation-for="Owner.Email" class="text-danger"></span>
     </div>
     <div>
-        <label asp-for="Owner.PasswordHash">Password</label>
-        <input asp-for="Owner.PasswordHash" class="form-control" />
-        <span asp-validation-for="Owner.PasswordHash" class="text-danger"></span>
+        <label asp-for="Owner.Password">Password</label>
+        <input asp-for="Owner.Password" class="form-control" />
+        <span asp-validation-for="Owner.Password" class="text-danger"></span>
     </div>
     <div>
         <label asp-for="Owner.Address"></label>

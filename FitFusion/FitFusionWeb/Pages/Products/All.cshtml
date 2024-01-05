@@ -78,7 +78,7 @@ else if (messageType == "success")
                     @if (User.IsInRole("Owner") || User.IsInRole("Staff"))
                     {
                         <a class="button warning btnElement" href="./Update/@product.Id">Update product</a>
-                        <a class="button alert btnElement" style="margin: 0" asp-page="Management" asp-page-handler="delete" asp-route-id="@product.Id">Delete product</a>
+                        <a class="button alert btnElement" style="margin: 0" asp-page="All" asp-page-handler="delete" asp-route-id="@product.Id">Delete product</a>
                     }
 
                 </article>

@@ -68,6 +68,20 @@ namespace FitFusionWeb.Pages.Products
 
             return Page();
         }
-        
+
+        public IActionResult OnPostDelete(int id)
+        {
+            try
+            {
+                productManager.DeleteProduct(id);
+            }
+            catch (DataAccessException)
+            {
+                return RedirectToPage("/Error", new { code = 500 });
+            }
+
+            return Page();
+        }
+
     }
 }
