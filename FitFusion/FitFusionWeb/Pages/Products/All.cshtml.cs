@@ -22,6 +22,11 @@ namespace FitFusionWeb.Pages.Products
         public SortParameter Sort { get; set; }
         [BindProperty]
         public Category FilterByCategory { get; set; } = Category.All;
+        [BindProperty]
+        public double MinPrice { get; set; }
+
+        [BindProperty]
+        public double MaxPrice { get; set; }
 
         public List<ProductView> Products { get; set; } = new();
         private readonly ProductManager productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
@@ -47,7 +52,8 @@ namespace FitFusionWeb.Pages.Products
             {
                 var filter = new Dictionary<Enum, object>
                 {
-                    { FilterParameter.Category, FilterByCategory }
+                    { FilterParameter.Category, FilterByCategory },
+                    { FilterParameter.Price,  new List<double>{ MinPrice, MaxPrice } }
                 };
 
                 List<Product> products = productManager

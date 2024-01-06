@@ -11,18 +11,13 @@ namespace Services.Filter
 {
     public class CategoryFilterStrategy : IFilter<Product>
     {
-        public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
+        public List<Product> Filter(List<Product> products, object param)
         {
-            FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
-
-            if (filterKey == Models.Product.Enums.FilterParameter.Category && filters.TryGetValue((Enum)filterKey, out var filterValueObj))
+            if (param is Category filterValue)
             {
-                if (filterValueObj is Category filterValue)
+                if (filterValue != Category.All)
                 {
-                    if (filterValue != Category.All)
-                    {
-                        return products.Where(p => p.Category == filterValue).ToList();
-                    }
+                    return products.Where(p => p.Category == filterValue).ToList();
                 }
             }
 
@@ -32,11 +27,9 @@ namespace Services.Filter
 
     public class PriceFilterStrategy : IFilter<Product>
     {
-        public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
+        public List<Product> Filter(List<Product> products, object param)
         {
-            FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
-
-            if (filterKey == Models.Product.Enums.FilterParameter.Price && filters.TryGetValue((Enum)filterKey, out var priceRangeObj) && priceRangeObj is List<double> priceRange)
+            if (param is List<double> priceRange && priceRange.Count >= 2)
             {
                 double min = priceRange[0];
                 double max = priceRange[1];
@@ -49,34 +42,48 @@ namespace Services.Filter
 
             return products;
         }
+
     }
 
     public class ProductFilter
     {
         public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
         {
-            IFilter<Product> filter;
-
             if (filters == null || filters.Count == 0)
             {
                 return products;
             }
 
-            FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
+            List<(IFilter<Product> FilterStrategy, object FilterValue)> filterStrategies = new List<(IFilter<Product>, object)>();
 
-            switch (filterKey)
+            foreach (var filterEntry in filters)
             {
-                case Models.Product.Enums.FilterParameter.Category:
-                    filter = new CategoryFilterStrategy();
-                    break;
-                case Models.Product.Enums.FilterParameter.Price:
-                    filter = new PriceFilterStrategy();
-                    break;
-                default:
-                    return products;
+                if (filterEntry.Key is FilterParameter filterKey)
+                {
+                    switch (filterKey)
+                    {
+                        case FilterParameter.Category:
+                            filterStrategies.Add((new CategoryFilterStrategy(), filterEntry.Value));
+                            break;
+                        case FilterParameter.Price:
+                            filterStrategies.Add((new PriceFilterStrategy(), filterEntry.Value));
+                            break;
+                    }
+                }
             }
 
-            return filter.Filter(products, filters);
+            if (filterStrategies.Count == 0)
+            {
+                return products;
+            }
+
+            foreach (var (filterStrategy, filterValue) in filterStrategies)
+            {
+                products = filterStrategy.Filter(products, filterValue);
+            }
+
+            return products;
         }
+
     }
 }

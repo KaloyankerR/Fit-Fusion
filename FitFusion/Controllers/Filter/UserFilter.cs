@@ -11,16 +11,11 @@ namespace Services.Filter
 {
     public class RoleFilterStrategy : IFilter<User>
     {
-        public List<User> Filter(List<User> users, Dictionary<Enum, object> filters)
+        public List<User> Filter(List<User> users, object param)
         {
-            FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
-
-            if (filterKey == FilterParameter.Role && filters.TryGetValue(filterKey, out var filterValueObj))
+            if (param is User filterValue)
             {
-                if (filterValueObj is User filterValue)
-                {
-                    return users.Where(u => u.GetUserRole() == filterValue.ToString()).ToList();
-                }
+                return users.Where(u => u.GetUserRole() == filterValue.ToString()).ToList();
             }
 
             return users;
@@ -32,28 +27,65 @@ namespace Services.Filter
     {
         public List<User> Filter(List<User> users, Dictionary<Enum, object> filters)
         {
-            IFilter<User> filter;
-
             if (filters == null || filters.Count == 0)
             {
                 return users;
             }
 
-            FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
+            List<(IFilter<User> FilterStrategy, object FilterValue)> filterStrategies = new List<(IFilter<User>, object)>();
 
-            switch (filterKey)
+            foreach (var filterEntry in filters)
             {
-                case FilterParameter.Role:
-                    filter = new RoleFilterStrategy();
-                    break;
-                //case FilterParameter.NutriPoints:
-                //    filter = new PriceFilterStrategy();
-                //    break;
-                default:
-                    return users;
+                if (filterEntry.Key is FilterParameter filterKey)
+                {
+                    switch (filterKey)
+                    {
+                        case FilterParameter.Role:
+                            filterStrategies.Add((new RoleFilterStrategy(), filterEntry.Value));
+                            break;
+                            // TODO Add more cases for additional filters
+                    }
+                }
             }
 
-            return filter.Filter(users, filters);
+            if (filterStrategies.Count == 0)
+            {
+                return users;
+            }
+
+            foreach (var (filterStrategy, filterValue) in filterStrategies)
+            {
+                users = filterStrategy.Filter(users, filterValue);
+            }
+
+            return users;
         }
+
+
+        //public List<User> Filter(List<User> users, Dictionary<Enum, object> filters)
+        //{
+        //    IFilter<User> filter;
+
+        //    if (filters == null || filters.Count == 0)
+        //    {
+        //        return users;
+        //    }
+
+        //    FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
+
+        //    switch (filterKey)
+        //    {
+        //        case FilterParameter.Role:
+        //            filter = new RoleFilterStrategy();
+        //            break;
+        //        //case FilterParameter.NutriPoints:
+        //        //    filter = new PriceFilterStrategy();
+        //        //    break;
+        //        default:
+        //            return users;
+        //    }
+
+        //    return filter.Filter(users, filters);
+        //}
     }
 }

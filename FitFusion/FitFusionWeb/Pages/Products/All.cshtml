@@ -42,6 +42,15 @@ else if (messageType == "success")
                 }
             </select>
         </div>
+
+        <div class="column small-12 medium-6 large-2">
+            <input type="number" name="minPrice" class="form-control" placeholder="Min Price" value="@Model.MinPrice">
+        </div>
+
+        <div class="column small-12 medium-6 large-2">
+            <input type="number" name="maxPrice" class="form-control" placeholder="Max Price" value="@Model.MaxPrice">
+        </div>
+
         <div class="column small-12 medium-12 large-4">
             <button type="submit" class="btn btn-primary">Apply Filter</button>
 
