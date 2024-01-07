@@ -21,7 +21,7 @@ namespace FitFusionWeb.Pages
     public class CartModel : PageModel
     {
         public readonly ProductManager _productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
-        private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
+        private readonly UserManager _userManager = new(new UserDAO(), new UserFilter(), new UserSorter());
         private readonly OrderManager _orderManager = new(new OrderDAO());
 
         [BindProperty]

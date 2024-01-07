@@ -13,7 +13,6 @@ namespace Models.User
         public string Phone 
         { 
             get { return phone; } 
-            set { phone = value; } 
         }
 
         public Owner() { }

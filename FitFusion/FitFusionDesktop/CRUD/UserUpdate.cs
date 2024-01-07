@@ -11,12 +11,13 @@ using DataAcess;
 using Models.User;
 using Services;
 using Services.Sort;
+using Services.Filter;
 
 namespace FitFusionDesktop.CRUD
 {
     public partial class UserUpdate : Form
     {
-        private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
+        private readonly UserManager _userManager = new(new UserDAO(), new UserFilter(), new UserSorter());
         private User User { get; set; }
 
         public UserUpdate(User user)

@@ -56,6 +56,7 @@ namespace FitFusionWeb.Pages.Products
             {
                 var filter = new Dictionary<Enum, object>
                 {
+                    { FilterParameter.Keyword, SearchQuery },
                     { FilterParameter.Category, FilterByCategory },
                     { FilterParameter.Price,  new List<double>{ MinPrice, MaxPrice } }
                 };
@@ -64,9 +65,8 @@ namespace FitFusionWeb.Pages.Products
                     .Sort(
                         productManager
                             .Filter(
-                                productManager
-                                    .Search(productManager.GetProducts(), SearchQuery),
-                                filter),
+                                productManager.GetProducts(), filter
+                                ),
                         Sort);
 
                 Products = _converter.ToProductViews(products);
@@ -77,7 +77,7 @@ namespace FitFusionWeb.Pages.Products
             }
             catch (ArgumentException)
             {
-                return RedirectToPage("/Error", new { code = 409});
+                return RedirectToPage("/Error", new { code = 409 });
             }
             catch (Exception)
             {

@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using FitFusionDesktop.CRUD;
 using Services.Sort;
 using Models.User.Enums;
+using Services.Filter;
 
 namespace FitFusionDesktop.UserControls
 {
@@ -24,7 +25,7 @@ namespace FitFusionDesktop.UserControls
         public Users()
         {
             InitializeComponent();
-            _userManager = new(new UserDAO(), new UserSorter());
+            _userManager = new(new UserDAO(), new UserFilter(), new UserSorter());
             roleCmbBox.DataSource = Enum.GetValues(typeof(Role));
             sortCmbBox.DataSource = Enum.GetValues(typeof(SortParameter));
             btnSearch_Click(this, EventArgs.Empty);
@@ -33,13 +34,6 @@ namespace FitFusionDesktop.UserControls
         private void btnSearch_Click(object sender, EventArgs e)
         {
             List<User> users = new();
-
-            //Dictionary<Enum, object> filter = new()
-            //{
-            //    {FilterParameter.Role, Enum.TryParse(roleCmbBox.SelectedItem?.ToString(), true, out Role result) ? result: Role.All }
-            //};
-
-            //users = _userManager.Search(_userManager.Filter(users, filter), txtSearchQuery.Text);
 
             Role role = Enum.TryParse(roleCmbBox.SelectedItem?.ToString(), true, out Role result) ? result : Role.All;
 

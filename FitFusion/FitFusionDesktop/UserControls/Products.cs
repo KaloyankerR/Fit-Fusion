@@ -19,7 +19,7 @@ namespace FitFusionDesktop.UserControls
 {
     public partial class Products : UserControl
     {
-        private readonly ProductManager _productManger = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
+        private readonly ProductManager _productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
 
         public Products()
         {
@@ -53,7 +53,7 @@ namespace FitFusionDesktop.UserControls
             try
             {
                 int selectedId = Convert.ToInt16(ProductsDataGrid.SelectedRows[0].Cells[0].Value);
-                Product product = _productManger.GetProductById(selectedId);
+                Product product = _productManager.GetProductById(selectedId);
 
                 CRUD.ProductUpdate frm = new(product);
                 frm.ShowDialog();
@@ -67,18 +67,19 @@ namespace FitFusionDesktop.UserControls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            List<Product> products = _productManger.GetProducts();
+            List<Product> products = _productManager.GetProducts();
 
             Dictionary<Enum, object> filter = new()
             {
+                { FilterParameter.Keyword, txtSearchQuery.Text },
                 { FilterParameter.Category, Enum.TryParse(categoryCmbBox.SelectedItem?.ToString(), true, out Category result) ? result : Category.All }
             };
 
-            products = _productManger.Search(_productManger.Filter(products, filter), txtSearchQuery.Text);
+            products = _productManager.Filter(products, filter);
 
             if (sortCmbBox.SelectedItem is SortParameter selectedSort)
             {
-                products = _productManger.Sort(products, selectedSort);
+                products = _productManager.Sort(products, selectedSort);
             }
 
             ProductsDataGrid.DataSource = products;
@@ -92,7 +93,16 @@ namespace FitFusionDesktop.UserControls
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
+            try
+            {
+                int selectedId = Convert.ToInt16(ProductsDataGrid.SelectedRows[0].Cells[0].Value);
 
+                _productManager.DeleteProduct(_productManager.GetProductById(selectedId));
+            }
+            catch (DataAccessException)
+            {
+                MessageBox.Show("There was a problem with the database, please try again later.");
+            }
         }
     }
 }

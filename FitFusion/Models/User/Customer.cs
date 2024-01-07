@@ -13,15 +13,9 @@ namespace Models.User
         public int NutriPoints
         {
             get { return nutriPoints; }
-            set { nutriPoints = value; }
         }
 
         public Customer() { }
-
-        public Customer(int id) // : base(id)
-        {
-            Id = id;
-        }
 
         public Customer(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address, int nutriPoints)
             : base(id, firstName, lastName, email, passwordHash, passwordSalt, address)

@@ -3,6 +3,8 @@ using UserModel = Models.User.User;
 using Interfaces;
 using Interfaces.Strategy;
 using Services.Sort;
+using Services.Filter;
+using Models.Product;
 
 namespace Services
 {
@@ -10,10 +12,12 @@ namespace Services
     {
         private readonly IUser dao;
         private readonly UserSorter _sorter;
+        private readonly UserFilter _filter;
 
-        public UserManager(IUser userDao, UserSorter sorter)
+        public UserManager(IUser userDao, UserFilter filter, UserSorter sorter)
         {
             dao = userDao;
+            _filter = filter;
             _sorter = sorter;
         }
 
@@ -128,6 +132,18 @@ namespace Services
             try
             {
                 return _sorter.Sort(users, param);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<UserModel> Filter(List<UserModel> users, Dictionary<Enum, object> filters)
+        {
+            try
+            {
+                return _filter.Filter(users, filters);
             }
             catch
             {

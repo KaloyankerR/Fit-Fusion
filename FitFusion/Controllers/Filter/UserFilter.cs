@@ -1,4 +1,5 @@
 ﻿using Interfaces.Strategy;
+using Models.Product;
 using Models.User;
 using Models.User.Enums;
 using System;
@@ -9,6 +10,25 @@ using System.Threading.Tasks;
 
 namespace Services.Filter
 {
+    public class KeywordFilterStrategy : IFilter<User>
+    {
+        public List<User> Filter(List<User> users, object param)
+        {
+            if (param is string searchQuery && !string.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.ToLower();
+
+                users = users.FindAll(u =>
+                    u.FirstName.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    u.LastName.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    u.Address.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+
+            return users;
+        }
+    }
+
     public class RoleFilterStrategy : IFilter<User>
     {
         public List<User> Filter(List<User> users, object param)
@@ -39,6 +59,9 @@ namespace Services.Filter
                 {
                     switch (filterKey)
                     {
+                        case FilterParameter.Keyword:
+                            filterStrategies.Add((new KeywordFilterStrategy(), filterEntry.Value));
+                            break;
                         case FilterParameter.Role:
                             filterStrategies.Add((new RoleFilterStrategy(), filterEntry.Value));
                             break;

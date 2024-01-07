@@ -47,8 +47,7 @@ namespace Models.Order
             private set { _nutriPointsNeeded = value; }
         }
 
-        public ShoppingCart() 
-        { }
+        public ShoppingCart() { }
 
         // TODO: add constructor with parameter for products
 

@@ -17,7 +17,7 @@ namespace FitFusionDesktop.UserControls
 {
     public partial class Home : UserControl
     {
-        private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
+        private readonly UserManager _userManager = new(new UserDAO(), new UserFilter(), new UserSorter());
         private readonly ProductManager _productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
 
         public Home(User user)

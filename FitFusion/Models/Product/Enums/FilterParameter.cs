@@ -8,6 +8,7 @@ namespace Models.Product.Enums
 {
     public enum FilterParameter
     {
+        Keyword,
         Category,
         Price,
     }

@@ -12,12 +12,13 @@ using Models.User;
 using ReaLTaiizor.Forms;
 using Services;
 using Services.Sort;
+using Services.Filter;
 
 namespace FitFusionDesktop.CRUD
 {
     public partial class UserCreate : Form
     {
-        private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
+        private readonly UserManager _userManager = new(new UserDAO(), new UserFilter(), new UserSorter());
 
         public UserCreate()
         {

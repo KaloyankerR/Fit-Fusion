@@ -12,8 +12,7 @@ namespace Models.User
 
         public string Phone 
         { 
-            get { return phone;  } 
-            set { phone = value; } 
+            get { return phone;  }  
         }
 
         public Staff() { }

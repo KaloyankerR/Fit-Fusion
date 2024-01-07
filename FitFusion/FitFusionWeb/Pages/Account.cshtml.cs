@@ -8,6 +8,7 @@ using Models.User;
 using System.Security.Claims;
 using DataAcess;
 using Services.Sort;
+using Services.Filter;
 
 namespace FitFusionWeb.Pages
 {
@@ -15,7 +16,7 @@ namespace FitFusionWeb.Pages
     {
         [BindProperty]
         public User? CurrentUser { get; set; }
-        private UserManager _userManager = new(new DataAcess.UserDAO(), new UserSorter());
+        private UserManager _userManager = new(new DataAcess.UserDAO(), new UserFilter(), new UserSorter());
 
         public IActionResult OnGet()
         {

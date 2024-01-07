@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
 using Services;
+using Services.Filter;
 using Services.Sort;
 using System.Data;
 
@@ -14,7 +15,7 @@ namespace FitFusionWeb.Pages.Authentication
     {
         [BindProperty]
         public CustomerView Customer { get; set; } = new();
-        private readonly UserManager _userManager = new UserManager(new UserDAO(), new UserSorter());
+        private readonly UserManager _userManager = new UserManager(new UserDAO(), new UserFilter(), new UserSorter());
         private readonly UserConverter _converter = new();
         private readonly ILogger<ErrorModel> _logger;
 

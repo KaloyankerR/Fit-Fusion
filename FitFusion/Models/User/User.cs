@@ -8,81 +8,74 @@ namespace Models.User
 {
     public abstract class User
     {
-        private int id;
-        private string firstName = string.Empty;
-        private string lastName = string.Empty;
-        private string email = string.Empty;
-        private string passwordHash = string.Empty;
-        private string passwordSalt = string.Empty;
-        private string address = string.Empty;
+        private int _id;
+        private string _firstName = string.Empty;
+        private string _lastName = string.Empty;
+        private string _email = string.Empty;
+        private string _passwordHash = string.Empty;
+        private string _passwordSalt = string.Empty;
+        private string _address = string.Empty;
 
         public int Id
         {
-            get { return id; }
-            set { id = value; }
+            get { return _id; }
         }
 
         public string FirstName
         {
-            get { return firstName; }
-            set { firstName = value; }
+            get { return _firstName; }
         }
 
         public string LastName
         {
-            get { return lastName; }
-            set { lastName = value; }
+            get { return _lastName; }
         }
 
         public string Email
         {
-            get { return email; }
-            set { email = value; }
+            get { return _email; }
         }
 
         public string PasswordHash
         {
-            get { return passwordHash; }
-            set { passwordHash = value; }
+            get { return _passwordHash; }
         }
 
         public string PasswordSalt
         {
-            get { return passwordSalt; }
-            set { passwordSalt = value; }
+            get { return _passwordSalt; }
         }
 
         public string Address
         {
-            get { return address; }
-            set { address = value; }
+            get { return _address; }
         }
 
         public User() { }
 
         public User(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address)
         {
-            Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            PasswordHash = passwordHash;
-            PasswordSalt = passwordSalt;
-            Address = address;
+            _id = id;
+            _firstName = firstName;
+            _lastName = lastName;
+            _email = email;
+            _passwordHash = passwordHash;
+            _passwordSalt = passwordSalt;
+            _address = address;
         }
 
         public void SetEncryptedPassword(List<string> encryptedPassword)
         {
-            PasswordHash = encryptedPassword[0];
-            PasswordSalt = encryptedPassword[1];
+            _passwordHash = encryptedPassword[0];
+            _passwordSalt = encryptedPassword[1];
         }
+
+        public abstract string GetUserRole();
 
         public string GetFullName()
         {
             return $"{FirstName} {LastName}";
         }
-
-        public abstract string GetUserRole();
 
         public override string ToString()
         {

@@ -177,7 +177,8 @@ namespace DataAcess
                                 (
                                     id: reader.GetInt32(reader.GetOrdinal("Id")),
                                     date: reader.GetDateTime(reader.GetOrdinal("OrderDate")),
-                                    customer: new(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    // customer: new(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    customer: GetCustomerById(reader.GetInt32(reader.GetOrdinal("CustomerId"))),
                                     cart: GetShoppingCart(id),
                                     note: reader.GetString(reader.GetOrdinal("Note"))
                                 );
@@ -218,7 +219,8 @@ namespace DataAcess
                                 (
                                     id: reader.GetInt32(reader.GetOrdinal("Id")),
                                     date: reader.GetDateTime(reader.GetOrdinal("OrderDate")),
-                                    customer: new Customer(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    // customer: new Customer(id: reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    customer: GetCustomerById(reader.GetInt32(reader.GetOrdinal("CustomerId"))),
                                     cart: GetShoppingCart(reader.GetInt32(reader.GetOrdinal("Id"))),
                                     note: reader.GetString(reader.GetOrdinal("Note"))
                                 );
@@ -338,6 +340,60 @@ namespace DataAcess
 
             return data;
         }
+
+        public Customer GetCustomerById(int id)
+        {
+            Customer user;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+
+                    string getUserQuery = "";
+
+                    getUserQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, NutriPoints " +
+                                   $"FROM Customer " +
+                                   $"WHERE Id = @Id;";
+
+                    using (SqlCommand command = new SqlCommand(getUserQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@Id", id);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                user = new Customer
+                                (
+                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
+                                    firstName: reader.GetString(reader.GetOrdinal("FirstName")),
+                                    lastName: reader.GetString(reader.GetOrdinal("LastName")),
+                                    email: reader.GetString(reader.GetOrdinal("Email")),
+                                    passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
+                                    passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
+                                    address: reader.GetString(reader.GetOrdinal("Address")),
+                                    nutriPoints: reader.GetInt32(reader.GetOrdinal("NutriPoints"))
+                                );
+                            }
+                            else
+                            {
+                                throw new NullReferenceException("User doesn't exist.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw new DataAccessException("An error occurred in the database operation.");
+            }
+
+            return user;
+        }
+
+
 
         public Product GetMerchantRecommendation(int customerId)
         {

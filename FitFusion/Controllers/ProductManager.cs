@@ -3,9 +3,9 @@ using Interfaces;
 using Models.Order;
 using System.Data.SqlClient;
 using Interfaces.Strategy;
-using Services.Filter;
 using Models.Product.Enums;
 using Services.Sort;
+using Services.Filter;
 
 namespace Services
 {
@@ -94,21 +94,21 @@ namespace Services
             }
         }
 
-        public List<Product> Search(List<Product> products, string searchQuery)
-        {
-            if (!string.IsNullOrEmpty(searchQuery))
-            {
-                searchQuery = searchQuery.ToLower();
-                products = products.FindAll(p =>
-                    p.Title.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    (p.Description ?? "").ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    p.Category.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    p.Price.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) //might be used in cases like EUR/Eur 
-                );
-            }
+        //public List<Product> Search(List<Product> products, string searchQuery)
+        //{
+        //    if (!string.IsNullOrEmpty(searchQuery))
+        //    {
+        //        searchQuery = searchQuery.ToLower();
+        //        products = products.FindAll(p =>
+        //            p.Title.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+        //            (p.Description ?? "").ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+        //            p.Category.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+        //            p.Price.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) //might be used in cases like EUR/Eur 
+        //        );
+        //    }
 
-            return products;
-        }
+        //    return products;
+        //}
 
         public List<Product> Sort(List<Product> products, Enum param)
         {

@@ -8,6 +8,7 @@ using Models.User;
 using Services;
 using Services.Sort;
 using System.Data;
+using Services.Filter;
 
 namespace FitFusionWeb.Pages.Users.Create
 {
@@ -16,7 +17,7 @@ namespace FitFusionWeb.Pages.Users.Create
     {
         [BindProperty]
         public StaffView Staff { get; set; } = new();
-        private readonly UserManager _usermanager = new(new UserDAO(), new UserSorter());
+        private readonly UserManager _usermanager = new(new UserDAO(), new UserFilter(), new UserSorter());
         private readonly UserConverter _converter = new();
 
         public void OnGet()

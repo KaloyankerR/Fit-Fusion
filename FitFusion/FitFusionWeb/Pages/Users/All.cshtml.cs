@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.User;
 using Models.User.Enums;
 using Services;
+using Services.Filter;
 using Services.Sort;
 
 namespace FitFusionWeb.Pages.Users
@@ -21,7 +22,7 @@ namespace FitFusionWeb.Pages.Users
         public SortParameter Sort { get; set; }
 
         public List<UserView> Users { get; set; } = new();
-        private readonly UserManager _userManager = new(new UserDAO(), new UserSorter());
+        private readonly UserManager _userManager = new(new UserDAO(), new UserFilter(), new UserSorter());
         private readonly UserConverter _converter = new();
 
         public IActionResult OnGet()

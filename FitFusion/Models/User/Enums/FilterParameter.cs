@@ -8,6 +8,7 @@ namespace Models.User.Enums
 {
     public enum FilterParameter
     {
+        Keyword,
         Role,
         NutriPoints,
     }

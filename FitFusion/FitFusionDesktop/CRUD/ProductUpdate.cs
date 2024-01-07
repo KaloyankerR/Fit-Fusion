@@ -25,14 +25,15 @@ namespace FitFusionDesktop.CRUD
         {
             InitializeComponent();
             _product = product;
-            FillData();
             cbxCategory.DataSource = Enum.GetValues(typeof(Category));
+            FillData();
         }
 
         private void FillData()
         {
             txtTitle.Text = _product.Title;
             txtDescription.Text = _product.Description;
+            cbxCategory.SelectedItem = _product.Category;
             txtPrice.Value = (decimal)_product.Price;
             txtImageUrl.Text = _product.ImageUrl;
         }

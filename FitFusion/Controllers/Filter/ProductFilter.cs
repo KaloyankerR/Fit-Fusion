@@ -34,7 +34,7 @@ namespace Services.Filter
                 double min = priceRange[0];
                 double max = priceRange[1];
 
-                if (min >= 0 && max >= 0 && min <= max)
+                if (min >= 0 && max > 0 && min <= max)
                 {
                     return products.Where(p => p.Price >= min && p.Price <= max).ToList();
                 }
@@ -42,7 +42,26 @@ namespace Services.Filter
 
             return products;
         }
+    }
 
+    public class ProductKeywordFilterStrategy : IFilter<Product>
+    {
+        public List<Product> Filter(List<Product> products, object param)
+        {
+            if (param is string searchQuery && !string.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.ToLower();
+
+                products = products.FindAll(p =>
+                    p.Title.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    (p.Description ?? "").ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    p.Category.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    p.Price.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                );
+            }
+
+            return products;
+        }
     }
 
     public class ProductFilter
@@ -62,6 +81,9 @@ namespace Services.Filter
                 {
                     switch (filterKey)
                     {
+                        case FilterParameter.Keyword:
+                            filterStrategies.Add((new ProductKeywordFilterStrategy(), filterEntry.Value));
+                            break;
                         case FilterParameter.Category:
                             filterStrategies.Add((new CategoryFilterStrategy(), filterEntry.Value));
                             break;
