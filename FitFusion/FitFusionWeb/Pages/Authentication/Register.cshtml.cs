@@ -46,8 +46,7 @@ namespace FitFusionWeb.Pages.Authentication
             }
             catch (DuplicateNameException)
             {
-                return RedirectToPage("/CustomPages/SomethingWentWrong");
-                // TODO: redirect to the correct page
+                return RedirectToPage("/Error", new { code = 409 });
             }
             catch (DataAccessException)
             {

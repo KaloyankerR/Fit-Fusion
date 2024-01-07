@@ -23,7 +23,9 @@ namespace FitFusionWeb.Pages
                 case "404":
                     errorMessage = "Page not found!";
                     break;
-
+                case "409":
+                    errorMessage = "Conflict with the current state error!";
+                    break;
                 case "500":
                     errorMessage = "Internal Server Error!";
                     break;

@@ -22,7 +22,6 @@ namespace Services.Filter
         }
     }
 
-
     public class UserFilter
     {
         public List<User> Filter(List<User> users, Dictionary<Enum, object> filters)
@@ -55,37 +54,18 @@ namespace Services.Filter
 
             foreach (var (filterStrategy, filterValue) in filterStrategies)
             {
-                users = filterStrategy.Filter(users, filterValue);
+                try
+                {
+                    users = filterStrategy.Filter(users, filterValue);
+                }
+                catch
+                {
+                    throw new ArgumentException("Invalid filtering parameter.");
+                }
             }
 
             return users;
         }
 
-
-        //public List<User> Filter(List<User> users, Dictionary<Enum, object> filters)
-        //{
-        //    IFilter<User> filter;
-
-        //    if (filters == null || filters.Count == 0)
-        //    {
-        //        return users;
-        //    }
-
-        //    FilterParameter filterKey = filters.Keys.OfType<FilterParameter>().FirstOrDefault();
-
-        //    switch (filterKey)
-        //    {
-        //        case FilterParameter.Role:
-        //            filter = new RoleFilterStrategy();
-        //            break;
-        //        //case FilterParameter.NutriPoints:
-        //        //    filter = new PriceFilterStrategy();
-        //        //    break;
-        //        default:
-        //            return users;
-        //    }
-
-        //    return filter.Filter(users, filters);
-        //}
     }
 }

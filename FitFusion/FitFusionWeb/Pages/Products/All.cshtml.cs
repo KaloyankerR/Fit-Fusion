@@ -42,6 +42,10 @@ namespace FitFusionWeb.Pages.Products
             {
                 return RedirectToPage("/Error", new { code = 500 });
             }
+            catch (Exception)
+            {
+                return RedirectToPage("/Error");
+            }
 
             return Page();
         }
@@ -71,6 +75,14 @@ namespace FitFusionWeb.Pages.Products
             {
                 return RedirectToPage("/Error", new { code = 500 });
             }
+            catch (ArgumentException)
+            {
+                return RedirectToPage("/Error", new { code = 409});
+            }
+            catch (Exception)
+            {
+                return RedirectToPage("/Error");
+            }
 
             return Page();
         }
@@ -84,6 +96,10 @@ namespace FitFusionWeb.Pages.Products
             catch (DataAccessException)
             {
                 return RedirectToPage("/Error", new { code = 500 });
+            }
+            catch (Exception)
+            {
+                return RedirectToPage("/Error");
             }
 
             return RedirectToPage();

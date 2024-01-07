@@ -9,8 +9,7 @@ namespace Services
     public class UserManager : IUser
     {
         private readonly IUser dao;
-        // private ISort<UserModel> _sorter;
-        private UserSorter _sorter;
+        private readonly UserSorter _sorter;
 
         public UserManager(IUser userDao, UserSorter sorter)
         {
@@ -126,7 +125,14 @@ namespace Services
 
         public List<UserModel> Sort(List<UserModel> users, Enum param)
         {
-            return _sorter.Sort(users, param);
+            try
+            {
+                return _sorter.Sort(users, param);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public List<string> EncryptPassword(string password)

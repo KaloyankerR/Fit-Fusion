@@ -63,7 +63,14 @@ namespace Services.Sort
                     return products;
             }
 
-            return sortStrategy.Sort(products);
+            try
+            {
+                return sortStrategy.Sort(products);
+            }
+            catch
+            {
+                throw new ArgumentException("Error during the sorting process.");
+            }
         }
     }
 }

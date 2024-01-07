@@ -4,51 +4,81 @@ using Models.User.Enums;
 
 namespace Services.Sort
 {
-    public class UserSorter : ISort<User>
+    public class FirstNameAscending : ISort<User>
     {
-        public List<User> Sort(List<User> users, Enum param)
-        {
-            switch (param)
-            {
-
-                case SortParameter.FirstNameAscending:
-                    return SortByFirstNameAscending(users);
-                case SortParameter.FirstNameDescending:
-                    return SortByFirstNameDescending(users);
-                case SortParameter.LastNameAscending:
-                    return SortByLastNameAscending(users);
-                case SortParameter.LastNameDescending:
-                    return SortByLastNameDescending(users);
-                case SortParameter.Role:
-                    return SortByRole(users);
-                default:
-                    return users;
-            }
-        }
-
-        private List<User> SortByFirstNameAscending(List<User> users)
+        public List<User> Sort(List<User> users)
         {
             return users.OrderBy(x => x.FirstName).ToList();
         }
+    }
 
-        private List<User> SortByFirstNameDescending(List<User> users)
+    public class FirstNameDescending : ISort<User>
+    {
+        public List<User> Sort(List<User> users)
         {
             return users.OrderByDescending(x => x.FirstName).ToList();
         }
+    }
 
-        private List<User> SortByLastNameAscending(List<User> users)
+    public class LastNameAscending : ISort<User>
+    {
+        public List<User> Sort(List<User> users)
         {
             return users.OrderBy(x => x.LastName).ToList();
         }
+    }
 
-        private List<User> SortByLastNameDescending(List<User> users)
+    public class LastNameDescending : ISort<User>
+    {
+        public List<User> Sort(List<User> users)
         {
             return users.OrderByDescending(x => x.LastName).ToList();
         }
+    }
 
-        private List<User> SortByRole(List<User> users)
+    public class RoleAscending : ISort<User>
+    {
+        public List<User> Sort(List<User> users)
         {
             return users.OrderBy(x => x.GetUserRole()).ToList();
+        }
+    }
+
+    public class UserSorter
+    {
+        public List<User> Sort(List<User> users, Enum param)
+        {
+            ISort<User> sortStrategy;
+
+            switch (param)
+            {
+                case SortParameter.FirstNameAscending:
+                    sortStrategy = new FirstNameAscending();
+                    break;
+                case SortParameter.FirstNameDescending:
+                    sortStrategy = new FirstNameDescending();
+                    break;
+                case SortParameter.LastNameAscending:
+                    sortStrategy = new LastNameAscending();
+                    break;
+                case SortParameter.LastNameDescending:
+                    sortStrategy = new LastNameDescending();
+                    break;
+                case SortParameter.Role:
+                    sortStrategy = new RoleAscending();
+                    break;
+                default:
+                    return users;
+            }
+
+            try
+            {
+                return sortStrategy.Sort(users);
+            }
+            catch
+            {
+                throw new ArgumentException("Error during the sorting process.");
+            }
         }
     }
 }

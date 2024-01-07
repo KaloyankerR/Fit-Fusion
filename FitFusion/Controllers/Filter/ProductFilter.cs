@@ -79,7 +79,14 @@ namespace Services.Filter
 
             foreach (var (filterStrategy, filterValue) in filterStrategies)
             {
-                products = filterStrategy.Filter(products, filterValue);
+                try
+                {
+                    products = filterStrategy.Filter(products, filterValue);
+                }
+                catch
+                {
+                    throw new ArgumentException("Invalid filtering parameter.");
+                }
             }
 
             return products;

@@ -12,9 +12,8 @@ namespace Services
     public class ProductManager : IProduct
     {
         private readonly IProduct _dao;
-        // private ISort<Product> _sorter;
-        private ProductSorter _sorter;
-        private ProductFilter _filter;
+        private readonly ProductSorter _sorter;
+        private readonly ProductFilter _filter;
 
         public ProductManager(IProduct dao, ProductFilter filter, ProductSorter sorter)
         {
@@ -113,12 +112,26 @@ namespace Services
 
         public List<Product> Sort(List<Product> products, Enum param)
         {
-            return _sorter.Sort(products, param);
+            try
+            {
+                return _sorter.Sort(products, param);
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
         {
-            return _filter.Filter(products, filters);
+            try
+            {
+                return _filter.Filter(products, filters);
+            }
+            catch 
+            { 
+                throw; 
+            }
         }
 
         public Dictionary<Category, int> GetCategoryStats()
