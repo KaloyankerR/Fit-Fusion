@@ -5,16 +5,18 @@ using System.Data.SqlClient;
 using Interfaces.Strategy;
 using Services.Filter;
 using Models.Product.Enums;
+using Services.Sort;
 
 namespace Services
 {
     public class ProductManager : IProduct
     {
         private readonly IProduct _dao;
-        private ISort<Product> _sorter;
+        // private ISort<Product> _sorter;
+        private ProductSorter _sorter;
         private ProductFilter _filter;
 
-        public ProductManager(IProduct dao, ProductFilter filter, ISort<Product> sorter)
+        public ProductManager(IProduct dao, ProductFilter filter, ProductSorter sorter)
         {
             _dao = dao;
             _filter = filter;

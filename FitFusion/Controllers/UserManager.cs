@@ -2,15 +2,17 @@
 using UserModel = Models.User.User;
 using Interfaces;
 using Interfaces.Strategy;
+using Services.Sort;
 
 namespace Services
 {
     public class UserManager : IUser
     {
         private readonly IUser dao;
-        private ISort<UserModel> _sorter;
+        // private ISort<UserModel> _sorter;
+        private UserSorter _sorter;
 
-        public UserManager(IUser userDao, ISort<UserModel> sorter)
+        public UserManager(IUser userDao, UserSorter sorter)
         {
             dao = userDao;
             _sorter = sorter;
