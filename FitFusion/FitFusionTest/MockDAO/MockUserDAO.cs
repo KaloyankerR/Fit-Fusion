@@ -1,4 +1,5 @@
 ﻿using Interfaces;
+using Models.Product;
 using Models.User;
 using System;
 using System.Collections.Generic;
@@ -12,11 +13,11 @@ namespace FitFusionTest.MockDAO
 {
     public class MockUserDAO : IUserDAO
     {
-        private readonly List<User> users = new();
+        private List<User> usersMock;
 
         public MockUserDAO()
         {
-            users = new List<User>
+            usersMock = new List<User>
             {
                 new Owner
                 (
@@ -80,7 +81,7 @@ namespace FitFusionTest.MockDAO
         {
             if (!DoesEmailExists(user.Email))
             {
-                users.Add(user);
+                usersMock.Add(user);
             }
             else
             {
@@ -94,55 +95,56 @@ namespace FitFusionTest.MockDAO
         {
             if (DoesEmailExists(user.Email))
             {
-                User existingUser = users.FirstOrDefault(u => u.Id == user.Id)!;
-
-                users.Remove(existingUser);
-                users.Add(user);
-
-                return true;
+                int index = usersMock.FindIndex(p => p.Id == user.Id);
+                
+                if(index >= 0)
+                {
+                    usersMock[index] = user;
+                    return true;
+                }
             }
-            else
-            {
-                throw new NullReferenceException("User doesn't exist.");
-            }
-
-            //TODO check
+            
+            throw new NullReferenceException("User doesn't exist.");
         }
 
         public bool DeleteUser(User user)
         {
             if (DoesEmailExists(user.Email))
             {
-                users.Remove(user);
-            }
-            else
-            {
-                throw new NullReferenceException("User doesn't exist.");
+                usersMock.Remove(user);
+                int index = usersMock.FindIndex(p => p.Id == user.Id);
+
+                if (index >= 0)
+                {
+                    usersMock.RemoveAt(index);
+                    return true;
+                }
             }
 
-            return true;
+            throw new NullReferenceException("User doesn't exist.");
         }
 
         public User GetUserById(int id, User role)
         {
-            User? user = users.FirstOrDefault(u => u.Id == id && u.GetType() == role.GetType());
+            User? user = usersMock.FirstOrDefault(u => u.Id == id && u.GetType() == role.GetType());
 
-            if (user != null)
-            {
-                return user;
-            }
-            else
-            {
-                throw new NullReferenceException("User doesn't exist.");
-            }
+            //if (user != null)
+            //{
+            //    return user;
+            //}
+            //else
+            //{
+            //    throw new NullReferenceException("User doesn't exist.");
+            //}
+
+            return user ?? throw new NullReferenceException("User doesn't exist.");
         }
 
         public User GetUserByEmail(string email)
         {
             if (DoesEmailExists(email))
             {
-                User user = users.FirstOrDefault(u => u.Email == email)!;
-                return user;
+                return usersMock.FirstOrDefault(u => u.Email == email)!;
             }
             else
             {
@@ -153,34 +155,28 @@ namespace FitFusionTest.MockDAO
         public List<User> GetUsers(User role)
         {
             // TODO: Filter the users by role
-            return users;
+            return usersMock.Where(user => user.GetUserRole() == role.GetUserRole()).ToList();
         }
 
         public List<User> GetAllUsers()
         {
-            return users;
+            return usersMock;
         }
 
         public User AuthenticateUser(string email, string password)
         {
-            User? authenticatedUser = users.FirstOrDefault(user =>
+            User? authenticatedUser = usersMock.FirstOrDefault(user =>
                 user.Email.Equals(email, StringComparison.OrdinalIgnoreCase) &&
                 user.PasswordHash.Equals(password)
             );
+            // TODO remove the stringcomparison.ordinalignorecase
 
-            if (authenticatedUser != null)
-            {
-                return authenticatedUser;
-            }
-            else
-            {
-                throw new NullReferenceException("User doesn't exist.");
-            }
+            return authenticatedUser ?? throw new NullReferenceException("User doesn't exist.");
         }
 
         public bool DoesEmailExists(string email)
         {
-            return users.Any(user => user.Email == email);
+            return usersMock.Any(user => user.Email == email);
         }
 
     }

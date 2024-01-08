@@ -14,11 +14,12 @@ namespace FitFusionTest.MockDAO
 {
     public class MockOrderDAO : IOrderDAO
     {
-        private List<Order> orders;
+        private List<Order> ordersMock;
+        private List<Customer> usersMock;
 
         public MockOrderDAO()
         {
-            var users = new List<Customer>
+            usersMock = new()
             {
                 new Customer ( id: 1, firstName: "Alice", lastName: "Johnson", email: "alicejohnson@email.com",  passwordHash: "hash", passwordSalt: "salt", address: "Sofia", nutriPoints: 60),
                 new Customer ( id: 2, firstName: "Bob", lastName: "Smith", email: "bobsmith@email.com", passwordHash: "hash", passwordSalt: "salt", address: "USA", nutriPoints: 15),
@@ -49,13 +50,13 @@ namespace FitFusionTest.MockDAO
             secondCart.AddToCart(products[2]);
             secondCart.AddToCart(products[9]);
 
-            orders = new List<Order>()
+            ordersMock = new List<Order>()
             {
                 new Order
                 (
                     id: 0,
                     date: DateTime.Now.AddDays(-2),
-                    customer: users[0],
+                    customer: usersMock[0],
                     cart: firstCart,
                     note: "Sample order 1"
                 ),
@@ -63,7 +64,7 @@ namespace FitFusionTest.MockDAO
                 (
                     id: 1,
                     date: DateTime.Now.AddDays(-1),
-                    customer: users[2],
+                    customer: usersMock[2],
                     cart: secondCart,
                     note: "Sample order 2"
                 ),
@@ -71,58 +72,66 @@ namespace FitFusionTest.MockDAO
         }
 
 
-        //public bool CreateOrder(Order order)
-        //{
-        //    orders.Add(order);
-        //    order.Customer = new Customer();
-
-        //    order.Customer.NutriPoints += order.Cart.NutriPointsReward;
-        //    order.Customer.NutriPoints -= order.Cart.NutriPointsNeeded;
-
-        //    return order;
-        //}
-
-        public ShoppingCart GetShoppingCart(int id)
+        public bool CreateOrder(Order order)
         {
-            Order order = orders.Find(o => o.Id == id)!;
+            ordersMock.Add(order);
 
-            if (order == null)
-            {
-                throw new NullReferenceException("Shopping cart wasn't found!");
-            }
+            int index = usersMock.FindIndex(u => u.Id == order.Customer.Id);
+            int newNutriPoints = order.Customer.NutriPoints + order.Cart.NutriPointsReward - order.Cart.NutriPointsNeeded;
 
-            return order.Cart;
+            Customer newCustomer = new
+                (
+                    id: order.Customer.Id,
+                    firstName: order.Customer.FirstName,
+                    lastName: order.Customer.LastName,
+                    email: order.Customer.Email,
+                    passwordHash: order.Customer.PasswordHash,
+                    passwordSalt: order.Customer.PasswordSalt,
+                    address: order.Customer.Address,
+                    nutriPoints: newNutriPoints
+                );
+
+            usersMock[index] = newCustomer;
+
+            return true;
         }
+
+        //private ShoppingCart GetShoppingCart(int id)
+        //{
+        //    Order order = orders.Find(o => o.Id == id)!;
+
+        //    if (order == null)
+        //    {
+        //        throw new NullReferenceException("Shopping cart wasn't found!");
+        //    }
+
+        //    return order.Cart;
+        //}
 
         public Order GetOrderById(int id)
         {
-            Order order = orders.Find(o => o.Id == id)!;
+            //Order order = ordersMock.Find(o => o.Id == id)!;
+            //if (order == null)
+            //{
+            //    throw new NullReferenceException("Order wasn't found.");
+            //}
+            //return order;
 
-            if (order == null)
-            {
-                throw new NullReferenceException("Order wasn't found.");
-            }
-
-            return order;
+            return ordersMock.Find(o => o.Id == id) ?? throw new NullReferenceException("Order wasn't found.");
         }
 
         public List<Order> GetOrders()
         {
-            return orders;
+            return ordersMock;
         }
 
-        public int GetCustomerNutriPoints(int customerId)
-        {
-            Order order = orders.Find(o => o.Customer.Id == customerId)!;
-            return order.Customer.NutriPoints;
-        }
+        //public int GetCustomerNutriPoints(int customerId)
+        //{
+        //    Order order = ordersMock.Find(o => o.Customer.Id == customerId)!;
+        //    return order.Customer.NutriPoints;
+        //}
 
         public Dictionary<int, Dictionary<ProductModel, int>> GetRecommendations(int customerId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool CreateOrder(Order order)
         {
             throw new NotImplementedException();
         }

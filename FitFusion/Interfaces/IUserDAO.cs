@@ -16,5 +16,7 @@ namespace Interfaces
         User GetUserByEmail(string email);
         List<User> GetUsers(User role);
         User AuthenticateUser(string email, string password);
+        bool DoesEmailExists(string email);
+        // TODO bool VerifyPassword(string entered, string hash, string salt);
     }
 }

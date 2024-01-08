@@ -628,6 +628,5 @@ namespace DataAcess
         {
             return BCrypt.Net.BCrypt.HashPassword(entered, salt) == hash;
         }
-
     }
 }

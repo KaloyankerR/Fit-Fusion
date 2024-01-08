@@ -2,6 +2,7 @@
 using Models.Order;
 using Models.Product;
 using Models.Product.Enums;
+using Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,11 @@ namespace FitFusionTest.MockDAO
 {
     public class MockProductDAO : IProductDAO
     {
-        private List<Product> products;
+        private List<Product> productsMock;
 
         public MockProductDAO()
         {
-            products = new List<Product>
+            productsMock = new List<Product>
             {
                 new Product(id: 1, title: "Protein", description: null, price: 10, category: Category.Protein, imageUrl: null),
                 new Product(id: 2, title: "Vitamin B12", description: null, price: 15, category: Category.Vitamins, imageUrl: null),
@@ -29,67 +30,93 @@ namespace FitFusionTest.MockDAO
                 new Product(id: 9, title: "Gym Bag", description: null, price: 50, category: Category.Redeem, imageUrl: null),
                 new Product(id: 10, title: "Olympic Bar", description: null, price: 20, category: Category.Redeem, imageUrl: null)
             };
-
         }
 
         public bool CreateProduct(Product product)
         {
-            // product.Id = products.Count + 1;
-            products.Add(product);
+            productsMock.Add(product);
             return true;
         }
 
         public bool UpdateProduct(Product product)
         {
-            var productToUpdate = products.FirstOrDefault(p => p.Id == product.Id);
+            //var productToUpdate = products.FirstOrDefault(p => p.Id == product.Id);
 
-            if (productToUpdate != null)
+            //if (productToUpdate != null)
+            //{
+            //    products.Remove(productToUpdate);
+            //    products.Add(productToUpdate);
+            //    return true;
+            //}
+            //else
+            //{
+            //    throw new NullReferenceException("Product wasn't found.");
+            //}
+
+            int index = productsMock.FindIndex(p => p.Id == product.Id);
+            
+            if (index >= 0)
             {
-                products.Remove(productToUpdate);
-                products.Add(productToUpdate);
-                return true;
+                productsMock[index] = product;
             }
             else
             {
                 throw new NullReferenceException("Product wasn't found.");
             }
+
+            return true;
         }
 
         public bool DeleteProduct(int id)
         {
-            var productToRemove = products.FirstOrDefault(p => p.Id == id);
+            //var productToRemove = products.FirstOrDefault(p => p.Id == id);
+            //if (productToRemove != null)
+            //{
+            //    products.Remove(productToRemove);
+            //    return true;
+            //}
+            //else
+            //{
+            //    throw new NullReferenceException("Product wasn't found.");
+            //}
 
-            if (productToRemove != null)
+            int index = productsMock.FindIndex(p => p.Id == id);
+
+            if (index >= 0)
             {
-                products.Remove(productToRemove);
-                return true;
+                productsMock.RemoveAt(index);
             }
             else
             {
                 throw new NullReferenceException("Product wasn't found.");
             }
+
+            return true;
         }
 
         public Product GetProductById(int id)
         {
-            Product product = products.Find(o => o.Id == id)!;
+            //Product product = products.Find(o => o.Id == id)!;
 
-            if (product == null)
-            {
-                throw new NullReferenceException("Product wasn't found.");
-            }
+            //if (product == null)
+            //{
+            //    throw new NullReferenceException("Product wasn't found.");
+            //}
 
-            return product;
+            //return product;
+
+            return productsMock.Find(o => o.Id == id) ?? throw new NullReferenceException("Product wasn't found.");
         }
 
         public List<Product> GetProducts()
         {
-            return products;
+            return productsMock;
         }
 
         public Dictionary<string, int> GetTrendyProducts()
         {
             throw new NotImplementedException();
+            // TODO
         }
 
         
