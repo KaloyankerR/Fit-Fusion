@@ -17,7 +17,7 @@ namespace FitFusionWeb.Pages.Users.Create
     {
         [BindProperty]
         public StaffView Staff { get; set; } = new();
-        private readonly UserManager _usermanager = new(new UserDAO(), new UserFilter(), new UserSorter());
+        private readonly UserManager _usermanager = new(new UserDAO());
         private readonly UserConverter _converter = new();
 
         public void OnGet()

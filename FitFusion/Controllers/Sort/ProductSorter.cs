@@ -39,38 +39,38 @@ namespace Services.Sort
         }
     }
 
-    public class ProductSorter
-    {
-        public List<Product> Sort(List<Product> products, Enum sortParam)
-        {
-            ISort<Product> sortStrategy;
+    //public class ProductSorter
+    //{
+    //    public List<Product> Sort(List<Product> products, Enum sortParam)
+    //    {
+    //        ISort<Product> sortStrategy;
 
-            switch (sortParam)
-            {
-                case SortParameter.TitleAsc:
-                    sortStrategy = new TitleAscSortStrategy();
-                    break;
-                case SortParameter.TitleDesc:
-                    sortStrategy = new TitleDescSortStrategy();
-                    break;
-                case SortParameter.PriceAsc:
-                    sortStrategy = new PriceAscSortStrategy();
-                    break;
-                case SortParameter.PriceDesc:
-                    sortStrategy = new PriceDescSortStrategy();
-                    break;
-                default:
-                    return products;
-            }
+    //        switch (sortParam)
+    //        {
+    //            case SortParameter.TitleAsc:
+    //                sortStrategy = new TitleAscSortStrategy();
+    //                break;
+    //            case SortParameter.TitleDesc:
+    //                sortStrategy = new TitleDescSortStrategy();
+    //                break;
+    //            case SortParameter.PriceAsc:
+    //                sortStrategy = new PriceAscSortStrategy();
+    //                break;
+    //            case SortParameter.PriceDesc:
+    //                sortStrategy = new PriceDescSortStrategy();
+    //                break;
+    //            default:
+    //                return products;
+    //        }
 
-            try
-            {
-                return sortStrategy.Sort(products);
-            }
-            catch
-            {
-                throw new ArgumentException("Error during the sorting process.");
-            }
-        }
-    }
+    //        try
+    //        {
+    //            return sortStrategy.Sort(products);
+    //        }
+    //        catch
+    //        {
+    //            throw new ArgumentException("Error during the sorting process.");
+    //        }
+    //    }
+    //}
 }

@@ -15,23 +15,23 @@ namespace DataAcess
 {
     public class OrderDAO : IOrder
     {
-        private readonly string ConnectionString;
+        private readonly string _connectionString;
 
         public OrderDAO()
         {
-            ConnectionString = Connection.DbConnection.ConnectionString;
+            _connectionString = Connection.DbConnection.ConnectionString;
         }
 
         public OrderDAO(string connectionString)
         {
-            ConnectionString = connectionString;
+            _connectionString = connectionString;
         }
 
         public bool CreateOrder(Order order)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -78,11 +78,11 @@ namespace DataAcess
             }
         }
 
-        public bool AddNutriPointsToCustomer(int customerId, int pointsToAdd)
+        private bool AddNutriPointsToCustomer(int customerId, int pointsToAdd)
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -105,13 +105,13 @@ namespace DataAcess
             }
         }
 
-        public ShoppingCart GetShoppingCart(int id)
+        private ShoppingCart GetShoppingCart(int id)
         {
             ShoppingCart cart = new();
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -159,7 +159,7 @@ namespace DataAcess
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -203,7 +203,7 @@ namespace DataAcess
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -239,39 +239,39 @@ namespace DataAcess
             return orders;
         }
 
-        public int GetCustomerNutriPoints(int customerId)
-        {
-            int nutriPoints = 0;
+        //public int GetCustomerNutriPoints(int customerId)
+        //{
+        //    int nutriPoints = 0;
 
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
-                {
-                    connection.Open();
+        //    try
+        //    {
+        //        using (SqlConnection connection = new SqlConnection(_connectionString))
+        //        {
+        //            connection.Open();
 
-                    string query = $"SELECT * FROM Customer WHERE Id=@Id";
+        //            string query = $"SELECT * FROM Customer WHERE Id=@Id";
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
-                    {
-                        command.Parameters.AddWithValue("@Id", customerId);
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                command.Parameters.AddWithValue("@Id", customerId);
 
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                nutriPoints = reader.GetInt32(reader.GetOrdinal("NutriPoints"));
-                            }
-                        }
-                    }
-                }
-            }
-            catch (SqlException)
-            {
-                throw new DataAccessException("An error occurred in the database operation.");
-            }
+        //                using (SqlDataReader reader = command.ExecuteReader())
+        //                {
+        //                    if (reader.Read())
+        //                    {
+        //                        nutriPoints = reader.GetInt32(reader.GetOrdinal("NutriPoints"));
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //    catch (SqlException)
+        //    {
+        //        throw new DataAccessException("An error occurred in the database operation.");
+        //    }
 
-            return nutriPoints;
-        }
+        //    return nutriPoints;
+        //}
 
         public Dictionary<int, Dictionary<Product, int>> GetRecommendations(int customerId)
         {
@@ -279,7 +279,7 @@ namespace DataAcess
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
                     string query = $@"
@@ -341,13 +341,13 @@ namespace DataAcess
             return data;
         }
 
-        public Customer GetCustomerById(int id)
+        private Customer GetCustomerById(int id)
         {
             Customer user;
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -401,7 +401,7 @@ namespace DataAcess
 
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -445,7 +445,7 @@ namespace DataAcess
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(ConnectionString))
+                using (SqlConnection connection = new SqlConnection(_connectionString))
                 {
                     connection.Open();
 

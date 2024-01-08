@@ -10,7 +10,7 @@ namespace Interfaces
     public interface IProduct
     {
         bool CreateProduct(Product product);
-        bool UpdateProduct(Product updatedProduct);
+        bool UpdateProduct(Product product);
         bool DeleteProduct(int productId);
         Product GetProductById(int productId);
         List<Product> GetProducts();

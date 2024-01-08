@@ -8,64 +8,59 @@ namespace Models.Product
 {
     public class Product
     {
-        private int id;
-        private string title = string.Empty;
-        private string? description = string.Empty;
-        private double price;
-        private Category category;
-        private string? imageUrl;
+        private int _id;
+        private string _title = string.Empty;
+        private string? _description = string.Empty;
+        private double _price;
+        private Category _category;
+        private string? _imageUrl;
 
-        [Key]
         public int Id
         {
-            get { return id; }
-            private set { id = value; }
+            get { return _id; }
+            // private set { _id = value; }
         }
 
-        [Required(ErrorMessage = "Title is required")]
         public string Title
         {
-            get { return title; }
-            private set { title = value; }
+            get { return _title; }
+            //bprivate set { _title = value; }
         }
         
         public string? Description
         {
-            get { return description; }
-            private set { description = value; }
+            get { return _description; }
+            //private set { _description = value; }
         }
 
-        [Required(ErrorMessage = "Price is required")]
         public double Price
         {
-            get { return price; }
-            private set { price = value; }
+            get { return _price; }
+            //private set { _price = value; }
         }
 
-        [Required(ErrorMessage = "Category is required")]
         public Category Category
         {
-            get { return category; }
-            private set { category = value; }
+            get { return _category; }
+            //private set { _category = value; }
         }
 
         public string? ImageUrl
         {
-            get { return imageUrl; }
-            private set { imageUrl = value; }
+            get { return _imageUrl; }
+            //private set { _imageUrl = value; }
         }
 
-        public Product()
-        { }
+        public Product() { }
 
         public Product(int id, string title, string? description, double price, Category category, string? imageUrl)
         {
-            Id = id;
-            Title = title;
-            Description = description;
-            Price = price;
-            Category = category;
-            ImageUrl = imageUrl;
+            _id = id;
+            _title = title;
+            _description = description;
+            _price = price;
+            _category = category;
+            _imageUrl = imageUrl;
         }
 
         public override string ToString()

@@ -44,41 +44,41 @@ namespace Services.Sort
         }
     }
 
-    public class UserSorter
-    {
-        public List<User> Sort(List<User> users, Enum param)
-        {
-            ISort<User> sortStrategy;
+    //public class UserSorter
+    //{
+    //    public List<User> Sort(List<User> users, Enum param)
+    //    {
+    //        ISort<User> sortStrategy;
 
-            switch (param)
-            {
-                case SortParameter.FirstNameAscending:
-                    sortStrategy = new FirstNameAscending();
-                    break;
-                case SortParameter.FirstNameDescending:
-                    sortStrategy = new FirstNameDescending();
-                    break;
-                case SortParameter.LastNameAscending:
-                    sortStrategy = new LastNameAscending();
-                    break;
-                case SortParameter.LastNameDescending:
-                    sortStrategy = new LastNameDescending();
-                    break;
-                case SortParameter.Role:
-                    sortStrategy = new RoleAscending();
-                    break;
-                default:
-                    return users;
-            }
+    //        switch (param)
+    //        {
+    //            case SortParameter.FirstNameAscending:
+    //                sortStrategy = new FirstNameAscending();
+    //                break;
+    //            case SortParameter.FirstNameDescending:
+    //                sortStrategy = new FirstNameDescending();
+    //                break;
+    //            case SortParameter.LastNameAscending:
+    //                sortStrategy = new LastNameAscending();
+    //                break;
+    //            case SortParameter.LastNameDescending:
+    //                sortStrategy = new LastNameDescending();
+    //                break;
+    //            case SortParameter.Role:
+    //                sortStrategy = new RoleAscending();
+    //                break;
+    //            default:
+    //                return users;
+    //        }
 
-            try
-            {
-                return sortStrategy.Sort(users);
-            }
-            catch
-            {
-                throw new ArgumentException("Error during the sorting process.");
-            }
-        }
-    }
+    //        try
+    //        {
+    //            return sortStrategy.Sort(users);
+    //        }
+    //        catch
+    //        {
+    //            throw new ArgumentException("Error during the sorting process.");
+    //        }
+    //    }
+    //}
 }

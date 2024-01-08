@@ -18,7 +18,7 @@ namespace FitFusionDesktop.CRUD
 {
     public partial class ProductUpdate : Form
     {
-        private readonly ProductManager _productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
+        private readonly ProductManager _productManager = new(new ProductDAO());
         private Product _product;
 
         public ProductUpdate(Product product)

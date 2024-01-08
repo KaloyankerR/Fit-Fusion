@@ -15,7 +15,7 @@ namespace FitFusionWeb.Pages.Authentication
     {
         [BindProperty]
         public CustomerView Customer { get; set; } = new();
-        private readonly UserManager _userManager = new UserManager(new UserDAO(), new UserFilter(), new UserSorter());
+        private readonly UserManager _userManager = new UserManager(new UserDAO());
         private readonly UserConverter _converter = new();
         private readonly ILogger<ErrorModel> _logger;
 

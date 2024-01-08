@@ -10,6 +10,8 @@ using Services.Sort;
 using Models.Product.Enums;
 using FitFusionWeb.Converters;
 using FitFusionWeb.Views;
+using Interfaces.Strategy;
+using Models.User;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -29,7 +31,7 @@ namespace FitFusionWeb.Pages.Products
         public double MaxPrice { get; set; }
 
         public List<ProductView> Products { get; set; } = new();
-        private readonly ProductManager productManager = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
+        private readonly ProductManager productManager = new(new ProductDAO());
         private readonly ProductConverter _converter = new();
 
         public IActionResult OnGet()
@@ -54,20 +56,36 @@ namespace FitFusionWeb.Pages.Products
         {
             try
             {
-                var filter = new Dictionary<Enum, object>
+                Dictionary<IFilter<Product>, object> filter = new Dictionary<IFilter<Product>, object>
                 {
-                    { FilterParameter.Keyword, SearchQuery },
-                    { FilterParameter.Category, FilterByCategory },
-                    { FilterParameter.Price,  new List<double>{ MinPrice, MaxPrice } }
+                    { new ProductKeywordFilterStrategy(), SearchQuery },
+                    { new CategoryFilterStrategy(), FilterByCategory },
+                    { new PriceFilterStrategy(),  new List<double>{ MinPrice, MaxPrice } }
                 };
 
-                List<Product> products = productManager
-                    .Sort(
-                        productManager
-                            .Filter(
-                                productManager.GetProducts(), filter
-                                ),
-                        Sort);
+                ISort<Product> sorter;
+                switch (Sort)
+                {
+                    case SortParameter.TitleAsc:
+                        sorter = new TitleAscSortStrategy();
+                        break;
+                    case SortParameter.TitleDesc:
+                        sorter = new TitleDescSortStrategy();
+                        break;
+                    case SortParameter.PriceAsc:
+                        sorter = new PriceAscSortStrategy();
+                        break;
+                    case SortParameter.PriceDesc:
+                        sorter = new PriceDescSortStrategy();
+                        break;
+                    default:
+                        sorter = new TitleAscSortStrategy();
+                        break;
+                }
+
+                List<Product> products = productManager.GetProducts();
+                products = productManager.Filter(products, filter);
+                products = productManager.Sort(products, sorter);
 
                 Products = _converter.ToProductViews(products);
             }

@@ -12,14 +12,10 @@ namespace Services
     public class ProductManager : IProduct
     {
         private readonly IProduct _dao;
-        private readonly ProductSorter _sorter;
-        private readonly ProductFilter _filter;
 
-        public ProductManager(IProduct dao, ProductFilter filter, ProductSorter sorter)
+        public ProductManager(IProduct dao)
         {
             _dao = dao;
-            _filter = filter;
-            _sorter = sorter;
         }
 
         public bool CreateProduct(Product product)
@@ -58,18 +54,6 @@ namespace Services
             }
         }
 
-        public bool DeleteProduct(Product product)
-        {
-            try
-            {
-                return _dao.DeleteProduct(product.Id);
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
         public Product GetProductById(int id)
         {
             try
@@ -94,27 +78,11 @@ namespace Services
             }
         }
 
-        //public List<Product> Search(List<Product> products, string searchQuery)
-        //{
-        //    if (!string.IsNullOrEmpty(searchQuery))
-        //    {
-        //        searchQuery = searchQuery.ToLower();
-        //        products = products.FindAll(p =>
-        //            p.Title.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-        //            (p.Description ?? "").ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-        //            p.Category.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-        //            p.Price.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) //might be used in cases like EUR/Eur 
-        //        );
-        //    }
-
-        //    return products;
-        //}
-
-        public List<Product> Sort(List<Product> products, Enum param)
+        public List<Product> Sort(List<Product> products, ISort<Product> sortStrategy)
         {
             try
             {
-                return _sorter.Sort(products, param);
+                return sortStrategy.Sort(products);
             }
             catch
             {
@@ -122,11 +90,20 @@ namespace Services
             }
         }
 
-        public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
+
+        public List<Product> Filter(List<Product> products, Dictionary<IFilter<Product>, object> filterStrategies)
         {
             try
             {
-                return _filter.Filter(products, filters);
+                foreach (var kvp in filterStrategies)
+                {
+                    var filterStrategy = kvp.Key;
+                    var filterValue = kvp.Value;
+
+                    products = filterStrategy.Filter(products, filterValue);
+                }
+
+                return products;
             }
             catch 
             { 

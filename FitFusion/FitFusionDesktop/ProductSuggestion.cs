@@ -17,7 +17,7 @@ namespace FitFusionDesktop
 {
     public partial class ProductSuggestion : Form
     {
-        private readonly ProductManager _productManger = new(new ProductDAO(), new ProductFilter(), new ProductSorter());
+        private readonly ProductManager _productManger = new(new ProductDAO());
         private readonly OrderManager _orderManger = new(new OrderDAO());
         private readonly int _customerId;
 

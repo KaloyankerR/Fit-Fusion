@@ -19,7 +19,7 @@ namespace FitFusionDesktop.UserControls
 {
     public partial class Profile : UserControl
     {
-        private readonly UserManager _userManager = new(new UserDAO(), new UserFilter(),new UserSorter());
+        private readonly UserManager _userManager = new(new UserDAO());
         private UserModel CurrentUser;
 
         public Profile(UserModel user)

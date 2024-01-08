@@ -64,55 +64,54 @@ namespace Services.Filter
         }
     }
 
-    public class ProductFilter
-    {
-        public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
-        {
-            if (filters == null || filters.Count == 0)
-            {
-                return products;
-            }
+    //public class ProductFilter
+    //{
+    //    public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
+    //    {
+    //        if (filters == null || filters.Count == 0)
+    //        {
+    //            return products;
+    //        }
 
-            List<(IFilter<Product> FilterStrategy, object FilterValue)> filterStrategies = new List<(IFilter<Product>, object)>();
+    //        List<(IFilter<Product> FilterStrategy, object FilterValue)> filterStrategies = new List<(IFilter<Product>, object)>();
 
-            foreach (var filterEntry in filters)
-            {
-                if (filterEntry.Key is FilterParameter filterKey)
-                {
-                    switch (filterKey)
-                    {
-                        case FilterParameter.Keyword:
-                            filterStrategies.Add((new ProductKeywordFilterStrategy(), filterEntry.Value));
-                            break;
-                        case FilterParameter.Category:
-                            filterStrategies.Add((new CategoryFilterStrategy(), filterEntry.Value));
-                            break;
-                        case FilterParameter.Price:
-                            filterStrategies.Add((new PriceFilterStrategy(), filterEntry.Value));
-                            break;
-                    }
-                }
-            }
+    //        foreach (var filterEntry in filters)
+    //        {
+    //            if (filterEntry.Key is FilterParameter filterKey)
+    //            {
+    //                switch (filterKey)
+    //                {
+    //                    case FilterParameter.Keyword:
+    //                        filterStrategies.Add((new ProductKeywordFilterStrategy(), filterEntry.Value));
+    //                        break;
+    //                    case FilterParameter.Category:
+    //                        filterStrategies.Add((new CategoryFilterStrategy(), filterEntry.Value));
+    //                        break;
+    //                    case FilterParameter.Price:
+    //                        filterStrategies.Add((new PriceFilterStrategy(), filterEntry.Value));
+    //                        break;
+    //                }
+    //            }
+    //        }
 
-            if (filterStrategies.Count == 0)
-            {
-                return products;
-            }
+    //        if (filterStrategies.Count == 0)
+    //        {
+    //            return products;
+    //        }
 
-            foreach (var (filterStrategy, filterValue) in filterStrategies)
-            {
-                try
-                {
-                    products = filterStrategy.Filter(products, filterValue);
-                }
-                catch
-                {
-                    throw new ArgumentException("Invalid filtering parameter.");
-                }
-            }
+    //        foreach (var (filterStrategy, filterValue) in filterStrategies)
+    //        {
+    //            try
+    //            {
+    //                products = filterStrategy.Filter(products, filterValue);
+    //            }
+    //            catch
+    //            {
+    //                throw new ArgumentException("Invalid filtering parameter.");
+    //            }
+    //        }
 
-            return products;
-        }
-
-    }
+    //        return products;
+    //    }
+    // }
 }

@@ -14,6 +14,9 @@ using FitFusionDesktop.CRUD;
 using Services.Sort;
 using Models.User.Enums;
 using Services.Filter;
+using Interfaces.Strategy;
+using Models.Product;
+using Interfaces;
 
 namespace FitFusionDesktop.UserControls
 {
@@ -25,7 +28,7 @@ namespace FitFusionDesktop.UserControls
         public Users()
         {
             InitializeComponent();
-            _userManager = new(new UserDAO(), new UserFilter(), new UserSorter());
+            _userManager = new(new UserDAO());
             roleCmbBox.DataSource = Enum.GetValues(typeof(Role));
             sortCmbBox.DataSource = Enum.GetValues(typeof(SortParameter));
             btnSearch_Click(this, EventArgs.Empty);
@@ -33,32 +36,40 @@ namespace FitFusionDesktop.UserControls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            List<User> users = new();
+            List<User> users = _userManager.GetAllUsers();
 
-            Role role = Enum.TryParse(roleCmbBox.SelectedItem?.ToString(), true, out Role result) ? result : Role.All;
+            Dictionary<IFilter<User>, object> filters = new()
+            {
+                { new KeywordFilterStrategy(), txtSearchQuery.Text },
+                { new RoleFilterStrategy(), Enum.TryParse(roleCmbBox.SelectedItem?.ToString(), true, out Role result) ? result : Role.All }
+            };
 
-            if (role == Role.Owner)
-            {
-                users = _userManager.GetUsers(new Owner());
-            }
-            else if (role == Role.Staff)
-            {
-                users = _userManager.GetUsers(new Staff());
-            }
-            else if (role == Role.Customer)
-            {
-                users = _userManager.GetUsers(new Customer());
-            }
-            else
-            {
-                users = _userManager.GetAllUsers();
-            }
-
-            users = _userManager.Search(users, txtSearchQuery.Text);
+            users = _userManager.Filter(users, filters);
 
             if (sortCmbBox.SelectedItem is SortParameter selectedSort)
             {
-                users = _userManager.Sort(users, selectedSort);
+                ISort<User> sorter;
+
+                switch (selectedSort)
+                {
+                    case SortParameter.FirstNameAscending:
+                        sorter = new FirstNameAscending();
+                        break;
+                    case SortParameter.FirstNameDescending:
+                        sorter = new FirstNameDescending();
+                        break;
+                    case SortParameter.LastNameAscending:
+                        sorter = new LastNameAscending();
+                        break;
+                    case SortParameter.LastNameDescending:
+                        sorter = new LastNameDescending();
+                        break;
+                    default:
+                        sorter = new FirstNameAscending();
+                        break;
+                }
+
+                users = _userManager.Sort(users, sorter);
             }
 
             UsersDataGrid.DataSource = users;

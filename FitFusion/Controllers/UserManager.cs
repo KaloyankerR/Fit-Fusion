@@ -11,14 +11,10 @@ namespace Services
     public class UserManager : IUser
     {
         private readonly IUser dao;
-        private readonly UserSorter _sorter;
-        private readonly UserFilter _filter;
 
-        public UserManager(IUser userDao, UserFilter filter, UserSorter sorter)
+        public UserManager(IUser userDao)
         {
             dao = userDao;
-            _filter = filter;
-            _sorter = sorter;
         }
 
         public bool CreateUser(UserModel user)
@@ -113,25 +109,25 @@ namespace Services
         }
 
 
-        public List<UserModel> Search(List<UserModel> users, string param)
-        {
-            if (!string.IsNullOrEmpty(param))
-            {
-                users = users.FindAll(u =>
-                    u.FirstName.Contains(param, StringComparison.OrdinalIgnoreCase) ||
-                    u.LastName.Contains(param, StringComparison.OrdinalIgnoreCase) ||
-                    u.Address.Contains(param, StringComparison.OrdinalIgnoreCase)
-                );
-            }
+        //public List<UserModel> Search(List<UserModel> users, string param)
+        //{
+        //    if (!string.IsNullOrEmpty(param))
+        //    {
+        //        users = users.FindAll(u =>
+        //            u.FirstName.Contains(param, StringComparison.OrdinalIgnoreCase) ||
+        //            u.LastName.Contains(param, StringComparison.OrdinalIgnoreCase) ||
+        //            u.Address.Contains(param, StringComparison.OrdinalIgnoreCase)
+        //        );
+        //    }
 
-            return users;
-        }
+        //    return users;
+        //}
 
-        public List<UserModel> Sort(List<UserModel> users, Enum param)
+        public List<UserModel> Sort(List<UserModel> users, ISort<User> sortStrategy)
         {
             try
             {
-                return _sorter.Sort(users, param);
+                return sortStrategy.Sort(users);
             }
             catch
             {
@@ -139,11 +135,19 @@ namespace Services
             }
         }
 
-        public List<UserModel> Filter(List<UserModel> users, Dictionary<Enum, object> filters)
+        public List<UserModel> Filter(List<UserModel> users, Dictionary<IFilter<User>, object> filterStrategies)
         {
             try
             {
-                return _filter.Filter(users, filters);
+                foreach(var kvp in filterStrategies)
+                {
+                    var filterStrategy = kvp.Key;
+                    var filterValue = kvp.Value;
+
+                    users = filterStrategy.Filter(users, filterValue);
+                }
+
+                return users;
             }
             catch
             {
