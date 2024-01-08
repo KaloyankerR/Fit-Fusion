@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces
 {
-    public interface IOrder
+    public interface IOrderDAO
     {
         bool CreateOrder(Order order);
         Order GetOrderById(int id);

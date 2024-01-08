@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces
 {
-    public interface IProduct
+    public interface IProductDAO
     {
         bool CreateProduct(Product product);
         bool UpdateProduct(Product product);

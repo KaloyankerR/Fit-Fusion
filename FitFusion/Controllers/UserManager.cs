@@ -8,11 +8,11 @@ using Models.Product;
 
 namespace Services
 {
-    public class UserManager : IUser
+    public class UserManager
     {
-        private readonly IUser dao;
+        private readonly IUserDAO dao;
 
-        public UserManager(IUser userDao)
+        public UserManager(IUserDAO userDao)
         {
             dao = userDao;
         }

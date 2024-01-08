@@ -12,7 +12,7 @@ using Models.Product.Enums;
 
 namespace FitFusionTest.MockDAO
 {
-    public class MockOrderDAO : IOrder
+    public class MockOrderDAO : IOrderDAO
     {
         private List<Order> orders;
 

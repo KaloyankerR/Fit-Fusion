@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Interfaces
 {
-    public interface IUser
+    public interface IUserDAO
     {
         bool CreateUser(User user);
         bool UpdateUser(User user);

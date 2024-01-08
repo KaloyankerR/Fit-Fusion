@@ -9,11 +9,11 @@ using Services.Filter;
 
 namespace Services
 {
-    public class ProductManager : IProduct
+    public class ProductManager
     {
-        private readonly IProduct _dao;
+        private readonly IProductDAO _dao;
 
-        public ProductManager(IProduct dao)
+        public ProductManager(IProductDAO dao)
         {
             _dao = dao;
         }

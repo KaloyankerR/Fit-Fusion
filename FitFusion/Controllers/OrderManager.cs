@@ -10,11 +10,11 @@ using Models.Product;
 
 namespace Services
 {
-    public class OrderManager : IOrder
+    public class OrderManager
     {
-        private readonly IOrder _dao;
+        private readonly IOrderDAO _dao;
 
-        public OrderManager(IOrder dao)
+        public OrderManager(IOrderDAO dao)
         {
             _dao = dao;
         }

@@ -11,7 +11,7 @@ using Models.Product.Enums;
 
 namespace DataAcess
 {
-    public class ProductDAO : IProduct, IStorageAccess
+    public class ProductDAO : IProductDAO, IStorageAccess
     {
         private readonly string _connectionString;
 

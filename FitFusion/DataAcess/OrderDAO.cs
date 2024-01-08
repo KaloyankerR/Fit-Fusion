@@ -13,7 +13,7 @@ using Models.Product.Enums;
 
 namespace DataAcess
 {
-    public class OrderDAO : IOrder
+    public class OrderDAO : IOrderDAO
     {
         private readonly string _connectionString;
 

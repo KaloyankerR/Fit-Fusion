@@ -12,7 +12,7 @@ using System.Transactions;
 
 namespace DataAcess
 {
-    public class UserDAO : IUser
+    public class UserDAO : IUserDAO
     {
         private readonly string _connectionString;
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FitFusionTest.MockDAO
 {
-    public class MockUserDAO : IUser
+    public class MockUserDAO : IUserDAO
     {
         private readonly List<User> users = new();
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FitFusionTest.MockDAO
 {
-    public class MockProductDAO : IProduct
+    public class MockProductDAO : IProductDAO
     {
         private List<Product> products;
 
