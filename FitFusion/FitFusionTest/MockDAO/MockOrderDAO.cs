@@ -20,9 +20,9 @@ namespace FitFusionTest.MockDAO
         {
             var users = new List<Customer>
             {
-                new Customer { Id = 1, FirstName = "Alice", LastName = "Johnson", Address="Sofia", NutriPoints = 60 },
-                new Customer { Id = 2, FirstName = "Bob", LastName = "Smith", NutriPoints = 15 },
-                new Customer { Id = 3, FirstName = "John", LastName = "Doe", NutriPoints = 100 }
+                new Customer ( id: 1, firstName: "Alice", lastName: "Johnson", email: "alicejohnson@email.com",  passwordHash: "hash", passwordSalt: "salt", address: "Sofia", nutriPoints: 60),
+                new Customer ( id: 2, firstName: "Bob", lastName: "Smith", email: "bobsmith@email.com", passwordHash: "hash", passwordSalt: "salt", address: "USA", nutriPoints: 15),
+                new Customer ( id: 3, firstName: "John", lastName: "Doe", email: "johndoe@email.com", passwordHash: "hash", passwordSalt: "salt", address: "England", nutriPoints: 100)
             };
 
             var products = new List<ProductModel>
@@ -71,13 +71,16 @@ namespace FitFusionTest.MockDAO
         }
 
 
-        public bool CreateOrder(Order order)
-        {
-            orders.Add(order);
-            order.Customer.NutriPoints += order.Cart.NutriPointsReward;
-            order.Customer.NutriPoints -= order.Cart.NutriPointsNeeded;
-            return true;
-        }
+        //public bool CreateOrder(Order order)
+        //{
+        //    orders.Add(order);
+        //    order.Customer = new Customer();
+
+        //    order.Customer.NutriPoints += order.Cart.NutriPointsReward;
+        //    order.Customer.NutriPoints -= order.Cart.NutriPointsNeeded;
+
+        //    return order;
+        //}
 
         public ShoppingCart GetShoppingCart(int id)
         {
@@ -118,6 +121,20 @@ namespace FitFusionTest.MockDAO
         {
             throw new NotImplementedException();
         }
-    
+
+        public bool CreateOrder(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ProductModel GetMerchantRecommendation(int customerId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CreateMerchantRecommendation(int customerId, ProductModel newProduct)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

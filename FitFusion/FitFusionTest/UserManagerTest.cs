@@ -3,6 +3,7 @@ using Models.User;
 using Models.User.Enums;
 using NUnit.Framework;
 using Services;
+using Services.Sort;
 using System.Data;
 
 namespace FitFusionTest
@@ -23,28 +24,30 @@ namespace FitFusionTest
         public void CreateUser_DuplicateEmail_ShouldThrowDuplicateNameException()
         {
             var existingUser = new Owner
-            {
-                FirstName = "Peter",
-                LastName = "Parker",
-                Email = "peterparker@email.com",
-                PasswordHash = "peterparker@email.com",
-                PasswordSalt = "salt",
-                Address = "USA",
-                Phone = "1234567890",
-            };
+            (
+                id: 24,
+                firstName: "Peter",
+                lastName: "Parker",
+                email: "peterparker@email.com",
+                passwordHash: "peterparker@email.com",
+                passwordSalt: "salt",
+                address: "USA",
+                phone: "1234567890"
+            );
 
             _dao.CreateUser(existingUser);
 
             var newUser = new Customer
-            {
-                FirstName = "Peter",
-                LastName = "Parker",
-                Email = "peterparker@email.com",
-                PasswordHash = "peterparker@email.com",
-                PasswordSalt = "salt",
-                Address = "USA",
-                NutriPoints = 0
-            };
+            (
+                id: 24,
+                firstName: "Peter",
+                lastName: "Parker",
+                email: "peterparker@email.com",
+                passwordHash: "peterparker@email.com",
+                passwordSalt: "salt",
+                address: "USA",
+                nutriPoints: 0
+            );
 
             Assert.Throws<DuplicateNameException>(() => _manager.CreateUser(newUser));
         }
@@ -53,30 +56,30 @@ namespace FitFusionTest
         public void UpdateUser_ExistingUser_ShouldUpdateUser()
         {
             var existingUser = new Customer
-            {
-                Id = 1,
-                FirstName = "Ivan",
-                LastName = "Ivanov",
-                Email = "ivanivanov@email.com",
-                PasswordHash = "ivanivanov@email.com",
-                PasswordSalt = "salt",
-                Address = "USA",
-                NutriPoints = 0
-            };
+            (
+                id: 23,
+                firstName: "Ivan",
+                lastName: "Ivanov",
+                email: "ivanivanov@email.com",
+                passwordHash: "ivanivanov@email.com",
+                passwordSalt: "salt",
+                address: "USA",
+                nutriPoints: 0
+            );
 
             _dao.CreateUser(existingUser);
 
             var updatedUser = new Customer
-            {
-                Id = 1,
-                FirstName = "Ivan",
-                LastName = "Parker",
-                Email = "ivanivanov@email.com",
-                PasswordHash = "ivanivanov@email.com",
-                PasswordSalt = "salt",
-                Address = "Bulgaria",
-                NutriPoints = 0
-            };
+            (
+                id: 23,
+                firstName: "Ivan",
+                lastName: "Parker",
+                email: "ivanivanov@email.com",
+                passwordHash: "ivanivanov@email.com",
+                passwordSalt: "salt",
+                address: "Bulgaria",
+                nutriPoints: 0
+            );
 
             _manager.UpdateUser(updatedUser);
 
@@ -93,16 +96,16 @@ namespace FitFusionTest
         public void DeleteUser_ExistingUser_ShouldRemoveUser()
         {
             var existingUser = new Customer
-            {
-                Id = 1,
-                FirstName = "Doom",
-                LastName = "Doctor",
-                Email = "doctordoom@email.com",
-                PasswordHash = "doctordoom@email.com",
-                PasswordSalt = "salt",
-                Address = "USA",
-                NutriPoints = 0
-            };
+            (
+                id: 1,
+                firstName: "Doom",
+                lastName: "Doctor",
+                email: "doctordoom@email.com",
+                passwordHash: "doctordoom@email.com",
+                passwordSalt: "salt",
+                address: "USA",
+                nutriPoints: 0
+            );
 
             _dao.CreateUser(existingUser);
 
@@ -151,7 +154,7 @@ namespace FitFusionTest
             List<User> users = _manager.GetAllUsers();
 
             List<User> usersToCompare = users.OrderByDescending(x => x.LastName).ToList();
-            List<User> usersToCheck = _manager.Sort(users, SortParameter.LastNameDescending);
+            List<User> usersToCheck = _manager.Sort(users, new LastNameDescending());
 
             Assert.That(usersToCheck, Is.EqualTo(usersToCompare));
         }

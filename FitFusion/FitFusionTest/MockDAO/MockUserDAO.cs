@@ -94,33 +94,19 @@ namespace FitFusionTest.MockDAO
         {
             if (DoesEmailExists(user.Email))
             {
-                User existingUser = users.FirstOrDefault(u => u.Email == user.Email)!;
+                User existingUser = users.FirstOrDefault(u => u.Id == user.Id)!;
 
-                existingUser.FirstName = user.FirstName;
-                existingUser.LastName = user.LastName;
-                existingUser.Email = user.Email;
-                existingUser.PasswordHash = user.PasswordHash;
-                existingUser.PasswordSalt = user.PasswordSalt;
+                users.Remove(existingUser);
+                users.Add(user);
 
-                if (user is Staff)
-                {
-                    ((Staff)existingUser).Phone = ((Staff)user).Phone;
-                }
-                else if (user is Owner)
-                {
-                    ((Owner)existingUser).Phone = ((Owner)user).Phone;
-                }
-                else if (user is Customer)
-                {
-                    ((Customer)existingUser).NutriPoints = ((Customer)user).NutriPoints;
-                }
+                return true;
             }
             else
             {
                 throw new NullReferenceException("User doesn't exist.");
             }
 
-            return true;
+            //TODO check
         }
 
         public bool DeleteUser(User user)

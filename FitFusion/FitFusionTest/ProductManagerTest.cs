@@ -109,7 +109,7 @@ namespace FitFusionTest
         public void FilterByCategory_ShouldReturnFilteredProducts()
         {
             List<Product> products = _manager.GetProducts();
-            List<Product> firstSort = _manager.Sort(products, param: "titleAsc");
+            List<Product> firstSort = _manager.Sort(products, new TitleAscSortStrategy());
             List<Product> products2 = _manager.GetProducts();
         }
 
