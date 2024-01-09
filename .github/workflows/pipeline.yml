@@ -3,9 +3,12 @@ name: .NET
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
@@ -20,13 +23,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
       working-directory: ./FitFusion
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build  # Specify that the "test" job needs the "build" job to complete before running
-
-    steps:
-    - uses: actions/checkout@v3
     - name: Test
       run: dotnet test --no-build --verbosity normal --filter FullyQualifiedName~FitFusionTest
       working-directory: ./FitFusion/FitFusionTest
