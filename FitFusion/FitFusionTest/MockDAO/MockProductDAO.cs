@@ -98,16 +98,15 @@ namespace FitFusionTest.MockDAO
 
         public Product GetProductById(int id)
         {
-            //Product product = products.Find(o => o.Id == id)!;
+            var product = productsMock.Find(o => o.Id == id);
 
-            //if (product == null)
-            //{
-            //    throw new NullReferenceException("Product wasn't found.");
-            //}
+            if (product == null)
+            {
+                throw new NullReferenceException("Product wasn't found.");
+            }
 
-            //return product;
+            return product;
 
-            return productsMock.Find(o => o.Id == id) ?? throw new NullReferenceException("Product wasn't found.");
         }
 
         public List<Product> GetProducts()

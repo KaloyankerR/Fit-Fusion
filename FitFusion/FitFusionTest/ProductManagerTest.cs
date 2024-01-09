@@ -64,7 +64,7 @@ namespace FitFusionTest
         [Test]
         public void GetProductById_ShouldThrowAnError()
         {
-            int productId = 100;
+            int productId = 1234;
 
             Assert.Throws<NullReferenceException>(() =>
             {
@@ -156,10 +156,10 @@ namespace FitFusionTest
         public void SortMethods_ShouldReturnSortedProducts()
         {
             List<Product> products = _manager.GetProducts();
-            Product productLowestPrice = products[3];
-            Product productHighestPrice = products[5];
-            Product productTitleFirst = products[1];
-            Product productTitleLast = products[8];
+            int productLowestPrice = 2;
+            int productHighestPrice = 100;
+            string productTitleFirst = "Azov Vitamin B12";
+            string productTitleLast = "ZZ Gym Bag";
 
             List<Product> productsPriceAsc = _manager.Sort(products, new PriceAscSortStrategy());
             List<Product> productsPriceDesc = _manager.Sort(products, new PriceDescSortStrategy());
@@ -171,10 +171,10 @@ namespace FitFusionTest
             Assert.NotNull(productsTitleAsc);
             Assert.NotNull(productsTitleDesc);
 
-            Assert.That(productLowestPrice, Is.EqualTo(productsPriceAsc[0]));
-            Assert.That(productHighestPrice, Is.EqualTo(productsPriceDesc[0]));
-            Assert.That(productTitleFirst, Is.EqualTo(productsTitleAsc[0]));
-            Assert.That(productTitleLast, Is.EqualTo(productsTitleDesc[0]));
+            Assert.That(productLowestPrice, Is.EqualTo(productsPriceAsc[0].Price));
+            Assert.That(productHighestPrice, Is.EqualTo(productsPriceDesc[0].Price));
+            Assert.That(productTitleFirst, Is.EqualTo(productsTitleAsc[0].Title));
+            Assert.That(productTitleLast, Is.EqualTo(productsTitleDesc[0].Title));
         }
 
         [Test]
