@@ -6,6 +6,8 @@ using FitFusionTest.MockDAO;
 using Interfaces;
 using Services.Sort;
 using Models.Product.Enums;
+using Interfaces.Strategy;
+using Services.Filter;
 
 namespace FitFusionTest
 {
@@ -23,9 +25,11 @@ namespace FitFusionTest
         [Test]
         public void CreateProduct_ShouldReturnTrue()
         {
+            int productsInitialCount = _manager.GetProducts().Count();
+
             Product product = new
             (
-                id: 11,
+                id: 100,
                 title: "Thor's hammer",
                 description: "Odin son's weapon.",
                 price: 100,
@@ -35,10 +39,11 @@ namespace FitFusionTest
 
             bool result = _manager.CreateProduct(product);
 
-            List<Product> products = _manager.GetProducts();
+            int productsEndCount = _manager.GetProducts().Count();
 
             Assert.IsTrue(result);
-            Assert.IsTrue(products.Contains(product));
+            Assert.That(productsInitialCount, Is.Not.EqualTo(productsEndCount));
+            Assert.That(_manager.GetProducts(), Does.Contain(product));
         }
 
         [Test]
@@ -63,7 +68,7 @@ namespace FitFusionTest
 
             Assert.Throws<NullReferenceException>(() =>
             {
-                Product result = _manager.GetProductById(productId);
+                _manager.GetProductById(productId);
             });
         }
 
@@ -109,9 +114,78 @@ namespace FitFusionTest
         public void FilterByCategory_ShouldReturnFilteredProducts()
         {
             List<Product> products = _manager.GetProducts();
-            List<Product> firstSort = _manager.Sort(products, new TitleAscSortStrategy());
-            List<Product> products2 = _manager.GetProducts();
+
+            Dictionary<IFilter<Product>, object> filter = new Dictionary<IFilter<Product>, object>
+                {
+                    { new CategoryFilterStrategy(), Category.Protein },
+                };
+
+            products = _manager.Filter(products, filter); 
+
+            Product firstProduct = products[0];
+            Product lastProduct = products[products.Count - 1];
+
+            Assert.NotNull(products);
+            Assert.That(products.Count, Is.EqualTo(3));
+            Assert.That(products[0], Is.EqualTo(firstProduct));
+            Assert.That(products[products.Count - 1], Is.EqualTo(lastProduct));
         }
 
+        [Test]
+        public void FilterByKeywordCategoryAndPrice_ShouldReturnFilteredProducts()
+        {
+            List<Product> products = _manager.GetProducts();
+
+            Dictionary<IFilter<Product>, object> filter = new Dictionary<IFilter<Product>, object>
+                {
+                    { new ProductKeywordFilterStrategy(), "drake" },
+                    { new CategoryFilterStrategy(), Category.Protein },
+                    { new PriceFilterStrategy(),  new List<double>{ 20, 50 } }
+                };
+
+            products = _manager.Filter(products, filter);
+
+            Product productToCheck = products[0];
+
+            Assert.NotNull(products);
+            Assert.That(products.Count, Is.EqualTo(1));
+            Assert.That(products[0], Is.EqualTo(productToCheck));
+        }
+
+        [Test]
+        public void SortMethods_ShouldReturnSortedProducts()
+        {
+            List<Product> products = _manager.GetProducts();
+            Product productLowestPrice = products[3];
+            Product productHighestPrice = products[5];
+            Product productTitleFirst = products[1];
+            Product productTitleLast = products[8];
+
+            List<Product> productsPriceAsc = _manager.Sort(products, new PriceAscSortStrategy());
+            List<Product> productsPriceDesc = _manager.Sort(products, new PriceDescSortStrategy());
+            List<Product> productsTitleAsc = _manager.Sort(products, new TitleAscSortStrategy());
+            List<Product> productsTitleDesc = _manager.Sort(products, new TitleDescSortStrategy());
+
+            Assert.NotNull(productsPriceAsc);
+            Assert.NotNull(productsPriceDesc);
+            Assert.NotNull(productsTitleAsc);
+            Assert.NotNull(productsTitleDesc);
+
+            Assert.That(productLowestPrice, Is.EqualTo(productsPriceAsc[0]));
+            Assert.That(productHighestPrice, Is.EqualTo(productsPriceDesc[0]));
+            Assert.That(productTitleFirst, Is.EqualTo(productsTitleAsc[0]));
+            Assert.That(productTitleLast, Is.EqualTo(productsTitleDesc[0]));
+        }
+
+        [Test]
+        public void GetCategoryStats_ShouldReturnCategoryStats()
+        {
+            Dictionary<Category, int> stats = _manager.GetCategoryStats();
+
+            int proteinCount = 3;
+
+            Assert.NotNull(stats);
+            Assert.That(proteinCount, Is.EqualTo(stats[Category.Protein]));
+        }
     }
 }

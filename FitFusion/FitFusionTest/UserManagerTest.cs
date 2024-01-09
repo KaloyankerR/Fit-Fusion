@@ -11,11 +11,11 @@ namespace FitFusionTest
     [TestFixture]
     public class UserManagerTests
     {
-        private readonly MockUserDAO _dao = new ();
+        private readonly MockUserDAO _dao = new();
         private UserManager _manager;
 
-        [SetUp] 
-        public void SetUp() 
+        [SetUp]
+        public void SetUp()
         {
             _manager = new(_dao);
         }
@@ -23,7 +23,7 @@ namespace FitFusionTest
         [Test]
         public void CreateUser_DuplicateEmail_ShouldThrowDuplicateNameException()
         {
-            var existingUser = new Owner
+            Owner existingUser = new
             (
                 id: 24,
                 firstName: "Peter",
@@ -35,7 +35,7 @@ namespace FitFusionTest
                 phone: "1234567890"
             );
 
-            _dao.CreateUser(existingUser);
+            bool result = _manager.CreateUser(existingUser);
 
             var newUser = new Customer
             (
@@ -49,69 +49,71 @@ namespace FitFusionTest
                 nutriPoints: 0
             );
 
+            List<User> users = _manager.GetAllUsers();
+
+            Assert.IsTrue(result);
+            Assert.That(users, Does.Contain(existingUser));
             Assert.Throws<DuplicateNameException>(() => _manager.CreateUser(newUser));
         }
 
         [Test]
         public void UpdateUser_ExistingUser_ShouldUpdateUser()
         {
-            var existingUser = new Customer
+            Owner updatedUser = new
             (
-                id: 23,
-                firstName: "Ivan",
-                lastName: "Ivanov",
-                email: "ivanivanov@email.com",
-                passwordHash: "ivanivanov@email.com",
+                id: 4,
+                firstName: "OZZY",
+                lastName: "Osbourne Rocks",
+                email: "ozzy@email.com",
+                passwordHash: "ozzy@email.com",
                 passwordSalt: "salt",
                 address: "USA",
-                nutriPoints: 0
+                phone: "765-432-0987"
             );
 
-            _dao.CreateUser(existingUser);
+            bool result = _manager.UpdateUser(updatedUser);
+            User retrievedUser = _manager.GetUserById(updatedUser.Id, updatedUser);
 
-            var updatedUser = new Customer
-            (
-                id: 23,
-                firstName: "Ivan",
-                lastName: "Parker",
-                email: "ivanivanov@email.com",
-                passwordHash: "ivanivanov@email.com",
-                passwordSalt: "salt",
-                address: "Bulgaria",
-                nutriPoints: 0
-            );
-
-            _manager.UpdateUser(updatedUser);
-
-            var retrievedUser = _dao.GetUserById(updatedUser.Id, updatedUser);
-            Assert.IsNotNull(retrievedUser);
+            Assert.IsTrue(result);
             Assert.That(retrievedUser.FirstName, Is.EqualTo(updatedUser.FirstName));
             Assert.That(retrievedUser.LastName, Is.EqualTo(updatedUser.LastName));
             Assert.That(retrievedUser.Email, Is.EqualTo(updatedUser.Email));
             Assert.That(retrievedUser.PasswordHash, Is.EqualTo(updatedUser.PasswordHash));
-            Assert.That(((Customer)retrievedUser).NutriPoints, Is.EqualTo(updatedUser.NutriPoints));
+        }
+
+        [Test]
+        public void UpdateUser_ShouldThrowAnError()
+        {
+            Owner nonExisitngUser = new
+            (
+                id: 123,
+                firstName: "Omni",
+                lastName: "Man",
+                email: "omniman@email.com",
+                passwordHash: "omniman@email.com",
+                passwordSalt: "salt",
+                address: "USA",
+                phone: "1234567890"
+            );
+
+            Assert.Throws<NullReferenceException>(() =>
+            {
+                bool result = _manager.UpdateUser(nonExisitngUser);
+            });
         }
 
         [Test]
         public void DeleteUser_ExistingUser_ShouldRemoveUser()
         {
-            var existingUser = new Customer
-            (
-                id: 1,
-                firstName: "Doom",
-                lastName: "Doctor",
-                email: "doctordoom@email.com",
-                passwordHash: "doctordoom@email.com",
-                passwordSalt: "salt",
-                address: "USA",
-                nutriPoints: 0
-            );
+            User userToDelete = _manager.GetUserById(id: 5, new Customer());
+            bool result = _manager.DeleteUser(userToDelete);
 
-            _dao.CreateUser(existingUser);
-
-            _manager.DeleteUser(existingUser);
-
-            Assert.IsFalse(_dao.GetAllUsers().Contains(existingUser));
+            Assert.IsNotNull(userToDelete);
+            Assert.IsTrue(result);
+            Assert.Throws<NullReferenceException>(() =>
+            {
+                _manager.GetUserById(5, new Customer());
+            });
         }
 
         [Test]

@@ -18,7 +18,6 @@ namespace Models.Product
         public int Id
         {
             get { return _id; }
-            // private set { _id = value; }
         }
 
         public string Title

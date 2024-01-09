@@ -25,7 +25,7 @@ namespace FitFusionTest.MockDAO
                     firstName: "John",
                     lastName: "Doe",
                     email: "john.doe@example.com",
-                    passwordHash: "hashed_password",
+                    passwordHash: "john.doe@example.com",
                     passwordSalt: "salt",
                     address: "123 Main St",
                     phone: "123-456-7890"
@@ -36,7 +36,7 @@ namespace FitFusionTest.MockDAO
                     firstName: "Jane",
                     lastName: "Smith",
                     email: "jane.smith@example.com",
-                    passwordHash: "hashed_password",
+                    passwordHash: "jane.smith@example.com",
                     passwordSalt: "salt",
                     address: "456 Oak St",
                     phone: "987-654-3210"
@@ -47,7 +47,7 @@ namespace FitFusionTest.MockDAO
                     firstName: "Alice",
                     lastName: "Johnson",
                     email: "alice.johnson@example.com",
-                    passwordHash: "hashed_password",
+                    passwordHash: "alice.johnson@example.com",
                     passwordSalt: "salt",
                     address: "789 Pine St",
                     nutriPoints: 100
@@ -111,7 +111,6 @@ namespace FitFusionTest.MockDAO
         {
             if (DoesEmailExists(user.Email))
             {
-                usersMock.Remove(user);
                 int index = usersMock.FindIndex(p => p.Id == user.Id);
 
                 if (index >= 0)

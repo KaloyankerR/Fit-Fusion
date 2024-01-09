@@ -20,15 +20,17 @@ namespace FitFusionTest.MockDAO
             productsMock = new List<Product>
             {
                 new Product(id: 1, title: "Protein", description: null, price: 10, category: Category.Protein, imageUrl: null),
-                new Product(id: 2, title: "Vitamin B12", description: null, price: 15, category: Category.Vitamins, imageUrl: null),
+                new Product(id: 2, title: "Azov Vitamin B12", description: null, price: 15, category: Category.Vitamins, imageUrl: null),
                 new Product(id: 3, title: "Gym EZ Bar", description: null, price: 35, category: Category.Accessories, imageUrl: null),
-                new Product(id: 4, title: "Vegan Brownies", description: null, price: 5, category: Category.Vegan, imageUrl: null),
+                new Product(id: 4, title: "Vegan Brownies", description: null, price: 2, category: Category.Vegan, imageUrl: null),
                 new Product(id: 5, title: "Healthy Chips", description: null, price: 5, category: Category.Snacks, imageUrl: null),
-                new Product(id: 6, title: "Gym Tank Top", description: null, price: 5, category: Category.Clothing, imageUrl: null),
+                new Product(id: 6, title: "Gym Tank Top", description: null, price: 100, category: Category.Clothing, imageUrl: null),
                 new Product(id: 7, title: "Shaker Bottle", description: null, price: 10, category: Category.Redeem, imageUrl: null),
                 new Product(id: 8, title: "Gym Towel", description: null, price: 15, category: Category.Redeem, imageUrl: null),
-                new Product(id: 9, title: "Gym Bag", description: null, price: 50, category: Category.Redeem, imageUrl: null),
-                new Product(id: 10, title: "Olympic Bar", description: null, price: 20, category: Category.Redeem, imageUrl: null)
+                new Product(id: 9, title: "ZZ Gym Bag", description: null, price: 50, category: Category.Redeem, imageUrl: null),
+                new Product(id: 10, title: "Drake Protein", description: null, price: 35, category: Category.Protein, imageUrl: null),
+                new Product(id: 11, title: "Chocolate Protein", description: null, price: 40, category: Category.Protein, imageUrl: null),
+
             };
         }
 
