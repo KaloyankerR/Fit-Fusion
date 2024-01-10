@@ -24,7 +24,7 @@ namespace FitFusionWeb.Pages.Users.Update
 
         public void OnGet()
         {
-            Owner owner = (Owner)_usermanager.GetUserById(Id, new Owner());
+            Owner owner = (Owner)_usermanager.GetUserById(Id, Models.User.Enums.Role.Owner);
             Owner = (OwnerView)_converter.ToUserView(owner);
         }
 

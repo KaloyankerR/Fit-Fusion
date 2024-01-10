@@ -9,6 +9,7 @@ using Interfaces;
 using System.Data;
 using System.ComponentModel.Design;
 using System.Transactions;
+using Models.User.Enums;
 
 namespace DataAcess
 {
@@ -234,7 +235,7 @@ namespace DataAcess
             return true;
         }
 
-        public User GetUserById(int id, User role)
+        public User GetUserById(int id, Role role)
         {
             User user;
 
@@ -247,15 +248,15 @@ namespace DataAcess
                     string getUserQuery = "";
                     string additionalProperty = "";
 
-                    if (role is Staff)
+                    if (role is Role.Staff)
                     {
                         additionalProperty = "Phone";
                     }
-                    else if (role is Owner)
+                    else if (role is Role.Owner)
                     {
                         additionalProperty = "Phone";
                     }
-                    else if (role is Customer)
+                    else if (role is Role.Customer)
                     {
                         additionalProperty = "NutriPoints";
                     }
@@ -272,7 +273,7 @@ namespace DataAcess
                         {
                             if (reader.Read())
                             {
-                                if (role is Staff)
+                                if (role is Role.Staff)
                                 {
                                     user = new Staff(
                                         id: reader.GetInt32(reader.GetOrdinal("Id")),
@@ -285,7 +286,7 @@ namespace DataAcess
                                         phone: reader.GetString(reader.GetOrdinal("Phone"))
                                     );
                                 }
-                                else if (role is Owner)
+                                else if (role is Role.Owner)
                                 {
                                     user = new Owner
                                     (
@@ -299,7 +300,7 @@ namespace DataAcess
                                         phone: reader.GetString(reader.GetOrdinal("Phone"))
                                     );
                                 }
-                                else if (role is Customer)
+                                else if (role is Role.Customer)
                                 {
                                     user = new Customer
                                     (

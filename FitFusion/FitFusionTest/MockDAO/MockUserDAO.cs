@@ -1,6 +1,7 @@
 ﻿using Interfaces;
 using Models.Product;
 using Models.User;
+using Models.User.Enums;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -123,9 +124,9 @@ namespace FitFusionTest.MockDAO
             throw new NullReferenceException("User doesn't exist.");
         }
 
-        public User GetUserById(int id, User role)
+        public User GetUserById(int id, Role role)
         {
-            User? user = usersMock.FirstOrDefault(u => u.Id == id && u.GetType() == role.GetType());
+            User? user = usersMock.FirstOrDefault(u => u.Id == id && u.GetUserRole() == role.ToString());
 
             //if (user != null)
             //{

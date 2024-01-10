@@ -94,15 +94,15 @@ namespace FitFusionWeb.Pages.Users
             {
                 if (role == "Owner")
                 {
-                    _userManager.DeleteUser(_userManager.GetUserById(id, new Owner()));
+                    _userManager.DeleteUser(_userManager.GetUserById(id, Role.Owner));
                 }
                 else if (role == "Staff")
                 {
-                    _userManager.DeleteUser(_userManager.GetUserById(id, new Staff()));
+                    _userManager.DeleteUser(_userManager.GetUserById(id, Role.Staff));
                 }
                 else
                 {
-                    _userManager.DeleteUser(_userManager.GetUserById(id, new Customer()));
+                    _userManager.DeleteUser(_userManager.GetUserById(id, Role.Customer));
                 }
             }
             catch (DataAccessException)

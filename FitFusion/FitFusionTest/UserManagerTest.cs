@@ -1,4 +1,5 @@
 using FitFusionTest.MockDAO;
+using Models.Product;
 using Models.User;
 using Models.User.Enums;
 using NUnit.Framework;
@@ -72,7 +73,7 @@ namespace FitFusionTest
             );
 
             bool result = _manager.UpdateUser(updatedUser);
-            User retrievedUser = _manager.GetUserById(updatedUser.Id, updatedUser);
+            User retrievedUser = _manager.GetUserById(updatedUser.Id, Role.Owner);
 
             Assert.IsTrue(result);
             Assert.That(retrievedUser.FirstName, Is.EqualTo(updatedUser.FirstName));
@@ -105,14 +106,14 @@ namespace FitFusionTest
         [Test]
         public void DeleteUser_ExistingUser_ShouldRemoveUser()
         {
-            User userToDelete = _manager.GetUserById(id: 5, new Customer());
+            User userToDelete = _manager.GetUserById(id: 5, Role.Customer);
             bool result = _manager.DeleteUser(userToDelete);
 
             Assert.IsNotNull(userToDelete);
             Assert.IsTrue(result);
             Assert.Throws<NullReferenceException>(() =>
             {
-                _manager.GetUserById(5, new Customer());
+                _manager.GetUserById(5, Role.Customer);
             });
         }
 
@@ -131,12 +132,33 @@ namespace FitFusionTest
                     phone: "123-456-7890"
                 );
 
-            User retrievedUser = _manager.GetUserById(existingUser.Id, existingUser);
+            User retrievedUser = _manager.GetUserById(existingUser.Id, Role.Owner);
 
             Assert.IsNotNull(retrievedUser);
             Assert.That(retrievedUser.Id, Is.EqualTo(existingUser.Id));
             Assert.That(retrievedUser.FirstName, Is.EqualTo(existingUser.FirstName));
             Assert.That(retrievedUser.LastName, Is.EqualTo(existingUser.LastName));
+        }
+
+        [Test]
+        public void GetUserById_NonExistingUser_ShouldThrowAnError()
+        {
+            var nonExisitngUser = new Owner
+                (
+                    id: 123,
+                    firstName: "John",
+                    lastName: "NotDoe",
+                    email: "john.not.doe@example.com",
+                    passwordHash: "john.not.doe@example.com",
+                    passwordSalt: "salt",
+                    address: "Not 123 Main St",
+                    phone: "123-456-7890"
+                );
+
+            Assert.Throws<NullReferenceException>(() =>
+            {
+                _manager.GetUserById(nonExisitngUser.Id, Role.Owner);
+            });
         }
 
         [Test]
@@ -159,6 +181,31 @@ namespace FitFusionTest
             List<User> usersToCheck = _manager.Sort(users, new LastNameDescending());
 
             Assert.That(usersToCheck, Is.EqualTo(usersToCompare));
+        }
+
+        [Test]
+        public void SortMethods_ShouldReturnSortedUsers()
+        {
+            List<User> users = _manager.GetAllUsers();
+            string userFirstNameAsc = "Alice";
+            string userFirstNameDesc = "Ozzy";
+            string userLastNameAsc = "Doe";
+            string userLastNameDesc = "Smith";
+
+            List<User> usersFirstNameAsc = _manager.Sort(users, new FirstNameAscending());
+            List<User> usersFirstNameDesc = _manager.Sort(users, new FirstNameDescending());
+            List<User> usersLastNameAsc = _manager.Sort(users, new LastNameAscending());
+            List<User> usersLastNameDesc = _manager.Sort(users, new LastNameDescending());
+
+            Assert.NotNull(usersFirstNameAsc);
+            Assert.NotNull(usersFirstNameDesc);
+            Assert.NotNull(usersLastNameAsc);
+            Assert.NotNull(usersLastNameDesc);
+
+            Assert.That(userFirstNameAsc, Is.EqualTo(usersFirstNameAsc[0].FirstName));
+            Assert.That(userFirstNameDesc, Is.EqualTo(usersFirstNameDesc[0].FirstName));
+            Assert.That(userLastNameAsc, Is.EqualTo(usersLastNameAsc[0].LastName));
+            Assert.That(userLastNameDesc, Is.EqualTo(usersLastNameDesc[0].LastName));
         }
 
     }

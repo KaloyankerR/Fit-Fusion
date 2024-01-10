@@ -5,6 +5,7 @@ using Interfaces.Strategy;
 using Services.Sort;
 using Services.Filter;
 using Models.Product;
+using Models.User.Enums;
 
 namespace Services
 {
@@ -54,7 +55,7 @@ namespace Services
             }
         }
 
-        public UserModel GetUserById(int id, UserModel role)
+        public UserModel GetUserById(int id, Role role)
         {
             try
             {

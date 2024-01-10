@@ -24,7 +24,7 @@ namespace FitFusionWeb.Pages.Users.Update
 
         public void OnGet()
         {
-            Staff staff = (Staff)_usermanager.GetUserById(Id, new Staff());
+            Staff staff = (Staff)_usermanager.GetUserById(Id, Models.User.Enums.Role.Staff);
             Staff = (StaffView)_converter.ToUserView(staff);
         }
 

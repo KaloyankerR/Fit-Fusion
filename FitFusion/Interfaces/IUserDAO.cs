@@ -1,4 +1,5 @@
 ﻿using Models.User;
+using Models.User.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Interfaces
         bool CreateUser(User user);
         bool UpdateUser(User user);
         bool DeleteUser(User user);
-        User GetUserById(int id, User role);
+        User GetUserById(int id, Role role);
         User GetUserByEmail(string email);
         List<User> GetUsers(User role);
         User AuthenticateUser(string email, string password);

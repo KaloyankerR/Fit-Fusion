@@ -24,7 +24,7 @@ namespace FitFusionWeb.Pages.Users.Update
 
         public void OnGet()
         {
-            Customer customer = (Customer)_usermanager.GetUserById(Id, new Customer());
+            Customer customer = (Customer)_usermanager.GetUserById(Id, Models.User.Enums.Role.Customer);
             Customer = (CustomerView)_converter.ToUserView(customer);
         }
 
