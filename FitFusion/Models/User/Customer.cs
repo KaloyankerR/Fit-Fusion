@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.User.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,9 +24,9 @@ namespace Models.User
             this.nutriPoints = nutriPoints;
         }
 
-        public override string GetUserRole()
+        public override Role GetUserRole()
         {
-            return "Customer";
+            return Role.Customer;
         }
     }
 }

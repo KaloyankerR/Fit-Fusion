@@ -33,9 +33,9 @@ namespace Services.Filter
     {
         public List<User> Filter(List<User> users, object param)
         {
-            if (param is User filterValue)
+            if (param is Role filterValue)
             {
-                return users.Where(u => u.GetUserRole() == filterValue.ToString()).ToList();
+                return users.Where(u => u.GetUserRole() == filterValue).ToList();
             }
 
             return users;

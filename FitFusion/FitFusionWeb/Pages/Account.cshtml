@@ -1,6 +1,7 @@
 ﻿@page
 @model FitFusionWeb.Pages.AccountModel
 @using Models.User;
+@using Models.User.Enums
 @{
     ViewData["Title"] = "Account Page";
 }
@@ -21,7 +22,7 @@
         </div>
 
         <div class="col-md-6">
-            @if (Model.CurrentUser.GetUserRole() == "Owner")
+            @if (Model.CurrentUser.GetUserRole() == Role.Owner)
             {
                 <div class="section-divider"></div>
                 <div class="section-title">Owners Statistics</div>

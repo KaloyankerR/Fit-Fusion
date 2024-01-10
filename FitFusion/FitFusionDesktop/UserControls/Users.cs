@@ -23,7 +23,7 @@ namespace FitFusionDesktop.UserControls
     public partial class Users : UserControl
     {
         private readonly UserManager _userManager;
-        private List<User> users = new();
+        // private List<User> users = new(); TODO remove
 
         public Users()
         {

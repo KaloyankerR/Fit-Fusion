@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Models.User.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -70,7 +71,7 @@ namespace Models.User
             _passwordSalt = encryptedPassword[1];
         }
 
-        public abstract string GetUserRole();
+        public abstract Role GetUserRole();
 
         public string GetFullName()
         {

@@ -82,7 +82,7 @@ namespace FitFusionWeb.Pages.Authentication
             {
                 new Claim(ClaimTypes.NameIdentifier, isAuthenticated.Id.ToString()),
                 new Claim(ClaimTypes.Email, isAuthenticated.Email),
-                new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole())
+                new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole().ToString()) // TODO check 
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -100,7 +100,7 @@ namespace FitFusionWeb.Pages.Authentication
             HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
             HttpContext.Session.SetString("Id", isAuthenticated.Id.ToString());
             HttpContext.Session.SetString("Email", isAuthenticated.Email);
-            HttpContext.Session.SetString("Role", isAuthenticated.GetUserRole());
+            HttpContext.Session.SetString("Role", isAuthenticated.GetUserRole().ToString());
         }
 
 
