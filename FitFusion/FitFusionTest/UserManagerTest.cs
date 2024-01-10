@@ -188,7 +188,7 @@ namespace FitFusionTest
         {
             List<User> users = _manager.GetAllUsers();
             string userFirstNameAsc = "Alice";
-            string userFirstNameDesc = "Ozzy";
+            string userFirstNameDesc = "Peter";
             string userLastNameAsc = "Doe";
             string userLastNameDesc = "Smith";
 

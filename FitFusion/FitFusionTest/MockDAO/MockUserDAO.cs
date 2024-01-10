@@ -126,7 +126,7 @@ namespace FitFusionTest.MockDAO
 
         public User GetUserById(int id, Role role)
         {
-            User? user = usersMock.FirstOrDefault(u => u.Id == id && u.GetUserRole() == role.ToString());
+            User? user = usersMock.FirstOrDefault(u => u.Id == id && u.GetUserRole() == role);
 
             //if (user != null)
             //{
