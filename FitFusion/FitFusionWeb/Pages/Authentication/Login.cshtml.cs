@@ -54,9 +54,9 @@ namespace FitFusionWeb.Pages.Authentication
             {
                 if (ModelState.IsValid)
                 {
-                    _logger.LogInformation("Login successful!");
                     User isAuthenticated = _userManager.AuthenticateUser(Email, Password);
                     SetAuthentication(isAuthenticated);
+                    _logger.LogInformation("Login successful!");
                     return RedirectToPage("../Index");
                 }
             }
@@ -82,7 +82,7 @@ namespace FitFusionWeb.Pages.Authentication
             {
                 new Claim(ClaimTypes.NameIdentifier, isAuthenticated.Id.ToString()),
                 new Claim(ClaimTypes.Email, isAuthenticated.Email),
-                new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole().ToString()) // TODO check 
+                new Claim(ClaimTypes.Role, isAuthenticated.GetUserRole().ToString()),
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -94,7 +94,7 @@ namespace FitFusionWeb.Pages.Authentication
                 authProperties = new AuthenticationProperties
                 {
                     IsPersistent = true,
-                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(5)
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddSeconds(30)
                 };
             }
 

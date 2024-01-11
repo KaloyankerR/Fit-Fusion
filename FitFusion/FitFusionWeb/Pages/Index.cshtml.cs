@@ -27,43 +27,32 @@ namespace FitFusionWeb.Pages
             _logger = logger;
         }
 
-        //public async Task<IActionResult> OnGet()
-        //{
-        //    Products =_productManager.GetProducts();
-        //    string idValue = HttpContext.Session.GetString("Id");
-
-        //    if (idValue == null)
-        //    {
-        //        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        //    }
-
-        //    return RedirectToPage("/Index");
-        //}
-
-        public async Task<IActionResult> OnGet()
+        public IActionResult OnGet()
         {
-            string idValue = HttpContext.Session.GetString("Id");
+            //if (User.Identity?.IsAuthenticated ?? false)
+            //{
+            //    Products = _productManager.GetProducts();
+            //    return Page();
+            //}
+            //else
+            //{
+            //    bool hasSignedOut = HttpContext.Session.GetBool("HasSignedOut"); // Use an extension method to retrieve boolean value
 
-            // Check if the user is authenticated
-            if (User.Identity.IsAuthenticated && idValue == null)
-            {
-                // Check if the flag is not set
-                bool hasSignedOut = HttpContext.Session.GetBool("HasSignedOut"); // Use an extension method to retrieve boolean value
+            //    if (hasSignedOut)
+            //    {
 
-                if (!hasSignedOut)
-                {
-                    // Perform sign-out logic
-                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                    HttpContext.Session.SetBool("HasSignedOut", true); // Set the flag
-                    return RedirectToPage("/Index");
-                }
-            }
+            //    }
+            //    if (HttpContext.Session.GetString("Id") == null)
+            //    {
+            //        return Redirect("/Authentication/Logout");
+            //    }
+            //    else
+            //    {
+            // }
 
-            // If not authenticated or the flag is already set, continue with the normal flow
             Products = _productManager.GetProducts();
             return Page();
         }
-
 
     }
 }
