@@ -12,6 +12,7 @@ namespace Interfaces
     {
         bool CreateOrder(Order order);
         Order GetOrderById(int id);
+        List<Order> GetCustomerOrders(int customerId);
         List<Order> GetOrders();
         Dictionary<int, Dictionary<Product, int>> GetRecommendations(int customerId);
         Product GetMerchantRecommendation(int customerId);

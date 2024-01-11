@@ -8,6 +8,7 @@ namespace DataAcess
 {
     public interface IStorageAccess
     {
-        string ConnectionString { get; }
+        void TestConnectionString();
+        void ChangeConnectionString(string newConnectionString);
     }
 }

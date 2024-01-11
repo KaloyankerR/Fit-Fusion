@@ -34,7 +34,7 @@ namespace Services
                     return _dao.CreateOrder(order);
                 }
 
-                throw new ArithmeticException("Nutri Points not sufficient.");
+                throw new NotEnoughNutriPointsException("Nutri Points not sufficient.");
             }
             catch
             {
@@ -47,6 +47,18 @@ namespace Services
             try
             {
                 return _dao.GetOrderById(id);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Order> GetCustomerOrders(int customerId)
+        {
+            try
+            {
+                return _dao.GetCustomerOrders(customerId);
             }
             catch
             {

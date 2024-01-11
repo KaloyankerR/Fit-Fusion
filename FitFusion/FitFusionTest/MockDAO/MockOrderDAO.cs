@@ -70,8 +70,6 @@ namespace FitFusionTest.MockDAO
                 ),
             };
         }
-
-
         public bool CreateOrder(Order order)
         {
             ordersMock.Add(order);
@@ -142,6 +140,11 @@ namespace FitFusionTest.MockDAO
         }
 
         public bool CreateMerchantRecommendation(int customerId, ProductModel newProduct)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Order> GetCustomerOrders(int customerId)
         {
             throw new NotImplementedException();
         }

@@ -1,10 +1,13 @@
 ﻿using Models.Product.Enums;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using ProductModel = Models.Product.Product;
@@ -14,6 +17,7 @@ namespace Models.Order
     [Serializable]
     public class ShoppingCart
     {
+        // TODO: remove private setters
         private List<ProductModel> _products = new();
         private double _totalPrice;
         private int _nutriPointsReward;
@@ -47,7 +51,14 @@ namespace Models.Order
             private set { _nutriPointsNeeded = value; }
         }
 
+        [JsonConstructor]
         public ShoppingCart() { }
+
+        public ShoppingCart(List<ProductModel> products) 
+        {
+            _products = products;
+            CalcuteCart();
+        }
 
         // TODO: add constructor with parameter for products
 
@@ -110,7 +121,7 @@ namespace Models.Order
                 }
             }
 
-            _totalPrice = totalPrice;
+            _totalPrice = Math.Round(totalPrice, 2); ;
             _nutriPointsNeeded = nutriPointsNeeded;
         }
 

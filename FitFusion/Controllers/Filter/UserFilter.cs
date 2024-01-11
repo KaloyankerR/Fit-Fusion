@@ -35,6 +35,11 @@ namespace Services.Filter
         {
             if (param is Role filterValue)
             {
+                if (filterValue == Role.All)
+                {
+                    return users;
+                }
+
                 return users.Where(u => u.GetUserRole() == filterValue).ToList();
             }
 

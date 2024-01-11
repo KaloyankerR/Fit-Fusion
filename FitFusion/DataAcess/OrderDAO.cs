@@ -13,19 +13,43 @@ using Models.Product.Enums;
 
 namespace DataAcess
 {
-    public class OrderDAO : IOrderDAO
+    public class OrderDAO : IOrderDAO, IStorageAccess
     {
-        private readonly string _connectionString;
+        private string _connectionString;
 
         public OrderDAO()
         {
             _connectionString = Connection.DbConnection.ConnectionString;
+            TestConnectionString();
         }
 
         public OrderDAO(string connectionString)
         {
             _connectionString = connectionString;
+            TestConnectionString();
         }
+
+        public void TestConnectionString()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DataAccessException("An error occurred in the database operation.", ex);
+            }
+        }
+
+        public void ChangeConnectionString(string newConnectionString)
+        {
+            _connectionString = newConnectionString;
+            TestConnectionString();
+        }
+
 
         public bool CreateOrder(Order order)
         {
@@ -173,7 +197,7 @@ namespace DataAcess
                         {
                             if (reader.Read())
                             {
-                                order = new Order
+                                order = new
                                 (
                                     id: reader.GetInt32(reader.GetOrdinal("Id")),
                                     date: reader.GetDateTime(reader.GetOrdinal("OrderDate")),
@@ -186,7 +210,7 @@ namespace DataAcess
                                 return order;
                             }
 
-                            throw new NullReferenceException("Order wasn't found.");
+                            throw new NullReferenceException("Orders wasn't found.");
                         }
                     }
                 }
@@ -195,6 +219,49 @@ namespace DataAcess
             {
                 throw new DataAccessException("An error occurred in the database operation.");
             }
+        }
+
+        public List<Order> GetCustomerOrders(int customerId)
+        {
+            List<Order> orders = new();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+
+                    string getOrdersQuery = "SELECT Id, OrderDate, CustomerId, TotalPrice, NutriPoints, Note FROM [Order] WHERE CustomerId = @CustomerId;;";
+
+                    using (SqlCommand command = new SqlCommand(getOrdersQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("@CustomerId", customerId);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                Order order = new
+                                (
+                                    id: reader.GetInt32(reader.GetOrdinal("Id")),
+                                    date: reader.GetDateTime(reader.GetOrdinal("OrderDate")),
+                                    customer: GetCustomerById(reader.GetInt32(reader.GetOrdinal("CustomerId"))),
+                                    cart: GetShoppingCart(reader.GetInt32(reader.GetOrdinal("Id"))),
+                                    note: reader.GetString(reader.GetOrdinal("Note"))
+                                );
+
+                                orders.Add(order);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException)
+            {
+                throw new DataAccessException("An error occurred in the database operation.");
+            }
+
+            return orders;
         }
 
         public List<Order> GetOrders()
@@ -475,5 +542,6 @@ namespace DataAcess
                 throw new DataAccessException("An error occurred in the database operation.");
             }
         }
+
     }
 }

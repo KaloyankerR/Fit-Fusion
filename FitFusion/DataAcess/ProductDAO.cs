@@ -13,21 +13,39 @@ namespace DataAcess
 {
     public class ProductDAO : IProductDAO, IStorageAccess
     {
-        private readonly string _connectionString;
-
-        string IStorageAccess.ConnectionString
-        {
-            get { return _connectionString; }
-        }
+        private string _connectionString;
 
         public ProductDAO()
         {
             _connectionString = Connection.DbConnection.ConnectionString;
+            TestConnectionString();
         }
 
         public ProductDAO(string connectionString)
         {
             _connectionString = connectionString;
+            TestConnectionString();
+        }
+
+        public void TestConnectionString()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DataAccessException("An error occurred in the database operation.", ex);
+            }
+        }
+
+        public void ChangeConnectionString(string newConnectionString)
+        {
+            _connectionString = newConnectionString;
+            TestConnectionString();
         }
 
         public bool CreateProduct(Product product)
@@ -50,7 +68,7 @@ namespace DataAcess
                     }
                 }
 
-                // throw new DuplicateNameException("Product already exists.");
+                // TODO throw new DuplicateNameException("Product already exists.");
             }
             catch (SqlException ex)
             {

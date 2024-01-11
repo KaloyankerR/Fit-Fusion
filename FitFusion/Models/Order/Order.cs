@@ -12,6 +12,7 @@ namespace Models.Order
 {
     public class Order
     {
+        // TODO: remove private setters
         private int _id;
         private DateTime _orderDate;
         private Customer _customer = new ();

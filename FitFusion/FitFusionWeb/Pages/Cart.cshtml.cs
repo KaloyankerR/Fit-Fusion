@@ -71,19 +71,40 @@ namespace FitFusionWeb.Pages
 
                 _orderManager.CreateOrder(order);
             }
+            catch (NotEnoughNutriPointsException)
+            {
+                return RedirectToPage("/Error", new { code = 499 });
+            }
             catch (DataAccessException)
             {
                 return RedirectToPage("/Error", new { code = 500 });
             }
-            catch (ArithmeticException)
-            {
-                //TODO: Make exception for this
-                return RedirectToPage("/CustomPages/NotEnoughNutriPoints");
-            }
-
+            
             SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", new ShoppingCart());
             // TODO: Make pages for information about the data provided
             return RedirectToPage("/CustomPages/SuccessfulOrder");
+        }
+
+        public IActionResult OnPostAddProduct(int productId)
+        {
+            Product productToAdd = _productManager.GetProductById(productId);
+            Cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("cart") ?? new ShoppingCart();
+
+            Cart.AddToCart(productToAdd);
+
+            HttpContext.Session.SetObjectAsJson("cart", Cart);
+            return RedirectToPage("/Cart");
+        }
+
+        public IActionResult OnPostRemoveProduct(int productId)
+        {
+            Product productToRemove = _productManager.GetProductById(productId);
+            Cart = HttpContext.Session.GetObjectFromJson<ShoppingCart>("cart") ?? new ShoppingCart();
+
+            Cart.RemoveFromCart(productToRemove);
+
+            HttpContext.Session.SetObjectAsJson("cart", Cart);
+            return RedirectToPage("/Cart");
         }
 
     }

@@ -13,18 +13,41 @@ using Models.User.Enums;
 
 namespace DataAcess
 {
-    public class UserDAO : IUserDAO
+    public class UserDAO : IUserDAO, IStorageAccess
     {
-        private readonly string _connectionString;
+        private string _connectionString;
 
         public UserDAO()
         {
             _connectionString = Connection.DbConnection.ConnectionString;
+            TestConnectionString();
         }
 
         public UserDAO(string connectionString)
         {
             _connectionString = connectionString;
+            TestConnectionString();
+        }
+
+        public void TestConnectionString()
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_connectionString))
+                {
+                    connection.Open();
+                }
+            }
+            catch (SqlException ex)
+            {
+                throw new DataAccessException("An error occurred in the database operation.", ex);
+            }
+        }
+
+        public void ChangeConnectionString(string newConnectionString)
+        {
+            _connectionString = newConnectionString;
+            TestConnectionString();
         }
 
         public bool CreateUser(User user)

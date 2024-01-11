@@ -88,6 +88,7 @@ namespace FitFusionWeb.Pages.Authentication
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
             AuthenticationProperties? authProperties = null;
+
             if (RememberMe)
             {
                 authProperties = new AuthenticationProperties
@@ -98,6 +99,7 @@ namespace FitFusionWeb.Pages.Authentication
             }
 
             HttpContext.SignInAsync(new ClaimsPrincipal(claimsIdentity), authProperties);
+            
             HttpContext.Session.SetString("Id", isAuthenticated.Id.ToString());
             HttpContext.Session.SetString("Email", isAuthenticated.Email);
             HttpContext.Session.SetString("Role", isAuthenticated.GetUserRole().ToString());

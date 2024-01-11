@@ -6,13 +6,20 @@ using Models.Product.Enums;
 
 namespace Models.Product
 {
+    [Serializable]
     public class Product
     {
+        [JsonProperty]
         private int _id;
+        [JsonProperty]
         private string _title = string.Empty;
+        [JsonProperty]
         private string? _description = string.Empty;
+        [JsonProperty]
         private double _price;
+        [JsonProperty]
         private Category _category;
+        [JsonProperty]
         private string? _imageUrl;
 
         public int Id
@@ -23,31 +30,26 @@ namespace Models.Product
         public string Title
         {
             get { return _title; }
-            //bprivate set { _title = value; }
         }
         
         public string? Description
         {
             get { return _description; }
-            //private set { _description = value; }
         }
 
         public double Price
         {
             get { return _price; }
-            //private set { _price = value; }
         }
 
         public Category Category
         {
             get { return _category; }
-            //private set { _category = value; }
         }
 
         public string? ImageUrl
         {
             get { return _imageUrl; }
-            //private set { _imageUrl = value; }
         }
 
         public Product() { }
@@ -67,21 +69,21 @@ namespace Models.Product
             return $"{Title} - {Category}";
         }
 
-        //public override bool Equals(object obj)
-        //{
-        //    if (obj == null || GetType() != obj.GetType())
-        //    {
-        //        return false;
-        //    }
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
 
-        //    Product otherProduct = (Product)obj;
-        //    return Id == otherProduct.Id;
-        //}
+            Product otherProduct = (Product)obj;
+            return Id == otherProduct.Id;
+        }
 
-        //public override int GetHashCode()
-        //{
-        //    return Id.GetHashCode();
-        //}
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
 
     }
 }

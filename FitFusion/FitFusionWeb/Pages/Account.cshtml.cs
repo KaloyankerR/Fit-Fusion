@@ -9,6 +9,7 @@ using System.Security.Claims;
 using DataAcess;
 using Services.Sort;
 using Services.Filter;
+using Microsoft.AspNetCore.Http;
 
 namespace FitFusionWeb.Pages
 {
@@ -26,20 +27,6 @@ namespace FitFusionWeb.Pages
                 {
                     var email = User.FindFirstValue(ClaimTypes.Email);
                     var role = User.FindFirstValue(ClaimTypes.Role);
-                    //User newRole;
-
-                    //switch (role)
-                    //{
-                    //    case "Owner":
-                    //        newRole = new Owner();
-                    //        break;
-                    //    case "Staff":
-                    //        newRole = new Staff();
-                    //        break;
-                    //    case "Customer":
-                    //        newRole = new Customer();
-                    //        break;
-                    //}
 
                     CurrentUser = _userManager.GetUserByEmail(email);
                     return Page();

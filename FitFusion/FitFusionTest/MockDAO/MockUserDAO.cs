@@ -128,15 +128,6 @@ namespace FitFusionTest.MockDAO
         {
             User? user = usersMock.FirstOrDefault(u => u.Id == id && u.GetUserRole() == role);
 
-            //if (user != null)
-            //{
-            //    return user;
-            //}
-            //else
-            //{
-            //    throw new NullReferenceException("User doesn't exist.");
-            //}
-
             return user ?? throw new NullReferenceException("User doesn't exist.");
         }
 

@@ -15,6 +15,16 @@
                     <h3>@entry.Key.Title</h3>
                     <h5>@entry.Key.Price</h5>
                     <h6>Quantity: @entry.Value</h6>
+
+                    <form method="post" asp-page="/Cart" asp-page-handler="AddProduct">
+                        <input type="hidden" name="productId" value="@entry.Key.Id" />
+                        <button class="btn btn-success me-2" type="submit">Add Product</button>
+                    </form>
+
+                    <form method="post" asp-page="/Cart" asp-page-handler="RemoveProduct">
+                        <input type="hidden" name="productId" value="@entry.Key.Id" />
+                        <button class="btn btn-danger me-2" type="submit">Remove Product</button>
+                    </form>
                 </div>
             }
         }
@@ -39,7 +49,7 @@
             <hr />
             <input asp-for="Note" />
             <hr />
-            <a class="btn btn-dark me-2" asp-page="/Products/All">Continue Shopping</a><br />
+            <a class="btn btn-dark me-2" asp-page="/Products/All">Continue Shopping</a><br /><br />
 
             <button type="submit" class="btn btn-success me-2">Finish Order</button>
         </form>

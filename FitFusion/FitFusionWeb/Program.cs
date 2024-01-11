@@ -7,22 +7,23 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromMinutes(120);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-}
+    {
+        options.IdleTimeout = TimeSpan.FromSeconds(10);
+        options.Cookie.HttpOnly = true;
+        options.Cookie.IsEssential = true;
+    }
 );
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options => {
+    .AddCookie(options =>
+    {
         options.LoginPath = new PathString("/Authentification/Login");
-        options.AccessDeniedPath = new PathString("/CustomPages/AccessDenied");
+        options.AccessDeniedPath = new PathString("/CustomPages/AccessDenied"); // TODO: change this 
         options.Events = new CookieAuthenticationEvents
         {
             OnRedirectToAccessDenied = context =>
             {
-                context.Response.StatusCode = 404; 
+                context.Response.StatusCode = 404;
                 return Task.CompletedTask;
             }
         };
@@ -48,12 +49,6 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
-
-//public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-//{
-//    app.UseAuthentication();
-//    app.UseAuthorization();
-//}
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
