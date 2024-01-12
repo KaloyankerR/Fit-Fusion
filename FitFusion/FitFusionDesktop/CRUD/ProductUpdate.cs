@@ -46,10 +46,10 @@ namespace FitFusionDesktop.CRUD
                 (
                     id: _product.Id,
                     title: txtTitle.Text,
-                    description: txtDescription.Text,
+                    description: string.IsNullOrWhiteSpace(txtDescription.Text) ? null : txtDescription.Text,
                     price: (double)txtPrice.Value,
                     category: (Category)Enum.Parse(typeof(Category), cbxCategory.SelectedIndex.ToString()),
-                    imageUrl: txtImageUrl.Text
+                    imageUrl: string.IsNullOrWhiteSpace(txtImageUrl.Text) ? null : txtImageUrl.Text
                 );
             }
             catch (Exception)
@@ -62,10 +62,15 @@ namespace FitFusionDesktop.CRUD
         {
             try
             {
-                Product product = DefineProduct();
-                _productManager.UpdateProduct(product);
-                MessageBox.Show("Product successfully created.");
-                Close();
+                if ((Category)Enum.Parse(typeof(Category), cbxCategory.SelectedIndex.ToString()) != Category.All)
+                {
+                    Product product = DefineProduct();
+                    _productManager.UpdateProduct(product);
+                    MessageBox.Show("Product successfully created.");
+                    Close();
+                }
+
+                MessageBox.Show("Please change category to be different than All.");
             }
             catch (NullReferenceException ex)
             {

@@ -18,7 +18,7 @@ namespace Models.User
 
         public Customer() { }
 
-        public Customer(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address, int nutriPoints)
+        public Customer(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string? address, int nutriPoints)
             : base(id, firstName, lastName, email, passwordHash, passwordSalt, address)
         {
             this.nutriPoints = nutriPoints;

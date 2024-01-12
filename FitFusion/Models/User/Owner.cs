@@ -18,7 +18,7 @@ namespace Models.User
 
         public Owner() { }
 
-        public Owner(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address, string phone)
+        public Owner(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string? address, string phone)
             : base(id, firstName, lastName, email, passwordHash, passwordSalt, address)
         {
             this.phone = phone;

@@ -23,7 +23,6 @@ namespace FitFusionDesktop.UserControls
     public partial class Users : UserControl
     {
         private readonly UserManager _userManager;
-        // private List<User> users = new(); TODO remove
 
         public Users()
         {
@@ -149,6 +148,22 @@ namespace FitFusionDesktop.UserControls
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             btnSearch_Click(this, EventArgs.Empty);
+        }
+
+        private void roleCmbBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Role role = (Role)roleCmbBox.SelectedItem;
+
+            switch (role)
+            {
+                case Role.Customer:
+                    btnRecommendations.Visible = true;
+                    break;
+                default:
+                    btnRecommendations.Visible = false;
+                    break;
+            }
+
         }
     }
 }

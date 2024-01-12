@@ -12,6 +12,7 @@ using FitFusionWeb.Converters;
 using FitFusionWeb.Views;
 using Interfaces.Strategy;
 using Models.User;
+using System.ComponentModel.DataAnnotations;
 
 namespace FitFusionWeb.Pages.Products
 {
@@ -26,7 +27,6 @@ namespace FitFusionWeb.Pages.Products
         public Category FilterByCategory { get; set; } = Category.All;
         [BindProperty]
         public double MinPrice { get; set; }
-
         [BindProperty]
         public double MaxPrice { get; set; }
 
@@ -56,38 +56,46 @@ namespace FitFusionWeb.Pages.Products
         {
             try
             {
-                Dictionary<IFilter<Product>, object> filter = new Dictionary<IFilter<Product>, object>
+                if (MinPrice > MaxPrice)
+                {
+                    TempData["Type"] = "danger";
+                    TempData["Message"] = "Min price should be lower than Max price!";
+                }
+                else
+                {
+                    Dictionary<IFilter<Product>, object> filter = new Dictionary<IFilter<Product>, object>
                 {
                     { new ProductKeywordFilterStrategy(), SearchQuery },
                     { new CategoryFilterStrategy(), FilterByCategory },
                     { new PriceFilterStrategy(),  new List<double>{ MinPrice, MaxPrice } }
                 };
 
-                ISort<Product> sorter;
-                switch (Sort)
-                {
-                    case SortParameter.TitleAsc:
-                        sorter = new TitleAscSortStrategy();
-                        break;
-                    case SortParameter.TitleDesc:
-                        sorter = new TitleDescSortStrategy();
-                        break;
-                    case SortParameter.PriceAsc:
-                        sorter = new PriceAscSortStrategy();
-                        break;
-                    case SortParameter.PriceDesc:
-                        sorter = new PriceDescSortStrategy();
-                        break;
-                    default:
-                        sorter = new TitleAscSortStrategy();
-                        break;
+                    ISort<Product> sorter;
+                    switch (Sort)
+                    {
+                        case SortParameter.TitleAsc:
+                            sorter = new TitleAscSortStrategy();
+                            break;
+                        case SortParameter.TitleDesc:
+                            sorter = new TitleDescSortStrategy();
+                            break;
+                        case SortParameter.PriceAsc:
+                            sorter = new PriceAscSortStrategy();
+                            break;
+                        case SortParameter.PriceDesc:
+                            sorter = new PriceDescSortStrategy();
+                            break;
+                        default:
+                            sorter = new TitleAscSortStrategy();
+                            break;
+                    }
+
+                    List<Product> products = productManager.GetProducts();
+                    products = productManager.Filter(products, filter);
+                    products = productManager.Sort(products, sorter);
+
+                    Products = _converter.ToProductViews(products);
                 }
-
-                List<Product> products = productManager.GetProducts();
-                products = productManager.Filter(products, filter);
-                products = productManager.Sort(products, sorter);
-
-                Products = _converter.ToProductViews(products);
             }
             catch (DataAccessException)
             {

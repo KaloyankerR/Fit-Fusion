@@ -15,7 +15,7 @@ namespace Models.User
         private string _email = string.Empty;
         private string _passwordHash = string.Empty;
         private string _passwordSalt = string.Empty;
-        private string _address = string.Empty;
+        private string? _address = string.Empty;
 
         public int Id
         {
@@ -47,14 +47,14 @@ namespace Models.User
             get { return _passwordSalt; }
         }
 
-        public string Address
+        public string? Address
         {
             get { return _address; }
         }
 
         public User() { }
 
-        public User(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string address)
+        public User(int id, string firstName, string lastName, string email, string passwordHash, string passwordSalt, string? address)
         {
             _id = id;
             _firstName = firstName;

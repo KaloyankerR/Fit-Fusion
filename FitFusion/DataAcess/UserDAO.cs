@@ -83,7 +83,7 @@ namespace DataAcess
                             command.Parameters.AddWithValue("@Email", user.Email);
                             command.Parameters.AddWithValue("@PasswordHash", user.PasswordHash);
                             command.Parameters.AddWithValue("@PasswordSalt", user.PasswordSalt);
-                            command.Parameters.AddWithValue("@Address", user.Address);
+                            command.Parameters.AddWithValue("@Address", user.Address ?? (object)DBNull.Value);
 
                             if (user is Staff)
                             {
@@ -154,7 +154,7 @@ namespace DataAcess
                             command.Parameters.AddWithValue("@FirstName", user.FirstName);
                             command.Parameters.AddWithValue("@LastName", user.LastName);
                             command.Parameters.AddWithValue("@Email", user.Email);
-                            command.Parameters.AddWithValue("@Address", user.Address);
+                            command.Parameters.AddWithValue("@Address", user.Address ?? (object)DBNull.Value);
 
                             command.Parameters.AddWithValue("@Id", user.Id);
 
@@ -303,7 +303,7 @@ namespace DataAcess
                                         email: reader.GetString(reader.GetOrdinal("Email")),
                                         passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
                                         passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                        address: reader.GetString(reader.GetOrdinal("Address")),
+                                        address: reader.IsDBNull(reader.GetOrdinal("Address")) ? null : reader.GetString("Address"),
                                         phone: reader.GetString(reader.GetOrdinal("Phone"))
                                     );
                                 }
@@ -317,7 +317,7 @@ namespace DataAcess
                                         email: reader.GetString(reader.GetOrdinal("Email")),
                                         passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
                                         passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                        address: reader.GetString(reader.GetOrdinal("Address")),
+                                        address: reader.IsDBNull(reader.GetOrdinal("Address")) ? null : reader.GetString("Address"),
                                         phone: reader.GetString(reader.GetOrdinal("Phone"))
                                     );
                                 }
@@ -331,7 +331,7 @@ namespace DataAcess
                                         email: reader.GetString(reader.GetOrdinal("Email")),
                                         passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
                                         passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                        address: reader.GetString(reader.GetOrdinal("Address")),
+                                        address: reader.IsDBNull(reader.GetOrdinal("Address")) ? null : reader.GetString("Address"),
                                         nutriPoints: reader.GetInt32(reader.GetOrdinal("NutriPoints"))
                                     );
                                 }
@@ -395,7 +395,7 @@ namespace DataAcess
                                 string retrievedEmail = reader.GetString(reader.GetOrdinal("Email"));
                                 string passwordHash = reader.GetString(reader.GetOrdinal("PasswordHash"));
                                 string passwordSalt = reader.GetString(reader.GetOrdinal("PasswordSalt"));
-                                string address = reader.GetString(reader.GetOrdinal("Address"));
+                                string? address = reader.IsDBNull(reader.GetOrdinal("Address")) ? null : reader.GetString("Address");
 
                                 string role = reader.GetString(reader.GetOrdinal("Role"));
 
@@ -481,7 +481,7 @@ namespace DataAcess
                                         email: reader.GetString(reader.GetOrdinal("Email")),
                                         passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
                                         passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                        address: reader.GetString(reader.GetOrdinal("Address")),
+                                        address: reader.IsDBNull(reader.GetOrdinal("Address")) ? null : reader.GetString("Address"),
                                         phone: reader.GetString(reader.GetOrdinal("Phone"))
                                     );
 
@@ -497,7 +497,7 @@ namespace DataAcess
                                         email: reader.GetString(reader.GetOrdinal("Email")),
                                         passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
                                         passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                        address: reader.GetString(reader.GetOrdinal("Address")),
+                                        address: reader.IsDBNull(reader.GetOrdinal("Address")) ? null : reader.GetString("Address"),
                                         phone: reader.GetString(reader.GetOrdinal("Phone"))
                                     );
 
@@ -513,7 +513,7 @@ namespace DataAcess
                                         email: reader.GetString(reader.GetOrdinal("Email")),
                                         passwordHash: reader.GetString(reader.GetOrdinal("PasswordHash")),
                                         passwordSalt: reader.GetString(reader.GetOrdinal("PasswordSalt")),
-                                        address: reader.GetString(reader.GetOrdinal("Address")),
+                                        address: reader.IsDBNull(reader.GetOrdinal("Address")) ? null : reader.GetString("Address"),
                                         nutriPoints: reader.GetInt32(reader.GetOrdinal("NutriPoints"))
                                     );
 

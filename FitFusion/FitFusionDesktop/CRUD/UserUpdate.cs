@@ -41,7 +41,8 @@ namespace FitFusionDesktop.CRUD
 
         private void FillData()
         {
-            cbxRole.SelectedItem = User.GetUserRole();
+            cbxRole.Enabled = false;
+            cbxRole.SelectedItem = User.GetUserRole().ToString();
             txtFirstName.Text = User.FirstName;
             txtLastName.Text = User.LastName;
             txtEmail.Text = User.Email;
@@ -72,7 +73,7 @@ namespace FitFusionDesktop.CRUD
                         email: txtEmail.Text,
                         passwordHash: User.PasswordHash,
                         passwordSalt: User.PasswordSalt,
-                        address: txtAddress.Text,
+                        address: string.IsNullOrWhiteSpace(txtAddress.Text) ? null : txtAddress.Text,
                         phone: txtPhone.Text
                         );
 
@@ -85,7 +86,7 @@ namespace FitFusionDesktop.CRUD
                         email: txtEmail.Text,
                         passwordHash: User.PasswordHash,
                         passwordSalt: User.PasswordSalt,
-                        address: txtAddress.Text,
+                        address: string.IsNullOrWhiteSpace(txtAddress.Text) ? null : txtAddress.Text,
                         phone: txtPhone.Text
                         );
 
@@ -98,7 +99,7 @@ namespace FitFusionDesktop.CRUD
                         email: txtEmail.Text,
                         passwordHash: User.PasswordHash,
                         passwordSalt: User.PasswordSalt,
-                        address: txtAddress.Text,
+                        address: string.IsNullOrWhiteSpace(txtAddress.Text) ? null : txtAddress.Text,
                         nutriPoints: 0
                         );
 

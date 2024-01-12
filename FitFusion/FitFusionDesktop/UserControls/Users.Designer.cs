@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             UsersDataGrid = new ReaLTaiizor.Controls.PoisonDataGridView();
             roleCmbBox = new ReaLTaiizor.Controls.DungeonComboBox();
             btnDelete = new ReaLTaiizor.Controls.Button();
@@ -47,6 +47,7 @@
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
+            label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)UsersDataGrid).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -60,37 +61,37 @@
             UsersDataGrid.BorderStyle = BorderStyle.None;
             UsersDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.SunkenVertical;
             UsersDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Sunken;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(41, 41, 41);
-            dataGridViewCellStyle4.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            UsersDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle1.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            UsersDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             UsersDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.Gray;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
-            UsersDataGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.Gray;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            UsersDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             UsersDataGrid.EnableHeadersVisualStyles = false;
             UsersDataGrid.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
             UsersDataGrid.GridColor = Color.FromArgb(255, 255, 255);
             UsersDataGrid.Location = new Point(0, 0);
             UsersDataGrid.Name = "UsersDataGrid";
             UsersDataGrid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(41, 41, 41);
-            dataGridViewCellStyle6.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle6.ForeColor = Color.White;
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle6.SelectionForeColor = Color.White;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            UsersDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            UsersDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             UsersDataGrid.RowHeadersWidth = 51;
             UsersDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             UsersDataGrid.RowTemplate.Height = 29;
@@ -125,6 +126,7 @@
             roleCmbBox.Size = new Size(191, 26);
             roleCmbBox.StartIndex = 0;
             roleCmbBox.TabIndex = 3;
+            roleCmbBox.SelectedIndexChanged += roleCmbBox_SelectedIndexChanged;
             // 
             // btnDelete
             // 
@@ -245,11 +247,11 @@
             btnRecommendations.Image = null;
             btnRecommendations.ImageAlign = ContentAlignment.MiddleLeft;
             btnRecommendations.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnRecommendations.Location = new Point(11, 135);
+            btnRecommendations.Location = new Point(6, 106);
             btnRecommendations.Name = "btnRecommendations";
             btnRecommendations.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnRecommendations.PressedColor = Color.FromArgb(255, 163, 26);
-            btnRecommendations.Size = new Size(213, 62);
+            btnRecommendations.Size = new Size(218, 62);
             btnRecommendations.TabIndex = 12;
             btnRecommendations.Text = "Get Recommendations";
             btnRecommendations.TextAlignment = StringAlignment.Center;
@@ -286,11 +288,11 @@
             btnRefresh.Image = null;
             btnRefresh.ImageAlign = ContentAlignment.MiddleLeft;
             btnRefresh.InactiveColor = Color.FromArgb(41, 41, 41);
-            btnRefresh.Location = new Point(11, 35);
+            btnRefresh.Location = new Point(6, 35);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnRefresh.PressedColor = Color.FromArgb(255, 163, 26);
-            btnRefresh.Size = new Size(213, 62);
+            btnRefresh.Size = new Size(218, 62);
             btnRefresh.TabIndex = 15;
             btnRefresh.Text = "Refresh";
             btnRefresh.TextAlignment = StringAlignment.Center;
@@ -366,15 +368,25 @@
             groupBox3.Controls.Add(btnRecommendations);
             groupBox3.Location = new Point(519, 460);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(230, 227);
+            groupBox3.Size = new Size(230, 185);
             groupBox3.TabIndex = 20;
             groupBox3.TabStop = false;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(559, 664);
+            label4.Name = "label4";
+            label4.Size = new Size(359, 23);
+            label4.TabIndex = 16;
+            label4.Text = "Only Customers have recommendations";
             // 
             // Users
             // 
             AutoScaleDimensions = new SizeF(11F, 23F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
+            Controls.Add(label4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
@@ -389,6 +401,7 @@
             groupBox2.ResumeLayout(false);
             groupBox3.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -408,5 +421,6 @@
         private GroupBox groupBox1;
         private GroupBox groupBox2;
         private GroupBox groupBox3;
+        private Label label4;
     }
 }

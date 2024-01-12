@@ -75,14 +75,13 @@ else if (messageType == "success")
                         }
 
                         <h2 class="card-title">@user.FirstName @user.LastName</h2>
+                        <h5 class="card-title">@user.Address</h5>
                         <p class="card-description">@user.Email</p>
                     </div>
 
-                    <a class="button primary btnElement" style="margin: 0">View Details</a>
-
                     @if (User.IsInRole("Owner") || User.IsInRole("Staff"))
                     {
-                        <a class="button warning btnElement" href="./Update/@user.GetUserRole()/@user.Id">Update product</a>
+                        <a class="button warning btnElement" href="./Update/@user.GetUserRole()/@user.Id">Update user</a>
 
                         <form method="post" asp-page-handler="Delete">
                             <input type="hidden" name="id" value="@user.Id" />
