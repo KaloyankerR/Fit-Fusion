@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Models.Order;
 using Microsoft.AspNetCore.Authorization;
+using System;
 
 namespace FitFusionWeb.Pages.Stats
 {
@@ -20,14 +21,10 @@ namespace FitFusionWeb.Pages.Stats
             _orderManager = new(new OrderDAO());
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            Orders = _orderManager.GetOrders();
-
-            foreach(Order o in Orders)
-            {
-                OrdersData.Add(o.OrderDate.DayOfWeek.ToString(), o.Cart.TotalPrice);
-            }
+            OrdersData = _orderManager.GetOrdersStats();
+            return Page();
         }
 
     }

@@ -78,6 +78,7 @@ namespace Services
             }
         }
     
+
         public Dictionary<int, Dictionary<Product, int>> GetRecommendations(int customerId)
         {
             try
@@ -169,6 +170,28 @@ namespace Services
             {
                 throw;
             }
+        }
+
+        public Dictionary<string, double> GetOrdersStats()
+        {
+            Dictionary<string, double> result = new();
+            List<Order> orders = GetOrders();
+
+            foreach (Order o in orders)
+            {
+                // OrdersData.Add(o.OrderDate.DayOfWeek.ToString(), o.Cart.TotalPrice);
+                string dayOfWeek = o.OrderDate.DayOfWeek.ToString();
+                if (result.ContainsKey(dayOfWeek))
+                {
+                    result[dayOfWeek] += o.Cart.TotalPrice;
+                }
+                else
+                {
+                    result.Add(dayOfWeek, o.Cart.TotalPrice);
+                }
+            }
+
+            return result;
         }
 
     }

@@ -74,7 +74,17 @@ else if (messageType == "success")
                     <div class="card-body">
                         <h2 class="card-title">@product.Title</h2>
                         <p class="card-description">@product.Description</p>
-                        <p class="card-price">@product.Price</p>
+                        <p class="card-price">
+                            @if (product.Category == Category.Redeem)
+                            {
+                                @($"{product.Price} NP")
+                            }
+                            else
+                            {
+                                @($"{product.Price} $")
+                            }
+
+                        </p>
                     </div>
 
                     <a class="button primary btnElement" href="./Product/@product.Id">View product</a>

@@ -283,7 +283,7 @@ namespace DataAcess
                     }
 
                     getUserQuery = $"SELECT Id, FirstName, LastName, Email, PasswordHash, PasswordSalt, Address, {additionalProperty} " +
-                                   $"FROM {role.GetType().Name} " +
+                                   $"FROM {role.ToString()} " +
                                    $"WHERE Id = @Id;";
 
                     using (SqlCommand command = new SqlCommand(getUserQuery, connection))
