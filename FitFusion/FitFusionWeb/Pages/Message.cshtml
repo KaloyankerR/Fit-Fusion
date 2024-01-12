@@ -1,0 +1,12 @@
+﻿@page
+@model FitFusionWeb.Pages.MessageModel
+@{
+    ViewData["Title"] = "Error page";
+}
+
+<div class="error-container">
+    <h1>@Model.PrimaryMessage</h1>
+    <h3>@ViewData["Message"]</h3>
+
+    <button type="button" class="btn btn-back-home" onclick="location.href='../'">Back to the home page</button>
+</div>

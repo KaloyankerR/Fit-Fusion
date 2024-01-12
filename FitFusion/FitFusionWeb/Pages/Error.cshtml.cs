@@ -30,7 +30,7 @@ namespace FitFusionWeb.Pages
                     errorMessage = "Not Enough Nutri Points!";
                     break;
                 case "500":
-                    errorMessage = "Internal Server Error!";
+                    errorMessage = "Internal Server Error! Database problem!";
                     break;
 
                 // TODO: Add more cases as needed

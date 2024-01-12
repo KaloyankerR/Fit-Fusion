@@ -81,8 +81,8 @@ namespace FitFusionWeb.Pages
             }
             
             SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", new ShoppingCart());
-            // TODO: Make pages for information about the data provided
-            return RedirectToPage("/CustomPages/SuccessfulOrder");
+            return RedirectToPage("/Message", new { message = "Successful order!" });
+            // return RedirectToPage("/CustomPages/SuccessfulOrder");
         }
 
         public IActionResult OnPostAddProduct(int productId)

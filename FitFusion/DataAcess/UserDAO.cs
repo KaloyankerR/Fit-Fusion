@@ -20,13 +20,11 @@ namespace DataAcess
         public UserDAO()
         {
             _connectionString = Connection.DbConnection.ConnectionString;
-            TestConnectionString();
         }
 
         public UserDAO(string connectionString)
         {
             _connectionString = connectionString;
-            TestConnectionString();
         }
 
         public void TestConnectionString()

@@ -24,7 +24,7 @@ namespace FitFusionWeb.Pages
 
         public IndexModel(ILogger<IndexModel> logger)
         {
-            _logger = logger;
+            _logger = logger;             
         }
 
         public IActionResult OnGet()
@@ -50,8 +50,20 @@ namespace FitFusionWeb.Pages
             //    {
             // }
 
-            Products = _productManager.GetProducts();
-            return Page();
+            try
+            {
+                Products = _productManager.GetProducts();
+                return Page();
+            }
+            catch (DataAccessException)
+            {
+                return RedirectToPage("/Error", new { code = 500 });
+            }
+            catch (Exception)
+            {
+                return RedirectToPage("/Error");
+            }
+
         }
 
     }

@@ -18,13 +18,11 @@ namespace DataAcess
         public ProductDAO()
         {
             _connectionString = Connection.DbConnection.ConnectionString;
-            TestConnectionString();
         }
 
         public ProductDAO(string connectionString)
         {
             _connectionString = connectionString;
-            TestConnectionString();
         }
 
         public void TestConnectionString()

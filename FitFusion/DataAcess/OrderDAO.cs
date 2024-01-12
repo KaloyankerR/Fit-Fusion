@@ -20,13 +20,11 @@ namespace DataAcess
         public OrderDAO()
         {
             _connectionString = Connection.DbConnection.ConnectionString;
-            TestConnectionString();
         }
 
         public OrderDAO(string connectionString)
         {
             _connectionString = connectionString;
-            TestConnectionString();
         }
 
         public void TestConnectionString()
@@ -90,6 +88,16 @@ namespace DataAcess
 
                                 cartCommand.ExecuteNonQuery();
                             }
+                        }
+
+                        string customerNutriPointsDecrease = "UPDATE Customer SET nutripoints = nutripoints - @NutriPointsNeeded WHERE Id = @Id;";
+                        
+                        using (SqlCommand customerCommand = new SqlCommand(customerNutriPointsDecrease, connection))
+                        {
+                            customerCommand.Parameters.AddWithValue("@NutriPointsNeeded", order.Cart.NutriPointsNeeded);
+                            customerCommand.Parameters.AddWithValue("@Id", order.Customer.Id);
+
+                            customerCommand.ExecuteNonQuery();
                         }
                     }
 
