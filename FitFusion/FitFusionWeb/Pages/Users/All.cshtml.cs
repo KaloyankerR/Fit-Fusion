@@ -46,9 +46,9 @@ namespace FitFusionWeb.Pages.Users
         {
             try
             {
-                Dictionary<IFilter<User>, object> filters = new()
+                List<IFilter<User>> filters = new()
                 {
-                    { new KeywordFilterStrategy(), SearchQuery },
+                    { new KeywordFilterStrategy(SearchQuery) },
                     // TODO add the role filter
                     //{ new RoleFilterStrategy(), Enum.TryParse(roleCmbBox.SelectedItem?.ToString(), true, out Role result) ? result : Role.All }
                 };

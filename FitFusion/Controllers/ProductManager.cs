@@ -91,16 +91,13 @@ namespace Services
         }
 
 
-        public List<Product> Filter(List<Product> products, Dictionary<IFilter<Product>, object> filterStrategies)
+        public List<Product> Filter(List<Product> products, List<IFilter<Product>> filterStrategies)
         {
             try
             {
-                foreach (var kvp in filterStrategies)
+                foreach (IFilter<Product> filterStrategy in filterStrategies)
                 {
-                    var filterStrategy = kvp.Key;
-                    var filterValue = kvp.Value;
-
-                    products = filterStrategy.Filter(products, filterValue);
+                    products = filterStrategy.Filter(products);
                 }
 
                 return products;

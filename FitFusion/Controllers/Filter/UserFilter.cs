@@ -12,16 +12,21 @@ namespace Services.Filter
 {
     public class KeywordFilterStrategy : IFilter<User>
     {
-        public List<User> Filter(List<User> users, object param)
-        {
-            if (param is string searchQuery && !string.IsNullOrEmpty(searchQuery))
-            {
-                searchQuery = searchQuery.ToLower();
+        private string _searchQuery;
 
+        public KeywordFilterStrategy(string? searchQuery)
+        {
+            _searchQuery = searchQuery?.ToLower() ?? "";
+        }
+
+        public List<User> Filter(List<User> users)
+        {
+            if (!string.IsNullOrEmpty(_searchQuery))
+            {
                 users = users.FindAll(u =>
-                    u.FirstName.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    u.LastName.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    u.Address.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    u.FirstName.ToLower().Contains(_searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    u.LastName.ToLower().Contains(_searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    (u.Address ?? "").ToLower().Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
                 );
             }
 
@@ -31,68 +36,22 @@ namespace Services.Filter
 
     public class RoleFilterStrategy : IFilter<User>
     {
-        public List<User> Filter(List<User> users, object param)
-        {
-            if (param is Role filterValue)
-            {
-                if (filterValue == Role.All)
-                {
-                    return users;
-                }
+        private Role _filterValue;
 
-                return users.Where(u => u.GetUserRole() == filterValue).ToList();
+        public RoleFilterStrategy(Role? filterValue)
+        {
+            _filterValue = filterValue ?? Role.All;
+        }
+
+        public List<User> Filter(List<User> users)
+        {
+            if (_filterValue == Role.All)
+            {
+                return users;
             }
 
-            return users;
+            return users.Where(u => u.GetUserRole() == _filterValue).ToList();
         }
     }
 
-    //public class UserFilter
-    //{
-    //    public List<User> Filter(List<User> users, Dictionary<Enum, object> filters)
-    //    {
-    //        if (filters == null || filters.Count == 0)
-    //        {
-    //            return users;
-    //        }
-
-    //        List<(IFilter<User> FilterStrategy, object FilterValue)> filterStrategies = new List<(IFilter<User>, object)>();
-
-    //        foreach (var filterEntry in filters)
-    //        {
-    //            if (filterEntry.Key is FilterParameter filterKey)
-    //            {
-    //                switch (filterKey)
-    //                {
-    //                    case FilterParameter.Keyword:
-    //                        filterStrategies.Add((new KeywordFilterStrategy(), filterEntry.Value));
-    //                        break;
-    //                    case FilterParameter.Role:
-    //                        filterStrategies.Add((new RoleFilterStrategy(), filterEntry.Value));
-    //                        break;
-    //                        // TODO Add more cases for additional filters
-    //                }
-    //            }
-    //        }
-
-    //        if (filterStrategies.Count == 0)
-    //        {
-    //            return users;
-    //        }
-
-    //        foreach (var (filterStrategy, filterValue) in filterStrategies)
-    //        {
-    //            try
-    //            {
-    //                users = filterStrategy.Filter(users, filterValue);
-    //            }
-    //            catch
-    //            {
-    //                throw new ArgumentException("Invalid filtering parameter.");
-    //            }
-    //        }
-
-    //        return users;
-    //    }
-    // }
 }

@@ -11,16 +11,19 @@ namespace Services.Filter
 {
     public class CategoryFilterStrategy : IFilter<Product>
     {
-        public List<Product> Filter(List<Product> products, object param)
-        {
-            if (param is Category filterValue)
-            {
-                if (filterValue != Category.All)
-                {
-                    return products.Where(p => p.Category == filterValue).ToList();
-                }
-            }
+        private Category _filterValue;
 
+        public CategoryFilterStrategy(Category? filterValue)
+        {
+            _filterValue = filterValue ?? Category.All;
+        }
+
+        public List<Product> Filter(List<Product> products)
+        {
+            if (_filterValue != Category.All)
+            {
+                return products.Where(p => p.Category == _filterValue).ToList();
+            }
 
             return products;
         }
@@ -28,12 +31,19 @@ namespace Services.Filter
 
     public class PriceFilterStrategy : IFilter<Product>
     {
-        public List<Product> Filter(List<Product> products, object param)
+        private List<double> _priceRange;
+
+        public PriceFilterStrategy(List<double>? priceRange)
         {
-            if (param is List<double> priceRange && priceRange.Count >= 2)
+            _priceRange = priceRange ?? new List<double> { 0, 0 };
+        }
+
+        public List<Product> Filter(List<Product> products)
+        {
+            if (_priceRange.Count >= 2)
             {
-                double min = priceRange[0];
-                double max = priceRange[1];
+                double min = _priceRange[0];
+                double max = _priceRange[1];
 
                 if (min >= 0 && max > 0 && min <= max)
                 {
@@ -47,17 +57,22 @@ namespace Services.Filter
 
     public class ProductKeywordFilterStrategy : IFilter<Product>
     {
-        public List<Product> Filter(List<Product> products, object param)
-        {
-            if (param is string searchQuery && !string.IsNullOrEmpty(searchQuery))
-            {
-                searchQuery = searchQuery.ToLower();
+        private string _searchQuery;
 
+        public ProductKeywordFilterStrategy(string? searchQuery)
+        {
+            _searchQuery = searchQuery?.ToLower() ?? "";
+        }
+
+        public List<Product> Filter(List<Product> products)
+        {
+            if (!string.IsNullOrEmpty(_searchQuery))
+            {
                 products = products.FindAll(p =>
-                    p.Title.ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    (p.Description ?? "").ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    p.Category.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                    p.Price.ToString().ToLower().Contains(searchQuery, StringComparison.OrdinalIgnoreCase)
+                    p.Title.ToLower().Contains(_searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    (p.Description ?? "").ToLower().Contains(_searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    p.Category.ToString().ToLower().Contains(_searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                    p.Price.ToString().ToLower().Contains(_searchQuery, StringComparison.OrdinalIgnoreCase)
                 );
             }
 
@@ -65,54 +80,6 @@ namespace Services.Filter
         }
     }
 
-    //public class ProductFilter
-    //{
-    //    public List<Product> Filter(List<Product> products, Dictionary<Enum, object> filters)
-    //    {
-    //        if (filters == null || filters.Count == 0)
-    //        {
-    //            return products;
-    //        }
 
-    //        List<(IFilter<Product> FilterStrategy, object FilterValue)> filterStrategies = new List<(IFilter<Product>, object)>();
 
-    //        foreach (var filterEntry in filters)
-    //        {
-    //            if (filterEntry.Key is FilterParameter filterKey)
-    //            {
-    //                switch (filterKey)
-    //                {
-    //                    case FilterParameter.Keyword:
-    //                        filterStrategies.Add((new ProductKeywordFilterStrategy(), filterEntry.Value));
-    //                        break;
-    //                    case FilterParameter.Category:
-    //                        filterStrategies.Add((new CategoryFilterStrategy(), filterEntry.Value));
-    //                        break;
-    //                    case FilterParameter.Price:
-    //                        filterStrategies.Add((new PriceFilterStrategy(), filterEntry.Value));
-    //                        break;
-    //                }
-    //            }
-    //        }
-
-    //        if (filterStrategies.Count == 0)
-    //        {
-    //            return products;
-    //        }
-
-    //        foreach (var (filterStrategy, filterValue) in filterStrategies)
-    //        {
-    //            try
-    //            {
-    //                products = filterStrategy.Filter(products, filterValue);
-    //            }
-    //            catch
-    //            {
-    //                throw new ArgumentException("Invalid filtering parameter.");
-    //            }
-    //        }
-
-    //        return products;
-    //    }
-    // }
 }

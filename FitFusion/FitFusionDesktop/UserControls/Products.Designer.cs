@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             ProductsDataGrid = new ReaLTaiizor.Controls.PoisonDataGridView();
             btnCreate = new ReaLTaiizor.Controls.Button();
             btnUpdate = new ReaLTaiizor.Controls.Button();
@@ -45,6 +45,10 @@
             sortCmbBox = new ReaLTaiizor.Controls.DungeonComboBox();
             groupBox1 = new GroupBox();
             groupBox2 = new GroupBox();
+            label4 = new Label();
+            label5 = new Label();
+            txtMinPrice = new ReaLTaiizor.Controls.HopeTextBox();
+            txtMaxPrice = new ReaLTaiizor.Controls.HopeTextBox();
             ((System.ComponentModel.ISupportInitialize)ProductsDataGrid).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -57,37 +61,37 @@
             ProductsDataGrid.BorderStyle = BorderStyle.None;
             ProductsDataGrid.CellBorderStyle = DataGridViewCellBorderStyle.SunkenVertical;
             ProductsDataGrid.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Sunken;
-            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle4.BackColor = Color.FromArgb(41, 41, 41);
-            dataGridViewCellStyle4.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle4.ForeColor = Color.White;
-            dataGridViewCellStyle4.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle4.SelectionForeColor = Color.White;
-            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
-            ProductsDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle1.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            ProductsDataGrid.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             ProductsDataGrid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = Color.Gray;
-            dataGridViewCellStyle5.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
-            dataGridViewCellStyle5.ForeColor = Color.White;
-            dataGridViewCellStyle5.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle5.SelectionForeColor = Color.White;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.False;
-            ProductsDataGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.Gray;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle2.SelectionForeColor = Color.White;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            ProductsDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             ProductsDataGrid.EnableHeadersVisualStyles = false;
             ProductsDataGrid.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Pixel);
             ProductsDataGrid.GridColor = Color.FromArgb(255, 255, 255);
             ProductsDataGrid.Location = new Point(3, 3);
             ProductsDataGrid.Name = "ProductsDataGrid";
             ProductsDataGrid.RowHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.FromArgb(41, 41, 41);
-            dataGridViewCellStyle6.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            dataGridViewCellStyle6.ForeColor = Color.White;
-            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(255, 163, 26);
-            dataGridViewCellStyle6.SelectionForeColor = Color.White;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
-            ProductsDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.FromArgb(41, 41, 41);
+            dataGridViewCellStyle3.Font = new Font("Arial", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            dataGridViewCellStyle3.ForeColor = Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(255, 163, 26);
+            dataGridViewCellStyle3.SelectionForeColor = Color.White;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            ProductsDataGrid.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             ProductsDataGrid.RowHeadersWidth = 51;
             ProductsDataGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             ProductsDataGrid.RowTemplate.Height = 29;
@@ -173,7 +177,7 @@
             btnSearch.Name = "btnSearch";
             btnSearch.PressedBorderColor = Color.FromArgb(255, 163, 26);
             btnSearch.PressedColor = Color.FromArgb(255, 163, 26);
-            btnSearch.Size = new Size(351, 43);
+            btnSearch.Size = new Size(544, 43);
             btnSearch.TabIndex = 8;
             btnSearch.Text = "Search";
             btnSearch.TextAlignment = StringAlignment.Center;
@@ -189,7 +193,7 @@
             txtSearchQuery.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
             txtSearchQuery.ForeColor = Color.White;
             txtSearchQuery.Hint = "";
-            txtSearchQuery.Location = new Point(166, 83);
+            txtSearchQuery.Location = new Point(137, 83);
             txtSearchQuery.MaxLength = 32767;
             txtSearchQuery.Multiline = false;
             txtSearchQuery.Name = "txtSearchQuery";
@@ -224,7 +228,7 @@
             categoryCmbBox.HoverSelectionColor = Color.Empty;
             categoryCmbBox.IntegralHeight = false;
             categoryCmbBox.ItemHeight = 20;
-            categoryCmbBox.Location = new Point(166, 19);
+            categoryCmbBox.Location = new Point(137, 17);
             categoryCmbBox.Name = "categoryCmbBox";
             categoryCmbBox.Size = new Size(191, 26);
             categoryCmbBox.StartIndex = 0;
@@ -302,7 +306,7 @@
             sortCmbBox.HoverSelectionColor = Color.Empty;
             sortCmbBox.IntegralHeight = false;
             sortCmbBox.ItemHeight = 20;
-            sortCmbBox.Location = new Point(166, 51);
+            sortCmbBox.Location = new Point(137, 51);
             sortCmbBox.Name = "sortCmbBox";
             sortCmbBox.Size = new Size(191, 26);
             sortCmbBox.StartIndex = 0;
@@ -322,8 +326,12 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(txtMaxPrice);
             groupBox2.Controls.Add(label1);
+            groupBox2.Controls.Add(txtMinPrice);
             groupBox2.Controls.Add(btnSearch);
+            groupBox2.Controls.Add(label4);
+            groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(txtSearchQuery);
             groupBox2.Controls.Add(sortCmbBox);
@@ -331,9 +339,77 @@
             groupBox2.Controls.Add(label2);
             groupBox2.Location = new Point(15, 505);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(365, 185);
+            groupBox2.Size = new Size(566, 185);
             groupBox2.TabIndex = 20;
             groupBox2.TabStop = false;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.ForeColor = SystemColors.Control;
+            label4.Location = new Point(352, 28);
+            label4.Name = "label4";
+            label4.Size = new Size(96, 23);
+            label4.TabIndex = 19;
+            label4.Text = "Min price:";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.ForeColor = SystemColors.Control;
+            label5.Location = new Point(454, 28);
+            label5.Name = "label5";
+            label5.Size = new Size(102, 23);
+            label5.TabIndex = 21;
+            label5.Text = "Max price:";
+            // 
+            // txtMinPrice
+            // 
+            txtMinPrice.BackColor = Color.FromArgb(41, 41, 41);
+            txtMinPrice.BaseColor = Color.FromArgb(41, 41, 41);
+            txtMinPrice.BorderColorA = Color.FromArgb(255, 163, 26);
+            txtMinPrice.BorderColorB = Color.FromArgb(41, 41, 41);
+            txtMinPrice.Cursor = Cursors.Hand;
+            txtMinPrice.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            txtMinPrice.ForeColor = Color.White;
+            txtMinPrice.Hint = "";
+            txtMinPrice.Location = new Point(352, 54);
+            txtMinPrice.MaxLength = 32767;
+            txtMinPrice.Multiline = false;
+            txtMinPrice.Name = "txtMinPrice";
+            txtMinPrice.PasswordChar = '\0';
+            txtMinPrice.ScrollBars = ScrollBars.None;
+            txtMinPrice.SelectedText = "";
+            txtMinPrice.SelectionLength = 0;
+            txtMinPrice.SelectionStart = 0;
+            txtMinPrice.Size = new Size(96, 43);
+            txtMinPrice.TabIndex = 19;
+            txtMinPrice.TabStop = false;
+            txtMinPrice.UseSystemPasswordChar = false;
+            // 
+            // txtMaxPrice
+            // 
+            txtMaxPrice.BackColor = Color.FromArgb(41, 41, 41);
+            txtMaxPrice.BaseColor = Color.FromArgb(41, 41, 41);
+            txtMaxPrice.BorderColorA = Color.FromArgb(255, 163, 26);
+            txtMaxPrice.BorderColorB = Color.FromArgb(41, 41, 41);
+            txtMaxPrice.Cursor = Cursors.Hand;
+            txtMaxPrice.Font = new Font("Arial", 13.8F, FontStyle.Regular, GraphicsUnit.Point);
+            txtMaxPrice.ForeColor = Color.White;
+            txtMaxPrice.Hint = "";
+            txtMaxPrice.Location = new Point(454, 54);
+            txtMaxPrice.MaxLength = 32767;
+            txtMaxPrice.Multiline = false;
+            txtMaxPrice.Name = "txtMaxPrice";
+            txtMaxPrice.PasswordChar = '\0';
+            txtMaxPrice.ScrollBars = ScrollBars.None;
+            txtMaxPrice.SelectedText = "";
+            txtMaxPrice.SelectionLength = 0;
+            txtMaxPrice.SelectionStart = 0;
+            txtMaxPrice.Size = new Size(96, 43);
+            txtMaxPrice.TabIndex = 22;
+            txtMaxPrice.TabStop = false;
+            txtMaxPrice.UseSystemPasswordChar = false;
             // 
             // Products
             // 
@@ -370,5 +446,9 @@
         private ReaLTaiizor.Controls.DungeonComboBox sortCmbBox;
         private GroupBox groupBox1;
         private GroupBox groupBox2;
+        private Label label4;
+        private ReaLTaiizor.Controls.HopeTextBox txtMaxPrice;
+        private ReaLTaiizor.Controls.HopeTextBox txtMinPrice;
+        private Label label5;
     }
 }

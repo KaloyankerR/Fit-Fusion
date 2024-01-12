@@ -115,9 +115,9 @@ namespace FitFusionTest
         {
             List<Product> products = _manager.GetProducts();
 
-            Dictionary<IFilter<Product>, object> filter = new Dictionary<IFilter<Product>, object>
+            List<IFilter<Product>> filter = new ()
                 {
-                    { new CategoryFilterStrategy(), Category.Protein },
+                    { new CategoryFilterStrategy(Category.Protein) },
                 };
 
             products = _manager.Filter(products, filter); 
@@ -136,11 +136,11 @@ namespace FitFusionTest
         {
             List<Product> products = _manager.GetProducts();
 
-            Dictionary<IFilter<Product>, object> filter = new Dictionary<IFilter<Product>, object>
+            List<IFilter<Product>> filter = new()
                 {
-                    { new ProductKeywordFilterStrategy(), "drake" },
-                    { new CategoryFilterStrategy(), Category.Protein },
-                    { new PriceFilterStrategy(),  new List<double>{ 20, 50 } }
+                    { new ProductKeywordFilterStrategy("drake") },
+                    { new CategoryFilterStrategy(Category.Protein) },
+                    { new PriceFilterStrategy(new List<double>{ 20, 50 }) }
                 };
 
             products = _manager.Filter(products, filter);

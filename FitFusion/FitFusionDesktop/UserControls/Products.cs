@@ -28,6 +28,8 @@ namespace FitFusionDesktop.UserControls
             RefreshFormData();
             categoryCmbBox.DataSource = Enum.GetValues(typeof(Category));
             sortCmbBox.DataSource = Enum.GetValues(typeof(SortParameter));
+            txtMinPrice.Text = "0";
+            txtMaxPrice.Text = "0";
         }
 
         private void RefreshFormData()
@@ -68,43 +70,65 @@ namespace FitFusionDesktop.UserControls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            List<Product> products = _productManager.GetProducts();
-
-            Dictionary<IFilter<Product>, object> filters = new()
+            try
             {
-                { new ProductKeywordFilterStrategy(), txtSearchQuery.Text },
-                { new CategoryFilterStrategy(), Enum.TryParse(categoryCmbBox.SelectedItem?.ToString(), true, out Category result) ? result : Category.All }
-            };
+                List<Product> products = _productManager.GetProducts();
 
-            products = _productManager.Filter(products, filters);
+                double minPrice = double.TryParse(txtMinPrice.Text, out double parsedMinPrice) ? parsedMinPrice : 0.0;
+                double maxPrice = double.TryParse(txtMaxPrice.Text, out double parsedMaxPrice) ? parsedMaxPrice : 0.0;
 
-            if (sortCmbBox.SelectedItem is SortParameter selectedSort)
-            {
-                ISort<Product> sorter;
-
-                switch (selectedSort)
+                if (minPrice > maxPrice)
                 {
-                    case SortParameter.TitleAsc:
-                        sorter = new TitleAscSortStrategy();
-                        break;
-                    case SortParameter.TitleDesc:
-                        sorter = new TitleDescSortStrategy();
-                        break;
-                    case SortParameter.PriceAsc:
-                        sorter = new PriceAscSortStrategy();
-                        break;
-                    case SortParameter.PriceDesc:
-                        sorter = new PriceDescSortStrategy();
-                        break;
-                    default:
-                        sorter = new TitleAscSortStrategy();
-                        break;
+                    MessageBox.Show("Min price shouldn't be bigger than Max price!");
                 }
 
-                products = _productManager.Sort(products, sorter);
-            }
+                List<double> prices = new()
+                {
+                    minPrice,
+                    maxPrice
+                };
 
-            ProductsDataGrid.DataSource = products;
+                List<IFilter<Product>> filters = new()
+                {
+                    { new ProductKeywordFilterStrategy(txtSearchQuery.Text) },
+                    { new CategoryFilterStrategy(Enum.TryParse(categoryCmbBox.SelectedItem?.ToString(), true, out Category result) ? result : Category.All) },
+                    { new PriceFilterStrategy(prices) }
+                };
+
+                products = _productManager.Filter(products, filters);
+
+                if (sortCmbBox.SelectedItem is SortParameter selectedSort)
+                {
+                    ISort<Product> sorter;
+
+                    switch (selectedSort)
+                    {
+                        case SortParameter.TitleAsc:
+                            sorter = new TitleAscSortStrategy();
+                            break;
+                        case SortParameter.TitleDesc:
+                            sorter = new TitleDescSortStrategy();
+                            break;
+                        case SortParameter.PriceAsc:
+                            sorter = new PriceAscSortStrategy();
+                            break;
+                        case SortParameter.PriceDesc:
+                            sorter = new PriceDescSortStrategy();
+                            break;
+                        default:
+                            sorter = new TitleAscSortStrategy();
+                            break;
+                    }
+
+                    products = _productManager.Sort(products, sorter);
+                }
+
+                ProductsDataGrid.DataSource = products;
+            }
+            catch(Exception)
+            {
+                MessageBox.Show("Something went wrong!");
+            }
         }
 
 

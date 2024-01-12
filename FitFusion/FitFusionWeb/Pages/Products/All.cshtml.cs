@@ -63,11 +63,11 @@ namespace FitFusionWeb.Pages.Products
                 }
                 else
                 {
-                    Dictionary<IFilter<Product>, object> filter = new Dictionary<IFilter<Product>, object>
+                    List<IFilter<Product>> filter = new ()
                 {
-                    { new ProductKeywordFilterStrategy(), SearchQuery },
-                    { new CategoryFilterStrategy(), FilterByCategory },
-                    { new PriceFilterStrategy(),  new List<double>{ MinPrice, MaxPrice } }
+                    { new ProductKeywordFilterStrategy(SearchQuery) },
+                    { new CategoryFilterStrategy(FilterByCategory) },
+                    { new PriceFilterStrategy(new List<double>{ MinPrice, MaxPrice }) }
                 };
 
                     ISort<Product> sorter;

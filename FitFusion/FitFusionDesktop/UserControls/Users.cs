@@ -37,10 +37,10 @@ namespace FitFusionDesktop.UserControls
         {
             List<User> users = _userManager.GetAllUsers();
 
-            Dictionary<IFilter<User>, object> filters = new()
+            List<IFilter<User>> filters = new()
             {
-                { new KeywordFilterStrategy(), txtSearchQuery.Text },
-                { new RoleFilterStrategy(), Enum.TryParse(roleCmbBox.SelectedItem?.ToString(), true, out Role result) ? result : Role.All }
+                { new KeywordFilterStrategy(txtSearchQuery.Text) },
+                { new RoleFilterStrategy(Enum.TryParse(roleCmbBox.SelectedItem?.ToString(), true, out Role result) ? result : Role.All) }
             };
 
             users = _userManager.Filter(users, filters);
@@ -67,7 +67,7 @@ namespace FitFusionDesktop.UserControls
                         sorter = new FirstNameAscending();
                         break;
                 }
-
+                
                 users = _userManager.Sort(users, sorter);
             }
 

@@ -109,21 +109,6 @@ namespace Services
             }
         }
 
-
-        //public List<UserModel> Search(List<UserModel> users, string param)
-        //{
-        //    if (!string.IsNullOrEmpty(param))
-        //    {
-        //        users = users.FindAll(u =>
-        //            u.FirstName.Contains(param, StringComparison.OrdinalIgnoreCase) ||
-        //            u.LastName.Contains(param, StringComparison.OrdinalIgnoreCase) ||
-        //            u.Address.Contains(param, StringComparison.OrdinalIgnoreCase)
-        //        );
-        //    }
-
-        //    return users;
-        //}
-
         public List<UserModel> Sort(List<UserModel> users, ISort<User> sortStrategy)
         {
             try
@@ -136,16 +121,13 @@ namespace Services
             }
         }
 
-        public List<UserModel> Filter(List<UserModel> users, Dictionary<IFilter<User>, object> filterStrategies)
+        public List<UserModel> Filter(List<UserModel> users, List<IFilter<User>> filterStrategies)
         {
             try
             {
-                foreach(var kvp in filterStrategies)
+                foreach(IFilter<User> filterStrategy in filterStrategies)
                 {
-                    var filterStrategy = kvp.Key;
-                    var filterValue = kvp.Value;
-
-                    users = filterStrategy.Filter(users, filterValue);
+                    users = filterStrategy.Filter(users);
                 }
 
                 return users;
