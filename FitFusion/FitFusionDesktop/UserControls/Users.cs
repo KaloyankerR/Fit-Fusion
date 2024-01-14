@@ -35,6 +35,16 @@ namespace FitFusionDesktop.UserControls
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
+            switch ((Role)roleCmbBox.SelectedItem)
+            {
+                case Role.Customer:
+                    btnRecommendations.Visible = true;
+                    break;
+                default:
+                    btnRecommendations.Visible = false;
+                    break;
+            }
+
             List<User> users = _userManager.GetAllUsers();
 
             List<IFilter<User>> filters = new()
@@ -152,18 +162,6 @@ namespace FitFusionDesktop.UserControls
 
         private void roleCmbBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            Role role = (Role)roleCmbBox.SelectedItem;
-
-            switch (role)
-            {
-                case Role.Customer:
-                    btnRecommendations.Visible = true;
-                    break;
-                default:
-                    btnRecommendations.Visible = false;
-                    break;
-            }
-
         }
     }
 }

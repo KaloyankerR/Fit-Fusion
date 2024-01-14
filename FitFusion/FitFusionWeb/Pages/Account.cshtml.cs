@@ -19,7 +19,7 @@ namespace FitFusionWeb.Pages
         public User? CurrentUser { get; set; }
         private UserManager _userManager = new(new DataAcess.UserDAO());
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
             try
             {
@@ -38,6 +38,7 @@ namespace FitFusionWeb.Pages
             }
             catch (NullReferenceException)
             {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 return RedirectToPage("/Error", new { code = 404 });
             }
 

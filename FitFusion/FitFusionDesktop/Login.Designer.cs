@@ -50,17 +50,17 @@
             txtEmail.ForeColor = Color.White;
             txtEmail.Lighting = false;
             txtEmail.LinearGradientPen = false;
-            txtEmail.Location = new Point(272, 185);
+            txtEmail.Location = new Point(236, 184);
             txtEmail.Name = "txtEmail";
             txtEmail.PenWidth = 15;
             txtEmail.RGB = false;
             txtEmail.Rounding = true;
             txtEmail.RoundingInt = 60;
-            txtEmail.Size = new Size(250, 50);
+            txtEmail.Size = new Size(340, 50);
             txtEmail.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             txtEmail.TabIndex = 2;
             txtEmail.Tag = "Cyber";
-            txtEmail.TextButton = "steve@gmail.com";
+            txtEmail.TextButton = "";
             txtEmail.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             txtEmail.Timer_RGB = 300;
             // 
@@ -80,18 +80,18 @@
             txtPassword.ForeColor = Color.White;
             txtPassword.Lighting = false;
             txtPassword.LinearGradientPen = false;
-            txtPassword.Location = new Point(275, 256);
+            txtPassword.Location = new Point(236, 251);
             txtPassword.Name = "txtPassword";
             txtPassword.Password = true;
             txtPassword.PenWidth = 15;
             txtPassword.RGB = false;
             txtPassword.Rounding = true;
             txtPassword.RoundingInt = 60;
-            txtPassword.Size = new Size(250, 50);
+            txtPassword.Size = new Size(340, 50);
             txtPassword.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
             txtPassword.TabIndex = 3;
             txtPassword.Tag = "Cyber";
-            txtPassword.TextButton = "steve@gmail.com";
+            txtPassword.TextButton = "";
             txtPassword.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
             txtPassword.Timer_RGB = 300;
             // 

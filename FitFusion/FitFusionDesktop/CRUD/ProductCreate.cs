@@ -58,8 +58,10 @@ namespace FitFusionDesktop.CRUD
                     MessageBox.Show("Product successfully created.");
                     Close();
                 }
-
-                MessageBox.Show("Please change category to be different than All.");
+                else
+                {
+                    MessageBox.Show("Please change category to be different than All.");
+                }
             }
             catch (NullReferenceException ex)
             {

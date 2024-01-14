@@ -27,7 +27,7 @@ namespace FitFusionWeb.Pages.Products
         {
             try
             {
-                if (!ModelState.IsValid)
+                if (!ModelState.IsValid && ProductView.Category != Models.Product.Enums.Category.All)
                 {
                     TempData["Type"] = "danger";
                     TempData["Message"] = "Please, check the fields again!";

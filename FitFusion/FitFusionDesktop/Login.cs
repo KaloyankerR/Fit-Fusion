@@ -28,25 +28,33 @@ namespace FitFusionDesktop
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            User? user = _userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton);
-
-            if (user != null && user is not Customer)
+            try
             {
-                Main frm = new Main(user);
-                this.Hide();
-                frm.ShowDialog();
-                Application.Exit();
+                User? user = _userManager.AuthenticateUser(txtEmail.TextButton, txtPassword.TextButton);
+
+                if (user != null && user is not Customer)
+                {
+                    Main frm = new Main(user);
+                    this.Hide();
+                    frm.ShowDialog();
+                    Application.Exit();
+                }
+                else
+                {
+                    txtEmail.TextButton = string.Empty;
+                    txtPassword.TextButton = string.Empty;
+
+                    MessageBox.Show("Sorry, only Staff and Owners can access the desktop application!");
+                }
             }
-            else
+            catch (DataAccessException)
             {
-                txtEmail.TextButton = string.Empty;
-                txtPassword.TextButton = string.Empty;
-
-                MessageBox.Show("Incorrect login details for Staff members and Owners.");
+                MessageBox.Show("A problem with the database occured. Please try again later!");
             }
-
-            // Owner owner = new Owner(1, "Steve", "Orlov", "steve@gmail.com", "steve@gmail.com", "", "Chicago", "555-555-123");
-            // _userManager.CreateUser(owner);
+            catch
+            {
+                MessageBox.Show("Incorrect credentials. Please enter valid ones!");
+            }
 
 
         }

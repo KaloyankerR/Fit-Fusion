@@ -79,6 +79,10 @@ namespace FitFusionWeb.Pages
             {
                 return RedirectToPage("/Error", new { code = 500 });
             }
+            catch
+            {
+                return RedirectToPage("/Error");
+            }
             
             SessionHelper.SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", new ShoppingCart());
             return RedirectToPage("/Message", new { message = "Successful order!" });

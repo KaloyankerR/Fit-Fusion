@@ -68,7 +68,7 @@ namespace DataAcess
                         command.Parameters.AddWithValue("@TotalPrice", order.Cart.TotalPrice);
                         AddNutriPointsToCustomer(order.Customer.Id, order.Cart.NutriPointsReward);
                         command.Parameters.AddWithValue("@NutriPoints", order.Cart.NutriPointsReward);
-                        command.Parameters.AddWithValue("@Note", order.Note);
+                        command.Parameters.AddWithValue("@Note", order.Note ?? string.Empty);
 
                         int orderId = Convert.ToInt32(command.ExecuteScalar());
 

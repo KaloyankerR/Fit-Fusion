@@ -66,11 +66,13 @@ namespace FitFusionDesktop.CRUD
                 {
                     Product product = DefineProduct();
                     _productManager.UpdateProduct(product);
-                    MessageBox.Show("Product successfully created.");
+                    MessageBox.Show("Product successfully updated.");
                     Close();
                 }
-
-                MessageBox.Show("Please change category to be different than All.");
+                else
+                {
+                    MessageBox.Show("Please change category to be different than All.");
+                }
             }
             catch (NullReferenceException ex)
             {

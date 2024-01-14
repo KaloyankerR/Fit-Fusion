@@ -18,7 +18,7 @@ namespace FitFusionWeb.Pages
         [BindProperty]
         public Product SystemRecommendation { get; set; } = new();
         [BindProperty]
-        public Product MerchantRecommendation { get; set; } = new();
+        public Product? MerchantRecommendation { get; set; } = new();
 
         public IActionResult OnGet()
         {
@@ -31,7 +31,24 @@ namespace FitFusionWeb.Pages
                     
                     CurrentUser = _userManager.GetUserByEmail(email);
                     SystemRecommendation = _orderManager.GetMostTrendingProduct(CurrentUser.Id);
-                    MerchantRecommendation = _orderManager.GetMerchantRecommendation(CurrentUser.Id);
+
+                    try
+                    {
+                        MerchantRecommendation = _orderManager.GetMerchantRecommendation(CurrentUser.Id);
+                    }
+                    catch
+                    {
+                        if(SystemRecommendation != null)
+                        {
+                            MerchantRecommendation = null;
+                            return Page();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    
                     return Page();
                 }
             }
@@ -41,7 +58,7 @@ namespace FitFusionWeb.Pages
             }
             catch (NullReferenceException)
             {
-                return RedirectToPage("/Error", new { code = 404 });
+                return RedirectToPage("/Error", new { code = 414 });
             }
 
             return RedirectToPage("/Authentication/Login");

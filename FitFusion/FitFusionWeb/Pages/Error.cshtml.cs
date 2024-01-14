@@ -26,6 +26,9 @@ namespace FitFusionWeb.Pages
                 case "409":
                     errorMessage = "Conflict with the current state error!";
                     break;
+                case "414":
+                    errorMessage = "No orders were made to recommend!";
+                    break;
                 case "499":
                     errorMessage = "Not Enough Nutri Points!";
                     break;
