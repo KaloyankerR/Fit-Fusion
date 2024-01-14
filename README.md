@@ -31,20 +31,6 @@ Fit Fusion is designed to be a versatile application catering to the needs of a 
 - **Email:** julespeterson@email.com
 - **Password:** julespeterson@email.com
 
-## Features
-
-- **Customer Features:**
-  - Browse and purchase products
-  - View order history
-
-- **Staff Features:**
-  - Manage inventory
-  - Process customer orders
-
-- **Owner Features:**
-  - Monitor overall system
-  - Manage staff and customer accounts
-
 ## Installation
 
 1. Clone the repository.
